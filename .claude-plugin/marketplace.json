@@ -1,0 +1,14 @@
+{
+  "name": "spycner-tools",
+  "owner": {
+    "name": "Pascal Kraus"
+  },
+  "plugins": [
+    {
+      "name": "atlassian",
+      "source": "./plugins/atlassian",
+      "description": "Jira and Confluence skills for the Atlassian suite — search, create, update, and manage work items and pages",
+      "version": "1.0.0"
+    }
+  ]
+}
