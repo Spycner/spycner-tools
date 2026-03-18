@@ -15,7 +15,7 @@ Jira and Confluence skills for the Atlassian suite — search, create, update, a
 ## Installation
 
 ```
-/plugin marketplace add Spycner/claude
+/plugin marketplace add Spycner/spycner-tools
 /plugin install atlassian@spycner-tools
 ```
 
