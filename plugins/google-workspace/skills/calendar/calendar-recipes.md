@@ -114,6 +114,18 @@ gws calendar events patch --params '{"calendarId": "primary", "eventId": "<id>"}
 gws calendar events patch --params '{"calendarId": "primary", "eventId": "<id>"}' --json '{"start": {"dateTime": "2026-03-19T10:00:00-04:00"}, "end": {"dateTime": "2026-03-19T11:00:00-04:00"}}'
 ```
 
+## Setting Reminders
+
+```bash
+# Custom reminders (override calendar defaults)
+gws calendar events patch --params '{"calendarId": "primary", "eventId": "<id>"}' --json '{"reminders": {"useDefault": false, "overrides": [{"method": "popup", "minutes": 10}, {"method": "email", "minutes": 30}]}}'
+
+# Use calendar default reminders
+gws calendar events patch --params '{"calendarId": "primary", "eventId": "<id>"}' --json '{"reminders": {"useDefault": true}}'
+```
+
+Reminder methods: `popup` (notification) or `email`. Minutes must be 0-40320 (up to 4 weeks).
+
 ## Timezone Handling
 
 - `+agenda` auto-detects your Google account timezone; override with `--timezone <IANA>`
