@@ -10,7 +10,7 @@ echo "=== Test: gmail skill ==="
 echo ""
 
 # Test 1: Skill recognition and auth
-echo "Test 1: Skill loading and auth gate..."
+echo "Test 1: Skill loading and auth approach..."
 
 output=$(run_claude "What is the gmail skill? Describe its authentication requirements briefly." 30)
 

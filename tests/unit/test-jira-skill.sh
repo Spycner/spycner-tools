@@ -10,7 +10,7 @@ echo "=== Test: jira skill ==="
 echo ""
 
 # Test 1: Skill recognition and auth
-echo "Test 1: Skill loading and auth gate..."
+echo "Test 1: Skill loading and auth approach..."
 
 output=$(run_claude "What is the jira skill? Describe its authentication requirements briefly." 30)
 
