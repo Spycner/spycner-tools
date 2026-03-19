@@ -26,11 +26,11 @@ Then proceed immediately to the next phase (do not wait for approval — the pla
 
 Identify 3-5 stakeholder perspectives relevant to the topic. Save to `{output-path}/research/perspectives.md`.
 
-Think about: practitioners, decision-makers, regulators, researchers, critics, end users, economists. Pick the most relevant ones. See research-recipes.md for patterns.
+Think about: practitioners, decision-makers, regulators, researchers, critics, end users, economists. Pick the most relevant ones. See skills/research/research-recipes.md for patterns.
 
 ### Phase 3: Breadth Pass
 
-For each sub-question + perspective combination, run 3-5 WebSearch queries from different angles (academic, industry, critical, adoption, future). See research-recipes.md for query patterns.
+For each sub-question + perspective combination, run 3-5 WebSearch queries from different angles (academic, industry, critical, adoption, future). See skills/research/research-recipes.md for query patterns.
 
 In quick mode: 2-3 searches per sub-question, no perspective combinations.
 
@@ -65,7 +65,7 @@ Before writing, self-audit (see research-recipes.md for full checklist):
 
 If audit fails, go back to the relevant phase. Maximum 2 retry iterations per phase.
 
-Write the final report to `{output-path}/report.md` using the appropriate template from report-template.md.
+Write the final report to `{output-path}/report.md` using the appropriate template from skills/research/report-template.md.
 
 ## Output Structure
 
