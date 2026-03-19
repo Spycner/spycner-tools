@@ -24,9 +24,9 @@ fi
 if command -v gtimeout &>/dev/null; then _to=gtimeout; elif command -v timeout &>/dev/null; then _to=timeout; else _to=""; fi
 
 if [ -n "$_to" ]; then
-    "$_to" 60 bash -c "claude -p \"$PROMPT\" $local_plugin_flag --output-format stream-json" > "$LOG_FILE" 2>&1 || true
+    "$_to" 60 bash -c "claude -p \"$PROMPT\" $local_plugin_flag --verbose --output-format stream-json" > "$LOG_FILE" 2>&1 || true
 else
-    bash -c "claude -p \"$PROMPT\" $local_plugin_flag --output-format stream-json" > "$LOG_FILE" 2>&1 || true
+    bash -c "claude -p \"$PROMPT\" $local_plugin_flag --verbose --output-format stream-json" > "$LOG_FILE" 2>&1 || true
 fi
 
 # Check if the skill was triggered
