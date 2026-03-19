@@ -15,6 +15,12 @@
       "source": "./plugins/google-workspace",
       "description": "Google Workspace skills (Gmail, Calendar) powered by the gws CLI",
       "version": "1.0.0"
+    },
+    {
+      "name": "research",
+      "source": "./plugins/research",
+      "description": "Deep research and prompt generation — conduct comprehensive web research with multi-perspective analysis, or craft optimized research prompts for external AI tools",
+      "version": "1.0.0"
     }
   ]
 }
