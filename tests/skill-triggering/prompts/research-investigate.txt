@@ -1,0 +1,1 @@
+I need to investigate how other mid-size SaaS companies handle SOC2 compliance. What tools do they use, what does the audit process look like, and what are the common pitfalls?
