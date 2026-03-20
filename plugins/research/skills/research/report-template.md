@@ -35,8 +35,10 @@ What this report's proposed solutions genuinely cannot solve. Be specific: attri
 ## Future Outlook
 Specific, falsifiable predictions with timelines. "Spending will increase" is not a prediction. "By [date], [specific measurable thing] will happen because [reason]" is. If you cannot make falsifiable predictions, cut this section.
 
-## Conclusions
+## Conclusions & Practical Starting Point
 Summary of the thesis and main supporting arguments. Actionable recommendations prioritized by impact.
+
+End with a "Starting from zero" subsection: concrete guidance for the most common real-world scenario — an organization with a few pilots, no baselines, no measurement culture, and leadership asking "is this working?" This is not the ideal path; it is the realistic one.
 
 ## References
 All sources with URLs and access dates

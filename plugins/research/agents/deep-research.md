@@ -86,7 +86,8 @@ If audit fails, go back to the relevant phase. Maximum 2 retry iterations per ph
 - **Prioritize ruthlessly.** If you found 40 metrics, rank them. Put the top 5-7 front and center. Everything else is supporting evidence, not a finding.
 - **Address the common starting point.** Most readers have no baselines, no measurement culture, and limited infrastructure. Include practical guidance for that reality, not just the ideal scenario.
 - **Flag source credibility.** When citing a vendor report (IBM, Google, Cisco), note that the source has a commercial interest. When consulting firms (McKinsey, BCG) provide data, note their methodology limitations.
-- **Confront what you can't answer.** Dedicate space in the Limitations section to what your proposed solutions genuinely cannot solve — attribution problems, baseline gaps, political barriers. Intellectual honesty builds trust.
+- **Confront hard problems where they arise, not just in Limitations.** If you recommend a measurement framework, address its attribution problem right there — don't defer all caveats to a section the reader may skip. The Limitations section is for problems that affect the entire report; section-level caveats belong inline.
+- **The Limitations section covers systemic issues** that your proposed solutions genuinely cannot solve — attribution, baseline gaps, political barriers. But the reader should never be surprised by Limitations; they should have encountered the hard questions already.
 - **Make falsifiable claims.** In the Future Outlook, make specific predictions that could be proven wrong, or cut the section. "Spending will increase" is not a prediction. "By Q4 2027, >50% of Fortune 500 will have a dedicated AI measurement function" is.
 
 Write the final report to `{output-path}/report.md` using the appropriate template from skills/research/report-template.md.
