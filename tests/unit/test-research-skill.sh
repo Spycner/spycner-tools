@@ -51,4 +51,33 @@ assert_contains "$output" "recipe|pattern|strateg" "Mentions research recipes" |
 
 echo ""
 
+echo "Test: Deep research agent mentions author estimate labeling"
+result=$(run_claude "I want to research AI adoption metrics. What would you do if you derived a threshold yourself during research?" 30)
+assert_contains "$result" "author estimate" "Should mention author estimate labeling for derived numbers" || true
+
+echo ""
+echo "Test: Deep research agent describes creative synthesis phase"
+result=$(run_claude "I want to do creative research on remote work trends. What does creative mode do?" 30)
+assert_contains "$result" "original analysis" "Should mention original analysis tagging in creative mode" || true
+
+echo ""
+echo "Test: Deep research agent mentions bias consistency for reused data"
+result=$(run_claude "When writing a research report, how should I handle vendor data that I cite multiple times?" 30)
+assert_contains "$result" "credibility" "Should mention credibility tagging on reuse of biased sources" || true
+
+echo ""
+echo "Test: Deep research agent mentions single-source transparency"
+result=$(run_claude "Can I include a key finding that only has one source?" 30)
+assert_contains "$result" "single source" "Should mention flagging single-source status for key findings" || true
+
+echo ""
+echo "Test: Deep research agent mentions threshold integrity in self-audit"
+result=$(run_claude "What does the deep research agent check during self-audit before writing the report?" 30)
+assert_contains "$result" "author estimate|threshold|source" "Should mention threshold integrity in self-audit" || true
+
+echo ""
+echo "Test: Research skill recognizes creative parameter"
+result=$(run_claude "I want to do a creative deep dive on climate policy. What options can I configure?" 30)
+assert_contains "$result" "creative" "Should mention creative as a configurable parameter" || true
+
 echo "=== research skill tests complete ==="

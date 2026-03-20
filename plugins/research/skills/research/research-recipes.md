@@ -62,3 +62,19 @@ Before synthesis, verify:
 - [ ] The Limitations section honestly addresses what your proposed solutions cannot solve
 - [ ] Practical guidance exists for the most common starting point (no baselines, no infrastructure, limited resources)
 - [ ] Analysis & Insights is the strongest section, not the thinnest — it synthesizes, compares, and judges rather than summarizing
+
+**Source weight:**
+- [ ] Every key finding either has 2+ independent sources OR explicitly flags its single-source status and justifies its prominence
+
+**Threshold integrity:**
+- [ ] Every numeric range, threshold, or benchmark has a cited empirical source
+- [ ] Any author-derived numbers are labeled `[author estimate]` with reasoning shown
+
+**Bias consistency:**
+- [ ] Every reuse of a `[vendor]` or `[consulting]` data point includes a brief credibility tag (e.g., "83% (vendor data)")
+- [ ] No biased-source figures appear untagged in later sections
+
+**Creative synthesis (when `creative: true`):**
+- [ ] Each proposed framework passes all three stress tests (novel prediction, different decision, actually new)
+- [ ] Original frameworks are tagged `[original analysis]`
+- [ ] If `creative: false`, the report does not contain original frameworks or novel conceptual models — any identified gaps are stated as observations, not solutions

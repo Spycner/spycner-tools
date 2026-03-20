@@ -49,6 +49,7 @@ Once intent is clear, ask: "Should I run this research now, or generate an optim
 Before dispatching, allow overrides:
 - **Output path** — default: `reports/{topic-slug}-{YYYY-MM-DD}/`
 - **Mode** — deep (default) or quick
+- **Creative** — true or false (default: false). Enables original framework generation via Phase 5.5 in the agent. Works with both deep and quick modes.
 
 Default to deep mode unless the user signals quick: "quick look at", "brief overview of", "what's the deal with".
 
@@ -58,6 +59,7 @@ Then dispatch the deep-research agent:
 2. Use the **Agent tool** to spawn a subagent with a prompt containing:
    - The refined research query
    - The selected mode (deep/quick)
+   - The creative flag (true/false)
    - The output path (absolute)
    - Any user-specified constraints (timeframe, source preferences, etc.)
 3. When the agent completes, report the output path and a brief summary to the user

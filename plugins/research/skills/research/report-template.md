@@ -72,3 +72,6 @@ All sources with URLs
 - Format: `[Author/Organization, Year](URL)` or `[Article Title - Publisher](URL)`
 - Every non-obvious claim must have a citation
 - Key claims cross-referenced (2+ independent sources)
+- Use `[author estimate]` tag for any numeric threshold, range, or benchmark derived by the agent rather than cited from a source. Include reasoning.
+- Use `[original analysis]` tag for novel frameworks or concepts generated during creative synthesis (Phase 5.5). These are the agent's own thinking, not sourced.
+- Source credibility tags (`[vendor]`, `[consulting]`, etc.) must travel with the data on every reuse, not just first mention. Example: "McKinsey's 55% (consulting sample)"
