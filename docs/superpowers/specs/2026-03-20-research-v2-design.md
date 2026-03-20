@@ -25,7 +25,7 @@ Never present a numeric range, threshold, or benchmark without citing its empiri
 
 ### Change 2: Phase 5.5 — Creative Synthesis (opt-in)
 
-New phase between Adversarial Pass (Phase 5) and Synthesis (Phase 6). Gated by `creative: true` parameter. Independent of `mode` — works with both `deep` and `quick`.
+New phase between the last research phase and Synthesis (Phase 6). Gated by `creative: true` parameter. Independent of `mode` — works with both `deep` and `quick`. In deep mode, this follows Phase 5 (Adversarial Pass). In quick mode, this follows Phase 4 (Depth Pass) directly since Phase 5 is skipped.
 
 When active:
 1. Review all notes and identify gaps — "What question does no existing framework answer?"
@@ -38,7 +38,7 @@ When active:
 5. Surviving frameworks get included in the report with an explicit `[original analysis]` tag.
 6. In quick + creative mode: one framework attempt max (less source material to synthesize from).
 
-When inactive (default): The agent flags gaps it notices — "No existing framework addresses X" — as observations in the analysis. It does not try to fill them.
+When inactive (default): The agent flags gaps it notices — "No existing framework addresses X" — as observations in the Analysis & Insights section. It does not try to fill them. These are stated as observations, not solutions.
 
 ### Change 3: Phase 6 (Synthesis) — Bias Consistency Rule
 
@@ -80,11 +80,16 @@ New items added to `research-recipes.md`:
 **Creative synthesis (when `creative: true`):**
 - Each proposed framework passes all three stress tests
 - Original frameworks are tagged `[original analysis]`
-- In non-creative mode: gaps are flagged but not filled
+- If `creative: false`, the report does not contain original frameworks or novel conceptual models. Any identified gaps are stated as observations, not solutions
 
 ### Change 6: SKILL.md — New Creative Parameter
 
-The `mode` parameter stays as `deep | quick`. A new `creative` parameter (boolean, default false) is added. The dispatch step passes both to the agent.
+The `mode` parameter stays as `deep | quick`. A new `creative` parameter (boolean, default false) is added.
+
+Updates to plumb the parameter through:
+- **SKILL.md Step 1 (Clarify):** No change — creative mode is not asked about during clarification. It surfaces in Step 3 as an override.
+- **SKILL.md Step 3 (Configure & Dispatch):** Add `creative` to the overrides list alongside output path and mode. Update the dispatch prompt contents list (line 62) to include `creative` alongside query, mode, output path, and constraints.
+- **deep-research.md preamble** (line 11): Update "You receive a refined research query, mode (deep/quick), output path, and constraints" to include `creative (true/false)`.
 
 ## Files Changed
 
@@ -93,4 +98,4 @@ The `mode` parameter stays as `deep | quick`. A new `creative` parameter (boolea
 | `plugins/research/agents/deep-research.md` | Phase 4 threshold rule, new Phase 5.5, Phase 6 bias + source weight rules |
 | `plugins/research/skills/research/research-recipes.md` | Four new self-audit checklist groups |
 | `plugins/research/skills/research/SKILL.md` | New `creative` parameter, updated dispatch instructions |
-| `plugins/research/skills/research/report-template.md` | No changes needed |
+| `plugins/research/skills/research/report-template.md` | Add `[original analysis]` and `[author estimate]` tags to citation style section |
