@@ -1,4 +1,4 @@
-# spycner-tools
+# pgoell-claude-tools
 
 A Claude Code plugin marketplace containing skill plugins for external services.
 

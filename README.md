@@ -1,4 +1,4 @@
-# spycner-tools
+# pgoell-claude-tools
 
 A personal Claude Code plugin marketplace.
 
@@ -9,31 +9,31 @@ A personal Claude Code plugin marketplace.
 Jira and Confluence skills for the Atlassian suite — search, create, update, and manage work items and pages.
 
 **Skills:**
-- `/spycner-tools:jira` — Search issues, create/update tickets, transition status, add comments, manage sprints
-- `/spycner-tools:confluence` — Search pages, read documentation, create/update pages, browse spaces
+- `/pgoell-claude-tools:jira` — Search issues, create/update tickets, transition status, add comments, manage sprints
+- `/pgoell-claude-tools:confluence` — Search pages, read documentation, create/update pages, browse spaces
 
 ### google-workspace
 
 Gmail and Calendar skills for Google Workspace — powered by the `gws` CLI.
 
 **Skills:**
-- `/spycner-tools:gmail` — Search, read, send, and manage Gmail messages, drafts, labels, and filters
-- `/spycner-tools:calendar` — View agenda, create and manage events, check availability, manage calendars
+- `/pgoell-claude-tools:gmail` — Search, read, send, and manage Gmail messages, drafts, labels, and filters
+- `/pgoell-claude-tools:calendar` — View agenda, create and manage events, check availability, manage calendars
 
 ### research
 
 Comprehensive web research with multi-perspective analysis, or optimized prompt generation for external AI tools.
 
 **Skills:**
-- `/spycner-tools:research` — Research intake, refinement, and routing. Orchestrates a multi-agent pipeline (planner, researcher, writer) with independent review gates for quality assurance, or generates optimized prompts for external AI tools (OpenAI, Gemini, Perplexity).
+- `/pgoell-claude-tools:research` — Research intake, refinement, and routing. Orchestrates a multi-agent pipeline (planner, researcher, writer) with independent review gates for quality assurance, or generates optimized prompts for external AI tools (OpenAI, Gemini, Perplexity).
 
 ## Installation
 
 ```
-/plugin marketplace add Spycner/spycner-tools
-/plugin install atlassian@spycner-tools
-/plugin install google-workspace@spycner-tools
-/plugin install research@spycner-tools
+/plugin marketplace add pgoell/pgoell-claude-tools
+/plugin install atlassian@pgoell-claude-tools
+/plugin install google-workspace@pgoell-claude-tools
+/plugin install research@pgoell-claude-tools
 ```
 
 ## Setup

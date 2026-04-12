@@ -20,7 +20,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-echo "=== spycner-tools Plugin Tests ==="
+echo "=== pgoell-claude-tools Plugin Tests ==="
 echo ""
 
 # Set plugin directory for all tests

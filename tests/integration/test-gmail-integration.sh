@@ -44,7 +44,7 @@ show_tools_used "$LOG_DIR/read.json"
 echo ""
 echo "Test 4: Send email to self"
 TIMESTAMP=$(date +%s)
-output=$(run_claude_logged "Use gws to send an email to me (my own address) with subject 'Integration test $TIMESTAMP' and body 'Automated test from spycner-tools'." "$LOG_DIR/send.json" 120)
+output=$(run_claude_logged "Use gws to send an email to me (my own address) with subject 'Integration test $TIMESTAMP' and body 'Automated test from pgoell-claude-tools'." "$LOG_DIR/send.json" 120)
 assert_not_contains "$output" "unauthorized|403|401" "Send without auth errors" || true
 show_tools_used "$LOG_DIR/send.json"
 

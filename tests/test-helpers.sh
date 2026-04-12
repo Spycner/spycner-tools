@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Helper functions for spycner-tools plugin tests
+# Helper functions for pgoell-claude-tools plugin tests
 # Follows superpowers test-helpers.sh pattern
 
 # macOS compatibility: use gtimeout if available, otherwise a bash fallback
