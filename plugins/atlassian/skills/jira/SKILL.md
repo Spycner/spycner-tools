@@ -172,6 +172,14 @@ For sprint operations without acli, use the Jira Agile REST API (`/rest/agile/1.
 
 ### Create Issue
 
+**Before creating a user story, task, or research/design ticket, ask the user:**
+
+> Do you have a ticket template or writing guide you'd like me to follow (e.g., a team standard for Description + Acceptance Criteria)?
+>
+> If not, I can use the default template in `ticket-template.md` — it structures Context, Deliverable, Scope, Stakeholders, Timebox, References, and Acceptance Criteria checkboxes.
+
+If the user has their own template, follow it. If they opt into the default (or don't have one), read `ticket-template.md` and structure the `--summary`, `--description`, and acceptance criteria fields according to it. For trivial bug reports or quick one-line tasks, skip the prompt unless the user explicitly asks for a structured ticket.
+
 **script:**
 ```bash
 "$SCRIPTS_DIR/jira/create.sh" --project PROJ --type Task --summary "Implement rate limiting" --description "Add rate limiting to auth endpoints to prevent brute-force attacks."
@@ -373,6 +381,12 @@ See `jql-recipes.md` for common JQL patterns including:
 
 ---
 
+## Ticket Writing Template
+
+See `ticket-template.md` for the default structure to use when creating user stories, research tickets, or design tickets (Description + Acceptance Criteria). Always ask the user first whether they have their own template before falling back to this one.
+
+---
+
 ## ADF Format Reference
 
 See `adf-format.md` for the Atlassian Document Format reference.
@@ -453,3 +467,4 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   - "Assign this to me" = `"$SCRIPTS_DIR/jira/assign.sh" PROJ-123 --me` (or `acli jira workitem assign --key PROJ-123 --assignee "@me"`)
   - "What am I working on?" = `"$SCRIPTS_DIR/jira/search.sh" "assignee = currentUser() AND statusCategory = 'In Progress'"` (or `acli jira workitem search --jql "..." --json`)
   - "Create a bug for the login issue" = `"$SCRIPTS_DIR/jira/create.sh" --project PROJ --type Bug --summary "..."` (or `acli jira workitem create ...`)
+- **Before creating a story, task, or research/design ticket, ask if the user has their own ticket template.** If not, offer the default in `ticket-template.md` and structure the description + acceptance criteria accordingly. Skip this prompt for trivial bugs or one-line tasks.

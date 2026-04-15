@@ -33,7 +33,7 @@ tests/
 
 | Plugin | Version | Skills |
 |--------|---------|--------|
-| `atlassian` | 1.2.0 | `jira`, `confluence` |
+| `atlassian` | 1.3.0 | `jira`, `confluence` |
 | `google-workspace` | 1.0.0 | `gmail`, `calendar` |
 | `research` | 1.3.0 | `research` (multi-agent pipeline with review gates) |
 
