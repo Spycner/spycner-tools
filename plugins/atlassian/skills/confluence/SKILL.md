@@ -13,35 +13,9 @@ Do NOT check authentication upfront. Just run the command. If it fails with an a
 
 **NEVER print, echo, or log the values of `ATLASSIAN_API_TOKEN`, `ATLASSIAN_EMAIL`, or any credentials.** Only check whether they are set (e.g., `test -n`), never display their contents.
 
-## Script Detection
-
-Locate the wrapper scripts directory. Try these in order:
-
-```bash
-# Try CLAUDE_PLUGIN_ROOT first (set when installed via marketplace)
-if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -f "${CLAUDE_PLUGIN_ROOT}/scripts/_common.sh" ]; then
-    SCRIPTS_DIR="${CLAUDE_PLUGIN_ROOT}/scripts"
-else
-    # Find scripts relative to SKILL.md location (works with --plugin-dir)
-    SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
-    CANDIDATE="$(cd "$SKILL_DIR/../.." && pwd)/scripts"
-    if [ -f "$CANDIDATE/_common.sh" ]; then
-        SCRIPTS_DIR="$CANDIDATE"
-    fi
-fi
-```
-
-**IMPORTANT:** You MUST run this detection at the start of every session. If `SCRIPTS_DIR` is set, use scripts for ALL operations where a script exists. Scripts handle auth, URL construction, and error handling internally.
-
 ## Tool Preference
 
-**MANDATORY PRIORITY ORDER — follow this strictly:**
-
-| Priority | Tool | Use for |
-|----------|------|---------|
-| 1 | **Wrapper scripts** (`$SCRIPTS_DIR/confluence/...`) | ALWAYS use if detected — handles auth, URLs, errors internally |
-| 2 | **acli** | Page view by ID, space list, space view (only if no scripts) |
-| 3 | **Raw curl** | Fallback if scripts aren't available |
+**Prefer raw curl for all operations.** `acli` has limited Confluence coverage (page view by ID, space list/view only) — fall back to it only for those read operations if curl fails. All write operations require curl.
 
 ### Curl base URLs
 
@@ -64,12 +38,6 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 
 ### Search pages (CQL)
 
-**script:**
-
-```bash
-$SCRIPTS_DIR/confluence/search.sh <cql> [--limit N]
-```
-
 **curl** (v1 API) — acli does not support CQL search.
 
 ```bash
@@ -82,24 +50,18 @@ See `cql-recipes.md` for common CQL patterns.
 
 ### Get page by ID
 
-**script:**
-
-```bash
-$SCRIPTS_DIR/confluence/get-page.sh <page-id> [--body-format storage|atlas_doc_format|view]
-```
-
-**acli:**
-
-```bash
-acli confluence page view --id {id} --body-format storage --json
-```
-
 **curl** (v2 API):
 
 ```bash
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -H "Accept: application/json" \
   "https://$ATLASSIAN_DOMAIN.atlassian.net/wiki/api/v2/pages/{id}?body-format=storage"
+```
+
+**acli (fallback):**
+
+```bash
+acli confluence page view --id {id} --body-format storage --json
 ```
 
 ### List pages in space
@@ -114,18 +76,6 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 
 ### List spaces
 
-**script:**
-
-```bash
-$SCRIPTS_DIR/confluence/list-spaces.sh [--limit N]
-```
-
-**acli:**
-
-```bash
-acli confluence space list --json
-```
-
 **curl** (v2 API):
 
 ```bash
@@ -134,13 +84,13 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   "https://$ATLASSIAN_DOMAIN.atlassian.net/wiki/api/v2/spaces"
 ```
 
-### View space
-
-**acli:**
+**acli (fallback):**
 
 ```bash
-acli confluence space view --key KEY --json
+acli confluence space list --json
 ```
+
+### View space
 
 **curl** (v2 API):
 
@@ -148,6 +98,12 @@ acli confluence space view --key KEY --json
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -H "Accept: application/json" \
   "https://$ATLASSIAN_DOMAIN.atlassian.net/wiki/api/v2/spaces/{id}"
+```
+
+**acli (fallback):**
+
+```bash
+acli confluence space view --key KEY --json
 ```
 
 ### Get page comments
@@ -165,12 +121,6 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 All write operations require curl. acli does not support Confluence page create, update, or comments.
 
 ### Create page
-
-**script:**
-
-```bash
-$SCRIPTS_DIR/confluence/create-page.sh --space-id ID --title "..." --body "..."
-```
 
 **curl:**
 
@@ -194,12 +144,6 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 See `storage-format.md` for how to construct the body value.
 
 ### Update page
-
-**script:**
-
-```bash
-$SCRIPTS_DIR/confluence/update-page.sh <page-id> --body "..." [--title "..."]
-```
 
 **curl** — You MUST GET the page first to obtain the current version number, then PUT with `version.number + 1`.
 

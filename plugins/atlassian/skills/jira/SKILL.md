@@ -17,54 +17,9 @@ Do NOT check authentication upfront. Just run the command. If it fails with an a
 
 ---
 
-## Script Detection
-
-Locate the wrapper scripts directory. Try these in order:
-
-```bash
-# Try CLAUDE_PLUGIN_ROOT first (set when installed via marketplace)
-if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -f "${CLAUDE_PLUGIN_ROOT}/scripts/_common.sh" ]; then
-    SCRIPTS_DIR="${CLAUDE_PLUGIN_ROOT}/scripts"
-else
-    # Find scripts relative to SKILL.md location (works with --plugin-dir)
-    SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
-    CANDIDATE="$(cd "$SKILL_DIR/../.." && pwd)/scripts"
-    if [ -f "$CANDIDATE/_common.sh" ]; then
-        SCRIPTS_DIR="$CANDIDATE"
-    fi
-fi
-```
-
-**IMPORTANT:** You MUST run this detection at the start of every session. If `SCRIPTS_DIR` is set, use scripts for ALL operations. Scripts handle auth, ADF construction, and error handling internally — they are simpler and more reliable than raw curl.
-
----
-
 ## Tool Preference
 
-**MANDATORY PRIORITY ORDER — follow this strictly:**
-
-1. **Wrapper scripts** (`$SCRIPTS_DIR/jira/...`) — ALWAYS use if detected. Handles auth, ADF, errors internally. No manual JSON construction needed.
-2. **`acli`** — ONLY for operations scripts don't cover: bulk operations (`--jql` + `--yes`), sprint management, `@me` shorthand
-3. **Raw curl** — fallback if scripts aren't available
-
-### When scripts are available — prefer them for ALL operations
-
-Scripts automatically handle authentication (env vars), ADF construction for descriptions/comments, and error handling. No need to build JSON payloads or manage auth headers manually.
-
-### When acli is authenticated — use for bulk and sprint operations
-
-Key advantages over curl:
-
-| Feature | acli | curl |
-|---------|------|------|
-| Descriptions/comments | Plain text | Requires ADF JSON |
-| Transitions | By status name (`--status "Done"`) | Must fetch transition IDs first |
-| Self-assignment | `--assignee "@me"` | Must look up account ID |
-| Bulk operations | `--jql` + `--yes` flags | Manual loop |
-| Structured output | `--json` flag | Already JSON |
-| Tabular output | `--csv` flag | Must format yourself |
-
-### When only env vars are available — use curl with Basic Auth
+**Prefer raw curl for all operations.** It has the fewest dependencies and the clearest behavior. Only fall back to `acli` for the handful of things curl can't do ergonomically — bulk transitions (`--jql` + `--yes`) and some sprint operations.
 
 Pattern for all curl requests:
 
@@ -86,16 +41,6 @@ For write operations, add:
 
 ### Search Issues
 
-**script:**
-```bash
-"$SCRIPTS_DIR/jira/search.sh" "assignee = currentUser() AND resolution = Unresolved" --limit 50
-```
-
-**acli:**
-```bash
-acli jira workitem search --jql "assignee = currentUser() AND resolution = Unresolved" --json
-```
-
 **curl:**
 ```bash
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
@@ -105,23 +50,23 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -d '{"jql": "assignee = currentUser() AND resolution = Unresolved", "maxResults": 50}'
 ```
 
+**acli (fallback):**
+```bash
+acli jira workitem search --jql "assignee = currentUser() AND resolution = Unresolved" --json
+```
+
 ### View Issue
-
-**script:**
-```bash
-"$SCRIPTS_DIR/jira/view.sh" KEY-123
-```
-
-**acli:**
-```bash
-acli jira workitem view KEY-123 --json
-```
 
 **curl:**
 ```bash
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -H "Accept: application/json" \
   "https://$ATLASSIAN_DOMAIN.atlassian.net/rest/api/3/issue/KEY-123"
+```
+
+**acli (fallback):**
+```bash
+acli jira workitem view KEY-123 --json
 ```
 
 ### List Projects
@@ -180,21 +125,7 @@ For sprint operations without acli, use the Jira Agile REST API (`/rest/agile/1.
 
 If the user has their own template, follow it. If they opt into the default (or don't have one), read `ticket-template.md` and structure the `--summary`, `--description`, and acceptance criteria fields according to it. For trivial bug reports or quick one-line tasks, skip the prompt unless the user explicitly asks for a structured ticket.
 
-**script:**
-```bash
-"$SCRIPTS_DIR/jira/create.sh" --project PROJ --type Task --summary "Implement rate limiting" --description "Add rate limiting to auth endpoints to prevent brute-force attacks."
-```
-
-**acli** (plain text, no ADF needed):
-```bash
-acli jira workitem create \
-  --project PROJ \
-  --type Task \
-  --summary "Implement rate limiting" \
-  --description "Add rate limiting to auth endpoints to prevent brute-force attacks."
-```
-
-**curl** (requires ADF body for description):
+**curl** (requires ADF body for description — see `adf-format.md`):
 ```bash
 curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -H "Accept: application/json" \
@@ -219,17 +150,16 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 }'
 ```
 
+**acli (fallback, plain text — no ADF needed):**
+```bash
+acli jira workitem create \
+  --project PROJ \
+  --type Task \
+  --summary "Implement rate limiting" \
+  --description "Add rate limiting to auth endpoints to prevent brute-force attacks."
+```
+
 ### Add Comment
-
-**script:**
-```bash
-"$SCRIPTS_DIR/jira/comment.sh" KEY-123 "Investigated the issue. Root cause identified. Fix incoming."
-```
-
-**acli** (plain text):
-```bash
-acli jira workitem comment create --key KEY-123 --body "Investigated the issue. Root cause identified. Fix incoming."
-```
 
 **curl** (requires ADF body):
 ```bash
@@ -251,17 +181,12 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 }'
 ```
 
+**acli (fallback, plain text):**
+```bash
+acli jira workitem comment create --key KEY-123 --body "Investigated the issue. Root cause identified. Fix incoming."
+```
+
 ### Edit Fields
-
-**script:**
-```bash
-"$SCRIPTS_DIR/jira/edit.sh" KEY-123 --summary "Updated summary" --description "New description" --labels "backend,urgent"
-```
-
-**acli:**
-```bash
-acli jira workitem edit --key KEY-123 --summary "Updated summary" --description "New description" --labels "backend,urgent"
-```
 
 **curl:**
 ```bash
@@ -277,21 +202,16 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 }'
 ```
 
+**acli (fallback):**
+```bash
+acli jira workitem edit --key KEY-123 --summary "Updated summary" --description "New description" --labels "backend,urgent"
+```
+
 ---
 
 ## Operations — Tier 3 (Workflow)
 
 ### Transition Issue
-
-**script:**
-```bash
-"$SCRIPTS_DIR/jira/transition.sh" KEY-123 "Done"
-```
-
-**acli** (uses status name directly):
-```bash
-acli jira workitem transition --key KEY-123 --status "Done"
-```
 
 **curl** (must fetch transition IDs first, then POST):
 ```bash
@@ -308,17 +228,12 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   -d '{"transition": {"id": "31"}}'
 ```
 
+**acli (fallback, uses status name directly):**
+```bash
+acli jira workitem transition --key KEY-123 --status "Done"
+```
+
 ### Assign Issue
-
-**script:**
-```bash
-"$SCRIPTS_DIR/jira/assign.sh" KEY-123 --me
-```
-
-**acli:**
-```bash
-acli jira workitem assign --key KEY-123 --assignee "@me"
-```
 
 **curl:**
 ```bash
@@ -331,17 +246,12 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 
 Note: with curl, you must know the user's `accountId`. Use `GET /rest/api/3/myself` to get the current user's account ID for self-assignment.
 
+**acli (fallback):**
+```bash
+acli jira workitem assign --key KEY-123 --assignee "@me"
+```
+
 ### Link Issues
-
-**script:**
-```bash
-"$SCRIPTS_DIR/jira/link.sh" KEY-123 "Blocks" KEY-456
-```
-
-**acli:**
-```bash
-acli jira workitem link create --inward-key KEY-123 --outward-key KEY-456 --type "Blocks"
-```
 
 **curl:**
 ```bash
@@ -354,6 +264,11 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
   "inwardIssue": {"key": "KEY-123"},
   "outwardIssue": {"key": "KEY-456"}
 }'
+```
+
+**acli (fallback):**
+```bash
+acli jira workitem link create --inward-key KEY-123 --outward-key KEY-456 --type "Blocks"
 ```
 
 ### Bulk Operations
@@ -391,7 +306,7 @@ See `ticket-template.md` for the default structure to use when creating user sto
 
 See `adf-format.md` for the Atlassian Document Format reference.
 
-ADF is **only needed when using raw curl** for write operations (create issue descriptions, add comments, update descriptions). When using wrapper scripts or `acli`, pass plain text directly — no ADF required.
+ADF is required for curl write operations (create issue descriptions, add comments, update descriptions). When falling back to `acli`, pass plain text directly — no ADF required.
 
 ---
 
@@ -459,12 +374,11 @@ curl -s -u "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" \
 
 - **Infer intent from natural language.** "Show me my tickets" becomes a JQL search for `assignee = currentUser() AND resolution = Unresolved`. "What's in the current sprint?" becomes `sprint in openSprints()`.
 - **Construct all JQL and ADF from user intent.** Never ask the user to write raw JQL or ADF JSON.
-- **Prefer wrapper scripts when available.** They handle auth, ADF, and errors internally. Use acli for bulk operations and sprint management.
+- **Prefer raw curl.** Fall back to `acli` only for bulk operations (`--jql` + `--yes`) and sprint management.
 - **Use `--json` with acli** when you need to parse structured output programmatically.
-- **Use `--yes` for bulk operations** to skip interactive confirmation prompts.
-- **Map natural language to operations directly (use scripts when available):**
-  - "Move PROJ-123 to done" = `"$SCRIPTS_DIR/jira/transition.sh" PROJ-123 "Done"` (or `acli jira workitem transition --key PROJ-123 --status "Done"`)
-  - "Assign this to me" = `"$SCRIPTS_DIR/jira/assign.sh" PROJ-123 --me` (or `acli jira workitem assign --key PROJ-123 --assignee "@me"`)
-  - "What am I working on?" = `"$SCRIPTS_DIR/jira/search.sh" "assignee = currentUser() AND statusCategory = 'In Progress'"` (or `acli jira workitem search --jql "..." --json`)
-  - "Create a bug for the login issue" = `"$SCRIPTS_DIR/jira/create.sh" --project PROJ --type Bug --summary "..."` (or `acli jira workitem create ...`)
+- **Map natural language to operations directly (curl-first):**
+  - "Move PROJ-123 to done" = GET `/issue/PROJ-123/transitions`, then POST the matching transition ID
+  - "Assign this to me" = GET `/myself` for accountId, then PUT `/issue/PROJ-123/assignee`
+  - "What am I working on?" = POST `/search/jql` with `assignee = currentUser() AND statusCategory = 'In Progress'`
+  - "Create a bug for the login issue" = POST `/issue` with ADF description
 - **Before creating a story, task, or research/design ticket, ask if the user has their own ticket template.** If not, offer the default in `ticket-template.md` and structure the description + acceptance criteria accordingly. Skip this prompt for trivial bugs or one-line tasks.

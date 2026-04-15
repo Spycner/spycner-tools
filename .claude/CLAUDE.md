@@ -13,9 +13,6 @@ plugins/
       plugin.json           # Plugin metadata (name, description, author, license, keywords)
     agents/                 # Optional: agent definitions for long-running isolated tasks
       <agent-name>.md
-    scripts/                # Optional wrapper scripts (if the CLI needs abstraction)
-      _common.sh            # Shared helpers (auth, curl wrappers, etc.)
-      <service>/            # Per-service scripts
     skills/
       <service>/
         SKILL.md            # Skill definition (THE core file — this is what Claude reads)
@@ -33,7 +30,7 @@ tests/
 
 | Plugin | Version | Skills |
 |--------|---------|--------|
-| `atlassian` | 1.3.0 | `jira`, `confluence` |
+| `atlassian` | 2.0.0 | `jira`, `confluence` |
 | `google-workspace` | 1.0.0 | `gmail`, `calendar` |
 | `research` | 1.3.0 | `research` (multi-agent pipeline with review gates) |
 
@@ -42,7 +39,7 @@ tests/
 ### 1. Plan the skill
 
 - Identify the CLI tool or API the skill wraps
-- Decide if wrapper scripts are needed (skip if the CLI already handles auth, JSON output, and error codes well — see `google-workspace` as an example)
+- Prefer invoking the CLI or `curl` directly in the skill — no wrapper scripts
 - Define operation tiers: Tier 1 (Read), Tier 2 (Write), Tier 3 (Manage/Admin)
 
 ### 2. Create the plugin structure
@@ -163,7 +160,7 @@ PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh <skill> test
 
 ## Design Decisions
 
-- **No wrapper scripts when the CLI is good enough.** The `atlassian` plugin uses wrapper scripts because it needs to abstract auth, ADF construction, and multi-tool fallback. The `google-workspace` plugin invokes `gws` directly because it already handles all of that.
+- **No wrapper scripts.** Skills use the underlying CLI directly (`gws` for Google Workspace) or raw `curl` with env-var auth (for Atlassian). This keeps each skill self-contained — no extra bash layer to maintain, debug, or ship with the plugin.
 - **One skill per service, one plugin per product family.** Gmail and Calendar are both under `google-workspace`. Jira and Confluence are both under `atlassian`.
 - **Skills are self-contained.** Each SKILL.md should contain everything Claude needs to use the service without reading other files (except reference docs it explicitly links to).
 - **Tests run Claude in a subprocess.** Unit tests use `run_claude` with `--dangerously-skip-permissions`. Integration tests use `run_claude_logged` with `--output-format stream-json` to capture tool usage.
