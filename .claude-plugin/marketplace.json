@@ -8,7 +8,7 @@
       "name": "atlassian",
       "source": "./plugins/atlassian",
       "description": "Jira and Confluence skills for the Atlassian suite — search, create, update, and manage work items and pages",
-      "version": "1.2.0"
+      "version": "2.0.0"
     },
     {
       "name": "google-workspace",

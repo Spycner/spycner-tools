@@ -169,17 +169,17 @@ run_claude_logged() {
     fi
 }
 
-# Check if a log file contains evidence of script usage
-# Usage: assert_used_scripts log_file "test name"
-assert_used_scripts() {
+# Check if a log file contains evidence of a supported Atlassian tool.
+# Usage: assert_used_atlassian_tool log_file "test name"
+assert_used_atlassian_tool() {
     local log_file="$1"
-    local test_name="${2:-Used scripts}"
+    local test_name="${2:-Used atlassian tool}"
 
-    if grep -q 'scripts/jira/\|scripts/confluence/' "$log_file"; then
-        echo "  [PASS] $test_name"
+    if grep -q 'curl .*atlassian\.net' "$log_file"; then
+        echo "  [PASS] $test_name — used curl"
         return 0
     elif grep -q 'acli jira\|acli confluence' "$log_file"; then
-        echo "  [INFO] $test_name — used acli instead of scripts"
+        echo "  [INFO] $test_name — used acli"
         return 0
     else
         echo "  [WARN] $test_name — could not determine tool used"
@@ -194,13 +194,12 @@ show_tools_used() {
     echo "  Tools used:"
     # Extract tool names from tool_use blocks
     grep -oE '"name":"(Bash|Read|Write|Edit|Glob|Grep|Skill|WebSearch|WebFetch|Agent)"' "$log_file" 2>/dev/null | sort | uniq -c | sed 's/"name":"//;s/"$//;s/^/    /' || true
-    # Show bash commands that reference scripts or acli or curl
+    # Show bash commands that reference acli, curl, or gws
     echo "  Commands:"
-    grep -oE 'scripts/(jira|confluence)/[a-z_-]+\.sh' "$log_file" 2>/dev/null | sort -u | sed 's/^/    - script: /' || true
     grep -oE 'acli (jira|confluence) [a-z-]+ [a-z-]*' "$log_file" 2>/dev/null | sort -u | sed 's/^/    - acli: /' || true
     grep -oE 'gws (gmail|calendar) [+a-z_-]+' "$log_file" 2>/dev/null | sort -u | sed 's/^/    - gws: /' || true
     if grep -q 'curl -s -u' "$log_file" 2>/dev/null; then echo "    - raw curl detected"; fi
-    if ! grep -qE 'scripts/|acli |curl -s|gws ' "$log_file" 2>/dev/null; then echo "    (no commands detected)"; fi
+    if ! grep -qE 'acli |curl -s|gws ' "$log_file" 2>/dev/null; then echo "    (no commands detected)"; fi
 }
 
 # Check if gws CLI is authenticated
@@ -214,7 +213,7 @@ export -f run_claude_logged
 export -f assert_contains
 export -f assert_not_contains
 export -f assert_order
-export -f assert_used_scripts
+export -f assert_used_atlassian_tool
 export -f show_tools_used
 export -f check_acli_auth
 export -f check_env_auth
