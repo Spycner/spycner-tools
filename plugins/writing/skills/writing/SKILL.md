@@ -85,6 +85,13 @@ Mark each task as `in_progress` when starting, `completed` when the artifact is 
 
 Dispatch each phase agent via the Agent tool. The orchestrator injects context into the prompt template.
 
+#### Dispatch conventions (apply to every phase)
+
+- **`{OUTPUT_PATH}` is always the working directory**, never a file path. Each prompt file appends its own filename.
+- **Prompt file extraction.** Each prompt file documents the dispatched prompt inside a fenced block under the `**Dispatch:**` header. The dispatched body itself contains nested fences for example outputs. The simplest robust approach: read the entire prompt file as text, perform placeholder substitution (`{TOPIC}`, `{OUTPUT_PATH}`, `{STYLE_GUIDE_PATH}`, `{REVIEWER_FEEDBACK}`, `{YYYY-MM-DD}`), and pass the full result to the Agent tool. The dispatched agent ignores the surrounding commentary because the actionable instructions sit inside the visible prompt body.
+- **Reviewer feedback injection.** When `{REVIEWER_FEEDBACK}` is non-empty (re-dispatch on a failed gate), append this standing instruction to the dispatched prompt, regardless of what the prompt template itself says: *"Reviewer feedback is provided above. Read the existing artifact in the output directory, address the specific concerns, and update the file in place rather than starting fresh."* This compensates for the asymmetric treatment of feedback across the prompt files.
+- **Date substitution.** `{YYYY-MM-DD}` resolves to today's date in ISO format.
+
 #### Phase 1: Interview
 
 1. Read `interview-prompt.md` from this skill directory
@@ -148,9 +155,10 @@ When all four critics return, consolidate into `critique.md`:
 <full content of critique-asshole.md>
 ```
 
-Then check verdicts:
-- All PASS or MINOR → continue to finishing
-- One or more CRITICAL → re-dispatch the draft agent with the consolidated critique injected as REVIEWER_FEEDBACK. Re-run the panel. Repeat up to 2 iterations. If still CRITICAL after 2 iterations, present remaining critical issues to user via AskUserQuestion: "Continue to finishing, or pause for manual intervention?"
+Then check verdicts. **Match on the first whitespace-delimited token of each critic's `**Verdict:**` line.** Critic prompts emit `PASS`, `MINOR ISSUES`, or `CRITICAL ISSUES`; only the first token is the gate signal. Expected tokens: `PASS`, `MINOR`, `CRITICAL`.
+
+- All four critics emit `PASS` or `MINOR` → continue to finishing
+- One or more critics emit `CRITICAL` → re-dispatch the draft agent with the consolidated critique injected as REVIEWER_FEEDBACK. Re-run the panel. Repeat up to 2 iterations. If still CRITICAL after 2 iterations, present remaining critical issues to user via AskUserQuestion: "Continue to finishing, or pause for manual intervention?"
 
 Mark phase task completed when verdict allows progression or user overrides.
 
@@ -187,6 +195,7 @@ Present the final draft and a summary of what each pass did.
 - **User cancels mid-pipeline**: state file records the last completed phase; next invocation resumes
 - **Critique gate fails twice**: present remaining critical issues, ask whether to proceed or intervene manually
 - **Multiple style guide candidates** with no state record: ask once, record choice
+- **Missing prerequisite artifact on phase jump**: some phases depend on artifacts produced by earlier phases (Outline reads `interview-synthesis.md`; Sedaris reads `interview-synthesis.md`; Draft reads `outline.md`; Panel and Finishing read `draft.md`). If the user invokes `--phase X` on a directory missing the upstream artifact, ask via AskUserQuestion whether to (a) run the missing upstream phase first, (b) accept a degraded run where the agent works without that input (only safe for Sedaris reading the synthesis), or (c) cancel and let the user produce the artifact manually
 
 ## State File Format
 
@@ -214,7 +223,7 @@ Used in `--phase` flag and task list:
 
 ## Behavioral Guidelines
 
-- Trigger on writing intent (drafting, reviewing, polishing, voice work). not on simple text generation
+- Trigger on writing intent (drafting, reviewing, polishing, voice work), not on simple text generation
 - When in doubt about scope: "Would you like the full pipeline, or are you starting from a specific phase?"
 - Always announce the active style guide in the first response
 - Always create the task list before dispatching the first phase agent so the user sees what is coming
