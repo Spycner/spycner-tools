@@ -1,0 +1,9 @@
+{
+  "name": "writing",
+  "description": "Multi-phase writing pipeline with panel-of-critics review for blog posts, essays, talks, and longer-form prose",
+  "author": {
+    "name": "Pascal Kraus"
+  },
+  "license": "MIT",
+  "keywords": ["writing", "blog", "essay", "drafting", "editing", "voice"]
+}
