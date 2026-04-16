@@ -12,7 +12,8 @@ echo ""
 
 # Use a temp directory with a pre-written draft
 TEST_DIR=$(mktemp -d)
-trap 'rm -rf "$TEST_DIR"' EXIT
+LOG_FILE=$(mktemp)
+trap 'rm -rf "$TEST_DIR" "$LOG_FILE"' EXIT
 
 cat > "$TEST_DIR/draft.md" <<'DRAFT'
 # Why I stopped using semaphores
@@ -27,9 +28,6 @@ I now navigate the complexities of concurrency by using channels instead. Here's
 
 In conclusion, semaphores are a tool of last resort.
 DRAFT
-
-LOG_FILE=$(mktemp)
-trap "rm -f $LOG_FILE" EXIT
 
 echo "Test 1: Panel runs and produces critique.md..."
 echo "  Working dir: $TEST_DIR"
