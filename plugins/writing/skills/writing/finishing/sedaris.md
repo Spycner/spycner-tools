@@ -47,6 +47,9 @@ Agent tool (general-purpose):
     - Do not pad. If a section is fine, leave it.
     - Do not insert "humor" via cliche, pun, or quip. Specificity is funnier than
       cleverness.
+    - Do not tighten sentences (the line editor pass did that). Do not enforce style
+      mechanics (the style enforcer pass did that). Do not remove AI voice tics (the
+      AI-pattern detector pass did that). Your only job is to add voice.
 
     ## Output
 

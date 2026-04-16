@@ -26,7 +26,7 @@ Agent tool (general-purpose):
 
     - Every adjective that does not change the noun's meaning (a "blue car" is fine; a
       "very nice car" is not)
-    - Every adverb (almost without exception)
+    - Every adverb. Exceptions are rare and must earn their place.
     - Filler phrases ("at the end of the day", "the fact that", "in order to")
     - Hedges that soften without earning the softening ("kind of", "sort of",
       "somewhat", "perhaps", "maybe" used as filler)

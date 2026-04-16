@@ -68,16 +68,20 @@ for critic in hemingway hitchcock mom asshole; do
 done
 
 echo ""
-echo "Test 4: Asshole reader flagged unearned claims (the draft has many)..."
-if grep -qiE "unearned|claim|generaliz|in my experience|cherry" "$TEST_DIR/critique-asshole.md" 2>/dev/null; then
-    echo "  [PASS] Asshole reader engaged with the draft's argument"
+echo "Test 4: Asshole reader engaged with the argument (did not just quote the draft)..."
+if grep -qiE "unearned|overclaim|evidence|generaliz|cherry|pushback|rebuttal|earn" "$TEST_DIR/critique-asshole.md" 2>/dev/null; then
+    echo "  [PASS] Asshole reader used rigor vocabulary (unearned/evidence/rebuttal/etc.)"
 else
-    echo "  [FAIL] Asshole reader did not flag any argument issues"
+    echo "  [FAIL] Asshole reader did not engage argumentatively"
 fi
 
 echo ""
-echo "Test 5: AI-pattern detector would flag (verifying via direct grep on draft)..."
-echo "  (Smoke test only checks panel phase; finishing pass tested separately if added later)"
+echo "Test 5: Panel-only mode did NOT produce finishing artifacts..."
+if [ -f "$TEST_DIR/finishing-notes.md" ]; then
+    echo "  [FAIL] finishing-notes.md exists; panel-only should not have produced it"
+else
+    echo "  [PASS] finishing-notes.md absent, confirming panel phase stayed in its lane"
+fi
 
 echo ""
 echo "=== writing integration test complete ==="

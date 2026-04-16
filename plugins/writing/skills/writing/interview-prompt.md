@@ -51,8 +51,9 @@ Agent tool (general-purpose):
     8. **Cuts**: What are you NOT writing about, even though it might be tempting? What
        belongs in a different post?
 
-    Reject irrelevant questions if you propose one. Note when the writer struggles to
-    answer; that often signals they have not thought it through enough yet.
+    Before asking a question, check it against the eight categories above. If it does
+    not serve one of them, skip it. Note when the writer struggles to answer; that
+    often signals they have not thought the idea through enough yet.
 
     ## When to stop
 

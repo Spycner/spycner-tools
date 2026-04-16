@@ -43,6 +43,15 @@ Agent tool (general-purpose):
     - Do not introduce or remove information.
     - Do not break sentences just because they are long. Long sentences that earn
       their length stay.
+    - Do not apply style guide mechanical rules (punctuation, vocabulary blacklist,
+      capitalization). The style enforcer pass handles those.
+    - Do not flag AI voice tics ("delve", "it's worth noting that", stock transitions).
+      The AI-pattern detector pass handles those.
+    - Do not rewrite sentences that are already tight. A no-op on any given sentence
+      is a valid outcome.
+    - Passive voice that hides the agent deliberately (e.g., "mistakes were made")
+      stays passive. Only convert when the actor is clear from context and the
+      passive is just weak.
 
     ## Output
 
