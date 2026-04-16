@@ -1,0 +1,1 @@
+I have a draft of an essay sitting in ./drafts/observability/draft.md. Run the panel of critics on it and give me consolidated feedback.
