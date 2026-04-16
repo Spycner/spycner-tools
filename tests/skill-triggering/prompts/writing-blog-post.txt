@@ -1,0 +1,1 @@
+I want to draft a blog post about why most engineering teams underinvest in observability. Help me work through the interview, outline, and draft.

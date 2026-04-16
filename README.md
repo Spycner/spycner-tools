@@ -27,6 +27,13 @@ Comprehensive web research with multi-perspective analysis, or optimized prompt 
 **Skills:**
 - `/pgoell-claude-tools:research` — Research intake, refinement, and routing. Orchestrates a multi-agent pipeline (planner, researcher, writer) with independent review gates for quality assurance, or generates optimized prompts for external AI tools (OpenAI, Gemini, Perplexity).
 
+### writing
+
+Multi-phase writing pipeline modelled on Katie Parrott's process. Interview, outline, draft, panel review, and finishing passes for blog posts and longer-form prose.
+
+**Skills:**
+- `/pgoell-claude-tools:writing`: orchestrates the full pipeline with phase-selectable resume. Ships with a default style guide that any project can override.
+
 ## Installation
 
 ```
@@ -34,6 +41,7 @@ Comprehensive web research with multi-perspective analysis, or optimized prompt 
 /plugin install atlassian@pgoell-claude-tools
 /plugin install google-workspace@pgoell-claude-tools
 /plugin install research@pgoell-claude-tools
+/plugin install writing@pgoell-claude-tools
 ```
 
 ## Setup

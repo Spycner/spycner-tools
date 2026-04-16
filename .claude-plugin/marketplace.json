@@ -21,6 +21,12 @@
       "source": "./plugins/research",
       "description": "Deep research and prompt generation — conduct comprehensive web research with multi-perspective analysis, or craft optimized research prompts for external AI tools",
       "version": "1.3.0"
+    },
+    {
+      "name": "writing",
+      "source": "./plugins/writing",
+      "description": "Multi-phase writing pipeline with panel-of-critics review for blog posts, essays, talks, and longer-form prose",
+      "version": "1.0.0"
     }
   ]
 }
