@@ -2,7 +2,7 @@
 
 **Purpose:** Cut every adjective and unnecessary word. Enforce economy. Kill darlings.
 
-**Dispatch:** One of four critics in the panel phase. Runs in parallel with the others. Reads `draft.md` and the active style guide. Writes `critique-hemingway.md`.
+**Dispatch:** One of six critics in the panel phase. Runs in parallel with the others. Reads `draft.md` and the active style guide. Writes `critique-hemingway.md`.
 
 ```
 Agent tool (general-purpose):

@@ -2,7 +2,7 @@
 
 **Purpose:** Pacing. Reader engagement. Drama is life with the dull bits cut out.
 
-**Dispatch:** One of four critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-hitchcock.md`.
+**Dispatch:** One of six critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-hitchcock.md`.
 
 ```
 Agent tool (general-purpose):

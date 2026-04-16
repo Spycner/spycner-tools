@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Integration test: writing skill (panel-only mode)
 # Tests that the panel phase produces consolidated critique on a small draft
-# NOTE: This dispatches four agents; expect 2-5 minutes runtime
+# NOTE: This dispatches six agents; expect 3-7 minutes runtime
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"

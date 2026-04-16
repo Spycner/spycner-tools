@@ -2,7 +2,7 @@
 
 **Purpose:** Flag where the general reader gets lost. Lovingly. Find unexplained jargon, missing context, assumed knowledge.
 
-**Dispatch:** One of four critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-mom.md`.
+**Dispatch:** One of six critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-mom.md`.
 
 ```
 Agent tool (general-purpose):

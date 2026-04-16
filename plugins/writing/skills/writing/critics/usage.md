@@ -56,7 +56,7 @@ Agent tool (general-purpose):
     - **Comma splices**: two independent clauses joined by a comma without a
       conjunction
     - **"Try and"**: use "try to"
-    - **Misplaced-only**: "I only ate three cookies" (should be "I ate only
+    - **Misplaced "only"**: "I only ate three cookies" (should be "I ate only
       three") when emphasis matters
     - **Apostrophe errors in plurals**: "CEO's" when "CEOs" is meant
 

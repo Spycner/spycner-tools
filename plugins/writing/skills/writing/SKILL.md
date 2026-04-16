@@ -11,7 +11,7 @@ Multi-phase writing pipeline with a panel of specialised critics. Modeled on Kat
 
 ## Tool Preference
 
-1. **Agent tool**: to dispatch phase agents (interview, outline, draft) and critics (Hemingway, Hitchcock, Mom reader, Asshole reader) and finishing passes (AI-pattern detector, style enforcer, line editor, Sedaris)
+1. **Agent tool**: to dispatch phase agents (interview, outline, draft) and critics (Hemingway, Hitchcock, Mom reader, Asshole reader, Clarity, Usage) and finishing passes (AI-pattern detector, style enforcer, line editor, Sedaris)
 2. **Read**: to load prompt templates and existing artifacts
 3. **Bash**: for directory creation, file existence checks, state file read/write
 4. **TaskCreate / TaskUpdate**: to surface progress through the pipeline visibly
@@ -213,7 +213,7 @@ Present the final draft and a summary of what each pass did.
 - **Style guide not found at any level**: fall back to default and warn "Using default style guide"
 - **Phase artifact missing on resume**: re-run that phase
 - **Agent dispatch fails**: retry once, then surface error and pause
-- **Critic returns malformed output**: log, continue with the other three, mark that sub-task as failed
+- **Critic returns malformed output**: log, continue with the remaining critics, mark that sub-task as failed
 - **User cancels mid-pipeline**: state file records the last completed phase; next invocation resumes
 - **Critique gate fails twice**: present remaining critical issues, ask whether to proceed or intervene manually
 - **Multiple style guide candidates** with no state record: ask once, record choice

@@ -2,7 +2,7 @@
 
 **Purpose:** Attack every unearned claim with reply-guy energy. Force the writer to either earn it or defend it.
 
-**Dispatch:** One of four critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-asshole.md`.
+**Dispatch:** One of six critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-asshole.md`.
 
 ```
 Agent tool (general-purpose):

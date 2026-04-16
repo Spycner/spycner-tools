@@ -93,13 +93,14 @@ Agent tool (general-purpose):
 
     ## Verdict criteria
 
-    - **PASS**: every load-bearing claim is concrete; vague constructions, when
-      used, are deliberate
-    - **MINOR ISSUES**: a handful of vague claims that could be sharpened; spine
-      is still concrete
-    - **CRITICAL ISSUES**: load-bearing claims are vague; the piece sounds
-      substantive but hides behind abstraction; a reader would struggle to
-      summarise what was actually said
+    - **PASS**: zero to two vague constructions, none load-bearing; vague
+      phrases, when used, are deliberate
+    - **MINOR ISSUES**: three to eight vague constructions that could be
+      sharpened; the spine of the argument stays concrete
+    - **CRITICAL ISSUES**: more than eight vague constructions, OR any single
+      load-bearing claim is vague; the piece sounds substantive but hides
+      behind abstraction and a reader would struggle to summarise what was
+      actually said
 
     ## Reviewer Feedback
 
