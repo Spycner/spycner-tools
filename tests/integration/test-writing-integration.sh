@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Integration test: writing skill (panel-only mode)
 # Tests that the panel phase produces consolidated critique on a small draft
-# NOTE: This dispatches six agents; expect 3-7 minutes runtime
+# NOTE: This dispatches seven agents; expect 3-8 minutes runtime
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -45,8 +45,8 @@ else
 fi
 
 echo ""
-echo "Test 2: All six per-critic files created..."
-for critic in hemingway hitchcock mom asshole clarity usage; do
+echo "Test 2: All seven per-critic files created..."
+for critic in hemingway hitchcock mom asshole clarity usage steelman; do
     if [ -f "$TEST_DIR/critique-${critic}.md" ]; then
         echo "  [PASS] critique-${critic}.md created"
     else
@@ -56,7 +56,7 @@ done
 
 echo ""
 echo "Test 3: Each critic flagged at least one issue (the draft is intentionally bad)..."
-for critic in hemingway hitchcock mom asshole clarity usage; do
+for critic in hemingway hitchcock mom asshole clarity usage steelman; do
     if [ -f "$TEST_DIR/critique-${critic}.md" ]; then
         line_count=$(wc -l < "$TEST_DIR/critique-${critic}.md")
         if [ "$line_count" -gt 5 ]; then
@@ -76,7 +76,15 @@ else
 fi
 
 echo ""
-echo "Test 5: Panel-only mode did NOT produce finishing artifacts..."
+echo "Test 5: Steel-man critic engaged with opposing thesis (did not just rephrase draft)..."
+if grep -qiE "opposing|counter|preempt|strongest|steel|engage|rebutt|acknowled|fairest|load.bearing" "$TEST_DIR/critique-steelman.md" 2>/dev/null; then
+    echo "  [PASS] Steel-man used opposing-thesis vocabulary"
+else
+    echo "  [FAIL] Steel-man did not construct opposing position"
+fi
+
+echo ""
+echo "Test 6: Panel-only mode did NOT produce finishing artifacts..."
 if [ -f "$TEST_DIR/finishing-notes.md" ]; then
     echo "  [FAIL] finishing-notes.md exists; panel-only should not have produced it"
 else

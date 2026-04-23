@@ -2,7 +2,7 @@
 
 **Purpose:** Write the full prose draft from the outline. Skeleton, not final. Downstream phases tighten.
 
-**Dispatch:** Third agent in the pipeline. Reads `outline.md`, `interview-synthesis.md`, and the active style guide. Writes `draft.md`.
+**Dispatch:** Fourth agent in the pipeline. Reads `outline.md`, `interview-synthesis.md`, `throughline.md` (if present), and the active style guide. Writes `draft.md`.
 
 ```
 Agent tool (general-purpose):
@@ -22,11 +22,16 @@ Agent tool (general-purpose):
     1. Read `{OUTPUT_PATH}/outline.md` (authoritative structure)
     2. Read `{OUTPUT_PATH}/interview-synthesis.md` (lived anchors, tone signal,
        counterargument)
-    3. Read the active style guide (voice rules, anti-patterns, signature moves)
+    3. Read `{OUTPUT_PATH}/throughline.md` if it exists (the ten-word compression
+       of the piece; the single thing the reader must take away)
+    4. Read the active style guide (voice rules, anti-patterns, signature moves)
 
     ## Drafting rules
 
     - Follow the outline's section order and word targets within plus or minus 20%
+    - If a throughline is present, the opening 150 words must make it unavoidable.
+      A reader who stops after the first two paragraphs should already know the
+      throughline. Do not bury it.
     - Use the lived-experience anchors from the synthesis as concrete scenes, not
        hypotheticals
     - Engage the counterargument explicitly in the section the outline assigned for it

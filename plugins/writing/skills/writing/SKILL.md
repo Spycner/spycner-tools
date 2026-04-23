@@ -1,6 +1,6 @@
 ---
 name: writing
-description: Use when the user wants to draft a blog post, essay, talk, newsletter, literature note, or any longer-form prose; or when they want to review, critique, or finish an existing draft. Orchestrates a multi-phase pipeline (interview, outline, draft, panel review, finishing) modeled on Katie Parrott's process. Triggers on writing intent (drafting, reviewing, polishing, voice work) and not on simple text generation tasks.
+description: Use when the user wants to draft a blog post, essay, talk, newsletter, literature note, or any longer-form prose; or when they want to review, critique, or finish an existing draft. Orchestrates a multi-phase pipeline (interview, outline, throughline gate, draft, panel review, finishing) modeled on Katie Parrott's process. Triggers on writing intent (drafting, reviewing, polishing, voice work) and not on simple text generation tasks.
 ---
 
 # Writing Skill
@@ -11,7 +11,7 @@ Multi-phase writing pipeline with a panel of specialised critics. Modeled on Kat
 
 ## Tool Preference
 
-1. **Agent tool**: to dispatch phase agents (interview, outline, draft) and critics (Hemingway, Hitchcock, Mom reader, Asshole reader, Clarity, Usage) and finishing passes (AI-pattern detector, style enforcer, line editor, Sedaris)
+1. **Agent tool**: to dispatch phase agents (interview, outline, draft) and critics (Hemingway, Hitchcock, Mom reader, Asshole reader, Clarity, Usage, Steel-man) and finishing passes (AI-pattern detector, style enforcer, line editor, Sedaris). The throughline gate runs in the orchestrator and does not dispatch an agent.
 2. **Read**: to load prompt templates and existing artifacts
 3. **Bash**: for directory creation, file existence checks, state file read/write
 4. **TaskCreate / TaskUpdate**: to surface progress through the pipeline visibly
@@ -47,6 +47,7 @@ Surface the active guide in the first response: "Using style guide: {path}".
 Scan the working directory for existing artifacts:
 - `interview-synthesis.md` exists → interview phase complete
 - `outline.md` exists → outline phase complete
+- `throughline.md` exists → throughline phase complete
 - `draft.md` exists → draft phase complete
 - `critique.md` exists → panel phase complete
 - `finishing-notes.md` exists → finishing phase has started or completed
@@ -55,7 +56,7 @@ Determine the latest completed phase. Present to user:
 - "I see you have completed phases X. Resume from {next phase}?"
 - Offer phase-jump option: user can name any phase to jump to
 
-User can also pre-empt the dialogue by passing `--phase X` (X ∈ {interview, outline, draft, panel, finishing}).
+User can also pre-empt the dialogue by passing `--phase X` (X ∈ {interview, outline, throughline, draft, panel, finishing}).
 
 ### Step 4: Create task list
 
@@ -64,15 +65,17 @@ Use TaskCreate to add one task per phase that will run, plus sub-tasks for the p
 ```
 1. Phase 1: Interview the author
 2. Phase 2: Negotiate outline
-3. Phase 3: Draft sections
-4. Phase 4: Run panel review
+3. Phase 3: Throughline check (≤10-word gate)
+4. Phase 4: Draft sections
+5. Phase 5: Run panel review
    ├── Critic: Hemingway
    ├── Critic: Hitchcock
    ├── Critic: Mom reader
    ├── Critic: Asshole reader
    ├── Critic: Clarity
-   └── Critic: Usage
-5. Phase 5: Finishing pass
+   ├── Critic: Usage
+   └── Critic: Steel-man
+6. Phase 6: Finishing pass
    ├── AI-pattern detector
    ├── Style enforcer
    ├── Line editor
@@ -111,7 +114,18 @@ Dispatch each phase agent via the Agent tool. The orchestrator injects context i
 5. Surface the outline to the user. Accept revisions via AskUserQuestion ("Outline as proposed, or revisions before draft?"). On revisions, re-dispatch with feedback injected.
 6. Mark task completed when user accepts
 
-#### Phase 3: Draft
+#### Phase 3: Throughline
+
+Orchestrator-only synchronous gate. No agent dispatch. Happens after the outline is accepted, before the draft agent is dispatched. If the writer cannot compress the piece into ten words, the piece is not ready to draft.
+
+1. Read `{OUTPUT_PATH}/outline.md` and extract the `**Thesis (one sentence):**` line.
+2. Surface the thesis to the user via AskUserQuestion: "Throughline check. Compress the piece to ≤10 words. Current outline thesis: \"{thesis}\". What is the one thing you most want the reader to take away?"
+3. Validate word count on the user's response by splitting on whitespace and ignoring empty strings. If more than 10 words, re-ask via AskUserQuestion: "That is N words. Cut it to 10 or fewer. If you cannot, the outline may be wrong. Return to Phase 2."
+4. Offer an explicit escape hatch: the user may answer the re-ask with "RETURN TO OUTLINE" to resume Phase 2 with their attempted throughline as reviewer feedback injected into the outline prompt.
+5. On acceptance, write `{OUTPUT_PATH}/throughline.md` as a single-line file containing only the accepted throughline (no markdown headers, no decoration).
+6. Mark task completed.
+
+#### Phase 4: Draft
 
 1. Read `draft-prompt.md`
 2. Inject: output path, style guide path, empty reviewer feedback
@@ -119,11 +133,11 @@ Dispatch each phase agent via the Agent tool. The orchestrator injects context i
 4. Verify `draft.md` exists
 5. Mark task completed
 
-#### Phase 4: Panel review
+#### Phase 5: Panel review
 
-Fan out: dispatch all six critic agents in parallel (single message with multiple Agent tool calls).
+Fan out: dispatch all seven critic agents in parallel (single message with multiple Agent tool calls).
 
-The six critics use distinct prompt-file and output-file slugs:
+The seven critics use distinct prompt-file and output-file slugs:
 
 | Prompt file | Output file | Lens |
 |---|---|---|
@@ -133,6 +147,7 @@ The six critics use distinct prompt-file and output-file slugs:
 | `critics/asshole-reader.md` | `critique-asshole.md` | Rigor: unearned claims, missing counterarguments |
 | `critics/clarity.md` | `critique-clarity.md` | Precision: vague abstractions, unclear antecedents (Zinsser) |
 | `critics/usage.md` | `critique-usage.md` | Correctness of form: grammar, parallelism, misused words (Strunk & White) |
+| `critics/steel-man.md` | `critique-steelman.md` | Preemption: strongest opposing thesis and whether the draft engages it |
 
 For each critic:
 1. Read the prompt file from the table above
@@ -141,7 +156,7 @@ For each critic:
 4. Verify the corresponding output file exists
 5. Mark sub-task completed
 
-When all six critics return, consolidate into `critique.md`:
+When all seven critics return, consolidate into `critique.md`:
 
 ```markdown
 # Panel Critique
@@ -156,6 +171,7 @@ When all six critics return, consolidate into `critique.md`:
 | Asshole reader | ... | ... |
 | Clarity | ... | ... |
 | Usage | ... | ... |
+| Steel-man | ... | ... |
 
 ## Hemingway
 <full content of critique-hemingway.md>
@@ -174,16 +190,19 @@ When all six critics return, consolidate into `critique.md`:
 
 ## Usage
 <full content of critique-usage.md>
+
+## Steel-man
+<full content of critique-steelman.md>
 ```
 
 Then check verdicts. **Match on the first whitespace-delimited token of each critic's `**Verdict:**` line.** Critic prompts emit `PASS`, `MINOR ISSUES`, or `CRITICAL ISSUES`; only the first token is the gate signal. Expected tokens: `PASS`, `MINOR`, `CRITICAL`.
 
-- All six critics emit `PASS` or `MINOR` → continue to finishing
+- All seven critics emit `PASS` or `MINOR` → continue to finishing
 - One or more critics emit `CRITICAL` → re-dispatch the draft agent with the consolidated critique injected as REVIEWER_FEEDBACK. Re-run the panel. Repeat up to 2 iterations. If still CRITICAL after 2 iterations, present remaining critical issues to user via AskUserQuestion: "Continue to finishing, or pause for manual intervention?"
 
 Mark phase task completed when verdict allows progression or user overrides.
 
-#### Phase 5: Finishing
+#### Phase 6: Finishing
 
 Sequential, NOT parallel. Each pass updates the draft in place; later passes need the earlier passes' changes.
 
@@ -217,7 +236,8 @@ Present the final draft and a summary of what each pass did.
 - **User cancels mid-pipeline**: state file records the last completed phase; next invocation resumes
 - **Critique gate fails twice**: present remaining critical issues, ask whether to proceed or intervene manually
 - **Multiple style guide candidates** with no state record: ask once, record choice
-- **Missing prerequisite artifact on phase jump**: some phases depend on artifacts produced by earlier phases (Outline reads `interview-synthesis.md`; Sedaris reads `interview-synthesis.md`; Draft reads `outline.md`; Panel and Finishing read `draft.md`). If the user invokes `--phase X` on a directory missing the upstream artifact, ask via AskUserQuestion whether to (a) run the missing upstream phase first, (b) accept a degraded run where the agent works without that input (only safe for Sedaris reading the synthesis), or (c) cancel and let the user produce the artifact manually
+- **Missing prerequisite artifact on phase jump**: some phases depend on artifacts produced by earlier phases (Outline reads `interview-synthesis.md`; Throughline reads `outline.md`; Sedaris reads `interview-synthesis.md`; Draft reads `outline.md` and `throughline.md` if present; Panel and Finishing read `draft.md`). If the user invokes `--phase X` on a directory missing the upstream artifact, ask via AskUserQuestion whether to (a) run the missing upstream phase first, (b) accept a degraded run where the agent works without that input (only safe for Sedaris reading the synthesis, or Draft reading a missing throughline), or (c) cancel and let the user produce the artifact manually
+- **Throughline thesis line missing**: if the outline does not contain a `**Thesis (one sentence):**` line (e.g., user hand-wrote an outline), ask the user for the thesis directly before running the throughline gate rather than failing silently
 
 ## State File Format
 
@@ -241,7 +261,7 @@ The state file is keyed by working directory so multiple in-flight pieces in the
 ## Phase Identifier Names
 
 Used in `--phase` flag and task list:
-`interview`, `outline`, `draft`, `panel`, `finishing`
+`interview`, `outline`, `throughline`, `draft`, `panel`, `finishing`
 
 ## Behavioral Guidelines
 
