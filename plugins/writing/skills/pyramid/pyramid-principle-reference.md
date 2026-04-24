@@ -83,6 +83,11 @@ MECE is a direction, not a threshold. A grouping that is MECE relative to the pa
 ### The Caveman Answer Test
 Can the position reduce to "Good or Bad? Happy or Sad?"? If not, the core message lacks clarity.
 
+### Worked So-What chain (raise request)
+- Brought in more clients. So what? Boosted company revenue.
+- Built and trained new team. So what? Created alignment with mission.
+- Upgraded critical thinking skills. So what? Enabled faster, higher-quality work.
+
 ## 7. The Reverse-Engineering Procedure [research §7]
 
 Mode B (restructure) procedure, steps 1-7 for construction (steps 8 and 9 are handled by the opener and render phases):
@@ -118,6 +123,7 @@ Default 3. Ceiling 5. **Six or more items is a MECE-failure signal** until prove
 | Weak claim nobody would challenge | Apex is a truism | Caveman Answer Test |
 | Claim with no evidence beneath | Why-Is-That-True failure | Add children or cut |
 | Lone subsection under parent | Parent is not a grouping | Collapse parent or find siblings |
+| Formulaic feel despite correct structure | Emotion layer missing | See section 11 domain limits |
 
 ## 10. Worked Before/After Examples [research §10]
 
