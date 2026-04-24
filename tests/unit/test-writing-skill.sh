@@ -83,18 +83,11 @@ echo "Test 9: Format awareness..."
 output=$(run_claude "What piece formats does the writing skill support and what changes based on format?" 30)
 assert_contains "$output" "[Ee]ssay|[Bb]log|[Mm]emo|[Nn]ewsletter|[Aa]nnouncement|[Bb]riefing" "Mentions supported formats" || true
 assert_contains "$output" "--format|format" "Mentions format flag or concept" || true
-assert_contains "$output" "pyramid|[Pp]yramid|[Ss]mart.[Bb]revity|smart.brevity" "Mentions a format-gated branch" || true
+assert_contains "$output" "[Ss]mart.[Bb]revity|smart.brevity" "Mentions the format-gated Smart-Brevity critic" || true
 echo ""
 
-# Test 10: Pyramid outline awareness
-echo "Test 10: Pyramid outline..."
-output=$(run_claude "How does the writing skill outline a memo or briefing differently from an essay?" 30)
-assert_contains "$output" "pyramid|[Pp]yramid|[Mm]into" "Mentions pyramid principle" || true
-assert_contains "$output" "answer|[Aa]nswer|SCQA|top" "Mentions answer-first structure" || true
-echo ""
-
-# Test 11: Smart-brevity critic awareness
-echo "Test 11: Smart-brevity critic..."
+# Test 10: Smart-brevity critic awareness
+echo "Test 10: Smart-brevity critic..."
 output=$(run_claude "When does the Smart-Brevity critic run and what does it check?" 30)
 assert_contains "$output" "[Mm]emo|[Nn]ewsletter|[Aa]nnouncement" "Mentions which formats trigger smart-brevity" || true
 assert_contains "$output" "[Aa]xios|muscular|takeaway|scannable|short" "Mentions smart-brevity tenets" || true

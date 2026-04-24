@@ -1,6 +1,6 @@
 ---
 name: writing
-description: Use when the user wants to draft a blog post, essay, talk, newsletter, memo, announcement, briefing, literature note, or any longer-form prose; or when they want to review, critique, or finish an existing draft. Orchestrates a multi-phase pipeline (interview, outline, throughline gate, draft, panel review, finishing) modeled on Katie Parrott's process, with format-gated branches for pyramid-structured outlines (memo/briefing/announcement) and a Smart-Brevity panel critic (memo/newsletter/announcement). Triggers on writing intent (drafting, reviewing, polishing, voice work) and not on simple text generation tasks.
+description: Use when the user wants to draft a blog post, essay, talk, newsletter, memo, announcement, briefing, literature note, or any longer-form prose; or when they want to review, critique, or finish an existing draft. Orchestrates a multi-phase pipeline (interview, outline, throughline gate, draft, panel review, finishing) modeled on Katie Parrott's process, with a format-gated Smart-Brevity panel critic for memo/newsletter/announcement pieces. Triggers on writing intent (drafting, reviewing, polishing, voice work) and not on simple text generation tasks.
 ---
 
 # Writing Skill
@@ -44,7 +44,7 @@ Surface the active guide in the first response: "Using style guide: {path}".
 
 ### Step 3: Determine the piece format
 
-Some phases branch on the format of the piece. Outline structure and panel composition change when the piece is a memo or briefing rather than an essay.
+Panel composition changes when the piece is a memo, newsletter, or announcement rather than an essay. Outline structure does not branch in this version (see issue #11 for the planned dedicated pyramid-principle skill that the writing skill will dispatch to).
 
 Supported formats:
 - `essay` (default), `blog`, `talk`, `newsletter`, `memo`, `announcement`, `briefing`
@@ -57,7 +57,6 @@ Resolution order:
 Ask via AskUserQuestion only when the working directory name or the interview synthesis strongly signals a different format than the recorded state (for example, a state-stored `essay` format but the working directory is `memos/q3-roadmap-2026-04-23/`). In ambiguous cases, surface both candidates and let the user pick. Otherwise, resolve silently.
 
 Format gates:
-- **Outline prompt:** formats `memo`, `announcement`, `briefing` use `outline-pyramid-prompt.md`. All other formats use `outline-prompt.md`.
 - **Smart-Brevity critic:** formats `memo`, `newsletter`, `announcement` add the Smart-Brevity critic to the panel fan-out. Other formats run the default seven-critic panel.
 
 Surface the active format in the first response alongside the style guide: "Format: {format}. Using style guide: {path}". Record the format in the state file under the project key.
@@ -128,13 +127,11 @@ Dispatch each phase agent via the Agent tool. The orchestrator injects context i
 
 #### Phase 2: Outline
 
-1. Pick the outline prompt based on format (from Step 3):
-   - Format ∈ {`memo`, `announcement`, `briefing`}: read `outline-pyramid-prompt.md`
-   - All other formats: read `outline-prompt.md`
+1. Read `outline-prompt.md`
 2. Inject: output path, style guide path, empty reviewer feedback
 3. Dispatch via Agent tool
 4. Verify `outline.md` exists
-5. Surface the outline to the user. Accept revisions via AskUserQuestion ("Outline as proposed, or revisions before draft?"). On revisions, re-dispatch with feedback injected using the same prompt file (do not switch structures mid-negotiation).
+5. Surface the outline to the user. Accept revisions via AskUserQuestion ("Outline as proposed, or revisions before draft?"). On revisions, re-dispatch with feedback injected.
 6. Mark task completed when user accepts
 
 #### Phase 3: Throughline
@@ -271,7 +268,6 @@ Present the final draft and a summary of what each pass did.
 - **Multiple style guide candidates** with no state record: ask once, record choice
 - **Missing prerequisite artifact on phase jump**: some phases depend on artifacts produced by earlier phases (Outline reads `interview-synthesis.md`; Throughline reads `outline.md`; Sedaris reads `interview-synthesis.md`; Draft reads `outline.md` and `throughline.md` if present; Panel and Finishing read `draft.md`). If the user invokes `--phase X` on a directory missing the upstream artifact, ask via AskUserQuestion whether to (a) run the missing upstream phase first, (b) accept a degraded run where the agent works without that input (only safe for Sedaris reading the synthesis, or Draft reading a missing throughline), or (c) cancel and let the user produce the artifact manually
 - **Throughline thesis line missing**: if the outline does not contain a `**Thesis (one sentence):**` line (e.g., user hand-wrote an outline), ask the user for the thesis directly before running the throughline gate rather than failing silently
-- **Pyramid outline on resume with format mismatch**: if the recorded format is `memo`/`announcement`/`briefing` but the existing `outline.md` uses the narrative template (or vice versa), ask the user whether to regenerate the outline under the format's prompt or keep the existing structure and override format gating for this project
 - **Unknown format value**: if `--format` or the state file contains an unrecognised value, warn once, fall back to `essay`, and ask the user to confirm
 
 ## State File Format
@@ -292,7 +288,7 @@ Present the final draft and a summary of what each pass did.
 }
 ```
 
-Recognised format values: `essay`, `blog`, `talk`, `newsletter`, `memo`, `announcement`, `briefing`. Defaults to `essay` if absent. The format drives outline prompt selection (pyramid variant for `memo`, `announcement`, `briefing`) and panel composition (Smart-Brevity critic added for `memo`, `newsletter`, `announcement`).
+Recognised format values: `essay`, `blog`, `talk`, `newsletter`, `memo`, `announcement`, `briefing`. Defaults to `essay` if absent. The format drives panel composition (Smart-Brevity critic added for `memo`, `newsletter`, `announcement`). A future change (issue #11) will add pyramid-structured outlines via a dedicated skill that the writing skill dispatches to.
 
 The state file is keyed by working directory so multiple in-flight pieces in the same project can each have their own state.
 

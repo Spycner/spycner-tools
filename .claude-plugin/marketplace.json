@@ -25,7 +25,7 @@
     {
       "name": "writing",
       "source": "./plugins/writing",
-      "description": "Multi-phase writing pipeline with panel-of-critics review for blog posts, essays, talks, and longer-form prose. Format-aware: pyramid outlines for memos/briefings/announcements, Smart-Brevity critic for memo/newsletter/announcement formats.",
+      "description": "Multi-phase writing pipeline with panel-of-critics review for blog posts, essays, talks, and longer-form prose. Format-aware: Smart-Brevity critic added for memo/newsletter/announcement formats.",
       "version": "1.2.0"
     }
   ]

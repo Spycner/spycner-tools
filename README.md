@@ -29,7 +29,7 @@ Comprehensive web research with multi-perspective analysis, or optimized prompt 
 
 ### writing
 
-Multi-phase writing pipeline modelled on Katie Parrott's process. Interview, outline, throughline gate (≤10-word compression), draft, panel review (seven critics including steel-man preemption audit), and finishing passes for blog posts and longer-form prose. Format-aware: pyramid-structured outlines for memos, briefings, and announcements; opt-in Smart-Brevity critic for memos, newsletters, and announcements.
+Multi-phase writing pipeline modelled on Katie Parrott's process. Interview, outline, throughline gate (≤10-word compression), draft, panel review (seven critics including steel-man preemption audit), and finishing passes for blog posts and longer-form prose. Format-aware: opt-in Smart-Brevity critic for memos, newsletters, and announcements.
 
 **Skills:**
 - `/pgoell-claude-tools:writing`: orchestrates the full pipeline with phase-selectable resume. Ships with a default style guide that any project can override.
