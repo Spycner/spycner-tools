@@ -1,0 +1,1 @@
+Help me build a pyramid interactively in a Socratic dialogue. Ask me one question at a time and I'll answer; the pyramid should emerge from the conversation.
