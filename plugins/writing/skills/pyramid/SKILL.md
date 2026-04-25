@@ -1,6 +1,6 @@
 ---
 name: pyramid
-description: Use when the user wants a pyramid-structured outline (Barbara Minto's pyramid principle) for a memo, recommendation, briefing, decision document, or analytical report; or wants to restructure an existing draft into pyramid form; or explicitly asks for pyramid structure, Minto structure, SCQA, MECE, so-what logic, or pyramid-ify on ANY piece of writing (including borderline genres like essays, where the intake phase surfaces a domain-limits gate offering to switch to the writing skill). Two construction modes (greenfield, restructure). Orchestrates a five-phase pipeline: intake with domain-limits gate, construct, parallel audit panel of MECE / So-What / Q-A Alignment / Inductive-Deductive, SCQA opener, render. Trigger heuristic: any explicit mention of pyramid, Minto, SCQA, MECE, or pyramid-style outline activates this skill. Bare requests to "draft" or "write" a narrative, personal essay, or exploratory piece (without a pyramid mention) should go to the writing skill instead.
+description: Use when the user wants a pyramid-structured outline (Barbara Minto's pyramid principle) for a memo, recommendation, briefing, decision document, or analytical report; or wants to restructure an existing draft into pyramid form; or explicitly asks for pyramid structure, Minto structure, SCQA, MECE, so-what logic, or pyramid-ify on ANY piece of writing (including borderline genres like essays, where the intake phase surfaces a domain-limits gate offering to switch to the writing skill). Three construction modes (greenfield, restructure, socratic interactive dialogue). Orchestrates a five-phase pipeline: intake with domain-limits gate, construct, parallel audit panel of MECE / So-What / Q-A Alignment / Inductive-Deductive, SCQA opener, render. Trigger heuristic: any explicit mention of pyramid, Minto, SCQA, MECE, or pyramid-style outline activates this skill. Bare requests to "draft" or "write" a narrative, personal essay, or exploratory piece (without a pyramid mention) should go to the writing skill instead.
 ---
 
 # Pyramid Skill
@@ -79,7 +79,8 @@ Dispatch each phase agent via the Agent tool. The orchestrator injects context i
 #### Dispatch conventions (apply to every phase)
 
 - **`{OUTPUT_PATH}` is always the working directory**, never a file path. Each prompt file appends its own filename.
-- **Prompt file extraction.** Each prompt file documents the dispatched prompt inside a fenced block under the `**Dispatch:**` header. The simplest robust approach: read the entire prompt file as text, perform placeholder substitution (`{OUTPUT_PATH}`, `{REFERENCE_PATH}`, `{REVIEWER_FEEDBACK}`, `{YYYY-MM-DD}`), and pass the full result to the Agent tool. The dispatched agent ignores the surrounding commentary because the actionable instructions sit inside the visible prompt body.
+- **Prompt file extraction.** Each prompt file documents the dispatched prompt inside a fenced block under the `**Dispatch:**` header. The simplest robust approach: read the entire prompt file as text, perform placeholder substitution (`{OUTPUT_PATH}`, `{REFERENCE_PATH}`, `{REVIEWER_FEEDBACK}`, `{HANDOFF}`, `{YYYY-MM-DD}`), and pass the full result to the Agent tool. The dispatched agent ignores the surrounding commentary because the actionable instructions sit inside the visible prompt body.
+- **`{HANDOFF}` default.** When dispatching `construct-greenfield-prompt.md` in fresh-build or re-dispatch (CRITICAL audit) cases, substitute `{HANDOFF}` with `false`. Substitute `true` only when handing off mid-Mode-D dialogue, or when re-dispatching a Mode-D-built pyramid after a CRITICAL audit. The greenfield prompt's `## Handoff mode` section keys off this value.
 - **Reviewer feedback injection.** When `{REVIEWER_FEEDBACK}` is non-empty (re-dispatch on a failed audit gate, or after a MISMATCH the user asked to revise), append this standing instruction to the dispatched prompt, regardless of what the prompt template itself says: *"Reviewer feedback is provided above. Read the existing artifact in the output directory, address the specific concerns, and update the file in place rather than starting fresh."*
 - **Date substitution.** `{YYYY-MM-DD}` resolves to today's date in ISO format.
 
@@ -89,25 +90,42 @@ Dispatch each phase agent via the Agent tool. The orchestrator injects context i
 
 Orchestrator-only, interactive. No Agent dispatch.
 
-1. **Mode.** Ask via AskUserQuestion: *Greenfield (I have a topic and want a fresh pyramid outline) / Restructure (I have an existing draft and want to pyramid-ify it)*. Always ask, even if `--mode` was passed; the flag only pre-selects the option. This prevents "surprise wrong mode" failures.
+1. **Mode.** Ask via AskUserQuestion: *Greenfield (I have a topic and want a fresh pyramid outline) / Restructure (I have an existing draft and want to pyramid-ify it) / Socratic (walk me through it question by question, interactive dialogue)*. Always ask, even if `--mode` was passed; the flag only pre-selects the option. This prevents "surprise wrong mode" failures.
 2. **Genre.** Ask via AskUserQuestion: *Memo / Recommendation / Briefing / Strategy doc / Case interview answer / Project proposal / Postmortem / Other (describe)*. Map to the lists in reference section 11.
 3. **Domain-limits gate.** If the genre falls in the "Does not work for" list from reference section 11 (narrative longform, personal essay, exploratory or discovery document, emotionally-driven persuasion, creative writing, in-progress thinking, pedagogical walk-through), surface the mismatch via AskUserQuestion with three options: *Proceed anyway (I understand the pyramid may be the wrong frame) / Switch: route me to the writing skill instead / Cancel*. Honor the choice. If the user proceeds anyway, record `genre_override: true` in intake.md so Phase 5 can prepend a caveat to Audit notes.
+   *Run only the input step matching the mode chosen in step 1; skip the others.*
 4. **Mode A (Greenfield) inputs.** Ask for topic, audience, and the reader question (the question you expect the reader to have, which the apex will answer). Use AskUserQuestion or simple prompts as appropriate.
 5. **Mode B (Restructure) inputs.** Ask for the draft path (absolute path to a markdown file) OR accept the draft pasted inline. If pasted inline, write it to `{OUTPUT_PATH}/draft.md`. Either way, the construct agent reads `draft.md` from the working directory.
-6. **Write intake.md** with fields: `mode`, `topic_or_draft_path`, `audience`, `reader_question`, `genre`, `domain_limits_acknowledged`, `genre_override`.
-7. Mark the Phase 1 task completed.
+6. **Mode D (Socratic) inputs.** Same as Mode A: ask for topic, audience, and the reader question. The dialogue itself runs in Phase 2, not in intake. Do NOT collect a draft; Mode D builds the pyramid from scratch with the writer.
+7. **Write intake.md** with fields: `mode`, `topic_or_draft_path`, `audience`, `reader_question`, `genre`, `domain_limits_acknowledged`, `genre_override`.
+8. Mark the Phase 1 task completed.
 
 ### Phase 2: Construct
 
-One Agent dispatch, mode-branched.
+Mode-branched. Modes A and B run as one Agent dispatch. Mode D runs as an orchestrator-only turn loop with no Agent dispatch.
+
+**Modes A (Greenfield) and B (Restructure):**
 
 1. Read `construct-greenfield-prompt.md` if `mode == greenfield`, or `construct-restructure-prompt.md` if `mode == restructure`.
-2. Inject: output path, reference path, empty reviewer feedback (on first dispatch; populated on re-dispatch), today's date.
+2. Inject: output path, reference path, empty reviewer feedback (on first dispatch; populated on re-dispatch), `{HANDOFF}` set to `false`, today's date.
 3. Dispatch via Agent tool.
 4. Verify `{OUTPUT_PATH}/construction.md` exists. For Mode B (restructure), also verify `{OUTPUT_PATH}/restructure-notes.md` exists.
 5. Mark task completed.
 
 On re-dispatch (after a CRITICAL audit gate), inject `audit-summary.md` content as `{REVIEWER_FEEDBACK}` so the construct agent updates `construction.md` in place to address the flagged issues rather than rebuilding from scratch.
+
+**Mode D (Socratic):**
+
+1. Read `construct-socratic-prompt.md`. This file is an orchestrator playbook, NOT an Agent dispatch prompt. The orchestrator owns the loop; no Agent is dispatched in Phase 2 for Mode D.
+2. Run the turn loop the playbook specifies: each turn is one `AskUserQuestion` plus one inline micro-audit. After each accepted turn, write the partial `{OUTPUT_PATH}/construction.md` in the standard schema with `<pending>` placeholders for unanswered nodes; emit a one-line progress summary to the user.
+3. Every `AskUserQuestion` carries four standard options: *Other (type my answer)* (the freeform answer field), *Hand off remaining tiers to Mode A*, *Pause and resume later*, *Cancel*.
+4. **Hand-off to Mode A.** If the user picks *Hand off remaining tiers to Mode A* at any turn: update the state file's `mode` to `greenfield` and add `handoff_from: socratic`; read `construct-greenfield-prompt.md`, set `{HANDOFF}` to `true`, dispatch the greenfield agent. Phase 2 continues from the agent's output; Phases 3-5 run unchanged on the merged pyramid.
+5. **Pause.** If the user picks *Pause and resume later*: write the state file with `mode: socratic`, `last_completed_phase: intake`, `last_run_at: <now>`. Emit a one-line confirmation and exit.
+6. **Cancel.** Same semantics as Cancel in Modes A and B: working directory artifacts left in place; state file entry removed.
+7. **Resume.** Next `/pyramid` invocation in this directory: state file with `mode: socratic` and `last_completed_phase: intake` triggers an `AskUserQuestion`: *"In-flight Socratic dialogue found. Resume from <next-turn description>?"*. On yes, read `construction.md`, count populated nodes vs `<pending>` placeholders to infer next turn, re-enter the loop.
+8. When all turns complete, verify `{OUTPUT_PATH}/construction.md` exists and contains no `<pending>` placeholders. Mark task completed.
+
+On re-dispatch (after a CRITICAL audit gate from Phase 3), Mode D's pyramid is treated as the user-built ground truth: re-dispatch goes to `construct-greenfield-prompt.md` with `{HANDOFF}` set to `true` and `{REVIEWER_FEEDBACK}` populated, so the agent updates the construction in place rather than restarting the dialogue.
 
 ### Phase 3: Audit panel
 
@@ -247,9 +265,13 @@ Present `pyramid.md` and `audit-summary.md` to the user.
   - `opener` needs `construction.md` (and benefits from `audit-summary.md` for MINOR flags).
   - `render` needs `construction.md` AND `opener.md` (and `audit-summary.md` for the notes section).
   If the user invokes `--phase X` on a directory missing the upstream artifact, ask via AskUserQuestion whether to (a) run the missing upstream phase first, (b) accept a degraded run (only safe for render without opener.md, which renders S-and-A placeholder in place of the SCQA line), or (c) cancel and let the user produce the artifact manually.
-- **Unknown mode value** (state file contains a value other than `greenfield` or `restructure`): warn once, fall back to asking the user via AskUserQuestion, and record the corrected value in the state file.
+- **Unknown mode value** (state file contains a value other than `greenfield`, `restructure`, or `socratic`): warn once, fall back to asking the user via AskUserQuestion, and record the corrected value in the state file.
 - **Mode A (Greenfield) with a draft present in cwd**: if `draft.md` already exists in the working directory but the user picked greenfield, surface the file and ask: *"A draft is present in this directory. Did you mean Restructure mode?"* via AskUserQuestion. Accept the answer and proceed.
 - **Mode B (Restructure) with an empty or missing draft**: if `draft.md` is empty (zero bytes) or the provided path does not exist, ask the user to supply the draft or bail to Mode A (Greenfield).
+- **Mode D (Socratic) repeated block on the same turn**: after two failed attempts on a hard-blocked turn (apex is a label, sibling is a label, sibling count exceeds 5), soften to a warning on the third attempt: *"Letting this through. The audit panel will flag it formally."* Caps user frustration without abandoning the discipline.
+- **Mode D with existing `construction.md` from a prior run**: ask via AskUserQuestion *Reset and rebuild via dialogue / Keep existing pyramid (no Mode D needed) / Cancel*. Honor the choice.
+- **Mode D empty answer in the freeform field**: re-ask the question without consuming a turn.
+- **Mode D phase-jump invocation (`--phase construct --mode socratic` on a directory without `intake.md`)**: same handling as Mode A; ask whether to run intake first.
 - **Domain-limits gate override**: the user chose *Proceed anyway* despite a mismatched genre. The pipeline continues normally. Phase 5 render prepends a caveat to the Audit notes section (see Phase 5 above).
 
 ## State File Format
@@ -270,7 +292,7 @@ Present `pyramid.md` and `audit-summary.md` to the user.
 }
 ```
 
-Recognised mode values: `greenfield`, `restructure`. Key by absolute working-directory path so multiple in-flight pyramids in the same project each have their own state.
+Recognised mode values: `greenfield`, `restructure`, `socratic`. Key by absolute working-directory path so multiple in-flight pyramids in the same project each have their own state. After a Mode-D-to-Mode-A hand-off, the `mode` field becomes `greenfield` and an optional `handoff_from: socratic` field is added.
 
 ## Phase Identifier Names
 
