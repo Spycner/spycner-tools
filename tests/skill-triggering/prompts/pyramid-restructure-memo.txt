@@ -1,0 +1,1 @@
+I have this draft memo but the ask is buried at the end and the supporting reasons feel repetitive. Can you pyramid-ify it? The file is at ./draft-q3-churn.md.

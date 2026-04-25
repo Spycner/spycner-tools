@@ -25,8 +25,8 @@
     {
       "name": "writing",
       "source": "./plugins/writing",
-      "description": "Multi-phase writing pipeline with panel-of-critics review for blog posts, essays, talks, and longer-form prose. Format-aware: Smart-Brevity critic added for memo/newsletter/announcement formats.",
-      "version": "1.2.0"
+      "description": "Multi-phase writing pipeline with panel-of-critics review for blog posts, essays, talks, and longer-form prose. Format-aware: Smart-Brevity critic added for memo/newsletter/announcement formats. Also ships a dedicated Pyramid Principle skill (Barbara Minto) with three construction modes: greenfield outline, restructure of existing prose, and Socratic interactive dialogue.",
+      "version": "1.4.0"
     }
   ]
 }
