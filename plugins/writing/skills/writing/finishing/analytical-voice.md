@@ -4,7 +4,7 @@
 
 **Dispatch:** Fourth and final finishing pass for analytical formats. Replaces the Sedaris pass for memo/briefing/announcement formats. Reads `draft.md`, `intake.md` (audience, reader question, genre), `pyramid.md` (apex and SCQA opener for cross-check), `audit-summary.md` (any MINOR flags worth resurfacing), and the active style guide. Updates `draft.md` in place. Appends to `finishing-notes.md`.
 
-```
+````
 Agent tool (general-purpose):
   description: "Analytical voice pass"
   prompt: |
@@ -90,4 +90,4 @@ Agent tool (general-purpose):
     ## Reviewer Feedback
 
     {REVIEWER_FEEDBACK}
-```
+````
