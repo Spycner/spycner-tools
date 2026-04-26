@@ -80,7 +80,7 @@ Scan the working directory for existing artifacts. Two artifact families exist d
 - `construction.md` exists → pyramid construct (Phase 2 substep) complete
 - `audit-summary.md` exists → pyramid audit (Phase 2 substep) complete
 - `opener.md` exists → pyramid opener (Phase 2 substep) complete
-- pyramid.md exists → pyramid render (Phase 2) complete; outline equivalent ready for throughline
+- `pyramid.md` exists → pyramid render (Phase 2) complete; outline equivalent ready for throughline
 - `throughline.md` exists → throughline phase complete
 - `draft.md` exists → draft phase complete
 - `critique.md` exists → panel phase complete
