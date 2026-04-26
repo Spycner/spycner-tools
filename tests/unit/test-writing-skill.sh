@@ -117,7 +117,7 @@ if grep -qE 'Pyramid intake|Pyramid construct' "$WRITING_SKILL"; then
 else
     echo "  [FAIL] writing SKILL.md Step 5 missing analytical task list variant"
 fi
-if grep -qE 'Phase 1.*[Aa]nalytical|Analytical format.*intake' "$WRITING_SKILL"; then
+if grep -qE "^#### Phase 1.*Pyramid intake" "$WRITING_SKILL"; then
     echo "  [PASS] writing SKILL.md Phase 1 has analytical branch"
 else
     echo "  [FAIL] writing SKILL.md Phase 1 missing analytical branch"
