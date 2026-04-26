@@ -107,6 +107,11 @@ if grep -qE 'analytical formats?' "$WRITING_SKILL"; then
 else
     echo "  [FAIL] writing SKILL.md does not mention analytical formats"
 fi
+if grep -qE 'pyramid\.md exists' "$WRITING_SKILL"; then
+    echo "  [PASS] writing SKILL.md Step 4 mentions pyramid.md artifact"
+else
+    echo "  [FAIL] writing SKILL.md Step 4 does not mention pyramid.md artifact"
+fi
 echo ""
 
 echo "=== writing skill tests complete ==="

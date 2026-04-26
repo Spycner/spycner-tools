@@ -65,9 +65,22 @@ Surface the active format in the first response alongside the style guide: "Form
 
 ### Step 4: Determine starting phase
 
-Scan the working directory for existing artifacts:
+Scan the working directory for existing artifacts. Two artifact families exist depending on format:
+
+**Narrative format artifacts (essay, blog, talk, newsletter):**
 - `interview-synthesis.md` exists → interview phase complete
 - `outline.md` exists → outline phase complete
+- `throughline.md` exists → throughline phase complete
+- `draft.md` exists → draft phase complete
+- `critique.md` exists → panel phase complete
+- `finishing-notes.md` exists → finishing phase has started or completed
+
+**Analytical format artifacts (memo, briefing, announcement):**
+- `intake.md` exists → pyramid intake (Phase 1) complete
+- `construction.md` exists → pyramid construct (Phase 2 substep) complete
+- `audit-summary.md` exists → pyramid audit (Phase 2 substep) complete
+- `opener.md` exists → pyramid opener (Phase 2 substep) complete
+- pyramid.md exists → pyramid render (Phase 2) complete; outline equivalent ready for throughline
 - `throughline.md` exists → throughline phase complete
 - `draft.md` exists → draft phase complete
 - `critique.md` exists → panel phase complete
