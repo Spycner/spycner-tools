@@ -11,7 +11,7 @@ Multi-phase writing pipeline with a panel of specialised critics. Modeled on Kat
 
 ## Tool Preference
 
-1. **Agent tool**: to dispatch phase agents (interview, outline, draft) and critics (Hemingway, Hitchcock, Mom reader, Asshole reader, Clarity, Usage, Steel-man, plus Smart-Brevity for memo/newsletter/announcement formats) and finishing passes (AI-pattern detector, style enforcer, line editor, Sedaris). The throughline gate runs in the orchestrator and does not dispatch an agent.
+1. **Agent tool**: to dispatch phase agents (interview, outline, draft, plus the dispatched pyramid pipeline for analytical formats) and critics (Hemingway, Hitchcock, Mom reader, Asshole reader, Clarity, Usage, Steel-man, plus Smart-Brevity for memo/newsletter/announcement formats) and finishing passes (AI-pattern detector, style enforcer, line editor, Sedaris for narrative formats or analytical-voice for analytical formats). The throughline gate runs in the orchestrator and does not dispatch an agent.
 2. **Read**: to load prompt templates and existing artifacts
 3. **Bash**: for directory creation, file existence checks, state file read/write
 4. **TaskCreate / TaskUpdate**: to surface progress through the pipeline visibly
@@ -395,7 +395,7 @@ Present the final draft and a summary of what each pass did.
 }
 ```
 
-Recognised format values: `essay`, `blog`, `talk`, `newsletter`, `memo`, `announcement`, `briefing`. Defaults to `essay` if absent. The format drives panel composition (Smart-Brevity critic added for `memo`, `newsletter`, `announcement`). A future change (issue #11) will add pyramid-structured outlines via a dedicated skill that the writing skill dispatches to.
+Recognised format values: `essay`, `blog`, `talk`, `newsletter`, `memo`, `announcement`, `briefing`. Defaults to `essay` if absent. The format drives panel composition (Smart-Brevity critic added for `memo`, `newsletter`, `announcement`). For analytical formats (`memo`, `briefing`, `announcement`), the writing skill dispatches Phases 1 and 2 to the pyramid skill; see Phase 1 and Phase 2 above.
 
 The state file is keyed by working directory so multiple in-flight pieces in the same project can each have their own state.
 
