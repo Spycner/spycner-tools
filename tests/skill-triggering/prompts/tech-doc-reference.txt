@@ -1,0 +1,1 @@
+Document this CLI command as a reference page. It's called `deploy-svc` and takes a service name and an optional --region flag.

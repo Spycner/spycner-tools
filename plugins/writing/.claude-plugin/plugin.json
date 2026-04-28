@@ -1,6 +1,6 @@
 {
   "name": "writing",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Multi-phase writing pipeline with panel-of-critics review for blog posts, essays, talks, and longer-form prose. Also ships a dedicated Pyramid Principle skill for memos, recommendations, and analytical documents.",
   "author": {
     "name": "Pascal Kraus"

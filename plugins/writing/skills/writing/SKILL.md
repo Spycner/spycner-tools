@@ -49,17 +49,19 @@ Panel composition and the outline / draft phases change based on format. The pip
 Supported formats:
 - Narrative: `essay` (default), `blog`, `talk`, `newsletter`
 - Analytical: `memo`, `briefing`, `announcement`
+- Technical: `tutorial`, `how-to`, `reference`, `explanation`
 
 Resolution order:
 1. Explicit flag: `--format <format>`
 2. State memory: the state file's recorded format for this project
-3. Default silently to `essay` and surface the default in the first response with an inline change hint: "Format: essay (default). Pass `--format memo|briefing|announcement|newsletter|blog|talk` to change."
+3. Default silently to `essay` and surface the default in the first response with an inline change hint: "Format: essay (default). Pass `--format memo|briefing|announcement|newsletter|blog|talk|tutorial|how-to|reference|explanation` to change."
 
 Ask via AskUserQuestion only when the working directory name or the interview synthesis strongly signals a different format than the recorded state (for example, a state-stored `essay` format but the working directory is `memos/q3-roadmap-2026-04-23/`). In ambiguous cases, surface both candidates and let the user pick. Otherwise, resolve silently.
 
 Format gates:
 - **Pyramid pipeline:** analytical formats (`memo`, `briefing`, `announcement`) skip writing's interview and outline phases entirely. Phase 1 dispatches the pyramid skill's intake; Phase 2 dispatches pyramid's construct, audit, opener, and render phases. The pyramid pipeline produces `pyramid.md`, which is then consumed by writing's throughline (Phase 3) and analytical draft (Phase 4) phases.
 - **Smart-Brevity critic:** formats `memo`, `newsletter`, `announcement` add the Smart-Brevity critic to the panel fan-out. Other formats run the default seven-critic panel. Note: `briefing` does NOT add Smart-Brevity, because briefings are dense by construction and the Smart-Brevity lens has lower signal there.
+- **Tech-doc pipeline:** technical formats (`tutorial`, `how-to`, `reference`, `explanation`) skip writing's interview, outline, draft, panel, and finishing phases entirely. Phase 1 dispatches the tech-doc skill's intake; Phase 2 dispatches tech-doc's outline + throughline + draft + panel + finishing as one cohesive sub-pipeline. Writing's Phase 5 (panel) and Phase 6 (finishing) are skipped because tech-doc owns end-to-end. The tech-doc pipeline produces `draft.md`, `critique.md`, `finishing-notes.md`, and `glossary.md`.
 
 Surface the active format in the first response alongside the style guide: "Format: {format}. Using style guide: {path}". Record the format in the state file under the project key.
 
@@ -85,6 +87,17 @@ Scan the working directory for existing artifacts. Two artifact families exist d
 - `draft.md` exists → draft phase complete
 - `critique.md` exists → panel phase complete
 - `finishing-notes.md` exists → finishing phase has started or completed
+
+**Technical format artifacts (tutorial, how-to, reference, explanation):**
+- `intake.md` exists → tech-doc intake (Phase 1) complete
+- `outline.md` exists (tutorial/how-to/explanation) OR `schema.md` exists (reference) → tech-doc outline (Phase 2 substep) complete
+- `throughline.md` exists → tech-doc throughline (Phase 2 substep) complete
+- `draft.md` exists → tech-doc draft (Phase 2 substep) complete
+- `critique.md` exists → tech-doc panel complete (Phase 2 sub-substep)
+- `finishing-notes.md` exists → tech-doc finishing has started or completed (Phase 2 sub-substep)
+- `glossary.md` exists → tech-doc terminology-consistency pass has run
+
+For technical formats, writing's phase identifiers map to tech-doc's: writing's "Phase 1" is tech-doc's intake; writing's "Phase 2" is tech-doc's everything-after-intake.
 
 Determine the latest completed phase. Present to user:
 - "I see you have completed phases X. Resume from {next phase}?"
@@ -146,6 +159,20 @@ Use TaskCreate to add one task per phase that will run, plus sub-tasks for the p
    └── Analytical voice
 ```
 
+**Technical format task list** (tutorial, how-to, reference, explanation):
+
+```
+1. Phase 1: Tech-doc intake (quadrant-specific)
+2. Phase 2: Tech-doc pipeline (outline, throughline, draft, panel, finishing)
+   ├── Outline (or schema for reference)
+   ├── Throughline gate
+   ├── Draft (quadrant-specific)
+   ├── Panel review (7 critics, quadrant-gated composition)
+   └── Finishing (AI-pattern, style-enforcer-tech, terminology-consistency)
+```
+
+The technical pipeline is one-shot from writing's perspective: writing dispatches to tech-doc once and tech-doc owns end-to-end. The expanded sub-tree is shown for visibility into what's running.
+
 For phase-selectable runs, only the requested phases get tasks.
 
 Mark each task as `in_progress` when starting, `completed` when the artifact is verified.
@@ -184,6 +211,17 @@ Skip writing's interview entirely. Run the pyramid skill's Phase 1 (intake) in *
 
 The orchestrator (Claude at runtime) reads pyramid SKILL.md sections at dispatch time. No code or prompt files are duplicated; the dispatched mode is an instruction overlay applied to pyramid's standalone Phase 1.
 
+**Technical formats** (tutorial, how-to, reference, explanation):
+
+Skip writing's interview entirely. Run the tech-doc skill's Phase 1 (intake) in dispatched mode as documented in `plugins/writing/skills/tech-doc/SKILL.md`, with these adjustments:
+
+1. **Quadrant (always-asked step in tech-doc intake):** pre-fill from the writing skill's resolved format. `tutorial` → quadrant `tutorial`, `how-to` → quadrant `how-to`, `reference` → quadrant `reference`, `explanation` → quadrant `explanation`. Surface the pre-fill in a one-line confirmation: "Quadrant: {quadrant} (from format)." Tech-doc's standalone path always asks the quadrant question; in dispatched mode, accept the format-derived value and skip the question.
+2. **Style preset:** dispatch with `--style-preset` set per writing's resolved style guide if it matches a preset (`google`, `microsoft`, or `house`). Otherwise default to `house`.
+3. **Write intake.md field:** add `dispatched_from: writing` to the intake.md fields so resume logic can distinguish dispatched-mode intake from a standalone tech-doc run. (Mirrors the analytical dispatch's `dispatched_from: writing` field added to pyramid's intake.md.)
+4. **Mark Phase 1 task completed** when `intake.md` exists.
+
+The orchestrator (Claude at runtime) reads tech-doc SKILL.md sections at dispatch time. No code or prompt files are duplicated.
+
 #### Phase 2: Outline (narrative formats) or Pyramid pipeline (analytical formats)
 
 **Narrative formats** (essay, blog, talk, newsletter):
@@ -208,7 +246,21 @@ Run pyramid skill's Phases 2 through 5 (construct, audit, opener, render) inline
 
 After Phase 2 completes, the working directory contains `intake.md`, `construction.md`, `audit-summary.md`, `opener.md`, and `pyramid.md`. The throughline phase reads `pyramid.md`'s apex line; the analytical draft phase reads `pyramid.md` whole.
 
+**Technical formats** (tutorial, how-to, reference, explanation):
+
+Run tech-doc skill's Phases 2-6 (outline, throughline, draft, panel, finishing) inline as documented in `plugins/writing/skills/tech-doc/SKILL.md`. The tech-doc pipeline is reused unchanged; the orchestrator follows tech-doc SKILL.md for each phase.
+
+1. **Tech-doc Phase 2 (Outline):** dispatch the outline phase per `tech-doc/SKILL.md`. Verify `outline.md` (tutorial/how-to/explanation) or `schema.md` (reference) exists.
+2. **Tech-doc Phase 3 (Throughline gate):** orchestrator-only. Apply tech-doc's gate per quadrant.
+3. **Tech-doc Phase 4 (Draft):** dispatch the quadrant-specific draft agent.
+4. **Tech-doc Phase 5 (Panel):** fan out 7 critics in parallel per quadrant. Apply tech-doc's CRITICAL re-dispatch logic verbatim.
+5. **Tech-doc Phase 6 (Finishing):** three sequential passes (AI-pattern detector, style-enforcer-tech, terminology-consistency).
+6. Surface `draft.md`, `glossary.md`, and `finishing-notes.md` to the user.
+7. Mark task completed.
+
 #### Phase 3: Throughline
+
+**For technical formats (tutorial, how-to, reference, explanation):** SKIPPED. Tech-doc's throughline gate has already run during the dispatch in writing's Phase 2. Mark phase task completed and proceed to Phase 4.
 
 Orchestrator-only synchronous gate. No agent dispatch. Happens after Phase 2 completes, before the draft agent is dispatched. If the writer cannot compress the piece into ten words, the piece is not ready to draft.
 
@@ -225,6 +277,8 @@ Orchestrator-only synchronous gate. No agent dispatch. Happens after Phase 2 com
 **Edge case for analytical formats:** if `pyramid.md` lacks a `## Apex` header (e.g., a degraded MISMATCH render), fall back to reading `construction.md` and extracting the apex node directly. If neither is parseable, ask the user for the apex sentence directly before running the gate.
 
 #### Phase 4: Draft
+
+**For technical formats (tutorial, how-to, reference, explanation):** SKIPPED. Tech-doc's draft agent has already run during the dispatch in writing's Phase 2. Mark phase task completed and proceed to Phase 5.
 
 **Narrative formats** (essay, blog, talk, newsletter):
 
@@ -243,6 +297,8 @@ Orchestrator-only synchronous gate. No agent dispatch. Happens after Phase 2 com
 5. Mark task completed
 
 #### Phase 5: Panel review
+
+**For technical formats (tutorial, how-to, reference, explanation):** SKIPPED. Tech-doc's Phase 5 has already run during the dispatch in writing's Phase 2. Mark phase task completed and proceed to Phase 6.
 
 Fan out: dispatch all critic agents in parallel (single message with multiple Agent tool calls). The critic set depends on format.
 
@@ -323,6 +379,8 @@ Mark phase task completed when verdict allows progression or user overrides.
 
 #### Phase 6: Finishing
 
+**For technical formats (tutorial, how-to, reference, explanation):** SKIPPED. Tech-doc's Phase 6 has already run during the dispatch in writing's Phase 2. Present the final artifacts to the user and proceed to Step 7.
+
 Sequential, NOT parallel. Each pass updates the draft in place; later passes need the earlier passes' changes.
 
 **Narrative formats** (essay, blog, talk, newsletter): run the four passes in this order:
@@ -376,6 +434,10 @@ Present the final draft and a summary of what each pass did.
 - **Format mismatch on resume**: state file recorded format `essay` but the working directory contains `pyramid.md`, or recorded `memo` but contains `outline.md`. Ask via AskUserQuestion which format applies; record the corrected value.
 - **Pyramid CRITICAL audit gate fails twice during dispatched run**: pyramid's standard handling applies (present remaining critical issues, ask whether to continue to opener with known issues, pause for manual intervention, or cancel). The writing skill does NOT add a second layer of gate handling on top.
 - **Pyramid MISMATCH on opener**: pyramid's standard handling applies. If the user accepts the degraded opener (S and A only), the analytical draft prompt still works because it reads `pyramid.md` and the partial opener renders correctly.
+- **Missing prerequisite artifact on phase jump (technical):** intake reads no upstream; outline reads `intake.md`; throughline reads `outline.md`/`schema.md`; draft reads `intake.md`, `outline.md`/`schema.md`, optionally `throughline.md`; panel reads `draft.md`; finishing reads `draft.md`. Apply the same three-option pattern (run upstream / accept degraded / cancel) on phase-jump with missing upstream.
+- **Tech-doc panel CRITICAL gate fails twice during dispatched run:** tech-doc's standard handling applies (present remaining critical issues, ask whether to continue to finishing with known issues, pause, or cancel). Writing skill does NOT add a second gate handling layer.
+- **Tech-doc quadrant-fit CRITICAL persistent:** tech-doc's standard handling applies (offer to switch quadrant). If the user chooses to switch, the working directory may need to be reset. Tech-doc owns this.
+- **Format mismatch on resume (technical):** state file recorded format `tutorial` but working directory contains pyramid artifacts (e.g., `intake.md` with `genre: Memo`), or pyramid was the intended track but `intake.md` has `dispatched_from: writing` and a `quadrant:` field. Use the `dispatched_from` field and the presence of `quadrant:` (technical) vs. `genre:` (analytical) to disambiguate. Ask via AskUserQuestion which format applies; record the corrected value.
 
 ## State File Format
 
@@ -395,7 +457,7 @@ Present the final draft and a summary of what each pass did.
 }
 ```
 
-Recognised format values: `essay`, `blog`, `talk`, `newsletter`, `memo`, `announcement`, `briefing`. Defaults to `essay` if absent. The format drives panel composition (Smart-Brevity critic added for `memo`, `newsletter`, `announcement`). For analytical formats (`memo`, `briefing`, `announcement`), the writing skill dispatches Phases 1 and 2 to the pyramid skill; see Phase 1 and Phase 2 above.
+Recognised format values: `essay`, `blog`, `talk`, `newsletter`, `memo`, `announcement`, `briefing`, `tutorial`, `how-to`, `reference`, `explanation`. Defaults to `essay` if absent. The format drives panel composition (Smart-Brevity critic added for `memo`, `newsletter`, `announcement`) and pipeline routing. For analytical formats (`memo`, `briefing`, `announcement`), the writing skill dispatches Phases 1 and 2 to the pyramid skill. For technical formats (`tutorial`, `how-to`, `reference`, `explanation`), the writing skill dispatches Phases 1 and 2 to the tech-doc skill, which owns Phases 5 and 6 (panel and finishing) as part of its dispatched pipeline; writing's Phases 5 and 6 are skipped.
 
 The state file is keyed by working directory so multiple in-flight pieces in the same project can each have their own state.
 

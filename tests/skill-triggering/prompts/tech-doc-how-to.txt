@@ -1,0 +1,1 @@
+Write a how-to guide for upgrading from Python 3.11 to 3.12 in a production Django project. The reader knows Django; they just need the upgrade steps.
