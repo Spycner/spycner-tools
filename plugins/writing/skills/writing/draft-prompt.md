@@ -4,7 +4,7 @@
 
 **Dispatch:** Fourth agent in the pipeline. Reads `outline.md`, `interview-synthesis.md`, `throughline.md` (if present), and the active style guide. Writes `draft.md`.
 
-```
+````
 Agent tool (general-purpose):
   description: "Draft the full prose"
   prompt: |
@@ -77,4 +77,4 @@ Agent tool (general-purpose):
     If reviewer feedback is provided above, read the existing draft at
     `{OUTPUT_PATH}/draft.md`, address the specific issues raised, and update the
     file in place.
-```
+````

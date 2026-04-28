@@ -93,4 +93,87 @@ assert_contains "$output" "[Mm]emo|[Nn]ewsletter|[Aa]nnouncement" "Mentions whic
 assert_contains "$output" "[Aa]xios|muscular|takeaway|scannable|short" "Mentions smart-brevity tenets" || true
 echo ""
 
+# Test 11: Pyramid dispatch in description
+echo "Test 11: Pyramid dispatch in description and Step 3..."
+SKILL_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)/plugins/writing/skills/writing"
+WRITING_SKILL="$SKILL_DIR/SKILL.md"
+if grep -qE 'pyramid|Minto' "$WRITING_SKILL"; then
+    echo "  [PASS] writing SKILL.md mentions pyramid/Minto"
+else
+    echo "  [FAIL] writing SKILL.md does not mention pyramid dispatch"
+fi
+if grep -qE 'analytical formats?' "$WRITING_SKILL"; then
+    echo "  [PASS] writing SKILL.md mentions analytical formats"
+else
+    echo "  [FAIL] writing SKILL.md does not mention analytical formats"
+fi
+if grep -qE 'pyramid\.md.{0,2}exists' "$WRITING_SKILL"; then
+    echo "  [PASS] writing SKILL.md Step 4 mentions pyramid.md artifact"
+else
+    echo "  [FAIL] writing SKILL.md Step 4 does not mention pyramid.md artifact"
+fi
+if grep -qE 'Pyramid intake|Pyramid construct' "$WRITING_SKILL"; then
+    echo "  [PASS] writing SKILL.md Step 5 has analytical task list variant"
+else
+    echo "  [FAIL] writing SKILL.md Step 5 missing analytical task list variant"
+fi
+if grep -qE "^#### Phase 1.*Pyramid intake" "$WRITING_SKILL"; then
+    echo "  [PASS] writing SKILL.md Phase 1 has analytical branch"
+else
+    echo "  [FAIL] writing SKILL.md Phase 1 missing analytical branch"
+fi
+if grep -qE '^#### Phase 2.*Pyramid pipeline' "$WRITING_SKILL"; then
+    echo "  [PASS] writing SKILL.md Phase 2 has pyramid pipeline dispatch"
+else
+    echo "  [FAIL] writing SKILL.md Phase 2 missing pyramid pipeline dispatch"
+fi
+if grep -qE 'RETURN TO PYRAMID' "$WRITING_SKILL"; then
+    echo "  [PASS] writing SKILL.md Phase 3 reads apex from pyramid.md"
+else
+    echo "  [FAIL] writing SKILL.md Phase 3 missing apex from pyramid.md"
+fi
+DRAFT_ANALYTICAL_PROMPT="$SKILL_DIR/draft-analytical-prompt.md"
+if [ -f "$DRAFT_ANALYTICAL_PROMPT" ]; then
+    echo "  [PASS] draft-analytical-prompt.md exists"
+    if grep -qF 'pyramid.md' "$DRAFT_ANALYTICAL_PROMPT"; then
+        echo "  [PASS] draft-analytical-prompt.md reads pyramid.md"
+    else
+        echo "  [FAIL] draft-analytical-prompt.md does not read pyramid.md"
+    fi
+    if grep -qE 'apex|SCQA' "$DRAFT_ANALYTICAL_PROMPT"; then
+        echo "  [PASS] draft-analytical-prompt.md references apex/SCQA"
+    else
+        echo "  [FAIL] draft-analytical-prompt.md missing apex/SCQA references"
+    fi
+else
+    echo "  [FAIL] draft-analytical-prompt.md not found"
+fi
+if grep -qE 'draft-analytical-prompt' "$WRITING_SKILL"; then
+    echo "  [PASS] writing SKILL.md Phase 4 references draft-analytical-prompt"
+else
+    echo "  [FAIL] writing SKILL.md Phase 4 missing draft-analytical-prompt reference"
+fi
+ANALYTICAL_VOICE_PROMPT="$SKILL_DIR/finishing/analytical-voice.md"
+if [ -f "$ANALYTICAL_VOICE_PROMPT" ]; then
+    echo "  [PASS] finishing/analytical-voice.md exists"
+    if grep -qF 'intake.md' "$ANALYTICAL_VOICE_PROMPT"; then
+        echo "  [PASS] analytical-voice.md calibrates from intake.md"
+    else
+        echo "  [FAIL] analytical-voice.md does not read intake.md"
+    fi
+    if grep -qiE 'throat.clearing|hedging|directive|apex' "$ANALYTICAL_VOICE_PROMPT"; then
+        echo "  [PASS] analytical-voice.md targets analytical voice issues"
+    else
+        echo "  [FAIL] analytical-voice.md missing analytical voice targets"
+    fi
+else
+    echo "  [FAIL] finishing/analytical-voice.md not found"
+fi
+if grep -qE 'analytical-voice|analytical voice pass' "$WRITING_SKILL"; then
+    echo "  [PASS] writing SKILL.md Phase 6 references analytical voice pass"
+else
+    echo "  [FAIL] writing SKILL.md Phase 6 missing analytical voice pass reference"
+fi
+echo ""
+
 echo "=== writing skill tests complete ==="

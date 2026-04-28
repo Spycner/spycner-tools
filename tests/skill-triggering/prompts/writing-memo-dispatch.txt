@@ -1,0 +1,1 @@
+I need to draft a memo for my engineering org explaining why we are sunsetting the legacy data pipeline and what the migration plan is. Use --format memo. Run the full writing pipeline.

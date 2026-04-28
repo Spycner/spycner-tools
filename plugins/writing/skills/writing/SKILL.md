@@ -1,6 +1,6 @@
 ---
 name: writing
-description: Use when the user wants to draft a blog post, essay, talk, newsletter, memo, announcement, briefing, literature note, or any longer-form prose; or when they want to review, critique, or finish an existing draft. Orchestrates a multi-phase pipeline (interview, outline, throughline gate, draft, panel review, finishing) modeled on Katie Parrott's process, with a format-gated Smart-Brevity panel critic for memo/newsletter/announcement pieces. Triggers on writing intent (drafting, reviewing, polishing, voice work) and not on simple text generation tasks.
+description: Use when the user wants to draft a blog post, essay, talk, newsletter, memo, announcement, briefing, literature note, or any longer-form prose; or when they want to review, critique, or finish an existing draft. Orchestrates a multi-phase pipeline (interview, outline, throughline gate, draft, panel review, finishing) modeled on Katie Parrott's process. For analytical formats (memo, briefing, announcement), the outline phase dispatches to the pyramid skill for Minto-style structural construction (intake, construct, audit, opener, render) and the draft phase uses an analytical draft prompt. The format-gated Smart-Brevity panel critic runs for memo, newsletter, and announcement pieces. Triggers on writing intent (drafting, reviewing, polishing, voice work) and not on simple text generation tasks.
 ---
 
 # Writing Skill
@@ -11,7 +11,7 @@ Multi-phase writing pipeline with a panel of specialised critics. Modeled on Kat
 
 ## Tool Preference
 
-1. **Agent tool**: to dispatch phase agents (interview, outline, draft) and critics (Hemingway, Hitchcock, Mom reader, Asshole reader, Clarity, Usage, Steel-man, plus Smart-Brevity for memo/newsletter/announcement formats) and finishing passes (AI-pattern detector, style enforcer, line editor, Sedaris). The throughline gate runs in the orchestrator and does not dispatch an agent.
+1. **Agent tool**: to dispatch phase agents (interview, outline, draft, plus the dispatched pyramid pipeline for analytical formats) and critics (Hemingway, Hitchcock, Mom reader, Asshole reader, Clarity, Usage, Steel-man, plus Smart-Brevity for memo/newsletter/announcement formats) and finishing passes (AI-pattern detector, style enforcer, line editor, Sedaris for narrative formats or analytical-voice for analytical formats). The throughline gate runs in the orchestrator and does not dispatch an agent.
 2. **Read**: to load prompt templates and existing artifacts
 3. **Bash**: for directory creation, file existence checks, state file read/write
 4. **TaskCreate / TaskUpdate**: to surface progress through the pipeline visibly
@@ -26,7 +26,7 @@ Ask the user what they want to write about (or what existing piece they want to 
 
 Resolve working directory in this order:
 1. **Explicit flag**: `--dir ./path/to/project/`
-2. **Existing artifacts in cwd**: if the cwd already contains any of `interview.md`, `outline.md`, `draft.md`, `critique.md`, treat the cwd as the working directory
+2. **Existing artifacts in cwd**: if the cwd already contains any of `interview.md`, `outline.md`, `intake.md`, `pyramid.md`, `draft.md`, `critique.md`, treat the cwd as the working directory
 3. **State file lookup**: read `~/.claude/projects/<project-id>/writing-skill-state.json` (where `<project-id>` is the cwd path with slashes replaced by hyphens, leading hyphen). If a working directory is recorded for an in-flight piece, offer to resume there.
 4. **Default**: prompt for a slug, create `writing/{slug}-{YYYY-MM-DD}/` in the cwd.
 
@@ -44,28 +44,43 @@ Surface the active guide in the first response: "Using style guide: {path}".
 
 ### Step 3: Determine the piece format
 
-Panel composition changes when the piece is a memo, newsletter, or announcement rather than an essay. Outline structure does not branch in this version (see issue #11 for the planned dedicated pyramid-principle skill that the writing skill will dispatch to).
+Panel composition and the outline / draft phases change based on format. The pipeline branches on whether the format is **analytical** (memo, briefing, announcement) or **narrative** (essay, blog, talk, newsletter).
 
 Supported formats:
-- `essay` (default), `blog`, `talk`, `newsletter`, `memo`, `announcement`, `briefing`
+- Narrative: `essay` (default), `blog`, `talk`, `newsletter`
+- Analytical: `memo`, `briefing`, `announcement`
 
 Resolution order:
 1. Explicit flag: `--format <format>`
 2. State memory: the state file's recorded format for this project
-3. Default silently to `essay` and surface the default in the first response with an inline change hint: "Format: essay (default). Pass `--format memo|newsletter|announcement|briefing|blog|talk` to change."
+3. Default silently to `essay` and surface the default in the first response with an inline change hint: "Format: essay (default). Pass `--format memo|briefing|announcement|newsletter|blog|talk` to change."
 
 Ask via AskUserQuestion only when the working directory name or the interview synthesis strongly signals a different format than the recorded state (for example, a state-stored `essay` format but the working directory is `memos/q3-roadmap-2026-04-23/`). In ambiguous cases, surface both candidates and let the user pick. Otherwise, resolve silently.
 
 Format gates:
-- **Smart-Brevity critic:** formats `memo`, `newsletter`, `announcement` add the Smart-Brevity critic to the panel fan-out. Other formats run the default seven-critic panel.
+- **Pyramid pipeline:** analytical formats (`memo`, `briefing`, `announcement`) skip writing's interview and outline phases entirely. Phase 1 dispatches the pyramid skill's intake; Phase 2 dispatches pyramid's construct, audit, opener, and render phases. The pyramid pipeline produces `pyramid.md`, which is then consumed by writing's throughline (Phase 3) and analytical draft (Phase 4) phases.
+- **Smart-Brevity critic:** formats `memo`, `newsletter`, `announcement` add the Smart-Brevity critic to the panel fan-out. Other formats run the default seven-critic panel. Note: `briefing` does NOT add Smart-Brevity, because briefings are dense by construction and the Smart-Brevity lens has lower signal there.
 
 Surface the active format in the first response alongside the style guide: "Format: {format}. Using style guide: {path}". Record the format in the state file under the project key.
 
 ### Step 4: Determine starting phase
 
-Scan the working directory for existing artifacts:
+Scan the working directory for existing artifacts. Two artifact families exist depending on format:
+
+**Narrative format artifacts (essay, blog, talk, newsletter):**
 - `interview-synthesis.md` exists → interview phase complete
 - `outline.md` exists → outline phase complete
+- `throughline.md` exists → throughline phase complete
+- `draft.md` exists → draft phase complete
+- `critique.md` exists → panel phase complete
+- `finishing-notes.md` exists → finishing phase has started or completed
+
+**Analytical format artifacts (memo, briefing, announcement):**
+- `intake.md` exists → pyramid intake (Phase 1) complete
+- `construction.md` exists → pyramid construct (Phase 2 substep) complete
+- `audit-summary.md` exists → pyramid audit (Phase 2 substep) complete
+- `opener.md` exists → pyramid opener (Phase 2 substep) complete
+- `pyramid.md` exists → pyramid render (Phase 2) complete; outline equivalent ready for throughline
 - `throughline.md` exists → throughline phase complete
 - `draft.md` exists → draft phase complete
 - `critique.md` exists → panel phase complete
@@ -79,7 +94,9 @@ User can also pre-empt the dialogue by passing `--phase X` (X ∈ {interview, ou
 
 ### Step 5: Create task list
 
-Use TaskCreate to add one task per phase that will run, plus sub-tasks for the panel and finishing phases. Example for a fresh full pipeline:
+Use TaskCreate to add one task per phase that will run, plus sub-tasks for the panel and finishing phases. Two task list shapes exist depending on format.
+
+**Narrative format task list** (essay, blog, talk, newsletter):
 
 ```
 1. Phase 1: Interview the author
@@ -94,12 +111,39 @@ Use TaskCreate to add one task per phase that will run, plus sub-tasks for the p
    ├── Critic: Clarity
    ├── Critic: Usage
    ├── Critic: Steel-man
-   └── Critic: Smart-Brevity (only for memo/newsletter/announcement)
+   └── Critic: Smart-Brevity (only for newsletter)
 6. Phase 6: Finishing pass
    ├── AI-pattern detector
    ├── Style enforcer
    ├── Line editor
    └── Sedaris
+```
+
+**Analytical format task list** (memo, briefing, announcement):
+
+```
+1. Phase 1: Pyramid intake (mode, audience, reader question)
+2. Phase 2: Pyramid construct + audit + opener + render
+   ├── Construct
+   ├── Audit panel (MECE, So-What, Q-A Alignment, Inductive-Deductive)
+   ├── Opener (SCQA)
+   └── Render pyramid.md
+3. Phase 3: Throughline check (≤10-word gate on apex)
+4. Phase 4: Analytical draft
+5. Phase 5: Run panel review
+   ├── Critic: Hemingway
+   ├── Critic: Hitchcock
+   ├── Critic: Mom reader
+   ├── Critic: Asshole reader
+   ├── Critic: Clarity
+   ├── Critic: Usage
+   ├── Critic: Steel-man
+   └── Critic: Smart-Brevity (only for memo, announcement)
+6. Phase 6: Finishing pass
+   ├── AI-pattern detector
+   ├── Style enforcer
+   ├── Line editor
+   └── Analytical voice
 ```
 
 For phase-selectable runs, only the requested phases get tasks.
@@ -117,7 +161,9 @@ Dispatch each phase agent via the Agent tool. The orchestrator injects context i
 - **Reviewer feedback injection.** When `{REVIEWER_FEEDBACK}` is non-empty (re-dispatch on a failed gate), append this standing instruction to the dispatched prompt, regardless of what the prompt template itself says: *"Reviewer feedback is provided above. Read the existing artifact in the output directory, address the specific concerns, and update the file in place rather than starting fresh."* This compensates for the asymmetric treatment of feedback across the prompt files.
 - **Date substitution.** `{YYYY-MM-DD}` resolves to today's date in ISO format.
 
-#### Phase 1: Interview
+#### Phase 1: Interview (narrative formats) or Pyramid intake (analytical formats)
+
+**Narrative formats** (essay, blog, talk, newsletter):
 
 1. Read `interview-prompt.md` from this skill directory
 2. Inject: topic, output path, style guide path, empty reviewer feedback
@@ -125,31 +171,74 @@ Dispatch each phase agent via the Agent tool. The orchestrator injects context i
 4. Verify `interview.md` and `interview-synthesis.md` exist
 5. Mark task completed
 
-#### Phase 2: Outline
+**Analytical formats** (memo, briefing, announcement):
+
+Skip writing's interview entirely. Run the pyramid skill's Phase 1 (intake) in **dispatched mode** as documented in `plugins/writing/skills/pyramid/SKILL.md`, with these adjustments:
+
+1. **Mode (step 1 of pyramid intake):** ask via AskUserQuestion as normal. Note: Mode B (Restructure) is rare in this dispatched path because writing skill is forward-building; the writer typically picks Greenfield or Socratic.
+2. **Genre (step 2 of pyramid intake):** pre-fill from the writing skill's resolved format. `memo` → genre `Memo`. `briefing` → genre `Briefing`. `announcement` → genre `Announcement`. Do NOT ask the user; surface the pre-fill in a one-line confirmation: "Genre: {genre} (from format)."
+3. **Domain-limits gate (step 3 of pyramid intake):** SKIP. The writing skill's format gating already validated the genre is analytical-compatible; surfacing the gate would be redundant.
+4. **Mode-specific inputs (whichever of steps 4, 5, or 6 of pyramid intake matches the mode chosen in step 1):** ask as normal.
+5. **Write intake.md (step 7 of pyramid intake):** as normal, but add field `dispatched_from: writing` so future runs know the entry point.
+6. **Mark Phase 1 task completed** when `intake.md` exists.
+
+The orchestrator (Claude at runtime) reads pyramid SKILL.md sections at dispatch time. No code or prompt files are duplicated; the dispatched mode is an instruction overlay applied to pyramid's standalone Phase 1.
+
+#### Phase 2: Outline (narrative formats) or Pyramid pipeline (analytical formats)
+
+**Narrative formats** (essay, blog, talk, newsletter):
 
 1. Read `outline-prompt.md`
 2. Inject: output path, style guide path, empty reviewer feedback
 3. Dispatch via Agent tool
 4. Verify `outline.md` exists
 5. Surface the outline to the user. Accept revisions via AskUserQuestion ("Outline as proposed, or revisions before draft?"). On revisions, re-dispatch with feedback injected.
-6. Mark task completed when user accepts
+6. Mark task completed when user accepts.
+
+**Analytical formats** (memo, briefing, announcement):
+
+Run pyramid skill's Phases 2 through 5 (construct, audit, opener, render) inline as documented in `plugins/writing/skills/pyramid/SKILL.md`. The pyramid pipeline is reused unchanged; the orchestrator follows pyramid SKILL.md's instructions for each phase.
+
+1. **Pyramid Phase 2 (Construct):** dispatch the construct agent per `pyramid/SKILL.md`. Mode-branched (greenfield, restructure, socratic) based on the mode collected in Phase 1. Verify `construction.md` exists.
+2. **Pyramid Phase 3 (Audit panel):** fan out four audit agents in parallel per `pyramid/SKILL.md`. Consolidate into `audit-summary.md`. Apply pyramid's CRITICAL re-dispatch logic (up to 2 iterations) verbatim.
+3. **Pyramid Phase 4 (Opener):** dispatch the opener agent per `pyramid/SKILL.md`. Apply pyramid's MISMATCH handling verbatim.
+4. **Pyramid Phase 5 (Render):** assemble `pyramid.md` per `pyramid/SKILL.md`'s render template. The pyramid is the outline equivalent for the analytical pipeline.
+5. Surface `pyramid.md` to the user. Accept revisions via AskUserQuestion ("Pyramid as proposed, or revisions before draft?"). On revisions, re-dispatch the construct agent (pyramid Phase 2) with the feedback injected, then re-run audit, opener, and render.
+6. Mark task completed when user accepts.
+
+After Phase 2 completes, the working directory contains `intake.md`, `construction.md`, `audit-summary.md`, `opener.md`, and `pyramid.md`. The throughline phase reads `pyramid.md`'s apex line; the analytical draft phase reads `pyramid.md` whole.
 
 #### Phase 3: Throughline
 
-Orchestrator-only synchronous gate. No agent dispatch. Happens after the outline is accepted, before the draft agent is dispatched. If the writer cannot compress the piece into ten words, the piece is not ready to draft.
+Orchestrator-only synchronous gate. No agent dispatch. Happens after Phase 2 completes, before the draft agent is dispatched. If the writer cannot compress the piece into ten words, the piece is not ready to draft.
 
-1. Read `{OUTPUT_PATH}/outline.md` and extract the `**Thesis (one sentence):**` line.
-2. Surface the thesis to the user via AskUserQuestion: "Throughline check. Compress the piece to ≤10 words. Current outline thesis: \"{thesis}\". What is the one thing you most want the reader to take away?"
-3. Validate word count on the user's response by splitting on whitespace and ignoring empty strings. If more than 10 words, re-ask via AskUserQuestion: "That is N words. Cut it to 10 or fewer. If you cannot, the outline may be wrong. Return to Phase 2."
-4. Offer an explicit escape hatch: the user may answer the re-ask with "RETURN TO OUTLINE" to resume Phase 2 with their attempted throughline as reviewer feedback injected into the outline prompt.
-5. On acceptance, write `{OUTPUT_PATH}/throughline.md` as a single-line file containing only the accepted throughline (no markdown headers, no decoration).
-6. Mark task completed.
+**Source of truth varies by format:**
+- Narrative formats: read `{OUTPUT_PATH}/outline.md` and extract the `**Thesis (one sentence):**` line.
+- Analytical formats: read `{OUTPUT_PATH}/pyramid.md` and extract the line under the `## Apex` header (the one-sentence governing thought rendered verbatim from `construction.md`).
+
+1. Surface the source line to the user via AskUserQuestion: "Throughline check. Compress the piece to ≤10 words. Current {thesis|apex}: \"{line}\". What is the one thing you most want the reader to take away?"
+2. Validate word count on the user's response by splitting on whitespace and ignoring empty strings. If more than 10 words, re-ask via AskUserQuestion: "That is N words. Cut it to 10 or fewer. If you cannot, the {outline|pyramid} may be wrong. Return to Phase 2."
+3. Offer an explicit escape hatch: the user may answer the re-ask with "RETURN TO OUTLINE" (narrative) or "RETURN TO PYRAMID" (analytical) to resume Phase 2 with their attempted throughline as reviewer feedback injected into the outline / construct prompt.
+4. On acceptance, write `{OUTPUT_PATH}/throughline.md` as a single-line file containing only the accepted throughline (no markdown headers, no decoration).
+5. Mark task completed.
+
+**Edge case for analytical formats:** if `pyramid.md` lacks a `## Apex` header (e.g., a degraded MISMATCH render), fall back to reading `construction.md` and extracting the apex node directly. If neither is parseable, ask the user for the apex sentence directly before running the gate.
 
 #### Phase 4: Draft
+
+**Narrative formats** (essay, blog, talk, newsletter):
 
 1. Read `draft-prompt.md`
 2. Inject: output path, style guide path, empty reviewer feedback
 3. Dispatch via Agent tool
+4. Verify `draft.md` exists
+5. Mark task completed
+
+**Analytical formats** (memo, briefing, announcement):
+
+1. Read `draft-analytical-prompt.md`
+2. Inject: output path, style guide path, empty reviewer feedback
+3. Dispatch via Agent tool. The agent reads `pyramid.md`, `intake.md`, `throughline.md` (if present), and `audit-summary.md`.
 4. Verify `draft.md` exists
 5. Mark task completed
 
@@ -236,8 +325,22 @@ Mark phase task completed when verdict allows progression or user overrides.
 
 Sequential, NOT parallel. Each pass updates the draft in place; later passes need the earlier passes' changes.
 
-For each pass in order [ai-pattern-detector, style-enforcer, line-editor, sedaris]:
-1. Read `finishing/{pass}.md`
+**Narrative formats** (essay, blog, talk, newsletter): run the four passes in this order:
+
+1. `finishing/ai-pattern-detector.md`
+2. `finishing/style-enforcer.md`
+3. `finishing/line-editor.md`
+4. `finishing/sedaris.md` (literary voice; reads `interview-synthesis.md` for tone calibration)
+
+**Analytical formats** (memo, briefing, announcement): run the four passes in this order:
+
+1. `finishing/ai-pattern-detector.md`
+2. `finishing/style-enforcer.md`
+3. `finishing/line-editor.md`
+4. `finishing/analytical-voice.md` (executive voice; reads `intake.md` for audience calibration; replaces Sedaris because analytical formats do not run the interview phase that Sedaris depends on)
+
+For each pass in order:
+1. Read the prompt file
 2. Inject: output path, style guide path, empty reviewer feedback
 3. Dispatch via Agent tool
 4. Verify the agent appended its log section to `finishing-notes.md`
@@ -266,9 +369,13 @@ Present the final draft and a summary of what each pass did.
 - **User cancels mid-pipeline**: state file records the last completed phase; next invocation resumes
 - **Critique gate fails twice**: present remaining critical issues, ask whether to proceed or intervene manually
 - **Multiple style guide candidates** with no state record: ask once, record choice
-- **Missing prerequisite artifact on phase jump**: some phases depend on artifacts produced by earlier phases (Outline reads `interview-synthesis.md`; Throughline reads `outline.md`; Sedaris reads `interview-synthesis.md`; Draft reads `outline.md` and `throughline.md` if present; Panel and Finishing read `draft.md`). If the user invokes `--phase X` on a directory missing the upstream artifact, ask via AskUserQuestion whether to (a) run the missing upstream phase first, (b) accept a degraded run where the agent works without that input (only safe for Sedaris reading the synthesis, or Draft reading a missing throughline), or (c) cancel and let the user produce the artifact manually
-- **Throughline thesis line missing**: if the outline does not contain a `**Thesis (one sentence):**` line (e.g., user hand-wrote an outline), ask the user for the thesis directly before running the throughline gate rather than failing silently
+- **Missing prerequisite artifact on phase jump (narrative)**: Outline reads `interview-synthesis.md`; Throughline reads `outline.md`; Sedaris reads `interview-synthesis.md`; Draft reads `outline.md` and `throughline.md` if present; Panel and Finishing read `draft.md`. If the user invokes `--phase X` on a directory missing the upstream artifact, ask via AskUserQuestion whether to (a) run the missing upstream phase first, (b) accept a degraded run where the agent works without that input (only safe for Sedaris reading the synthesis, or Draft reading a missing throughline), or (c) cancel and let the user produce the artifact manually
+- **Missing prerequisite artifact on phase jump (analytical)**: pyramid Phase 2 reads `intake.md`; Throughline reads `pyramid.md` (or `construction.md` as fallback); Analytical Draft reads `pyramid.md`, `intake.md`, optionally `throughline.md` and `audit-summary.md`; Analytical voice pass reads `draft.md`, `intake.md`, `pyramid.md`, optionally `audit-summary.md`; Panel and Finishing read `draft.md`. Apply the same three options on phase-jump with missing upstream.
+- **Throughline thesis or apex line missing**: if the source file does not contain the expected line (e.g., user hand-wrote an outline, or a degraded MISMATCH render produced a partial pyramid.md), ask the user for the throughline directly before running the gate rather than failing silently
 - **Unknown format value**: if `--format` or the state file contains an unrecognised value, warn once, fall back to `essay`, and ask the user to confirm
+- **Format mismatch on resume**: state file recorded format `essay` but the working directory contains `pyramid.md`, or recorded `memo` but contains `outline.md`. Ask via AskUserQuestion which format applies; record the corrected value.
+- **Pyramid CRITICAL audit gate fails twice during dispatched run**: pyramid's standard handling applies (present remaining critical issues, ask whether to continue to opener with known issues, pause for manual intervention, or cancel). The writing skill does NOT add a second layer of gate handling on top.
+- **Pyramid MISMATCH on opener**: pyramid's standard handling applies. If the user accepts the degraded opener (S and A only), the analytical draft prompt still works because it reads `pyramid.md` and the partial opener renders correctly.
 
 ## State File Format
 
@@ -288,7 +395,7 @@ Present the final draft and a summary of what each pass did.
 }
 ```
 
-Recognised format values: `essay`, `blog`, `talk`, `newsletter`, `memo`, `announcement`, `briefing`. Defaults to `essay` if absent. The format drives panel composition (Smart-Brevity critic added for `memo`, `newsletter`, `announcement`). A future change (issue #11) will add pyramid-structured outlines via a dedicated skill that the writing skill dispatches to.
+Recognised format values: `essay`, `blog`, `talk`, `newsletter`, `memo`, `announcement`, `briefing`. Defaults to `essay` if absent. The format drives panel composition (Smart-Brevity critic added for `memo`, `newsletter`, `announcement`). For analytical formats (`memo`, `briefing`, `announcement`), the writing skill dispatches Phases 1 and 2 to the pyramid skill; see Phase 1 and Phase 2 above.
 
 The state file is keyed by working directory so multiple in-flight pieces in the same project can each have their own state.
 
