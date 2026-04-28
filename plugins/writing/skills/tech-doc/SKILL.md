@@ -96,7 +96,7 @@ Dispatch each phase agent via the Agent tool. The orchestrator injects context i
 
 #### Dispatch conventions
 
-- `{OUTPUT_PATH}` is always the working directory, never a file path.
+- `{OUTPUT_PATH}` is always the working directory, never a file path. Each prompt file appends its own filename.
 - **Prompt file extraction.** Each prompt file documents the dispatched prompt inside a fenced block under the `**Dispatch:**` header. Read the entire prompt file as text, perform placeholder substitution (`{OUTPUT_PATH}`, `{STYLE_GUIDE_PATH}`, `{REVIEWER_FEEDBACK}`, `{YYYY-MM-DD}`, `{QUADRANT}`, `{LANGUAGE_OR_PLATFORM}`, `{AUDIENCE_SKILL_LEVEL}`), pass the full result to the Agent tool.
 - **Reviewer feedback injection.** When `{REVIEWER_FEEDBACK}` is non-empty (re-dispatch on a failed gate), append: *"Reviewer feedback is provided above. Read the existing artifact in the output directory, address the specific concerns, and update the file in place rather than starting fresh."*
 - **Date substitution.** `{YYYY-MM-DD}` resolves to today's date in ISO format.
@@ -155,7 +155,44 @@ Fan out: dispatch all critics in the active panel in parallel (single message wi
 - **Reference:** style-adherence, accessibility, inclusive-language, code-fidelity, future-features, quadrant-fit, completeness. (7)
 - **Explanation:** style-adherence, accessibility, inclusive-language, code-fidelity, future-features, quadrant-fit, steel-man. (7)
 
-Each critic writes its own `critique-<critic>.md`. When all return, consolidate into `critique.md` with the standard verdict table and full critique sections (mirror writing skill's consolidation format).
+Each critic writes its own `critique-<critic>.md`. When all critics return, consolidate into `{OUTPUT_PATH}/critique.md`:
+
+````markdown
+# Panel Critique
+
+## Verdicts
+
+| Critic | Verdict | Headline |
+|--------|---------|----------|
+| Style-adherence | <PASS / MINOR / CRITICAL> | <one-line summary> |
+| Accessibility | ... | ... |
+| Inclusive-language | ... | ... |
+| Code-fidelity | ... | ... |
+| Future-features | ... | ... |
+| Quadrant-fit | ... | ... |
+| <Task-orientation / Completeness / Steel-man> | ... | ... |  (gated critic)
+
+## Style-adherence
+<full content of critique-style-adherence.md>
+
+## Accessibility
+<full content of critique-accessibility.md>
+
+## Inclusive-language
+<full content of critique-inclusive-language.md>
+
+## Code-fidelity
+<full content of critique-code-fidelity.md>
+
+## Future-features
+<full content of critique-future-features.md>
+
+## Quadrant-fit
+<full content of critique-quadrant-fit.md>
+
+## <Gated critic name>
+<full content of the gated critique file>
+````
 
 Match on first whitespace-delimited token of each critic's `**Verdict:**` line. Tokens: PASS, MINOR, CRITICAL.
 
@@ -166,13 +203,13 @@ Mark phase task completed when verdict allows progression or user overrides.
 
 #### Phase 6: Finishing
 
-Sequential, NOT parallel. Three passes in this order:
+Sequential, NOT parallel. Each pass updates the draft in place; later passes need the earlier passes' changes. Three passes in this order:
 
 1. `finishing/ai-pattern-detector.md`
 2. `finishing/style-enforcer-tech.md`
 3. `finishing/terminology-consistency.md`
 
-For each pass: read prompt file, inject placeholders, dispatch via Agent tool, verify the agent appended its log section to `finishing-notes.md`, mark sub-task completed.
+For each pass: read prompt file, inject `{OUTPUT_PATH}`, `{STYLE_GUIDE_PATH}`, and `{REVIEWER_FEEDBACK}` (always empty for finishing passes), dispatch via Agent tool, verify the agent appended its log section to `finishing-notes.md`, mark sub-task completed.
 
 After all three, present `draft.md`, `glossary.md`, and `finishing-notes.md` to the user. The piece is now ready for the writer's review.
 
