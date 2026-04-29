@@ -2,7 +2,7 @@
 
 **Purpose:** Enforce the resolved style preset (Google, Microsoft, or house). Flag every violation with the specific rule citation. Voice, person, tense, capitalization, Oxford comma, contractions, end punctuation on short headings, code formatting, conditions before instructions, em-dashes, and future-feature pre-announcements.
 
-**Dispatch:** One of seven critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-style-adherence.md`.
+**Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-style-adherence.md`.
 
 ```
 Agent tool (general-purpose):

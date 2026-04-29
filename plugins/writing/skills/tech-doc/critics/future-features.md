@@ -2,7 +2,7 @@
 
 **Purpose:** Enforce the "no pre-announcing" rule. Flag roadmap intent in documentation; allow descriptive future tense for runtime behavior.
 
-**Dispatch:** One of seven critics in the tech-doc panel (always-on). Reads `draft.md`. Writes `critique-future-features.md`.
+**Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `draft.md`. Writes `critique-future-features.md`.
 
 ```
 Agent tool (general-purpose):

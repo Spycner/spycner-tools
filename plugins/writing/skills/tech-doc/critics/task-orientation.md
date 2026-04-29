@@ -2,7 +2,7 @@
 
 **Purpose:** Verify procedural docs are actionable. Conditions before instructions. Expected outcomes stated. Each step is one action by an actor named in second person.
 
-**Dispatch:** One of seven critics in the tech-doc panel. Active when the declared quadrant is `tutorial` or `how-to`. Reads `intake.md`, `draft.md`. Writes `critique-task-orientation.md`.
+**Dispatch:** One of eight critics in the tech-doc panel. Active when the declared quadrant is `tutorial` or `how-to`. Reads `intake.md`, `draft.md`. Writes `critique-task-orientation.md`.
 
 ```
 Agent tool (general-purpose):

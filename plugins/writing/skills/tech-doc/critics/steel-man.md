@@ -2,7 +2,7 @@
 
 **Purpose:** Construct the strongest opposing thesis. Check whether the piece preempts it. Flag gaps in preemption, not gaps in rigor.
 
-**Dispatch:** One of seven critics in the tech-doc panel. Active when the declared quadrant is `explanation`. Reads `draft.md` and the active style preset. Writes `critique-steel-man.md`.
+**Dispatch:** One of eight critics in the tech-doc panel. Active when the declared quadrant is `explanation`. Reads `draft.md` and the active style preset. Writes `critique-steel-man.md`.
 
 ```
 Agent tool (general-purpose):

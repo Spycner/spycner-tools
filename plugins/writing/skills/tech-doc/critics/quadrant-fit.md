@@ -2,7 +2,7 @@
 
 **Purpose:** The Diataxis-fidelity check. Verify the draft is wearing the quadrant declared in `intake.md`.
 
-**Dispatch:** One of seven critics in the tech-doc panel (always-on). Reads `intake.md`, `draft.md`, and the active style preset. Writes `critique-quadrant-fit.md`.
+**Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `intake.md`, `draft.md`, and the active style preset. Writes `critique-quadrant-fit.md`.
 
 ```
 Agent tool (general-purpose):

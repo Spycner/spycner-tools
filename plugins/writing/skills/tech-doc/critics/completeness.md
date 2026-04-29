@@ -2,7 +2,7 @@
 
 **Purpose:** Schema-driven completeness check for reference docs. Every required schema field populated. Parameters table covers every parameter. At least one example present. See-also links present.
 
-**Dispatch:** One of seven critics in the tech-doc panel. Active when the declared quadrant is `reference`. Reads `intake.md` (which declares the schema file), the schema file, and `draft.md`. Writes `critique-completeness.md`.
+**Dispatch:** One of eight critics in the tech-doc panel. Active when the declared quadrant is `reference`. Reads `intake.md` (which declares the schema file), the schema file, and `draft.md`. Writes `critique-completeness.md`.
 
 ```
 Agent tool (general-purpose):

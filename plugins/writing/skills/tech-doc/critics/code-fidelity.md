@@ -2,7 +2,7 @@
 
 **Purpose:** Static inspection of every code snippet. Imports declared, syntax plausible, placeholder syntax consistent (`<UPPERCASE>`), prose claims match snippet behavior, code formatting in code font.
 
-**Dispatch:** One of seven critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-code-fidelity.md`.
+**Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-code-fidelity.md`.
 
 ```
 Agent tool (general-purpose):

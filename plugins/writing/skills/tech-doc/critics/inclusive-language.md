@@ -2,7 +2,7 @@
 
 **Purpose:** Flag bias-inducing language with concrete replacements: legacy technical terms, gendered language, ableist metaphors, and cultural assumptions.
 
-**Dispatch:** One of seven critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-inclusive-language.md`.
+**Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-inclusive-language.md`.
 
 ```
 Agent tool (general-purpose):

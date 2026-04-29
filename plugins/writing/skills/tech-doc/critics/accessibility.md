@@ -2,7 +2,7 @@
 
 **Purpose:** Flag accessibility violations: missing alt text, non-descriptive link text, color-dependent instructions, tables without headers, and purely visual cues.
 
-**Dispatch:** One of seven critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-accessibility.md`.
+**Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-accessibility.md`.
 
 ```
 Agent tool (general-purpose):
