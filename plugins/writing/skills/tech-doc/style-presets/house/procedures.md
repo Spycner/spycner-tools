@@ -1,0 +1,1 @@
+# Placeholder — house/procedures.md
