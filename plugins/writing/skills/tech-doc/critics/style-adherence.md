@@ -21,13 +21,13 @@ Agent tool (general-purpose):
 
     1. Read `{OUTPUT_PATH}/draft.md`.
     2. Read all of:
-       - `{STYLE_GUIDE_DIR}/core.md` — voice, tone, person, tense, capitalization, punctuation
-       - `{STYLE_GUIDE_DIR}/wordlist.md` — terms to flag, with replacements
-       - `{STYLE_GUIDE_DIR}/procedures.md` — step format, conditions, optional-step prefix
-       - `{STYLE_GUIDE_DIR}/code-samples.md` — code-in-prose, placeholders, output formatting
-       - `{STYLE_GUIDE_DIR}/links.md` — link text, see-also, cross-references
-       - `{STYLE_GUIDE_DIR}/numbers.md` — numerals, units, dates, time
-       - `{STYLE_GUIDE_DIR}/admonitions.md` — admonition format only (severity is the admonitions critic's job)
+       - `{STYLE_GUIDE_DIR}/core.md`: voice, tone, person, tense, capitalization, punctuation
+       - `{STYLE_GUIDE_DIR}/wordlist.md`: terms to flag, with replacements
+       - `{STYLE_GUIDE_DIR}/procedures.md`: step format, conditions, optional-step prefix
+       - `{STYLE_GUIDE_DIR}/code-samples.md`: code-in-prose, placeholders, output formatting
+       - `{STYLE_GUIDE_DIR}/links.md`: link text, see-also, cross-references
+       - `{STYLE_GUIDE_DIR}/numbers.md`: numerals, units, dates, time
+       - `{STYLE_GUIDE_DIR}/admonitions.md`: admonition format only (severity is the admonitions critic's job)
 
     ## What to flag
 
@@ -84,7 +84,7 @@ Agent tool (general-purpose):
 
     ### Admonition format only (from `admonitions.md`)
 
-    Format-only checks here — severity assignment and overuse are the admonitions critic's job. Flag:
+    Format-only checks here. Severity assignment and overuse are the admonitions critic's job. Flag:
     - Marker syntax wrong for active preset.
     - Multi-paragraph admonition where preset prefers single-paragraph.
     - Bold-tier-label missing or formatted wrong.
