@@ -1,6 +1,6 @@
 # How to Reset Your Database
 
-This guide shows you how to reset the database, quickly and easily.
+This guide shows you how to reset the database — quickly and easily.
 
 ## Prerequisites
 

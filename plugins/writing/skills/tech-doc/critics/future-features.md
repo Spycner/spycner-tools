@@ -18,10 +18,12 @@ Agent tool (general-purpose):
     ## Configuration
 
     - **Output path:** {OUTPUT_PATH}
+    - **Active style preset directory:** {STYLE_GUIDE_DIR}
 
     ## Setup
 
     1. Read `{OUTPUT_PATH}/draft.md`.
+    2. Read `{STYLE_GUIDE_DIR}/core.md`.
 
     ## What to flag
 
