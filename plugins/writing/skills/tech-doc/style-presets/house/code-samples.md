@@ -1,4 +1,4 @@
-# House — Code samples
+# House: Code samples
 
 Source: Union of Google developer style and Microsoft Writing Style Guide (house synthesis). Code-formatting conflicts: Google wins.
 Last refreshed: 2026-04-29
@@ -8,14 +8,14 @@ Last refreshed: 2026-04-29
 House style follows Google on code-formatting. Placeholder syntax: `UPPERCASE_WITH_UNDERSCORES`.
 
 - Format: `UPPERCASE_WITH_UNDERSCORES` in code contexts. No `MY_` or `YOUR_` prefixes.
-- In Markdown inline code: render as italic backtick — *`PLACEHOLDER_NAME`*.
+- In Markdown inline code: render as italic backtick. Example: *`PLACEHOLDER_NAME`*.
 - In fenced code blocks: use the uppercase form directly; explain it outside the block.
 - Do not use bare angle brackets as the placeholder delimiter (Google wins over Microsoft `<version>` style), except where the language itself uses angle brackets (e.g., C++ templates, generics).
 - Document every placeholder immediately after its code block:
   - One placeholder: "Replace `PLACEHOLDER` with [description]."
   - Multiple placeholders: "Replace the following:" followed by a bulleted list of `` `NAME` ``: description pairs.
 - Do not hard-code passwords, tokens, or secrets. Use a named placeholder: `API_KEY`.
-- Possessive forms: rephrase to avoid `'s` on code elements — "the value of `PROJECT_ID`" not "`PROJECT_ID`'s value".
+- Possessive forms: rephrase to avoid `'s` on code elements. Write "the value of `PROJECT_ID`" not "`PROJECT_ID`'s value".
 
 ## Line length
 
@@ -97,7 +97,7 @@ Do not use code font for:
 - Domain names used as prose hyperlinks.
 - URLs the reader navigates to in a browser (use a hyperlink).
 
-Capitalization inside code font follows the API or language, not sentence casing. File name extensions: all lowercase — `.json`, `.yaml`, `.md`.
+Capitalization inside code font follows the API or language, not sentence casing. File name extensions: all lowercase. Examples: `.json`, `.yaml`, `.md`.
 
 User input in prose: bold (Microsoft convention kept here since Google does not specify). Use italic only for placeholder values.
 

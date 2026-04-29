@@ -1,4 +1,4 @@
-# Microsoft — Code samples
+# Microsoft: Code samples
 
 Source: https://learn.microsoft.com/en-us/style-guide/developer-content/code-examples, https://learn.microsoft.com/en-us/style-guide/developer-content/formatting-developer-text-elements
 Last refreshed: 2026-04-29
@@ -7,8 +7,8 @@ Last refreshed: 2026-04-29
 
 Placeholders represent values the reader must supply.
 
-- Format: italic inside angle brackets when angle brackets are not part of the language syntax — `/v: <version>`.
-- For UI text placeholders (values a reader types in a UI field): italic without angle brackets — Enter *password*.
+- Format: italic inside angle brackets when angle brackets are not part of the language syntax. Example: `/v: <version>`.
+- For UI text placeholders (values a reader types in a UI field): italic without angle brackets. Example: Enter *password*.
 - In running prose: use italic for placeholders. Example: "Replace *connection-string* with your database connection string."
 - Capitalization of placeholders follows the conventions of the language or API being documented. Microsoft does not mandate a single casing convention for all placeholders.
 - Document all placeholders near the code block. Explain what each one represents and any constraints (format, allowed values, required permissions).
@@ -78,11 +78,11 @@ Placeholders represent values the reader must supply.
 - User input: bold. Use italic only for placeholder values.
 - Do not use code font for product names, service names, or trademarked terms.
 - Capitalization inside code font follows the API or language, not sentence casing.
-- File name extensions: all lowercase — `.docx`, `.json`, `.md`.
+- File name extensions: all lowercase. Examples: `.docx`, `.json`, `.md`.
 
 ## UI elements mixed with code
 
 - When a UI label and a code value appear together, apply the appropriate formatting to each part separately.
-- UI labels: bold — click **Save**.
-- Code or verbatim values typed into a UI field: bold for the action, italic for the placeholder — Enter *project-name*.
+- UI labels: bold. Example: click **Save**.
+- Code or verbatim values typed into a UI field: bold for the action, italic for the placeholder. Example: Enter *project-name*.
 - If a value the reader created appears verbatim in the UI, bold it as a UI element rather than adding code font, unless it appears in code syntax.

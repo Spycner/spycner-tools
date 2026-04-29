@@ -1,4 +1,4 @@
-# Microsoft — API reference conventions
+# Microsoft: API reference conventions
 
 Source: https://learn.microsoft.com/en-us/style-guide/developer-content/api-reference, https://learn.microsoft.com/en-us/style-guide/developer-content/formatting-developer-text-elements
 Last refreshed: 2026-04-29
@@ -64,7 +64,7 @@ Example format:
 - Use a table when there are many codes; use a list when there are fewer than four.
 - State error codes in code font. State messages in quotation marks if they are stable strings.
 - Avoid passive constructions: "The server rejected the request because..." not "The request was rejected."
-- Example: "`AuthorizationFailed` — The caller doesn't have permission for this operation. Assign the required role and retry."
+- Example: "`AuthorizationFailed`: The caller doesn't have permission for this operation. Assign the required role and retry."
 
 ## Deprecation notation
 

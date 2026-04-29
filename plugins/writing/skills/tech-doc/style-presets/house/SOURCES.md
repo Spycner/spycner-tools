@@ -1,4 +1,4 @@
-# House — Sources
+# House: Sources
 
 ## Primary sources
 - Google: see ../google/SOURCES.md

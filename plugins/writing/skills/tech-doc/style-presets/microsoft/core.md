@@ -1,4 +1,4 @@
-# Microsoft — Core Style
+# Microsoft: Core Style
 
 Source: https://learn.microsoft.com/en-us/style-guide/welcome/
 License: Proprietary; paraphrased for fair-use reference

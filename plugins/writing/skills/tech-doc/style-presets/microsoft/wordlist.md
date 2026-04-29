@@ -1,24 +1,25 @@
 # Microsoft Word List (paraphrased transcription)
 
+
 Source: https://learn.microsoft.com/en-us/style-guide/a-z-word-list-term-collections/
-License: Proprietary — content paraphrased and categorized for fair-use reference
+License: Proprietary (content paraphrased and categorized for fair-use reference)
 Last refreshed: 2026-04-29
 
 ## Categories
-- `clarity`           — words that add no information
-- `hedge-words`       — softeners without epistemic honesty
-- `action-verbs`      — verbs for UI actions
-- `mouse-keyboard`    — input device terminology
-- `login`             — authentication terms
-- `web-internet`      — web/internet terms
-- `error-messages`    — error message tone
-- `direction`         — directional words
-- `numbers-dates`     — numerals, units, dates
-- `inclusive`         — bias-free / inclusive
-- `ableist`           — ableist metaphors
-- `gendered`          — gendered language
-- `culturally-narrow` — cultural assumptions
-- `technical-jargon`  — overly technical terms
+- `clarity`: words that add no information
+- `hedge-words`: softeners without epistemic honesty
+- `action-verbs`: verbs for UI actions
+- `mouse-keyboard`: input device terminology
+- `login`: authentication terms
+- `web-internet`: web/internet terms
+- `error-messages`: error message tone
+- `direction`: directional words
+- `numbers-dates`: numerals, units, dates
+- `inclusive`: bias-free / inclusive
+- `ableist`: ableist metaphors
+- `gendered`: gendered language
+- `culturally-narrow`: cultural assumptions
+- `technical-jargon`: overly technical terms
 
 ---
 
@@ -114,10 +115,10 @@ Last refreshed: 2026-04-29
 | End key | (keep, see Notes) | no | Capitalize; standard navigation key name. |
 | Enter key | (keep, see Notes) | no | Capitalize; do not use "Return key" except in Mac-specific content. |
 | Esc key | (keep, see Notes) | no | Always use "Esc," not "Escape". |
-| F1–F12 keys | (keep, see Notes) | no | Capitalize F; no space between F and the number (e.g., "F5"); use "function keys" collectively. |
+| F1 to F12 keys | (keep, see Notes) | no | Capitalize F; no space between F and the number (e.g., "F5"); use "function keys" collectively. |
 | fast key / quick key / speed key | keyboard shortcut | yes | Do not use any of these; "keyboard shortcut" is the correct general term. |
 | Forward key | (keep, see Notes) | no | Capitalize; performs the same function as the browser's Forward button. |
-| function keys | (keep, see Notes) | no | Acceptable collective term for F1–F12; do not call them "fn keys" except for the laptop Fn modifier. |
+| function keys | (keep, see Notes) | no | Acceptable collective term for F1 to F12; do not call them "fn keys" except for the laptop Fn modifier. |
 | hashtag (#) | (keep, see Notes) | no | Acceptable when describing use of the # key on social media; "# key" is the standard keyboard term. |
 | hit (a key) | select | yes | Do not use "hit" to mean pressing a key; use "select". |
 | Home key | (keep, see Notes) | no | Capitalize; standard navigation key name. |

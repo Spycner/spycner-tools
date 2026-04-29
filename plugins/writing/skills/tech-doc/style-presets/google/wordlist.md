@@ -1,24 +1,25 @@
 # Google Word List (full transcription)
 
+
 Source: https://developers.google.com/style/word-list
 License: CC BY 4.0 (Google Developer Documentation Style Guide); transcribed verbatim with attribution
 Last refreshed: 2026-04-28
 
 ## Categories
-- `clarity`           — words that add no information
-- `hedge-words`       — softeners without epistemic honesty
-- `action-verbs`      — verbs for UI actions
-- `mouse-keyboard`    — input device terminology
-- `login`             — authentication terms
-- `web-internet`      — web/internet terms
-- `error-messages`    — error message tone
-- `direction`         — directional words
-- `numbers-dates`     — numerals, units, dates
-- `inclusive`         — bias-free / inclusive
-- `ableist`           — ableist metaphors
-- `gendered`          — gendered language
-- `culturally-narrow` — cultural assumptions
-- `technical-jargon`  — overly technical terms
+- `clarity`: words that add no information
+- `hedge-words`: softeners without epistemic honesty
+- `action-verbs`: verbs for UI actions
+- `mouse-keyboard`: input device terminology
+- `login`: authentication terms
+- `web-internet`: web/internet terms
+- `error-messages`: error message tone
+- `direction`: directional words
+- `numbers-dates`: numerals, units, dates
+- `inclusive`: bias-free / inclusive
+- `ableist`: ableist metaphors
+- `gendered`: gendered language
+- `culturally-narrow`: cultural assumptions
+- `technical-jargon`: overly technical terms
 
 ---
 

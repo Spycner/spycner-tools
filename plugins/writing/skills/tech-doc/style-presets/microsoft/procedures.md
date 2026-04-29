@@ -1,4 +1,4 @@
-# Microsoft — Procedures and instructions
+# Microsoft: Procedures and instructions
 
 Source: https://learn.microsoft.com/en-us/style-guide/procedures-instructions/
 Last refreshed: 2026-04-29

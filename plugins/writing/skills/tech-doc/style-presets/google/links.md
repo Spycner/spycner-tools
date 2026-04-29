@@ -1,4 +1,4 @@
-# Google — Links and cross-references
+# Google: Links and cross-references
 
 Source: https://developers.google.com/style/cross-references, https://developers.google.com/style/link-text
 Last refreshed: 2026-04-29

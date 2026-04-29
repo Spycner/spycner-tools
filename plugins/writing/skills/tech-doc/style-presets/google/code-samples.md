@@ -1,4 +1,4 @@
-# Google — Code samples
+# Google: Code samples
 
 Source: https://developers.google.com/style/code-samples, https://developers.google.com/style/code-in-text, https://developers.google.com/style/placeholders
 Last refreshed: 2026-04-29
@@ -7,9 +7,9 @@ Last refreshed: 2026-04-29
 
 Placeholders represent values the reader must supply.
 
-- Format: `UPPERCASE_WITH_UNDERSCORES` — no `MY_` or `YOUR_` prefixes.
+- Format: `UPPERCASE_WITH_UNDERSCORES`. No `MY_` or `YOUR_` prefixes.
 - Never use single letters or repeated `x` characters except where a standard form exists (e.g., HTTP `2xx` ranges).
-- In Markdown inline code: italicize inside backticks — `*`PLACEHOLDER`*` renders as *`PLACEHOLDER`*.
+- In Markdown inline code: italicize inside backticks. `*`PLACEHOLDER`*` renders as *`PLACEHOLDER`*.
 - In fenced code blocks: no special markup is available; rely on the surrounding explanation.
 - Document every placeholder immediately after the code block:
   - Single placeholder: "Replace `PLACEHOLDER` with [description]."

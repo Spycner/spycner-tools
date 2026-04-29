@@ -1,4 +1,4 @@
-# House — API reference conventions
+# House: API reference conventions
 
 Source: Union of Google developer style and Microsoft Writing Style Guide (house synthesis). Conflicts resolved per SOURCES.md: Google wins on code formatting; Microsoft wins on table structure for status codes and required/optional.
 Last refreshed: 2026-04-29
@@ -19,7 +19,7 @@ Google wins.
 Google wins on font; Microsoft wins on generic syntax.
 
 - Use backtick code font for all type names: `string`, `boolean`, `integer`, `object`, `array`.
-- Generics: follow the notation of the target language — `IList<string>` for C#, `array of string` in REST prose.
+- Generics: follow the notation of the target language. Use `IList<string>` for C#, `array of string` in REST prose.
 - Nullable types: use the language notation (`string?`) in language-specific sections; in REST prose, write "optional `string`".
 - When a field accepts multiple types, write "`string` or `integer`" in prose.
 - Do not use italics for type names. Reserve italics for placeholder values.
@@ -75,7 +75,7 @@ Microsoft table structure; ascending numeric sort order (Google).
 - Use a table for five or more error codes; use a list for fewer.
 - State error message strings in code font when they are stable: "`PERMISSION_DENIED`".
 - Avoid passive constructions: "The caller lacks permission" not "Permission was denied."
-- Example: "`RATE_LIMIT_EXCEEDED` — The request rate exceeded the quota for this project. Wait for the interval in the `Retry-After` header, then retry."
+- Example: "`RATE_LIMIT_EXCEEDED`: The request rate exceeded the quota for this project. Wait for the interval in the `Retry-After` header, then retry."
 
 ## Deprecation notation
 

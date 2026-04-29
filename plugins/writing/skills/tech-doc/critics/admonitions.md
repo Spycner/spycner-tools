@@ -30,7 +30,7 @@ Agent tool (general-purpose):
     - **Severity deflation / hidden warnings.** Inline prose ("be careful, this can delete data") that should be a Caution or Warning callout.
     - **Missing admonition where rules require one.** Destructive operations described in body text without a Caution or Warning. Authentication or authorization gotchas without an Important.
     - **Format violations.** Wrong marker syntax for the active preset. Multi-paragraph admonitions where the preset prefers single-paragraph.
-    - **Tone violations inside admonitions.** Future-feature pre-announcement, em-dashes, passive voice — admonitions follow all the same prose rules as body text.
+    - **Tone violations inside admonitions.** Future-feature pre-announcement, em-dashes, passive voice. Admonitions follow all the same prose rules as body text.
 
     ## What NOT to flag
 

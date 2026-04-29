@@ -1,4 +1,4 @@
-# Microsoft — Links and cross-references
+# Microsoft: Links and cross-references
 
 Source: https://learn.microsoft.com/en-us/style-guide/links-hyperlinks/
 Last refreshed: 2026-04-29

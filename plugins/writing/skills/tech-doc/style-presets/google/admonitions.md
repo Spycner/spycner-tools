@@ -1,4 +1,4 @@
-# Google — Admonitions
+# Google: Admonitions
 
 Source: https://developers.google.com/style/admonitions
 Last refreshed: 2026-04-28

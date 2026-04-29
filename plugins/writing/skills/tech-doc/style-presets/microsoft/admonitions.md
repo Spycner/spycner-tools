@@ -1,4 +1,4 @@
-# Microsoft — Admonitions
+# Microsoft: Admonitions
 
 Source: https://learn.microsoft.com/en-us/style-guide/procedures-instructions/notes-tips-important-cautions-warnings
 Last refreshed: 2026-04-28

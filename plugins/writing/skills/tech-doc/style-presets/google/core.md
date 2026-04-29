@@ -1,4 +1,4 @@
-# Google — Core Style
+# Google: Core Style
 
 Source: https://developers.google.com/style
 License: CC BY 4.0

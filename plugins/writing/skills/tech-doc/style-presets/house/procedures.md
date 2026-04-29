@@ -1,4 +1,4 @@
-# House — Procedures and instructions
+# House: Procedures and instructions
 
 Source: Union of Google developer style and Microsoft Writing Style Guide (house synthesis)
 Last refreshed: 2026-04-29

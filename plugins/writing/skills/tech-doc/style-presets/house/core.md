@@ -1,4 +1,4 @@
-# House — Core Style
+# House: Core Style
 
 Sources:
 - Google: https://developers.google.com/style (CC BY 4.0)

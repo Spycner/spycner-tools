@@ -1,11 +1,11 @@
-# Google — Sources
+# Google: Sources
 
 ## Primary sources
-- https://developers.google.com/style — root of the Google Developer Documentation Style Guide
-- https://developers.google.com/style/word-list — A-Z word list
-- https://developers.google.com/style/code-samples — code samples
-- https://developers.google.com/style/cross-references — link conventions
-- https://developers.google.com/style/numbers — numbers, units, dates
+- https://developers.google.com/style (root of the Google Developer Documentation Style Guide)
+- https://developers.google.com/style/word-list (A-Z word list)
+- https://developers.google.com/style/code-samples (code samples)
+- https://developers.google.com/style/cross-references (link conventions)
+- https://developers.google.com/style/numbers (numbers, units, dates)
 
 ## License
 CC BY 4.0. Attribution: "Adapted from the Google Developer Documentation Style Guide, used under CC BY 4.0."

@@ -1,4 +1,4 @@
-# House — Links and cross-references
+# House: Links and cross-references
 
 Sources:
 - Google: https://developers.google.com/style/cross-references, https://developers.google.com/style/link-text (CC BY 4.0)
@@ -70,4 +70,4 @@ Google and Microsoft agree on period placement. House enforces one rule with no 
 - Sentence-ending punctuation falls outside the linked text: "See [Authentication overview](...)." (period after the closing bracket, not inside it).
 - Do not include trailing punctuation inside the link unless it is part of the title.
 - In bulleted lists, the terminal punctuation follows the closing bracket.
-- In parentheticals: "(See [Authentication overview](...).)" — the period is inside the closing parenthesis but outside the link.
+- In parentheticals: "(See [Authentication overview](...).)" where the period is inside the closing parenthesis but outside the link.

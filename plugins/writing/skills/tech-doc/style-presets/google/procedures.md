@@ -1,4 +1,4 @@
-# Google — Procedures and instructions
+# Google: Procedures and instructions
 
 Source: https://developers.google.com/style/procedures
 Last refreshed: 2026-04-29

@@ -1,4 +1,4 @@
-# House — Admonitions
+# House: Admonitions
 
 Source: Union of Google developer style and Microsoft Writing Style Guide (house synthesis)
 Last refreshed: 2026-04-28

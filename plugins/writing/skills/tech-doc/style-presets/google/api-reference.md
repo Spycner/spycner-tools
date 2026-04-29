@@ -1,4 +1,4 @@
-# Google — API reference conventions
+# Google: API reference conventions
 
 Source: https://developers.google.com/style/api-reference-comments, https://developers.google.com/style/code-in-text, https://developers.google.com/style/parameters
 Last refreshed: 2026-04-29
@@ -15,7 +15,7 @@ Last refreshed: 2026-04-29
 ## Type notation
 
 - Use backtick code font for all type names: `string`, `integer`, `boolean`, `object`, `array`.
-- Generic/parameterized types: `array of string`, `map<string, object>` — follow the notation the language or schema format uses.
+- Generic/parameterized types: `array of string`, `map<string, object>`. Follow the notation the language or schema format uses.
 - Do not use italics for type names. Reserve italics for placeholders.
 - For proto types, use the unqualified name where unambiguous: `Timestamp`, `Duration`.
 - When a field accepts multiple types, list each with a vertical bar inside backticks or prose: "`string` or `integer`".
@@ -46,7 +46,7 @@ Last refreshed: 2026-04-29
 ## Status codes
 
 - List HTTP status codes in ascending numeric order.
-- Format each entry as: `200 OK` — brief summary sentence.
+- Format each entry as: `200 OK` followed by a brief summary sentence.
 - Add a "Description" or "When returned" sentence after the summary for any non-obvious code.
 - Standard success codes need only a summary; error codes always get a cause and remediation sentence.
 
@@ -65,7 +65,7 @@ Example format:
 - State the error code first in backtick code font, then a plain-English cause, then what the caller should do.
 - Provide the error message string when it is stable; quote it in code font.
 - Group related error codes under a sub-heading when there are more than five distinct codes.
-- Example: "`PERMISSION_DENIED` — The caller does not have the required IAM role. Grant the `roles/storage.objectViewer` role and retry."
+- Example: "`PERMISSION_DENIED`: The caller does not have the required IAM role. Grant the `roles/storage.objectViewer` role and retry."
 
 ## Deprecation notation
 
