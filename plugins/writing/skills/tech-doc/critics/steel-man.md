@@ -24,12 +24,12 @@ Agent tool (general-purpose):
     ## Configuration
 
     - **Output path:** {OUTPUT_PATH}
-    - **Active style guide:** {STYLE_GUIDE_PATH}
+    - **Active style preset directory:** {STYLE_GUIDE_DIR}
 
     ## Setup
 
     1. Read `{OUTPUT_PATH}/draft.md` (the prose under review)
-    2. Read the active style guide (for context on the writer's stance and anti-patterns)
+    2. Read `{STYLE_GUIDE_DIR}/core.md` (for context on the writer's stance and anti-patterns)
 
     ## Method
 
