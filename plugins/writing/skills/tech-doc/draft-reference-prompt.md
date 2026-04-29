@@ -13,14 +13,14 @@ Agent tool (general-purpose):
     ## Configuration
 
     - **Output path:** {OUTPUT_PATH}
-    - **Active style guide:** {STYLE_GUIDE_PATH}
+    - **Active style guide:** {STYLE_GUIDE_DIR}/core.md
 
     ## Setup
 
     1. Read `{OUTPUT_PATH}/intake.md`. Note the **Reference type** and **Schema file** path.
     2. Read the schema file (e.g., `plugins/writing/skills/tech-doc/reference-schemas/function.md`). Identify required and optional fields and the output template.
     3. Read source material per intake.md (file path, spec, inline values). If the source is "values during draft", ask the writer for each field interactively via the orchestrator (NOT by emitting questions in draft.md).
-    4. Read `{STYLE_GUIDE_PATH}` for voice, capitalization, code formatting.
+    4. Read `{STYLE_GUIDE_DIR}/core.md` for voice, capitalization, code formatting.
 
     ## What to produce
 

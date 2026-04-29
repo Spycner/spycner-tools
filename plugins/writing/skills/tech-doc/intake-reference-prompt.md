@@ -13,7 +13,7 @@ Agent tool (general-purpose):
     ## Configuration
 
     - **Output path:** {OUTPUT_PATH}
-    - **Style guide:** {STYLE_GUIDE_PATH}
+    - **Style guide:** {STYLE_GUIDE_DIR}/core.md
     - **Today's date:** {YYYY-MM-DD}
 
     ## What to collect
