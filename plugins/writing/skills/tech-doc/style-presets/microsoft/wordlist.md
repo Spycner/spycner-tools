@@ -44,7 +44,7 @@ Last refreshed: 2026-04-29
 | i.e. | that is | yes | Avoid the Latin abbreviation; write out "that is" instead. |
 | in addition | also | yes | Wordy connector; "also" is shorter and equally clear. |
 | in order to | to | yes | Wordy infinitive phrase; trim to "to" in almost all cases. |
-| inform, let know | tell | yes | Prefer the simpler verb "tell" when the meaning is the same. |
+| inform, let know | tell | no | Prefer the simpler verb "tell" when the meaning is the same. |
 | just | (drop) | no | Filler word that rarely adds meaning; remove in most contexts. |
 | leverage (verb) | use / take advantage of | no | Avoid using "leverage" to mean "use"; it is marketing jargon. |
 | make use of | use | yes | Verbose phrase; "use" is always clearer. |
@@ -54,7 +54,7 @@ Last refreshed: 2026-04-29
 | really | (drop) | no | Filler intensifier; removing it rarely changes meaning. |
 | simple, simply | (drop) | no | Avoid; what seems simple to the author may not be to the reader. |
 | since (causal) | because | no | When "since" means "because," use "because" to remove temporal ambiguity. |
-| take away, extract, eliminate | remove | yes | Prefer the plain verb "remove" when that is the intended meaning. |
+| take away, extract, eliminate | remove | no | Prefer the plain verb "remove" when that is the intended meaning. |
 | there is / there are | (drop) | no | Weak sentence openers; rewrite to lead with the actual subject. |
 | utilize | use | yes | Almost always replaceable with "use"; "utilize" sounds unnecessarily formal. |
 | very | (drop) | no | Intensifier without specificity; remove or replace with a precise qualifier. |
@@ -66,10 +66,10 @@ Last refreshed: 2026-04-29
 
 | Term | Replacement | Mechanical | Notes |
 |------|-------------|------------|-------|
-| check (a checkbox) | select | yes | Microsoft specifies "select" for checkboxes, not "check" or "tick". |
+| check (a checkbox) | select | no | Microsoft specifies "select" for checkboxes, not "check" or "tick". |
 | choose | select | no | "Select" is preferred for specific UI controls; "choose" works when describing customer preference. |
 | clear (checkbox) | (keep, see Notes) | no | Correct term for removing a checkbox selection; do not use "deselect" or "uncheck". |
-| click | select | yes | Microsoft now prefers the input-neutral verb "select" rather than mouse-specific "click". |
+| click | select | no | Microsoft now prefers the input-neutral verb "select" rather than mouse-specific "click". |
 | close | (keep, see Notes) | no | Use for apps, panes, dialogs, files, tabs, and notifications. |
 | drag | move | no | Use "move" as the generic term; specify "drag" only when the physical gesture matters. |
 | enter | (keep, see Notes) | no | Use to tell customers to type a value in a field; works across keyboard and other input. |
@@ -110,17 +110,17 @@ Last refreshed: 2026-04-29
 | Ctrl key | (keep, see Notes) | no | Capitalize; use "Ctrl+key" for keyboard shortcuts; do not use for Mac. |
 | Delete key | (keep, see Notes) | no | Capitalize; standard key name for the forward-delete key. |
 | Del key | (keep, see Notes) | no | Capitalize; use on Mac to refer to the forward delete key only. |
-| depress (a key) | select | yes | Do not use "depress" for pressing a key; use "select". |
-| direction keys / directional keys | arrow keys | yes | Do not use; use "arrow keys" instead. |
+| depress (a key) | select | no | Do not use "depress" for pressing a key; use "select". |
+| direction keys / directional keys | arrow keys | no | Do not use; use "arrow keys" instead. |
 | End key | (keep, see Notes) | no | Capitalize; standard navigation key name. |
 | Enter key | (keep, see Notes) | no | Capitalize; do not use "Return key" except in Mac-specific content. |
 | Esc key | (keep, see Notes) | no | Always use "Esc," not "Escape". |
 | F1 to F12 keys | (keep, see Notes) | no | Capitalize F; no space between F and the number (e.g., "F5"); use "function keys" collectively. |
-| fast key / quick key / speed key | keyboard shortcut | yes | Do not use any of these; "keyboard shortcut" is the correct general term. |
+| fast key / quick key / speed key | keyboard shortcut | no | Do not use any of these; "keyboard shortcut" is the correct general term. |
 | Forward key | (keep, see Notes) | no | Capitalize; performs the same function as the browser's Forward button. |
 | function keys | (keep, see Notes) | no | Acceptable collective term for F1 to F12; do not call them "fn keys" except for the laptop Fn modifier. |
 | hashtag (#) | (keep, see Notes) | no | Acceptable when describing use of the # key on social media; "# key" is the standard keyboard term. |
-| hit (a key) | select | yes | Do not use "hit" to mean pressing a key; use "select". |
+| hit (a key) | select | no | Do not use "hit" to mean pressing a key; use "select". |
 | Home key | (keep, see Notes) | no | Capitalize; standard navigation key name. |
 | hyphen key | (keep, see Notes) | no | Spell out "hyphen" when naming this key; capitalize when directing the reader to press it. |
 | Insert key | (keep, see Notes) | no | Capitalize; standard key name. |
@@ -147,7 +147,7 @@ Last refreshed: 2026-04-29
 | plus sign key | (keep, see Notes) | no | Spell out "plus sign" when referring to the key; capitalize when instructing the reader to press it. |
 | pointer | (keep, see Notes) | no | Use for the on-screen cursor moved by a pointing device; distinct from the text insertion "cursor". |
 | pound key | # key | no | Use "pound key" only for phone keypads; include the symbol in parentheses. |
-| press (a key) | select | yes | Do not use "press" for instructing key actions; use "select". |
+| press (a key) | select | no | Do not use "press" for instructing key actions; use "select". |
 | Print screen key | (keep, see Notes) | no | Use sentence capitalization ("Print screen"); do not abbreviate as "PrtScn" in prose. |
 | Reset key | (keep, see Notes) | no | Capitalize; standard key name. |
 | Return key | Enter key | no | Use "Enter key" for Windows; "Return key" is acceptable only for Mac-specific content. |
@@ -159,7 +159,7 @@ Last refreshed: 2026-04-29
 | soft keyboard | on-screen keyboard | yes | Do not use; use "on-screen keyboard". |
 | Spacebar | (keep, see Notes) | no | One word, capitalized; do not write "space bar" or "space key"; always precede with "the" except in shortcuts. |
 | star (phone key) | asterisk | no | "Star" is acceptable for the * key on a phone keypad; use "asterisk" for all other references. |
-| strike (a key) | select | yes | Do not use "strike" for pressing a key; use "select". |
+| strike (a key) | select | no | Do not use "strike" for pressing a key; use "select". |
 | Tab key | (keep, see Notes) | no | Capitalize "Tab"; use "Tab key" to prevent confusion with UI tabs. |
 | touchpad | (keep, see Notes) | no | Microsoft's preferred term for the laptop pointing surface; use instead of "trackpad". |
 | trackpad | touchpad | yes | Microsoft standard is "touchpad". |
@@ -172,10 +172,10 @@ Last refreshed: 2026-04-29
 
 | Term | Replacement | Mechanical | Notes |
 |------|-------------|------------|-------|
-| log in / log on | sign in | yes | Microsoft standard is "sign in" (verb); avoid "log in," "log on," or "login" as a verb. |
-| log off / log out | sign out | yes | Microsoft standard is "sign out"; avoid "log off," "log out," and their variants. |
-| login (noun/adjective) | sign-in | yes | Use the hyphenated "sign-in" as the noun or adjective form. |
-| logon (noun/adjective) | sign-in | yes | Use "sign-in" rather than "logon" or "log-on". |
+| log in / log on | sign in | no | Microsoft standard is "sign in" (verb); avoid "log in," "log on," or "login" as a verb. |
+| log off / log out | sign out | no | Microsoft standard is "sign out"; avoid "log off," "log out," and their variants. |
+| login (noun/adjective) | sign-in | no | Use the hyphenated "sign-in" as the noun or adjective form. |
+| logon (noun/adjective) | sign-in | no | Use "sign-in" rather than "logon" or "log-on". |
 | password | (keep, see Notes) | no | Acceptable; consider "passphrase" when discussing longer credential strings. |
 | sign in | (keep, see Notes) | no | Preferred verb for authentication actions; use consistently throughout. |
 | sign out | (keep, see Notes) | no | Preferred verb for ending a session; use consistently throughout. |
@@ -216,7 +216,7 @@ Last refreshed: 2026-04-29
 | abort | stop / cancel | no | Avoid "abort"; use "stop" or "cancel" to describe ending an operation. |
 | error (in message text) | (keep, see Notes) | no | Keep error messages brief and direct; omit error codes unless essential to resolution. |
 | failed, failure | (keep, see Notes) | no | Acceptable in error messages; be specific about what failed and what the customer can do next. |
-| hang / hung | stop responding | yes | Avoid "hang" or "hung" for unresponsive programs; use "stop responding" or "isn't responding". |
+| hang / hung | stop responding | no | Avoid "hang" or "hung" for unresponsive programs; use "stop responding" or "isn't responding". |
 | invalid | not valid / incorrect | no | Prefer "not valid" or a specific problem description rather than the generic "invalid". |
 | kill | stop / end | no | Avoid "kill" for terminating processes; use "stop" or "end" in user-facing content. |
 | must not | cannot | no | In error messages, "cannot" is clearer for communicating inability or an unavailable path. |
@@ -237,10 +237,10 @@ Last refreshed: 2026-04-29
 | below (in text) | later / the following | no | Do not use "below" for cross-references; use "later" or link directly. |
 | bottom | (keep, see Notes) | no | Acceptable for physical or visual positions in the UI; avoid for document navigation. |
 | left-side navigation | navigation pane | no | Avoid directional labels for UI elements that may render differently on different screens. |
-| lower | earlier | yes | Do not use "lower" for version ranges; use "earlier" (e.g., "Windows 10 or earlier"). |
+| lower | earlier | no | Do not use "lower" for version ranges; use "earlier" (e.g., "Windows 10 or earlier"). |
 | right-side | (drop) | no | Avoid positional descriptions that assume a fixed layout; name the element by its label instead. |
 | top | (keep, see Notes) | no | Acceptable for physical or visual positions in the UI; avoid for document navigation. |
-| upper | later | yes | Do not use "upper" for version number ranges; use "later". |
+| upper | later | no | Do not use "upper" for version number ranges; use "later". |
 
 ---
 
@@ -248,7 +248,7 @@ Last refreshed: 2026-04-29
 
 | Term | Replacement | Mechanical | Notes |
 |------|-------------|------------|-------|
-| 1st, 2nd, 3rd (dates) | January 1 / February 2 | yes | Do not use ordinal numbers for dates; write "month day, year" format. |
+| 1st, 2nd, 3rd (dates) | January 1 / February 2 | no | Do not use ordinal numbers for dates; write "month day, year" format. |
 | AM, PM | (keep, see Notes) | no | Use all caps with a space before the time (e.g., "10:45 AM"); omit periods; do not use lowercase. |
 | baud | (keep, see Notes) | no | Do not abbreviate; avoid "baud rate" (redundant); use commas only when the number has five or more digits. |
 | centimeters / cm | (keep, see Notes) | no | Abbreviate only when paired with a numeral in a measurement context. |
@@ -293,7 +293,7 @@ Last refreshed: 2026-04-29
 | Term | Replacement | Mechanical | Notes |
 |------|-------------|------------|-------|
 | Asian, Black, Hispanic, Latinx, Native American, Indigenous Peoples | (keep, see Notes) | no | Capitalize these ethnic and cultural identifiers per Microsoft style. |
-| he/she, s/he | they | yes | Do not use gendered pronoun pairs; use singular "they" instead. |
+| he/she, s/he | they | no | Do not use gendered pronoun pairs; use singular "they" instead. |
 | multiracial | (keep, see Notes) | no | Lowercase in Microsoft style (unlike other ethnic identifiers that are capitalized). |
 | pimp | (drop) | no | Profane and derogatory; never use in any content. |
 | singular they | (keep, see Notes) | no | Microsoft endorses "they/them/their" as singular gender-neutral pronouns for generic references. |
@@ -313,7 +313,7 @@ Last refreshed: 2026-04-29
 | differently abled | person with a disability | no | Avoid euphemisms; use direct, respectful language. |
 | epileptic | person who has epilepsy | no | Avoid labeling people with their condition; use people-first construction. |
 | handicapped | person with a disability | no | Avoid "handicapped" as a general descriptor; it is considered outdated and stigmatizing. |
-| hang / hung (system) | stop responding | yes | Do not use "hang" to describe an unresponsive program; use "stop responding". |
+| hang / hung (system) | stop responding | no | Do not use "hang" to describe an unresponsive program; use "stop responding". |
 | healthy (as contrast with disabled) | person without a disability | no | Do not use "healthy" or "normal" to contrast with people who have disabilities. |
 | hearing-impaired | person who is deaf / person with a hearing disability | no | "Hearing-impaired" is discouraged; use the people-first term or the community-preferred form. |
 | lame | (drop) | no | Do not use "lame" as a casual negative adjective; it appropriates disability as a put-down. |
@@ -338,14 +338,14 @@ Last refreshed: 2026-04-29
 
 | Term | Replacement | Mechanical | Notes |
 |------|-------------|------------|-------|
-| chairman | chair / moderator | yes | Use gender-neutral role titles for all positions. |
+| chairman | chair / moderator | no | Use gender-neutral role titles for all positions. |
 | guys, you guys | everyone / all | no | Replace group terms with non-gendered alternatives. |
 | he, him, his (generic reference) | they / them / their | no | Do not use gendered pronouns for generic or hypothetical individuals; singular "they" is preferred. |
 | humanity, mankind, man | people / humankind | no | Replace gendered human references with inclusive equivalents. |
 | manmade | synthetic / manufactured / artificial | no | Use a precise, gender-neutral adjective. |
 | manned | staffed / crewed / operated | no | Avoid the gendered verb; use a neutral description of who operates or staffs the system. |
 | manpower | workforce / staff / personnel | no | Replace with a gender-neutral noun. |
-| mans (verb) | operates / staffs | yes | Use a gender-neutral verb for operating or staffing. |
+| mans (verb) | operates / staffs | no | Use a gender-neutral verb for operating or staffing. |
 | master / slave (computing) | primary / subordinate | no | Replace with neutral technical terms that accurately describe the relationship. |
 | salesman | sales representative | yes | Use a gender-neutral role title. |
 | she, her, hers (generic reference) | they / them / their | no | Do not use gendered pronouns for generic references; use singular "they". |
@@ -357,7 +357,7 @@ Last refreshed: 2026-04-29
 | Term | Replacement | Mechanical | Notes |
 |------|-------------|------------|-------|
 | autumn / fall (without hemisphere) | (specific months or quarter) | no | Season references are ambiguous globally; specify months or quarters. |
-| demilitarized zone (DMZ) | perimeter network | yes | Avoid the military metaphor; "perimeter network" describes the function clearly. |
+| demilitarized zone (DMZ) | perimeter network | no | Avoid the military metaphor; "perimeter network" describes the function clearly. |
 | glyph | symbol | no | "Symbol" is more widely understood for general audiences; use "glyph" only for typographic specialists. |
 | kill chain | cyberattack chain | yes | Avoid militaristic language in cybersecurity contexts; use "cyberattack chain". |
 | rip (copy from CD) | copy | no | Use the plain verb "copy" unless the technical distinction genuinely matters. |
@@ -380,7 +380,7 @@ Last refreshed: 2026-04-29
 | attack (without context) | cyberattack | no | Add context or prefix "cyber-" when "attack" alone does not clarify it is a digital security event. |
 | attacker | cyberattacker / bad actor / threat actor | no | In cybersecurity contexts, use more specific and descriptive terms. |
 | bad actor | (keep, see Notes) | no | Acceptable security term; more descriptive than the generic "attacker". |
-| blast radius (security) | impact | yes | Avoid the military metaphor; use "impact" to describe the scope of a security event. |
+| blast radius (security) | impact | no | Avoid the military metaphor; use "impact" to describe the scope of a security event. |
 | born in the cloud | cloud-native | no | Use "cloud-native" rather than the informal metaphor "born in the cloud". |
 | button | (keep, see Notes) | no | Use for actual UI button controls; do not use "button" to describe a link. |
 | can | (keep, see Notes) | no | Use "can" to convey ability or possibility; "may" is for permission or official policy only. |
@@ -448,8 +448,8 @@ Last refreshed: 2026-04-29
 | highlight | select | no | Do not use "highlight" as a synonym for "select"; text is "selected," not "highlighted". |
 | launch | open / start | no | Avoid "launch" for starting apps or programs; use "open" or "start". |
 | pick | select | yes | Do not use "pick" as a synonym for "select". |
-| press (a key) | select | yes | Use "select" for key presses; "press" is acceptable only in specific mouse-button contexts. |
-| push (a button) | select | yes | Do not use "push" for UI buttons; use "select". |
+| press (a key) | select | no | Use "select" for key presses; "press" is acceptable only in specific mouse-button contexts. |
+| push (a button) | select | no | Do not use "push" for UI buttons; use "select". |
 | run (a program) | open / start | no | Prefer "open" for apps; "run" is acceptable for scripts, commands, and executables. |
 | start (an app) | open | no | "Open" is preferred over "start" for apps; "start" is used for services or background processes. |
 

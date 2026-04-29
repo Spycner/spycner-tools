@@ -70,7 +70,7 @@ Last refreshed: 2026-04-29
 | in order to | to | yes | Avoid; use "to" instead, except when needed for grammatical clarity. (both) |
 | in reality | (drop) | no | Filler qualifier; the statement is true or it is not; state it directly. (microsoft) |
 | in terms of | (drop) | no | Verbose prepositional phrase; rewrite the sentence to remove it. (microsoft) |
-| inform, let know | tell | yes | Prefer the simpler verb "tell" when the meaning is the same. (microsoft) |
+| inform, let know | tell | no | Prefer the simpler verb "tell" when the meaning is the same. (microsoft) |
 | it goes without saying | (drop) | no | If it goes without saying, do not say it; or state the point directly. (microsoft) |
 | it is important to note that | (drop) | no | Filler opener; state the important point directly. (microsoft) |
 | it should be noted that | (drop) | no | Passive filler; state the observation directly. (microsoft) |
@@ -105,7 +105,7 @@ Last refreshed: 2026-04-29
 | someday | (drop) | no | Avoid in timeless documentation; implies future change. (google) |
 | soon | (drop) | no | Avoid; can become outdated; use specific timeframes instead. (google) |
 | straightforward | (drop) | no | Subjective; what seems clear to the author may not be to the reader. (microsoft) |
-| take away, extract, eliminate | remove | yes | Prefer the plain verb "remove" when that is the intended meaning. (microsoft) |
+| take away, extract, eliminate | remove | no | Prefer the plain verb "remove" when that is the intended meaning. (microsoft) |
 | there is / there are | (drop) | no | Weak sentence openers; rewrite to lead with the actual subject. (microsoft) |
 | today | (drop) | no | Avoid in timeless documentation; use specific dates instead. (google) |
 | transparent | clear / visible | no | Overused in business writing; use "clear" or "visible" for the intended meaning. (microsoft) |
@@ -126,13 +126,13 @@ Last refreshed: 2026-04-29
 | Term | Replacement | Mechanical | Notes |
 |------|-------------|------------|-------|
 | > (chevron in steps) | (keep, see Notes) | no | Use the greater-than symbol with spaces before and after to separate sequential UI steps when the path is clear and selection method is consistent. (microsoft) |
-| check (checkbox) | select | yes | Don't use for marking a checkbox; replace with "select". (both) |
+| check (checkbox) | select | no | Don't use for marking a checkbox; replace with "select". (both) |
 | choose | select | no | Acceptable generically; use "select" specifically for UI elements; "choose" works when describing customer preference where repetition of "select" would be awkward. (both) |
 | clear (checkbox) | (keep, see Notes) | no | Correct term for removing a checkbox selection; do not use "deselect" or "uncheck". (microsoft) |
-| click | select | yes | Conflict: Google says keep "click" for desktop targets; Microsoft now prefers input-neutral "select". House picks Microsoft (voice/tone goes to Microsoft): use input-neutral "select" rather than mouse-specific "click"; for mouse-only docs "click" is acceptable. |
+| click | select | no | Conflict: Google says keep "click" for desktop targets; Microsoft now prefers input-neutral "select". House picks Microsoft (voice/tone goes to Microsoft): use input-neutral "select" rather than mouse-specific "click"; for mouse-only docs "click" is acceptable. |
 | click here | (drop) | no | Don't use; link text should describe the destination, not the action. (google) |
 | close | (keep, see Notes) | no | Use for apps, panes, dialogs, files, tabs, and notifications. (microsoft) |
-| depress (a key or button) | select | yes | Do not use "depress" to describe pressing a key or button; use "select". (microsoft) |
+| depress (a key or button) | select | no | Do not use "depress" to describe pressing a key or button; use "select". (microsoft) |
 | deselect | clear | yes | Don't use for clearing checkboxes; replace with "clear". (google) |
 | disable | turn off | no | Don't use for broken items; use "inactive," "unavailable," "deactivate," or "turn off". (google) |
 | double-tap | (keep, see Notes) | no | Hyphenate; lowercase except at sentence/heading/list start; standard touch term. (google) |
@@ -150,7 +150,7 @@ Last refreshed: 2026-04-29
 | move | (keep, see Notes) | no | Generic verb for relocating items; covers drag, cut-paste, and similar methods. (microsoft) |
 | open | (keep, see Notes) | no | Use for apps, files, folders, panes, and shortcut menus; not for menus or commands. (microsoft) |
 | pick | select | yes | Do not use "pick" as a synonym for "select". (microsoft) |
-| push (a button) | select | yes | Do not use "push" for UI buttons; use "select". (microsoft) |
+| push (a button) | select | no | Do not use "push" for UI buttons; use "select". (microsoft) |
 | right-click | select and hold (or right-click) | no | For touch-inclusive docs, pair with "select and hold"; right-click alone is fine for mouse-only docs. (microsoft) |
 | run | (keep, see Notes) | no | Preferred over "execute" when meaning is equivalent; acceptable for scripts, commands, and executables. (google) |
 | select | (keep, see Notes) | no | Primary input-neutral verb for most UI interactions: buttons, links, menu items, checkboxes, keys. (both) |
@@ -159,8 +159,8 @@ Last refreshed: 2026-04-29
 | swipe | (drop) | no | Avoid input-specific gesture verbs; use a neutral description of the intended action. (microsoft) |
 | switch, turn on, turn off | (keep, see Notes) | no | Use for toggle keys and toggle switches; "turn on/off" for enabling/disabling features. (microsoft) |
 | tap | select | no | Conflict: Google says use "tap" in Android docs; Microsoft says use input-neutral "select". House picks Microsoft (voice/tone goes to Microsoft): avoid touch-specific "tap"; use input-neutral "select" across device types. |
-| turn off | (keep, see Notes) | yes | Use instead of "disable" for user actions. (google) |
-| turn on | (keep, see Notes) | yes | Use instead of "enable" for user actions. (google) |
+| turn off | (keep, see Notes) | no | Use instead of "disable" for user actions. (google) |
+| turn on | (keep, see Notes) | no | Use instead of "enable" for user actions. (google) |
 | type | (keep, see Notes) | no | Use for entering text with a keyboard; "enter" also works for value input. (both) |
 | uncheck | clear | yes | Don't use; use "clear" instead for checkboxes. (google) |
 | zoom in / zoom out | (keep, see Notes) | no | Use for changing the magnification of a screen or window view. (microsoft) |
@@ -190,17 +190,17 @@ Last refreshed: 2026-04-29
 | Ctrl key | (keep, see Notes) | no | Capitalize; use "Ctrl+key" for keyboard shortcuts; do not use for Mac. (microsoft) |
 | Delete key | (keep, see Notes) | no | Capitalize; standard key name for the forward-delete key. (microsoft) |
 | Del key | (keep, see Notes) | no | Capitalize; use on Mac to refer to the forward delete key only. (microsoft) |
-| depress (a key) | select | yes | Do not use "depress" for pressing a key; use "select". (microsoft) |
-| direction keys / directional keys | arrow keys | yes | Do not use; use "arrow keys" instead. (microsoft) |
+| depress (a key) | select | no | Do not use "depress" for pressing a key; use "select". (microsoft) |
+| direction keys / directional keys | arrow keys | no | Do not use; use "arrow keys" instead. (microsoft) |
 | End key | (keep, see Notes) | no | Capitalize; standard navigation key name. (microsoft) |
 | Enter key | (keep, see Notes) | no | Capitalize; do not use "Return key" except in Mac-specific content. (microsoft) |
 | Esc key | (keep, see Notes) | no | Always use "Esc," not "Escape". (microsoft) |
 | F1 to F12 keys | (keep, see Notes) | no | Capitalize F; no space between F and the number (e.g., "F5"); use "function keys" collectively. (microsoft) |
-| fast key / quick key / speed key | keyboard shortcut | yes | Do not use any of these; "keyboard shortcut" is the correct general term. (microsoft) |
+| fast key / quick key / speed key | keyboard shortcut | no | Do not use any of these; "keyboard shortcut" is the correct general term. (microsoft) |
 | Forward key | (keep, see Notes) | no | Capitalize; performs the same function as the browser's Forward button. (microsoft) |
 | function keys | (keep, see Notes) | no | Acceptable collective term for F1-F12; do not call them "fn keys" except for the laptop Fn modifier. (microsoft) |
 | hashtag (#) | (keep, see Notes) | no | Acceptable when describing use of the # key on social media; "# key" is the standard keyboard term. (microsoft) |
-| hit (a key) | select | yes | Do not use "hit" to mean pressing a key; use "select". (microsoft) |
+| hit (a key) | select | no | Do not use "hit" to mean pressing a key; use "select". (microsoft) |
 | hold the pointer over | (keep, see Notes) | no | Use only when duration matters or no-click waiting is required; not a synonym for "hover". (google) |
 | Home key | (keep, see Notes) | no | Capitalize; standard navigation key name. (microsoft) |
 | hover | hold the pointer over | yes | Don't use; instead use "hold the pointer over". (google) |
@@ -230,7 +230,7 @@ Last refreshed: 2026-04-29
 | point to | (keep, see Notes) | no | Refers to mouse pointer positioning without implying wait time; distinct from "hold the pointer over". (google) |
 | pointer | (keep, see Notes) | no | Use for the on-screen cursor moved by a pointing device; distinct from the text insertion "cursor". (microsoft) |
 | pound key | # key | no | Use "pound key" only for phone keypads; include the symbol in parentheses. (microsoft) |
-| press (a key) | select | yes | Do not use "press" for instructing key actions; use "select". (microsoft) |
+| press (a key) | select | no | Do not use "press" for instructing key actions; use "select". (microsoft) |
 | Print screen key | (keep, see Notes) | no | Use sentence capitalization ("Print screen"); do not abbreviate as "PrtScn" in prose. (microsoft) |
 | Reset key | (keep, see Notes) | no | Capitalize; standard key name. (microsoft) |
 | Return key | Enter key | no | Use "Enter key" for Windows; "Return key" is acceptable only for Mac-specific content. (microsoft) |
@@ -243,7 +243,7 @@ Last refreshed: 2026-04-29
 | soft keyboard | on-screen keyboard | yes | Do not use; use "on-screen keyboard". (microsoft) |
 | Spacebar | (keep, see Notes) | no | One word, capitalized; do not write "space bar" or "space key"; always precede with "the" except in shortcuts. (microsoft) |
 | star (phone key) | asterisk | no | "Star" is acceptable for the * key on a phone keypad; use "asterisk" for all other references. (microsoft) |
-| strike (a key) | select | yes | Do not use "strike" for pressing a key; use "select". (microsoft) |
+| strike (a key) | select | no | Do not use "strike" for pressing a key; use "select". (microsoft) |
 | tab (key) | Tab key | no | Don't use "tab" to refer to the Tab key; write "Tab key". (google) |
 | Tab key | (keep, see Notes) | no | Capitalize "Tab"; use "Tab key" to prevent confusion with UI tabs. (microsoft) |
 | touch & hold | (keep, see Notes) | no | In Android documentation, preferred over "long press". (google) |
@@ -260,14 +260,14 @@ Last refreshed: 2026-04-29
 |------|-------------|------------|-------|
 | account name | username | yes | Don't use; replace with "username". (google) |
 | authenticate | (keep, see Notes) | no | Correct term for verifying identity; use with "against" (e.g., "authenticate against the server"). (microsoft) |
-| authN, authZ | authentication / authorization | yes | Don't use these abbreviations; spell out in full. (google) |
+| authN, authZ | authentication / authorization | no | Don't use these abbreviations; spell out in full. (google) |
 | authentication and authorization | (keep, see Notes) | no | Use "authenticated" for users, "authorized" for requests; use preposition "against" with "authenticate". (google) |
 | connect | (keep, see Notes) | no | Use for establishing a connection to a network, server, or device; distinct from "sign in". (microsoft) |
 | credentials | (keep, see Notes) | no | Acceptable collective term for username and password; do not use as a verb. (microsoft) |
 | forgot password | reset password / account recovery | no | Prefer "reset password" or "account recovery" in UI labels; "forgot password" is acceptable for button labels that match user mental models. (microsoft) |
 | log in / login | sign in / sign-in | no | Prefer "sign in" (verb) and "sign-in" (noun/adjective); use consistently. (both) |
 | log out | sign out | no | Prefer "sign out" over "log out"; use consistently throughout. (both) |
-| logon (noun/adjective) | sign-in | yes | Use "sign-in" rather than "logon" or "log-on". (microsoft) |
+| logon (noun/adjective) | sign-in | no | Use "sign-in" rather than "logon" or "log-on". (microsoft) |
 | passphrase | (keep, see Notes) | no | Acceptable alternative to "password" when describing longer character strings used as credentials. (microsoft) |
 | password | (keep, see Notes) | no | Acceptable; consider "passphrase" when discussing longer credential strings. (microsoft) |
 | sign in / sign out | (keep, see Notes) | no | Preferred terms for authentication actions; use consistently. (both) |
@@ -354,14 +354,14 @@ Last refreshed: 2026-04-29
 | below | (drop) | no | Don't use for version ranges, document positions, or UI directions; use "later" or link directly. (both) |
 | bottom | (keep, see Notes) | no | Acceptable for physical or visual positions in the UI; avoid for document navigation. (microsoft) |
 | earlier | (keep, see Notes) | no | Use for version ranges instead of "lower"; for document positions, use instead of directional language. (google) |
-| higher | later | yes | Don't use for version ranges; use "later". (google) |
+| higher | later | no | Don't use for version ranges; use "later". (google) |
 | later | (keep, see Notes) | no | Use for version number ranges instead of "higher". (google) |
-| left-nav, right-nav | navigation menu | yes | Don't use directional language; use "navigation menu". (google) |
+| left-nav, right-nav | navigation menu | no | Don't use directional language; use "navigation menu". (google) |
 | left-side navigation | navigation pane | no | Avoid directional labels for UI elements that may render differently on different screens. (microsoft) |
-| lower | earlier | yes | Don't use for version ranges; use "earlier". (both) |
+| lower | earlier | no | Don't use for version ranges; use "earlier". (both) |
 | right-side | (drop) | no | Avoid positional descriptions that assume a fixed layout; name the element by its label instead. (microsoft) |
 | top | (keep, see Notes) | no | Acceptable for physical or visual positions in the UI; avoid for document navigation. (microsoft) |
-| upper | later | yes | Don't use for version numbers; use "later". (both) |
+| upper | later | no | Don't use for version numbers; use "later". (both) |
 
 ---
 
@@ -371,7 +371,7 @@ Last refreshed: 2026-04-29
 |------|-------------|------------|-------|
 | + (in text) | (keep, see Notes) | no | Acceptable with numbers in text (e.g., "300+ attributes") except in formal contexts. (google) |
 | & (ampersand) | and | no | Don't use instead of "and" in headings, text, or navigation; OK in code or when referencing UI elements that use &. (google) |
-| 1st, 2nd, 3rd (dates) | January 1 / February 2 | yes | Do not use ordinal numbers for dates; write "month day, year" format. (microsoft) |
+| 1st, 2nd, 3rd (dates) | January 1 / February 2 | no | Do not use ordinal numbers for dates; write "month day, year" format. (microsoft) |
 | 2-Step Verification | (keep, see Notes) | no | Use initial caps for Google's product; lowercase for generic two-step verification. (google) |
 | A/B testing | (keep, see Notes) | no | Capitalize with slash notation. (google) |
 | AM, PM | (keep, see Notes) | no | Use all caps, no periods, with a space before (e.g., "9:00 AM"). (both) |
@@ -428,7 +428,7 @@ Last refreshed: 2026-04-29
 |------|-------------|------------|-------|
 | a and an | (keep, see Notes) | no | Use "a" before consonant sounds; follow article guidelines for edge cases. (google) |
 | Asian, Black, Hispanic, Latinx, Native American, Indigenous Peoples | (keep, see Notes) | no | Capitalize these ethnic and cultural identifiers per Microsoft style. (microsoft) |
-| he/she, s/he | they | yes | Do not use gendered pronoun pairs; use singular "they" instead. (microsoft) |
+| he/she, s/he | they | no | Do not use gendered pronoun pairs; use singular "they" instead. (microsoft) |
 | multiracial | (keep, see Notes) | no | Lowercase in Microsoft style (unlike other ethnic identifiers that are capitalized). (microsoft) |
 | pimp | (drop) | no | Profane and derogatory; never use in any content. (microsoft) |
 | singular they | (keep, see Notes) | no | Preferred gender-neutral pronoun form; acceptable and preferred for generic references. (both) |
@@ -455,7 +455,7 @@ Last refreshed: 2026-04-29
 | dumb down | simplify | no | Don't use; replace with "simplify" or "remove technical jargon". (google) |
 | epileptic | person who has epilepsy | no | Avoid labeling people with their condition; use people-first construction. (microsoft) |
 | gimp, gimpy | (drop) | no | Don't use for code deficiencies; acceptable only in company or tool names. (google) |
-| grayed-out / greyed-out | unavailable | yes | Don't use; replace with "unavailable". (google) |
+| grayed-out / greyed-out | unavailable | no | Don't use; replace with "unavailable". (google) |
 | handicapped | person with a disability | no | Avoid "handicapped" as a general descriptor; it is considered outdated and stigmatizing. (microsoft) |
 | hang, hung (system) | stop responding | no | Don't use for unresponsive systems; use "stop responding". (both) |
 | healthy | (drop) | no | Don't use "healthy" or "normal" to contrast with people who have disabilities; see "health check" guidance for context-appropriate alternatives. (both) |
@@ -483,7 +483,7 @@ Last refreshed: 2026-04-29
 
 | Term | Replacement | Mechanical | Notes |
 |------|-------------|------------|-------|
-| chairman | chair / moderator | yes | Use gender-neutral role titles for all positions. (microsoft) |
+| chairman | chair / moderator | no | Use gender-neutral role titles for all positions. (microsoft) |
 | female adapter | socket | yes | Don't use; replace with the genderless term "socket". (google) |
 | gender-neutral he/him/his | they/them/their | no | Don't use; employ singular "they" instead. (google) |
 | guys, you guys | everyone / folks / all | no | Replace with non-gendered "everyone," "folks," or "all". (both) |
@@ -495,7 +495,7 @@ Last refreshed: 2026-04-29
 | manmade | artificial / manufactured / synthetic | no | Avoid gendered term; use "artificial," "manufactured," or "synthetic". (both) |
 | manned | staffed / crewed / operated | no | Avoid gendered verb; use "staffed," "crewed," or "operated". (both) |
 | manpower | staff / workforce / personnel | no | Avoid gendered term; use "staff," "workforce," or "personnel". (both) |
-| mans (verb) | operates / staffs | yes | Use a gender-neutral verb for operating or staffing. (microsoft) |
+| mans (verb) | operates / staffs | no | Use a gender-neutral verb for operating or staffing. (microsoft) |
 | master | primary / main / parent / controller | no | Use with caution; never with "slave"; replace with specific terms like "primary," "main," "parent," or "controller". (google) |
 | master / slave (computing) | primary / subordinate | no | Conflict: Google says "primary / main / parent / controller"; Microsoft says "primary / subordinate". House picks the more-prescriptive choice (inclusive/gendered rule): replace with neutral technical terms; "primary" for primary, "secondary" or "subordinate" for subordinate roles depending on context. |
 | preferred pronouns | pronouns | yes | Don't use "preferred"; just say "pronouns". (google) |
@@ -516,7 +516,7 @@ Last refreshed: 2026-04-29
 | brown bag, brown-bag | learning session / lunch and learn | no | Don't use; replace with "learning session" or "lunch and learn". (google) |
 | build cop, build sheriff | build monitor | no | Don't use; replace with "build monitor". (google) |
 | Cyber Monday | peak scale event | no | Avoid unless explicitly referring to the US event; use "peak scale event". (google) |
-| demilitarized zone (DMZ) | perimeter network | yes | Avoid the military metaphor; "perimeter network" describes the function clearly. (both) |
+| demilitarized zone (DMZ) | perimeter network | no | Avoid the military metaphor; "perimeter network" describes the function clearly. (both) |
 | dojo | training / workshop | no | Don't use; replace with "training" or "workshop". (google) |
 | ghetto | clumsy / workaround / inelegant | no | Don't use; replace with precise descriptors. (google) |
 | glyph | symbol | no | "Symbol" is more widely understood for general audiences; use "glyph" only for typographic specialists. (microsoft) |
@@ -586,7 +586,7 @@ Last refreshed: 2026-04-29
 | button | (keep, see Notes) | no | A link is not the same as a button; don't use "button" for links; use for mechanical/capacitive buttons. (both) |
 | can | (keep, see Notes) | no | Use to convey permission, ability, optional action, or possible outcome. (both) |
 | canary | (keep, see Notes) | no | Don't use as a verb; avoid jargon; define on first use if used. (google) |
-| cell phone / cellphone | mobile phone / mobile device | yes | Don't use; use "mobile phone" or "mobile device". (google) |
+| cell phone / cellphone | mobile phone / mobile device | no | Don't use; use "mobile phone" or "mobile device". (google) |
 | cellular data | mobile data | yes | Don't use; replace with "mobile data". (google) |
 | cellular network | mobile network | yes | Don't use; replace with "mobile network". (google) |
 | chapter | document / page / section | no | Don't use for non-book documentation; use "document," "page," or "section". (google) |
@@ -624,7 +624,7 @@ Last refreshed: 2026-04-29
 | dead-letter queue | (keep, see Notes) | no | Define on first use (e.g., "unprocessed messages queue"). (google) |
 | deep linking | (keep, see Notes) | no | Not "deep-linking"; omit if possible. (google) |
 | defense-in-depth | multilayered approach | no | In cybersecurity prose, pair "defense-in-depth" with context or rewrite as "multilayered approach". (microsoft) |
-| demilitarized zone (DMZ) | perimeter network | yes | Don't use; replace with "perimeter network". (both) |
+| demilitarized zone (DMZ) | perimeter network | no | Don't use; replace with "perimeter network". (both) |
 | denigrate | disparage | yes | Don't use; replace with "disparage". (google) |
 | denylist (verb) | (drop) | no | Don't use as a verb; OK as a noun; see blacklist guidance. (google) |
 | deprecate | (keep, see Notes) | no | Means recommend against use; don't use to mean "removed" or "deleted". (google) |
@@ -633,7 +633,7 @@ Last refreshed: 2026-04-29
 | dialog | (keep, see Notes) | no | Use for dialog UI element; "dialogue" only for person-to-person interaction. (google) |
 | dialog box | dialog | no | Microsoft dropped "box" from this term; use "dialog" alone. (microsoft) |
 | directory / folder | (keep, see Notes) | no | Match context terminology; use "directory" for command-line, "folder" for GUI. (google) |
-| disclosure triangle / disclosure widget | expander arrow | yes | Don't use; replace with "expander arrow". (google) |
+| disclosure triangle / disclosure widget | expander arrow | no | Don't use; replace with "expander arrow". (google) |
 | display (verb) | (keep, see Notes) | no | Requires an object; not "The area displays" but "The area is displayed" or "displays the image". (google) |
 | distributed denial-of-service (DDoS) | (keep, see Notes) | no | Hyphenate as shown; use "DDoS" on subsequent mention. (google) |
 | documentation or document or documents | (keep, see Notes) | no | Use "this document" for page text; spell out "documentation" except in space-limited contexts. (google) |
@@ -834,7 +834,7 @@ Last refreshed: 2026-04-29
 | user ID | (keep, see Notes) | no | Capitalize "ID"; don't use "UID" or "user id". (google) |
 | username | (keep, see Notes) | no | One word; not "user name". (both) |
 | UTC | (keep, see Notes) | no | Acceptable for Coordinated Universal Time; spell out on first mention if needed. (both) |
-| versus / vs. | versus | yes | Avoid abbreviation in formal text; spell out "versus". (google) |
+| versus / vs. | versus | no | Avoid abbreviation in formal text; spell out "versus". (google) |
 | VPN | (keep, see Notes) | no | Define as "virtual private network" on first mention. (google) |
 | VPN gateway | (keep, see Notes) | no | Two words; not "VPN-gateway". (google) |
 | web page | (keep, see Notes) | no | Two words; not "webpage". (both) |

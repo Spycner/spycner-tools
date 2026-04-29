@@ -77,7 +77,7 @@ Last refreshed: 2026-04-28
 
 | Term | Replacement | Mechanical | Notes |
 |------|-------------|------------|-------|
-| check (checkbox) | select | yes | Don't use for marking a checkbox; replace with "select". |
+| check (checkbox) | select | no | Don't use for marking a checkbox; replace with "select". |
 | choose | select | no | Acceptable generically; use "select" specifically for UI elements. |
 | click | (keep, see Notes) | no | Use for most targets on desktop; don't use "click on"; hyphenate "right-click," "left-click," "double-click". |
 | click here | (drop) | no | Don't use; link text should describe the destination, not the action. |
@@ -94,8 +94,8 @@ Last refreshed: 2026-04-28
 | run | (keep, see Notes) | no | Preferred over "execute" when meaning is equivalent. |
 | select | (keep, see Notes) | no | Preferred over "check" for checkbox actions and over "choose" for UI elements. |
 | tap | (keep, see Notes) | no | In Android documentation, use instead of "click" for touchscreen interaction. |
-| turn off | (keep, see Notes) | yes | Use instead of "disable" for user actions. |
-| turn on | (keep, see Notes) | yes | Use instead of "enable" for user actions, especially in Workspace docs. |
+| turn off | (keep, see Notes) | no | Use instead of "disable" for user actions. |
+| turn on | (keep, see Notes) | no | Use instead of "enable" for user actions, especially in Workspace docs. |
 | type | (keep, see Notes) | no | Use for entering text with a keyboard; distinguish from "enter" when Enter key shouldn't be pressed. |
 | uncheck | clear | yes | Don't use; use "clear" instead for checkboxes. |
 
@@ -119,7 +119,7 @@ Last refreshed: 2026-04-28
 
 | Term | Replacement | Mechanical | Notes |
 |------|-------------|------------|-------|
-| authN, authZ | authentication / authorization | yes | Don't use these abbreviations; spell out in full. |
+| authN, authZ | authentication / authorization | no | Don't use these abbreviations; spell out in full. |
 | log in / login | sign in / sign-in | no | Prefer "sign in" (verb) and "sign-in" (noun/adjective); use consistently. |
 | log out | sign out | no | Prefer "sign out" over "log out"; use consistently throughout. |
 | sign in / sign out | (keep, see Notes) | no | Preferred terms for authentication actions; use consistently. |
@@ -171,11 +171,11 @@ Last refreshed: 2026-04-28
 | above | (drop) | no | Don't use for version ranges, document positions, or UI directions; OK in non-directional hierarchy contexts. |
 | below | (drop) | no | Don't use for version ranges, document positions, or UI directions; OK in phrases like "below average". |
 | earlier | (keep, see Notes) | no | Use for version ranges instead of "lower"; for document positions, use instead of directional language. |
-| higher | later | yes | Don't use for version ranges; use "later" (exception: Android docs use "higher"). |
+| higher | later | no | Don't use for version ranges; use "later" (exception: Android docs use "higher"). |
 | later | (keep, see Notes) | no | Use for version number ranges instead of "higher". |
-| left-nav, right-nav | navigation menu | yes | Don't use directional language; use "navigation menu". |
-| lower | earlier | yes | Don't use for version ranges; use "earlier". |
-| upper | later | yes | Don't use for version numbers; use "later". |
+| left-nav, right-nav | navigation menu | no | Don't use directional language; use "navigation menu". |
+| lower | earlier | no | Don't use for version ranges; use "earlier". |
+| upper | later | no | Don't use for version numbers; use "later". |
 
 ---
 
@@ -220,7 +220,7 @@ Last refreshed: 2026-04-28
 | deformed | (drop) | no | Don't use for people; OK for systems or objects. |
 | dumb down | simplify | no | Don't use; replace with "simplify" or "remove technical jargon". |
 | gimp, gimpy | (drop) | no | Don't use for code deficiencies; acceptable only in company or tool names. |
-| grayed-out / greyed-out | unavailable | yes | Don't use; replace with "unavailable". |
+| grayed-out / greyed-out | unavailable | no | Don't use; replace with "unavailable". |
 | hang, hung (system) | stop responding | no | Don't use for unresponsive systems; use "stop responding". |
 | healthy | (drop) | no | Don't use; see "health check" guidance for context-appropriate alternatives. |
 | lame | (drop) | no | Don't use; use precise, non-figurative language instead. |
@@ -316,7 +316,7 @@ Last refreshed: 2026-04-28
 | button | (keep, see Notes) | no | A link is not the same as a button; don't use "button" for links; use for mechanical/capacitive buttons. |
 | can | (keep, see Notes) | no | Use to convey permission, ability, optional action, or possible outcome. |
 | canary | (keep, see Notes) | no | Don't use as a verb; avoid jargon; define on first use if used. |
-| cell phone / cellphone | mobile phone / mobile device | yes | Don't use; use "mobile phone" or "mobile device". |
+| cell phone / cellphone | mobile phone / mobile device | no | Don't use; use "mobile phone" or "mobile device". |
 | cellular data | mobile data | yes | Don't use; replace with "mobile data". |
 | cellular network | mobile network | yes | Don't use; replace with "mobile network". |
 | chapter | document / page / section | no | Don't use for non-book documentation; use "document," "page," or "section". |
@@ -342,7 +342,7 @@ Last refreshed: 2026-04-28
 | data cleaning | (keep, see Notes) | no | Not "data cleansing". |
 | dead-letter queue | (keep, see Notes) | no | Define on first use (e.g., "unprocessed messages queue"). |
 | deep linking | (keep, see Notes) | no | Not "deep-linking"; omit if possible. |
-| demilitarized zone (DMZ) | perimeter network | yes | Don't use; replace with "perimeter network". |
+| demilitarized zone (DMZ) | perimeter network | no | Don't use; replace with "perimeter network". |
 | denigrate | disparage | yes | Don't use; replace with "disparage". |
 | denylist (verb) | (drop) | no | Don't use as a verb; OK as a noun; see blacklist guidance. |
 | deprecate | (keep, see Notes) | no | Means recommend against use; don't use to mean "removed" or "deleted". |
@@ -350,7 +350,7 @@ Last refreshed: 2026-04-28
 | DevOps | (keep, see Notes) | no | Short for "development operations"; no need to spell out on first mention. |
 | dialog | (keep, see Notes) | no | Use for dialog UI element; "dialogue" only for person-to-person interaction. |
 | directory / folder | (keep, see Notes) | no | Match context terminology; use "directory" for command-line, "folder" for GUI. |
-| disclosure triangle / disclosure widget | expander arrow | yes | Don't use; replace with "expander arrow". |
+| disclosure triangle / disclosure widget | expander arrow | no | Don't use; replace with "expander arrow". |
 | display (verb) | (keep, see Notes) | no | Requires an object; not "The area displays" but "The area is displayed" or "displays the image". |
 | distributed denial-of-service (DDoS) | (keep, see Notes) | no | Hyphenate as shown; use "DDoS" on subsequent mention. |
 | documentation or document or documents | (keep, see Notes) | no | Use "this document" for page text; spell out "documentation" except in space-limited contexts. |
@@ -528,7 +528,7 @@ Last refreshed: 2026-04-28
 | user ID | (keep, see Notes) | no | Capitalize "ID"; don't use "UID" or "user id". |
 | username | (keep, see Notes) | no | One word; not "user name". |
 | UTC | (keep, see Notes) | no | Acceptable for Coordinated Universal Time; spell out on first mention if needed. |
-| versus / vs. | versus | yes | Avoid abbreviation in formal text; spell out "versus". |
+| versus / vs. | versus | no | Avoid abbreviation in formal text; spell out "versus". |
 | VPN | (keep, see Notes) | no | Define as "virtual private network" on first mention. |
 | VPN gateway | (keep, see Notes) | no | Two words; not "VPN-gateway". |
 | we | (drop) | no | Avoid first-person plural in documentation; use second person instead. |
