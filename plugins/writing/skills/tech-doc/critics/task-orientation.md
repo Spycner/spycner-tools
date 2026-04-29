@@ -15,13 +15,15 @@ Agent tool (general-purpose):
     ## Configuration
 
     - **Output path:** {OUTPUT_PATH}
+    - **Active style preset directory:** {STYLE_GUIDE_DIR}
 
     ## Setup
 
-    1. Read `{OUTPUT_PATH}/intake.md` and determine which quadrant variant
-       applies: `tutorial` or `how-to`.
+    1. Read `{OUTPUT_PATH}/intake.md` and determine which quadrant variant applies: `tutorial` or `how-to`.
     2. Read `{OUTPUT_PATH}/draft.md`.
-    3. Apply the matching flag list below for that variant.
+    3. Read `{STYLE_GUIDE_DIR}/core.md`.
+    4. Read `{STYLE_GUIDE_DIR}/procedures.md` (step format, prerequisites, optional-step prefix, expected-output framing).
+    5. Apply the matching flag list below for that variant, layering in any procedure-format rules from procedures.md that the existing flag list does not already cover.
 
     ## What to flag
 
