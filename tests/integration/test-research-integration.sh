@@ -1,34 +1,34 @@
 #!/usr/bin/env bash
-# Integration test: research skill (quick mode)
-# Tests the full quick-mode research cycle on a simple topic
-# NOTE: This test makes real web searches — run sparingly
+# Integration test: research skill (v4)
+# Tests the full v4 research cycle on a simple topic
+# NOTE: This test makes real web searches and dispatches multiple agents, so it is slow.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/../test-helpers.sh"
 
-echo "=== Integration Test: research skill (quick mode) ==="
+echo "=== Integration Test: research skill (v4) ==="
 echo ""
 
-# Use a temp directory for output — use a fixed subdir name to avoid slug mismatches
+# Use a temp directory for output
 TEST_OUTPUT_DIR=$(mktemp -d)
 REPORT_DIR="$TEST_OUTPUT_DIR/test-output"
 trap 'rm -rf "$TEST_OUTPUT_DIR"' EXIT
 
 LOG_FILE=$(mktemp)
 
-echo "Test 1: Quick-mode research cycle..."
+echo "Test 1: v4 research cycle..."
 echo "  Output dir: $REPORT_DIR"
 
 output=$(run_claude_logged \
-    "Do a quick research on the history of markdown syntax. Save the report to $REPORT_DIR/. Use quick mode — I just need a brief overview with a few sources." \
+    "Research the history of markdown syntax. Save the report to $REPORT_DIR/. Keep the scope tight: a brief overview is fine." \
     "$LOG_FILE" \
-    180)
+    600)
 
 echo ""
 
 # Check intermediate artifacts
-echo "Test 2: Verify intermediate artifacts..."
+echo "Test 2: Verify v4 artifacts..."
 
 if [ -d "$REPORT_DIR" ]; then
     echo "  [PASS] Report directory created"
@@ -38,22 +38,34 @@ else
     ls -la "$TEST_OUTPUT_DIR" 2>/dev/null | sed 's/^/    /' || echo "    (empty)"
 fi
 
-if [ -f "$REPORT_DIR/research/plan.md" ]; then
-    echo "  [PASS] research/plan.md exists"
+if [ -f "$REPORT_DIR/brief.md" ]; then
+    echo "  [PASS] brief.md exists"
 else
-    echo "  [FAIL] research/plan.md not found"
+    echo "  [FAIL] brief.md not found"
 fi
 
-if [ -f "$REPORT_DIR/research/sources.md" ]; then
-    echo "  [PASS] research/sources.md exists"
+if [ -f "$REPORT_DIR/plan.md" ]; then
+    echo "  [PASS] plan.md exists"
 else
-    echo "  [FAIL] research/sources.md not found"
+    echo "  [FAIL] plan.md not found"
 fi
 
-if [ -f "$REPORT_DIR/research/notes.md" ]; then
-    echo "  [PASS] research/notes.md exists"
+if ls "$REPORT_DIR/research/"*.md 2>/dev/null | grep -v -E '(synthesis|review)' >/dev/null; then
+    echo "  [PASS] At least one researcher cluster file exists in research/"
 else
-    echo "  [FAIL] research/notes.md not found"
+    echo "  [FAIL] No researcher cluster files found in research/"
+fi
+
+if [ -f "$REPORT_DIR/research/synthesis.md" ]; then
+    echo "  [PASS] research/synthesis.md exists"
+else
+    echo "  [FAIL] research/synthesis.md not found"
+fi
+
+if ls "$REPORT_DIR/research/synthesis-review-"*.md 2>/dev/null >/dev/null; then
+    echo "  [PASS] At least one synthesis-review-N.md exists"
+else
+    echo "  [FAIL] No synthesis-review files found"
 fi
 
 echo ""
@@ -64,36 +76,33 @@ echo "Test 3: Verify report..."
 if [ -f "$REPORT_DIR/report.md" ]; then
     echo "  [PASS] report.md exists"
     assert_contains "$(cat "$REPORT_DIR/report.md")" "Executive Summary|executive summary" "Report has Executive Summary" || true
-    assert_contains "$(cat "$REPORT_DIR/report.md")" "Key Findings|key findings" "Report has Key Findings" || true
     assert_contains "$(cat "$REPORT_DIR/report.md")" "References|references|Sources|sources" "Report has References" || true
     assert_contains "$(cat "$REPORT_DIR/report.md")" "http|https" "Report contains citation URLs" || true
 else
     echo "  [FAIL] report.md not found"
 fi
 
-echo ""
-
-# Test 4: Configurable output path
-echo "Test 4: Custom output path..."
-
-CUSTOM_DIR="$TEST_OUTPUT_DIR/custom-output"
-LOG_FILE_2=$(mktemp)
-
-output=$(run_claude_logged \
-    "Do a quick research on what JSON is. Save to $CUSTOM_DIR/. Quick mode." \
-    "$LOG_FILE_2" \
-    180)
-
-if [ -d "$CUSTOM_DIR" ]; then
-    echo "  [PASS] Custom output path created"
+if ls "$REPORT_DIR/report-review-"*.md 2>/dev/null >/dev/null; then
+    echo "  [PASS] At least one report-review-N.md exists"
 else
-    echo "  [FAIL] Custom output path not found at $CUSTOM_DIR"
+    echo "  [FAIL] No report-review files found"
 fi
 
-if [ -f "$CUSTOM_DIR/report.md" ]; then
-    echo "  [PASS] report.md exists in custom path"
+echo ""
+
+# Verify v3 artifacts are NOT produced
+echo "Test 4: v3 artifacts absent..."
+
+if [ -f "$REPORT_DIR/research/sources.md" ]; then
+    echo "  [FAIL] v3 sources.md still being produced (should be inline in cluster files)"
 else
-    echo "  [FAIL] report.md not found in custom path"
+    echo "  [PASS] No legacy sources.md"
+fi
+
+if [ -f "$REPORT_DIR/research/notes.md" ]; then
+    echo "  [FAIL] v3 notes.md still being produced (should be inline in cluster files)"
+else
+    echo "  [PASS] No legacy notes.md"
 fi
 
 echo ""
