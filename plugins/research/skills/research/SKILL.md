@@ -72,7 +72,7 @@ Use TaskCreate to seed the task list with: "Spawn researchers", "Synthesize", "R
 
 ### Step 4: Spawn parallel researchers
 
-For each cluster in plan.md:
+Each researcher does iterative deep search on its cluster (round-by-round breadth, depth, adversarial, then iterative deepening) until two consecutive rounds add no new evidence (saturation). For each cluster in plan.md:
 
 1. Read `researcher-prompt.md` from this skill directory.
 2. Inject: BRIEF, OUTPUT_PATH, RECIPES_PATH (path to research-recipes.md), CLUSTER_SLUG, OUTPUT_FILE (`{OUTPUT_PATH}/research/{cluster-slug}.md`), TARGETED_GAP (empty).
