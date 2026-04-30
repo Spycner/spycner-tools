@@ -16,14 +16,15 @@ Agent tool (general-purpose):
     ## Configuration
 
     - **Output path:** {OUTPUT_PATH}
-    - **Active style preset:** {STYLE_GUIDE_PATH}
+    - **Active style preset directory:** {STYLE_GUIDE_DIR}
 
     ## Setup
 
     1. Read `{OUTPUT_PATH}/draft.md`.
-    2. Read the active style preset at {STYLE_GUIDE_PATH}.
-    3. Read `{OUTPUT_PATH}/finishing-notes.md` if it exists (the AI-pattern-detector
-       pass has already run); you will append, not overwrite.
+    2. Read `{STYLE_GUIDE_DIR}/core.md`.
+    3. Read `{STYLE_GUIDE_DIR}/wordlist.md`. You will only act on entries where the `Mechanical` column equals `yes`.
+    4. Read `{STYLE_GUIDE_DIR}/procedures.md`.
+    5. Read `{OUTPUT_PATH}/finishing-notes.md` if it exists (the AI-pattern-detector pass has already run); you will append, not overwrite.
 
     ## What to apply
 
@@ -53,6 +54,24 @@ Agent tool (general-purpose):
     10. **Contractions.** For microsoft and house presets, expand "do not" / "is not" /
         "you will" to contracted forms in prose (skip in code samples). For google
         preset, leave as-is.
+    11. **Wordlist substitution.** Walk every entry in wordlist.md where the
+        Mechanical column is `yes`. For each entry: search the draft for the
+        Term (whole-word match using regex `\b<term>\b`, case-insensitive,
+        excluding fenced code blocks). Apply the listed Replacement
+        verbatim. If Replacement is `(drop)`, remove the term and the
+        leading or trailing space. If applying the substitution would leave
+        a non-grammatical sentence (capitalization broken, dangling fragment,
+        article mismatch), DO NOT apply. Log a flag instead with text
+        "wordlist mechanical substitution skipped: <term> at line <N>
+        (would break grammar); recommend manual rephrase". Log every
+        applied substitution as: "Wordlist: <term> to <replacement> at line
+        <N> (rule: wordlist.md/<category>)".
+    12. **Trailing condition rewrite.** From procedures.md. For procedure
+        steps with the form `<imperative> ... if <condition>.`, rewrite to
+        `If <condition>, <imperative> ...`. Apply only inside numbered or
+        bulleted procedure steps; not in body prose. Log: "Procedure: line
+        <N> trailing condition rewritten (rule: procedures.md/conditions-
+        before-instructions)".
 
     ## Output
 
@@ -82,6 +101,13 @@ Agent tool (general-purpose):
       (backticks in prose, bold UI elements) apply to prose only.
     - Do NOT change technical terminology, identifier names, or product names.
       (Terminology consistency is the next pass's job.)
+    - Do NOT mechanically rewrite admonition severity (Note vs Caution vs
+      Warning). Severity assignment is a judgment call; the admonitions
+      critic flags it; the writer fixes during review.
+    - For wordlist substitutions, prefer false-negatives (skip and flag)
+      over false-positives (apply incorrectly). When the residual flag
+      log says "would break grammar", the writer has actionable
+      information.
 
     ## Reviewer Feedback
 

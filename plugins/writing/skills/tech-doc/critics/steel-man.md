@@ -2,7 +2,7 @@
 
 **Purpose:** Construct the strongest opposing thesis. Check whether the piece preempts it. Flag gaps in preemption, not gaps in rigor.
 
-**Dispatch:** One of seven critics in the tech-doc panel. Active when the declared quadrant is `explanation`. Reads `draft.md` and the active style preset. Writes `critique-steel-man.md`.
+**Dispatch:** One of eight critics in the tech-doc panel. Active when the declared quadrant is `explanation`. Reads `draft.md` and the active style preset. Writes `critique-steel-man.md`.
 
 ```
 Agent tool (general-purpose):
@@ -24,12 +24,12 @@ Agent tool (general-purpose):
     ## Configuration
 
     - **Output path:** {OUTPUT_PATH}
-    - **Active style guide:** {STYLE_GUIDE_PATH}
+    - **Active style preset directory:** {STYLE_GUIDE_DIR}
 
     ## Setup
 
     1. Read `{OUTPUT_PATH}/draft.md` (the prose under review)
-    2. Read the active style guide (for context on the writer's stance and anti-patterns)
+    2. Read `{STYLE_GUIDE_DIR}/core.md` (for context on the writer's stance and anti-patterns)
 
     ## Method
 

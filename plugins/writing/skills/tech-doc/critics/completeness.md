@@ -2,7 +2,7 @@
 
 **Purpose:** Schema-driven completeness check for reference docs. Every required schema field populated. Parameters table covers every parameter. At least one example present. See-also links present.
 
-**Dispatch:** One of seven critics in the tech-doc panel. Active when the declared quadrant is `reference`. Reads `intake.md` (which declares the schema file), the schema file, and `draft.md`. Writes `critique-completeness.md`.
+**Dispatch:** One of eight critics in the tech-doc panel. Active when the declared quadrant is `reference`. Reads `intake.md` (which declares the schema file), the schema file, and `draft.md`. Writes `critique-completeness.md`.
 
 ```
 Agent tool (general-purpose):
@@ -16,12 +16,16 @@ Agent tool (general-purpose):
     ## Configuration
 
     - **Output path:** {OUTPUT_PATH}
+    - **Active style preset directory:** {STYLE_GUIDE_DIR}
 
     ## Setup
 
     1. Read `{OUTPUT_PATH}/intake.md` and find the **Schema file:** line.
     2. Read the schema file at the path declared in intake.md.
     3. Read `{OUTPUT_PATH}/draft.md`.
+    4. Read `{STYLE_GUIDE_DIR}/core.md`.
+    5. Read `{STYLE_GUIDE_DIR}/procedures.md`.
+    6. Read `{STYLE_GUIDE_DIR}/api-reference.md`.
 
     ## What to flag
 
@@ -68,6 +72,15 @@ Agent tool (general-purpose):
     | Examples | Yes | missing | Zero examples in draft |
     | See also | No | missing | Would improve discoverability |
 
+    ## API conventions
+
+    | Convention | Status | Notes |
+    |-----------|--------|-------|
+    | Parameter naming case | conforms / violates | (e.g., snake_case expected per preset, draft uses camelCase) |
+    | Status code documentation | conforms / violates | (which codes are missing or non-standard) |
+    | Response shape | conforms / violates | (details) |
+    | Deprecation notation | conforms / violates / N/A | (details) |
+
     ## Additional gaps
     <bullet list of any gaps not captured in the schema table: missing error
     codes, non-runnable samples, etc.>
@@ -86,6 +99,8 @@ Agent tool (general-purpose):
     - **CRITICAL ISSUES**: required field outright missing (not even
       `<unknown>`), OR parameters table omits real parameters, OR zero
       examples.
+
+    Format violations from `api-reference.md` count toward MINOR but never CRITICAL. CRITICAL stays reserved for missing required schema fields, missing parameters, or zero examples.
 
     ## Reviewer Feedback
 

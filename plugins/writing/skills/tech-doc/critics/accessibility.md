@@ -2,7 +2,7 @@
 
 **Purpose:** Flag accessibility violations: missing alt text, non-descriptive link text, color-dependent instructions, tables without headers, and purely visual cues.
 
-**Dispatch:** One of seven critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-accessibility.md`.
+**Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-accessibility.md`.
 
 ```
 Agent tool (general-purpose):
@@ -16,12 +16,14 @@ Agent tool (general-purpose):
     ## Configuration
 
     - **Output path:** {OUTPUT_PATH}
-    - **Active style preset:** {STYLE_GUIDE_PATH}
+    - **Active style preset directory:** {STYLE_GUIDE_DIR}
 
     ## Setup
 
     1. Read `{OUTPUT_PATH}/draft.md`.
-    2. Read the active style preset at {STYLE_GUIDE_PATH}.
+    2. Read `{STYLE_GUIDE_DIR}/core.md`.
+    3. Read `{STYLE_GUIDE_DIR}/links.md` (descriptive link text, see-also placement).
+    4. Read `{STYLE_GUIDE_DIR}/code-samples.md` (alt text and captioning conventions for code blocks).
 
     ## What to flag
 

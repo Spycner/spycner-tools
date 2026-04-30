@@ -1,0 +1,1 @@
+I have a deployment guide that destroys old database tables when running the migration. I want to make sure I'm using the right warnings, like, are some of these "Note:" callouts actually supposed to be "Warning:" because of the data-loss risk? Can you review my doc against best practices for tech writing admonitions?

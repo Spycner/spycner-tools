@@ -2,7 +2,7 @@
 
 **Purpose:** Static inspection of every code snippet. Imports declared, syntax plausible, placeholder syntax consistent (`<UPPERCASE>`), prose claims match snippet behavior, code formatting in code font.
 
-**Dispatch:** One of seven critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-code-fidelity.md`.
+**Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-code-fidelity.md`.
 
 ```
 Agent tool (general-purpose):
@@ -17,13 +17,13 @@ Agent tool (general-purpose):
     ## Configuration
 
     - **Output path:** {OUTPUT_PATH}
-    - **Active style preset:** {STYLE_GUIDE_PATH}
+    - **Active style preset directory:** {STYLE_GUIDE_DIR}
 
     ## Setup
 
     1. Read `{OUTPUT_PATH}/draft.md`.
-    2. Read the active style preset at `{STYLE_GUIDE_PATH}` (used for audience
-       context and any project-specific code conventions).
+    2. Read `{STYLE_GUIDE_DIR}/core.md`.
+    3. Read `{STYLE_GUIDE_DIR}/code-samples.md`.
 
     ## What to flag
 

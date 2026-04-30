@@ -15,7 +15,7 @@ Agent tool (general-purpose):
     ## Configuration
 
     - **Output path:** {OUTPUT_PATH}
-    - **Active style guide:** {STYLE_GUIDE_PATH}
+    - **Active style guide:** {STYLE_GUIDE_DIR}/core.md
     - **Language / platform:** {LANGUAGE_OR_PLATFORM}
     - **Reader skill level:** {AUDIENCE_SKILL_LEVEL}
 
@@ -24,7 +24,7 @@ Agent tool (general-purpose):
     1. Read `{OUTPUT_PATH}/intake.md` (task goal, prerequisites, assumed knowledge).
     2. Read `{OUTPUT_PATH}/outline.md` if present (skeleton structure).
     3. Read `{OUTPUT_PATH}/throughline.md` if present (<=10-word goal).
-    4. Read `{STYLE_GUIDE_PATH}` for voice, person, tense, capitalization rules.
+    4. Read `{STYLE_GUIDE_DIR}/core.md` for voice, person, tense, capitalization rules.
 
     ## Mandatory how-to structure
 

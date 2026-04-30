@@ -2,7 +2,7 @@
 
 **Purpose:** Scrub AI voice tics. Stock photo smoothness. The verbal equivalent of a generic noun.
 
-**Dispatch:** Phase 6 finishing, first of three sequential passes (ai-pattern-detector, style-enforcer-tech, terminology-consistency). Reads `draft.md` and the active style preset. Updates `draft.md` in place. Appends a section to `finishing-notes.md`.
+**Dispatch:** Phase 6 finishing, first of three sequential passes (ai-pattern-detector, style-enforcer-tech, terminology-consistency). Reads `draft.md`. Updates `draft.md` in place. Appends a section to `finishing-notes.md`.
 
 ```
 Agent tool (general-purpose):
@@ -16,12 +16,10 @@ Agent tool (general-purpose):
     ## Configuration
 
     - **Output path:** {OUTPUT_PATH}
-    - **Active style guide:** {STYLE_GUIDE_PATH}
 
     ## Setup
 
     1. Read `{OUTPUT_PATH}/draft.md`
-    2. Read the active style guide's anti-patterns table
 
     ## What to flag
 

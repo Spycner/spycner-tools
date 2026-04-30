@@ -1,6 +1,6 @@
 ---
 name: tech-doc
-description: Use when the user wants to draft, review, or finish technical documentation: tutorials, how-to guides, API references, CLI references, configuration references, error code references, REST endpoint references, or conceptual explanations. Diátaxis-aware (four quadrants: tutorial, how-to, reference, explanation), each with its own draft prompt and critic panel composition. Enforces curated subsets of the Microsoft Writing Style Guide and the Google Developer Documentation Style Guide via selectable presets (google, microsoft, or merged house default). Six-phase pipeline (intake, outline, throughline, draft, panel, finishing) with seven-critic panel per quadrant and three sequential finishing passes (AI-pattern-detector, style-enforcer-tech, terminology-consistency). Triggers on technical-writing intent, not general prose.
+description: Use when the user wants to draft, review, or finish technical documentation: tutorials, how-to guides, API references, CLI references, configuration references, error code references, REST endpoint references, or conceptual explanations. Diátaxis-aware (four quadrants: tutorial, how-to, reference, explanation), each with its own draft prompt and critic panel composition. Enforces curated full transcriptions of the Microsoft Writing Style Guide and the Google Developer Documentation Style Guide via selectable presets (google, microsoft, or merged house default), each preset structured as a directory of eight topic-scoped sidecars (core, wordlist, procedures, admonitions, code-samples, links, numbers, api-reference). Six-phase pipeline (intake, outline, throughline, draft, panel, finishing) with eight-critic panel per quadrant and three sequential finishing passes (AI-pattern-detector, style-enforcer-tech, terminology-consistency). Triggers on technical-writing intent, not general prose.
 ---
 
 # Tech-doc Skill
@@ -29,7 +29,7 @@ Resolve working directory in this order:
 3. **State file lookup:** read `~/.claude/projects/<project-id>/tech-doc-skill-state.json`. If an in-flight piece is recorded, offer to resume there.
 4. **Default:** prompt for a slug, create `tech-doc/{slug}-{YYYY-MM-DD}/` in cwd.
 
-### Step 2: Resolve the active style preset
+### Step 2: Resolve the active style preset directory
 
 Resolution order:
 
@@ -37,7 +37,9 @@ Resolution order:
 2. **State memory:** the state file's recorded preset for this project.
 3. **Skill default:** `house`.
 
-Resolve to absolute path: `<skill-install-path>/style-presets/<preset>.md`. Locate the skill install path by `Glob`-ing for `**/tech-doc/SKILL.md` under the active plugin directory and taking the parent. Surface in the first response: "Using style preset: {path}".
+Resolve to absolute path: `<skill-install-path>/style-presets/<preset>/`. Locate the skill install path by `Glob`-ing for `**/tech-doc/SKILL.md` under the active plugin directory and taking the parent. Validate: directory exists AND `core.md` inside the directory exists. If either is missing, fall back to `house`, warn once.
+
+Surface in the first response: "Using style preset directory: {path}".
 
 ### Step 3: Determine quadrant
 
@@ -47,7 +49,7 @@ Resolution order:
 2. **State memory:** recorded quadrant for this project.
 3. **Always-asked AskUserQuestion** if neither.
 
-Surface in the first response: "Quadrant: {quadrant}. Style preset: {preset_path}".
+Surface in the first response: "Quadrant: {quadrant}. Style preset directory: {path}".
 
 ### Step 4: Determine starting phase
 
@@ -81,6 +83,7 @@ Use TaskCreate. Use this shape (varies by quadrant only in Phase 5 sub-task):
    ├── Critic: code-fidelity
    ├── Critic: future-features
    ├── Critic: quadrant-fit
+   ├── Critic: admonitions
    └── Critic: <task-orientation | completeness | steel-man>  (gated by quadrant)
 6. Phase 6: Finishing
    ├── AI-pattern detector
@@ -97,7 +100,7 @@ Dispatch each phase agent via the Agent tool. The orchestrator injects context i
 #### Dispatch conventions
 
 - `{OUTPUT_PATH}` is always the working directory, never a file path. Each prompt file appends its own filename.
-- **Prompt file extraction.** Each prompt file documents the dispatched prompt inside a fenced block under the `**Dispatch:**` header. Read the entire prompt file as text, perform placeholder substitution (`{OUTPUT_PATH}`, `{STYLE_GUIDE_PATH}`, `{REVIEWER_FEEDBACK}`, `{YYYY-MM-DD}`, `{QUADRANT}`, `{LANGUAGE_OR_PLATFORM}`, `{AUDIENCE_SKILL_LEVEL}`), pass the full result to the Agent tool.
+- **Prompt file extraction.** Each prompt file documents the dispatched prompt inside a fenced block under the `**Dispatch:**` header. Read the entire prompt file as text, perform placeholder substitution (`{OUTPUT_PATH}`, `{STYLE_GUIDE_DIR}`, `{REVIEWER_FEEDBACK}`, `{YYYY-MM-DD}`, `{QUADRANT}`, `{LANGUAGE_OR_PLATFORM}`, `{AUDIENCE_SKILL_LEVEL}`), pass the full result to the Agent tool.
 - **Reviewer feedback injection.** When `{REVIEWER_FEEDBACK}` is non-empty (re-dispatch on a failed gate), append: *"Reviewer feedback is provided above. Read the existing artifact in the output directory, address the specific concerns, and update the file in place rather than starting fresh."*
 - **Date substitution.** `{YYYY-MM-DD}` resolves to today's date in ISO format.
 
@@ -150,10 +153,10 @@ Verify `draft.md` exists. Mark task completed.
 
 Fan out: dispatch all critics in the active panel in parallel (single message with multiple Agent calls). Active panel by quadrant:
 
-- **Tutorial:** style-adherence, accessibility, inclusive-language, code-fidelity, future-features, quadrant-fit, task-orientation. (7)
-- **How-to:** style-adherence, accessibility, inclusive-language, code-fidelity, future-features, quadrant-fit, task-orientation. (7)
-- **Reference:** style-adherence, accessibility, inclusive-language, code-fidelity, future-features, quadrant-fit, completeness. (7)
-- **Explanation:** style-adherence, accessibility, inclusive-language, code-fidelity, future-features, quadrant-fit, steel-man. (7)
+- **Tutorial:** style-adherence, accessibility, inclusive-language, code-fidelity, future-features, quadrant-fit, admonitions, task-orientation. (8)
+- **How-to:** style-adherence, accessibility, inclusive-language, code-fidelity, future-features, quadrant-fit, admonitions, task-orientation. (8)
+- **Reference:** style-adherence, accessibility, inclusive-language, code-fidelity, future-features, quadrant-fit, admonitions, completeness. (8)
+- **Explanation:** style-adherence, accessibility, inclusive-language, code-fidelity, future-features, quadrant-fit, admonitions, steel-man. (8)
 
 Each critic writes its own `critique-<critic>.md`. When all critics return, consolidate into `{OUTPUT_PATH}/critique.md`:
 
@@ -170,6 +173,7 @@ Each critic writes its own `critique-<critic>.md`. When all critics return, cons
 | Code-fidelity | ... | ... |
 | Future-features | ... | ... |
 | Quadrant-fit | ... | ... |
+| Admonitions | ... | ... |
 | <Task-orientation / Completeness / Steel-man> | ... | ... |  (gated critic)
 
 ## Style-adherence
@@ -190,6 +194,9 @@ Each critic writes its own `critique-<critic>.md`. When all critics return, cons
 ## Quadrant-fit
 <full content of critique-quadrant-fit.md>
 
+## Admonitions
+<full content of critique-admonitions.md>
+
 ## <Gated critic name>
 <full content of the gated critique file>
 ````
@@ -209,7 +216,7 @@ Sequential, NOT parallel. Each pass updates the draft in place; later passes nee
 2. `finishing/style-enforcer-tech.md`
 3. `finishing/terminology-consistency.md`
 
-For each pass: read prompt file, inject `{OUTPUT_PATH}`, `{STYLE_GUIDE_PATH}`, and `{REVIEWER_FEEDBACK}` (always empty for finishing passes), dispatch via Agent tool, verify the agent appended its log section to `finishing-notes.md`, mark sub-task completed.
+For each pass: read prompt file, inject `{OUTPUT_PATH}`, `{STYLE_GUIDE_DIR}`, and `{REVIEWER_FEEDBACK}` (always empty for finishing passes), dispatch via Agent tool, verify the agent appended its log section to `finishing-notes.md`, mark sub-task completed.
 
 After all three, present `draft.md`, `glossary.md`, and `finishing-notes.md` to the user. The piece is now ready for the writer's review.
 
@@ -246,9 +253,11 @@ Present final draft and a summary of what each pass did.
 
 `~/.claude/projects/<project-id>/tech-doc-skill-state.json`:
 
+v1 state files (`"version": 1`) are forward-compatible: the `style_preset` field records a preset name (`google` / `microsoft` / `house`), not a path, so the orchestrator's resolution change (file to directory) does not break existing state files. New runs bump the version field to `2`.
+
 ```json
 {
-  "version": 1,
+  "version": 2,
   "projects": {
     "<absolute-working-directory>": {
       "quadrant": "tutorial",
@@ -271,6 +280,68 @@ Recognized values:
 
 Keyed by working directory.
 
+## Style preset structure
+
+Each preset is a directory under `style-presets/` containing eight topic-scoped sidecar files plus `SOURCES.md`:
+
+```
+style-presets/<preset>/
+  core.md              # voice, tone, person, tense, capitalization, punctuation, global-audience principles
+  wordlist.md          # full word list, ~400 to 600 entries, four-column table grouped by category
+  procedures.md        # step format, prerequisites, conditions, optional-step prefix, expected outputs
+  admonitions.md       # severity tiers (Note, Tip, Important, Caution, Warning), usage rules, format
+  code-samples.md      # placeholders, line length, output formatting, omission indicators, code-in-prose
+  links.md             # link text rules, see-also placement, cross-references, anchors
+  numbers.md           # numerals, units, dates, time, currency, ranges
+  api-reference.md     # parameter naming, type notation, status codes, response shape, deprecation
+  SOURCES.md           # source URLs, license, last-refreshed dates; for house, the merge policy
+```
+
+The orchestrator resolves the active preset directory once (per Step 2) and substitutes the absolute path as `{STYLE_GUIDE_DIR}` in every dispatched critic, draft, and finishing prompt. Each prompt then reads only the sidecars it needs from `{STYLE_GUIDE_DIR}/<sidecar>.md`.
+
+### Critic-to-sidecar wiring matrix
+
+The orchestrator does not enforce this. Each critic prompt declares its own loads from `{STYLE_GUIDE_DIR}`. This table is the human-readable reference.
+
+| Critic / Pass | Quadrants | Sidecars (besides `core.md`) |
+|---|---|---|
+| `style-adherence` | all | wordlist, procedures, code-samples, links, numbers, admonitions |
+| `accessibility` | all | links, code-samples |
+| `inclusive-language` | all | wordlist (filtered: section in inclusive/ableist/gendered/bias-free/culturally-narrow) |
+| `code-fidelity` | all | code-samples |
+| `future-features` | all | (none extra) |
+| `quadrant-fit` | all | (none extra) |
+| `task-orientation` | tutorial, how-to | procedures |
+| `completeness` | reference | procedures, api-reference |
+| `steel-man` | explanation | (none extra) |
+| `admonitions` | all | admonitions |
+| `ai-pattern-detector` (finishing) | all | (no preset reads) |
+| `style-enforcer-tech` (finishing) | all | wordlist (filtered: mechanical=yes), procedures |
+| `terminology-consistency` (finishing) | all | (no preset reads) |
+
+All sidecar paths in the matrix are relative to `{STYLE_GUIDE_DIR}`. For example, style-adherence reads `{STYLE_GUIDE_DIR}/wordlist.md`, `{STYLE_GUIDE_DIR}/procedures.md`, and so on.
+
+### Wordlist file format
+
+Each `wordlist.md` is a markdown file with a Categories list at the top declaring the fourteen canonical categories, followed by one section per category. Each category section is a four-column table:
+
+`| Term | Replacement | Mechanical | Notes |`
+
+- `Term`: the word or phrase to flag.
+- `Replacement`: the suggested alternative, or `(drop)` for words to remove.
+- `Mechanical`: `yes` if literal substitution leaves a grammatical sentence in 99% of cases (style-enforcer-tech applies during finishing); `no` otherwise (style-adherence flags only).
+- `Notes`: a paraphrased one-sentence explanation; preserves source guidance.
+
+The fourteen canonical categories: `clarity`, `hedge-words`, `action-verbs`, `mouse-keyboard`, `login`, `web-internet`, `error-messages`, `direction`, `numbers-dates`, `inclusive`, `ableist`, `gendered`, `culturally-narrow`, `technical-jargon`.
+
+### Refresh process
+
+Quarterly cadence:
+1. Update `<preset>/SOURCES.md` last-refreshed date.
+2. Update the relevant sidecar files for that preset directly (paraphrase Microsoft, transcribe Google).
+3. Re-merge house: walk topic-by-topic, dedupe wordlists, apply merge policy, document deviations inline.
+4. Update `house/SOURCES.md` last-merged date.
+
 ## Phase Identifier Names
 
 Used in `--phase` flag and task list:
@@ -284,6 +355,7 @@ Used in `--phase` flag and task list:
 - Always create the task list before dispatching the first phase agent.
 - Never present a finished draft as final; tech docs benefit from the writer's manual review of the panel feedback and glossary.
 - Critics return verdicts; the orchestrator decides whether to gate or proceed.
+- Each critic loads only the sidecars it declares in its own prompt. The wiring matrix in the "Style preset structure" section above is the human-readable reference; the source of truth is the critic prompts themselves.
 
 ### Throughline gate phrasing per quadrant
 

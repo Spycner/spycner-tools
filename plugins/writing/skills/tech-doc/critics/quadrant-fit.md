@@ -2,7 +2,7 @@
 
 **Purpose:** The Diataxis-fidelity check. Verify the draft is wearing the quadrant declared in `intake.md`.
 
-**Dispatch:** One of seven critics in the tech-doc panel (always-on). Reads `intake.md`, `draft.md`, and the active style preset. Writes `critique-quadrant-fit.md`.
+**Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `intake.md`, `draft.md`, and the active style preset. Writes `critique-quadrant-fit.md`.
 
 ```
 Agent tool (general-purpose):
@@ -17,13 +17,13 @@ Agent tool (general-purpose):
     ## Configuration
 
     - **Output path:** {OUTPUT_PATH}
-    - **Active style preset:** {STYLE_GUIDE_PATH}
+    - **Active style preset directory:** {STYLE_GUIDE_DIR}
 
     ## Setup
 
     1. Read `{OUTPUT_PATH}/intake.md`. Note the declared **Quadrant**.
     2. Read `{OUTPUT_PATH}/draft.md`.
-    3. Read the active style preset at `{STYLE_GUIDE_PATH}` (used as background;
+    3. Read `{STYLE_GUIDE_DIR}/core.md` (used as background;
        no specific style rule is applied by this critic).
 
     ## What to flag
