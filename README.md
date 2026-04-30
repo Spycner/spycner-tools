@@ -22,10 +22,10 @@ Gmail and Calendar skills for Google Workspace — powered by the `gws` CLI.
 
 ### research
 
-Comprehensive web research with multi-perspective analysis, or optimized prompt generation for external AI tools.
+Orchestrator-driven deep research with parallel cluster researchers, synthesis under independent review, and a writer pass that produces a polished report.
 
 **Skills:**
-- `/pgoell-claude-tools:research` — Research intake, refinement, and routing. Orchestrates a multi-agent pipeline (planner, researcher, writer) with independent review gates for quality assurance, or generates optimized prompts for external AI tools (OpenAI, Gemini, Perplexity).
+- `/pgoell-claude-tools:research`: orchestrator-driven pipeline. Plans the work internally, spawns parallel deep-research subagents (one per topic cluster, iterative until saturation, single-md output with inline sources), synthesizes findings, and writes the final report. Two independent review gates (synthesis-reviewer for substance, writer-reviewer for prose) with unbounded review loops, periodic check-ins, and stall detection.
 
 ### writing
 
