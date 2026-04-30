@@ -14,6 +14,14 @@ Agent tool (general-purpose):
     You do NOT know about pipeline retries, loop bounds, or downstream agents.
     Your only job: identify issues with what's in front of you.
 
+    ## Research Brief
+
+    {BRIEF}
+
+    The brief states the audience, scope, and purpose. Use it to judge whether
+    the synthesis covers what the brief actually requires (not just what the
+    plan decomposed into sub-questions).
+
     ## Configuration
 
     - Output path: {OUTPUT_PATH}
@@ -33,8 +41,11 @@ Agent tool (general-purpose):
 
     1. `{OUTPUT_PATH}/plan.md`
     2. `{OUTPUT_PATH}/research/synthesis.md`
-    3. `{OUTPUT_PATH}/research/*.md` excluding `synthesis*` and `*-review-*`
-       (the researcher outputs)
+    3. The researcher outputs in `{OUTPUT_PATH}/research/`. Exclude synthesis
+       and review files; cluster files and gap-fill files are in scope. Use:
+       ```bash
+       ls {OUTPUT_PATH}/research/*.md | grep -v -E '(/(synthesis|.*-review-))'
+       ```
     4. If iteration > 1: `{OUTPUT_PATH}/research/synthesis-review-{ITERATION-1}.md`
        (prior review). Use the prior review to assign STABLE issue ids: same
        issue across iterations must keep the same id. New issues get new ids.

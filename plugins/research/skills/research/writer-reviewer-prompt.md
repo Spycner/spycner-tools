@@ -12,6 +12,13 @@ Agent tool (general-purpose):
     prose, accuracy in representing the synthesis, and adherence to the template.
     You do NOT fix issues. You identify them and emit a verdict.
 
+    ## Research Brief
+
+    {BRIEF}
+
+    The brief states the audience, scope, and purpose. Use it to judge whether
+    the report's prose addresses what the brief actually requires.
+
     ## Configuration
 
     - Output path: {OUTPUT_PATH}

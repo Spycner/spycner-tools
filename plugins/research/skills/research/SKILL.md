@@ -72,7 +72,7 @@ Use TaskCreate to seed the task list with: "Spawn researchers", "Synthesize", "R
 
 ### Step 4: Spawn parallel researchers
 
-Each researcher does iterative deep search on its cluster (round-by-round breadth, depth, adversarial, then iterative deepening) until two consecutive rounds add no new evidence (saturation). For each cluster in plan.md:
+Each researcher does iterative deep search on its cluster (round-by-round breadth, depth, adversarial, then iterative deepening) until two consecutive rounds add no new evidence (saturation). The researcher produces one self-contained markdown with notes and inline sources (no separate sources or notes files). For each cluster in plan.md:
 
 1. Read `researcher-prompt.md` from this skill directory.
 2. Inject: BRIEF, OUTPUT_PATH, RECIPES_PATH (path to research-recipes.md), CLUSTER_SLUG, OUTPUT_FILE (`{OUTPUT_PATH}/research/{cluster-slug}.md`), TARGETED_GAP (empty).
@@ -91,7 +91,7 @@ If a researcher returns a near-empty file, treat as failed dispatch (re-dispatch
 ### Step 6: Review synthesis (iteration N)
 
 1. Read `synthesis-reviewer-prompt.md`.
-2. Inject: OUTPUT_PATH, ITERATION, REVIEWER_FEEDBACK (empty for normal flow; populated only when re-dispatched from cross-loop branch in Step 10).
+2. Inject: BRIEF, OUTPUT_PATH, ITERATION, REVIEWER_FEEDBACK (empty for normal flow; populated only when re-dispatched from cross-loop branch in Step 10).
 3. Dispatch via Agent tool. Wait for completion.
 4. Read the verdict from agent response, or from `{OUTPUT_PATH}/research/synthesis-review-{N}.md` if response is unparseable.
 
@@ -139,7 +139,7 @@ Update task list at every step so user can run TaskList for live status.
 ### Step 9: Review report (iteration M)
 
 1. Read `writer-reviewer-prompt.md`.
-2. Inject: OUTPUT_PATH, TEMPLATE_PATH, ITERATION=M.
+2. Inject: BRIEF, OUTPUT_PATH, TEMPLATE_PATH, ITERATION=M.
 3. Dispatch via Agent tool. Wait for completion.
 4. Read verdict.
 
@@ -163,7 +163,7 @@ For any `content-gap-suspected` issues:
 2. Re-dispatch synthesis-reviewer (Step 6) with REVIEWER_FEEDBACK populated with the writer-reviewer's content-gap-suspected issue list. The next synthesis-review file is `synthesis-review-{prior-N+1}.md` (synthesis loop counter resumes monotonically).
 3. Branch on synthesis-reviewer verdict:
    - PASS → re-dispatch writer with prose-only feedback (drop the content-gap notes from the writer-reviewer's issue list). Return to Step 9.
-   - ISSUES with `evidence-gap` → loop to Step 7 (gap-fill research). When the synthesis loop closes again, re-dispatch writer with the original prose feedback (if any) plus a fresh writer review. Return to Step 9.
+   - ISSUES → return to Step 7's classification logic (`evidence-gap` / `coverage` / `source-quality` route to gap-fill research; `logic` / `structure` route to re-synthesize). When the synthesis loop closes again, re-dispatch writer with the original prose feedback (if any) plus a fresh writer review. Return to Step 9.
 
 ### Loop safeguards (Steps 9-10)
 
@@ -183,9 +183,9 @@ Surface output path + brief summary: total iterations of each loop, final artifa
 │   ├── {cluster-slug}.md         (one per cluster, notes + inline sources)
 │   ├── gap-{n}-{slug}.md         (gap-fill research)
 │   ├── synthesis.md              (overwritten each iteration)
-│   ├── synthesis-review-{n}.md
+│   └── synthesis-review-{n}.md
 ├── report.md                     (overwritten each iteration)
-├── report-review-{n}.md
+└── report-review-{n}.md
 ```
 
 ## Verdict Parsing
@@ -220,6 +220,6 @@ A verdict of PASS with critical issues is malformed; re-dispatch the reviewer on
 - Trigger on research intent, not simple factual questions.
 - When in doubt: ask "Would you like me to run a thorough research investigation, or just answer from what I know?"
 - Never pass session history to agents. Construct each dispatch fresh from the template + injected values.
-- Each prompt template has placeholders. Researcher: BRIEF, OUTPUT_PATH, RECIPES_PATH, CLUSTER_SLUG, OUTPUT_FILE, TARGETED_GAP. Synthesis: BRIEF, OUTPUT_PATH, ITERATION, REVIEWER_FEEDBACK. Synthesis-reviewer: OUTPUT_PATH, ITERATION, REVIEWER_FEEDBACK (cross-loop only). Writer: BRIEF, OUTPUT_PATH, TEMPLATE_PATH, REVIEWER_FEEDBACK. Writer-reviewer: OUTPUT_PATH, TEMPLATE_PATH, ITERATION.
+- Each prompt template has placeholders. Researcher: BRIEF, OUTPUT_PATH, RECIPES_PATH, CLUSTER_SLUG, OUTPUT_FILE, TARGETED_GAP. Synthesis: BRIEF, OUTPUT_PATH, ITERATION, REVIEWER_FEEDBACK. Synthesis-reviewer: BRIEF, OUTPUT_PATH, ITERATION, REVIEWER_FEEDBACK (cross-loop only). Writer: BRIEF, OUTPUT_PATH, TEMPLATE_PATH, REVIEWER_FEEDBACK. Writer-reviewer: BRIEF, OUTPUT_PATH, TEMPLATE_PATH, ITERATION.
 - Credentials/secrets never appear in templates or injected values.
 - See `report-template.md` for report structure (use Deep Mode section) and `research-recipes.md` for search patterns.
