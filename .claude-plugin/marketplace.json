@@ -19,8 +19,8 @@
     {
       "name": "research",
       "source": "./plugins/research",
-      "description": "Deep research and prompt generation — conduct comprehensive web research with multi-perspective analysis, or craft optimized research prompts for external AI tools",
-      "version": "1.3.0"
+      "description": "Orchestrator-driven deep research: parallel cluster researchers, unbounded review loops, synthesis and writer split",
+      "version": "2.0.0"
     },
     {
       "name": "writing",
