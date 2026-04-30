@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Test: research skill
-# Verifies the skill is loaded and describes correct capabilities
+# Test: research skill (v4)
+# Verifies the skill is loaded and describes the v4 orchestrator-driven pipeline
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/../test-helpers.sh"
 
-echo "=== Test: research skill ==="
+echo "=== Test: research skill (v4) ==="
 echo ""
 
 # Test 1: Skill recognition
@@ -26,23 +26,68 @@ output=$(run_claude "In the research skill, what tools does it use? What is the 
 
 assert_contains "$output" "WebSearch|web search" "Mentions WebSearch" || true
 assert_contains "$output" "WebFetch|web fetch|fetch" "Mentions WebFetch" || true
-assert_contains "$output" "agent|Agent|subagent|pipeline|orchestrat" "Mentions agent dispatch or pipeline" || true
+assert_contains "$output" "agent|Agent|subagent|orchestrat" "Mentions agent dispatch or orchestrator" || true
 
 echo ""
 
-# Test 3: Workflow coverage
-echo "Test 3: Workflow coverage..."
+# Test 3: v4 pipeline shape
+echo "Test 3: v4 pipeline shape..."
 
 output=$(run_claude "What workflow does the research skill follow? What are the main steps?" 30)
 
-assert_contains "$output" "clarif|scope|question" "Mentions clarification step" || true
-assert_contains "$output" "route|dispatch|prompt" "Mentions routing decision" || true
-assert_contains "$output" "deep|quick|mode" "Mentions research modes" || true
+assert_contains "$output" "plan|cluster" "Mentions planning / clustering" || true
+assert_contains "$output" "synthesi" "Mentions synthesis step" || true
+assert_contains "$output" "review|reviewer" "Mentions review gates" || true
+assert_contains "$output" "writer|write" "Mentions writer step" || true
 
 echo ""
 
-# Test 4: Supporting references
-echo "Test 4: Supporting references..."
+# Test 4: Parallel deep researchers
+echo "Test 4: Parallel deep researchers..."
+
+output=$(run_claude "How does the research skill handle multiple research topics? What does each researcher produce?" 30)
+
+assert_contains "$output" "parallel|cluster|each.*researcher" "Mentions parallel/cluster fan-out" || true
+assert_contains "$output" "iterative|deep|saturation" "Mentions iterative deep search" || true
+assert_contains "$output" "inline|self-contained|one.*markdown|sources.*inline" "Mentions one md with inline sources" || true
+
+echo ""
+
+# Test 5: Unbounded review loops with check-in
+echo "Test 5: Unbounded review loops..."
+
+output=$(run_claude "How does the research skill handle review iterations? Is there a limit on review loops?" 30)
+
+assert_contains "$output" "unbounded|no.*limit|until.*pass|until.*happy" "Mentions unbounded loops" || true
+assert_contains "$output" "check.?in|every.*3|status.*update" "Mentions periodic check-in" || true
+assert_contains "$output" "stall|repeated|same.*issue" "Mentions stall detection" || true
+
+echo ""
+
+# Test 6: Synthesis vs writer split
+echo "Test 6: Synthesis vs writer split..."
+
+output=$(run_claude "In the research skill, what is the difference between the synthesis agent and the writer agent?" 30)
+
+assert_contains "$output" "synthesi" "Mentions synthesis agent" || true
+assert_contains "$output" "writer|prose|polish|render" "Mentions writer agent" || true
+assert_contains "$output" "claim|evidence|substance|content|analy" "Mentions synthesis = substance/analysis" || true
+
+echo ""
+
+# Test 7: Reviewer escalation rules
+echo "Test 7: Reviewer escalation rules..."
+
+output=$(run_claude "In the research skill, which reviewer can trigger new research, and which cannot?" 30)
+
+assert_contains "$output" "synthesis.*reviewer|synthesis review" "Mentions synthesis reviewer" || true
+assert_contains "$output" "writer.*reviewer|writer review|report.*reviewer" "Mentions writer/report reviewer" || true
+assert_contains "$output" "only.*synthesis|cannot.*escalat|content.gap.suspect" "Mentions writer-reviewer cannot escalate directly" || true
+
+echo ""
+
+# Test 8: Supporting references
+echo "Test 8: Supporting references..."
 
 output=$(run_claude "Does the research skill reference any supporting files? What templates or recipes does it use?" 30)
 
@@ -51,38 +96,16 @@ assert_contains "$output" "recipe|pattern|strateg" "Mentions research recipes" |
 
 echo ""
 
-# Test 5: Multi-agent pipeline
-echo "Test 5: Multi-agent pipeline..."
+# Test 9: Output file layout
+echo "Test 9: Output file layout..."
 
-output=$(run_claude "How does the research skill execute research? What agents are involved?" 30)
+output=$(run_claude "What files does the research skill create in its output directory?" 30)
 
-assert_contains "$output" "planner|researcher|writer|reviewer|pipeline" "Mentions pipeline agents" || true
-assert_contains "$output" "review|gate|validat" "Mentions review gates" || true
-
-echo ""
-
-echo "Test: Research skill mentions author estimate labeling"
-result=$(run_claude "I want to research AI adoption metrics. What would you do if you derived a threshold yourself during research?" 30)
-assert_contains "$result" "author estimate" "Should mention author estimate labeling for derived numbers" || true
+assert_contains "$output" "plan\.md|plan.md" "Mentions plan.md" || true
+assert_contains "$output" "synthesis\.md|synthesis.md" "Mentions synthesis.md" || true
+assert_contains "$output" "report\.md|report.md" "Mentions report.md" || true
+assert_contains "$output" "review|review-" "Mentions review files" || true
 
 echo ""
-echo "Test: Research skill describes creative synthesis"
-result=$(run_claude "I want to do creative research on remote work trends. What does creative mode do?" 30)
-assert_contains "$result" "original analysis" "Should mention original analysis tagging in creative mode" || true
-
-echo ""
-echo "Test: Research skill mentions bias consistency for reused data"
-result=$(run_claude "When writing a research report, how should I handle vendor data that I cite multiple times?" 30)
-assert_contains "$result" "credibility" "Should mention credibility tagging on reuse of biased sources" || true
-
-echo ""
-echo "Test: Research skill mentions single-source transparency"
-result=$(run_claude "Can I include a key finding that only has one source?" 30)
-assert_contains "$result" "single source" "Should mention flagging single-source status for key findings" || true
-
-echo ""
-echo "Test: Research skill recognizes creative parameter"
-result=$(run_claude "I want to do a creative deep dive on climate policy. What options can I configure?" 30)
-assert_contains "$result" "creative" "Should mention creative as a configurable parameter" || true
 
 echo "=== research skill tests complete ==="
