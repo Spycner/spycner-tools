@@ -1,8 +1,8 @@
 {
   "name": "research",
-  "version": "1.3.0",
-  "description": "Deep research and prompt generation for comprehensive web investigations",
+  "version": "2.0.0",
+  "description": "Orchestrator-driven deep research: parallel cluster researchers, unbounded review loops, synthesis and writer split",
   "author": { "name": "Pascal Kraus" },
   "license": "MIT",
-  "keywords": ["research", "deep-research", "web-research", "report", "citations", "prompt-engineering"]
+  "keywords": ["research", "deep-research", "web-research", "report", "citations", "multi-agent", "orchestrator"]
 }
