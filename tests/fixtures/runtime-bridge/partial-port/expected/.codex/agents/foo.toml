@@ -1,0 +1,7 @@
+name = "foo"
+description = "Updated description"
+model = "claude-opus-4-7"
+model_reasoning_effort = "high"
+developer_instructions = """
+Updated body.
+"""

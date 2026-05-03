@@ -1,0 +1,1 @@
+Detect any stale paired files between .claude and .codex and regenerate the older side from the newer. Auto-approve.

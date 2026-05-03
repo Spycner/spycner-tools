@@ -1,0 +1,6 @@
+name = "foo"
+description = "Old stale description"
+model = "claude-opus-4-7"
+developer_instructions = """
+Old body.
+"""
