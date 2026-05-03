@@ -1,0 +1,1 @@
+Is this project set up for both Claude Code and Codex? Just check, don't make any changes.

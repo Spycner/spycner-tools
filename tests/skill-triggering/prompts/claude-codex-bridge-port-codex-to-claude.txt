@@ -1,0 +1,1 @@
+I want this codex project to also work in claude code. Can you set up the matching files?

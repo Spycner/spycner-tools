@@ -1,0 +1,1 @@
+This project is currently only set up for Claude Code. Make it work with Codex CLI too.
