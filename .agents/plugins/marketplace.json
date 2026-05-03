@@ -67,6 +67,22 @@
         "displayName": "Writing",
         "shortDescription": "Draft, structure, review, and finish prose"
       }
+    },
+    {
+      "name": "runtime-bridge",
+      "source": {
+        "source": "local",
+        "path": "./plugins/runtime-bridge"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity",
+      "interface": {
+        "displayName": "Runtime Bridge",
+        "shortDescription": "Make a project work with both Claude Code and Codex CLI"
+      }
     }
   ]
 }
