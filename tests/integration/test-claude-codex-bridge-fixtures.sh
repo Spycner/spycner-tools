@@ -41,6 +41,11 @@ for fixture in "$FIXTURES_DIR"/*/; do
     workdir="$(mktemp -d)"
     cp -a "$input/." "$workdir/"
 
+    # Run per-fixture setup script if present (e.g. to restore mtimes lost on git checkout)
+    if [ -f "$fixture/setup.sh" ]; then
+        WORKDIR="$workdir" bash "$fixture/setup.sh"
+    fi
+
     prompt="$(cat "$prompt_file")"
     is_dry_run="false"
     if [ -f "$options_file" ] && grep -q "dry-run" "$options_file"; then
