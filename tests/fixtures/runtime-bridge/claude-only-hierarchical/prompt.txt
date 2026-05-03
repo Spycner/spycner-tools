@@ -1,0 +1,1 @@
+This project has hierarchical CLAUDE.md files plus .claude/agents, commands, and rules. Make it work with Codex CLI too. Auto-approve.
