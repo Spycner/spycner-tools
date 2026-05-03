@@ -43,6 +43,7 @@ tests/
 | `google-workspace` | 1.0.0 | `gmail`, `calendar` |
 | `research` | 2.0.0 | `research` (multi-agent pipeline with review gates) |
 | `writing` | 1.6.0 | `writing`, `pyramid`, `tech-doc` |
+| `runtime-bridge` | 0.1.0 | `claude-codex-bridge` |
 
 ## How to Develop a New Skill
 

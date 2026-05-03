@@ -16,6 +16,7 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `writing` | writing | Multi-phase prose pipeline (interview, outline, throughline gate, draft, seven-critic panel, finishing), with format-aware Smart-Brevity critic |
 | `pyramid` | writing | Barbara Minto pyramid-principle outlines or restructures, with a parallel MECE / So-What / Q-A / Inductive-Deductive audit panel and SCQA opener |
 | `tech-doc` | writing | Diátaxis-aware technical documentation pipeline (tutorials, how-tos, references, explanations) with Microsoft and Google style-guide presets |
+| `claude-codex-bridge` | runtime-bridge | Align Claude Code and Codex artifacts in a project |
 
 ## Plugins
 
@@ -51,6 +52,13 @@ Multi-phase writing pipeline modelled on Katie Parrott's process. Interview, out
 - `/pgoell-claude-tools:pyramid`: produces a pyramid-structured outline (greenfield) or restructures an existing draft into pyramid form. Five phases (intake, construct, audit, opener, render) with a parallel audit panel (MECE, So-What, Q-A Alignment, Inductive-Deductive).
 - `/pgoell-claude-tools:tech-doc`: Diátaxis-aware technical writing pipeline. Drafts and reviews tutorials, how-to guides, API and CLI references, and conceptual explanations. Bundles full transcriptions of the Microsoft Writing Style Guide and Google Developer Documentation Style Guide as selectable presets (with a merged `house` default), each preset structured as eight topic-scoped sidecars. Six-phase pipeline (intake, outline, throughline, draft, panel, finishing) with eight-critic panel per quadrant and three sequential finishing passes (AI-pattern-detector, style-enforcer-tech, terminology-consistency).
 
+### runtime-bridge
+
+Aligns Claude Code and Codex artifacts across a project. When Claude Code and Codex work together on the same codebase, this skill helps ensure files are formatted and structured consistently so both runtimes can understand them.
+
+**Skills:**
+- `/pgoell-claude-tools:claude-codex-bridge` — Analyze and align Claude Code and Codex artifacts
+
 ## Installation
 
 ### Claude Code
@@ -61,6 +69,7 @@ Multi-phase writing pipeline modelled on Katie Parrott's process. Interview, out
 /plugin install google-workspace@pgoell-claude-tools
 /plugin install research@pgoell-claude-tools
 /plugin install writing@pgoell-claude-tools
+/plugin install runtime-bridge@pgoell-claude-tools
 ```
 
 ### Codex
@@ -120,3 +129,7 @@ For full setup instructions, see: https://github.com/googleworkspace/cli
 ### Research Plugin
 
 No authentication required. The research plugin uses the host agent's web search and fetch or browse tools.
+
+### runtime-bridge
+
+No setup required. In any project, ask the skill to align Claude Code and Codex artifacts (e.g. "make this project work with both Claude Code and Codex"). After the first apply that writes into `.codex/`, run `codex` once in that project and accept the trust prompt.
