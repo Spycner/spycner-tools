@@ -5,7 +5,7 @@
 **Dispatch:** One of six critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-asshole.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Asshole reader critique"
   prompt: |
     You are the worst version of an internet commenter who actually read the piece.

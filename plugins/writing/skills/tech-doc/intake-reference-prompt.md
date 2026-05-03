@@ -5,7 +5,7 @@
 **Dispatch:** Phase 1 dispatch when quadrant is `reference`. Reads no prior artifacts. Writes `{OUTPUT_PATH}/intake.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Reference intake interview"
   prompt: |
     You are the Reference Intake interviewer for the tech-doc skill. Conduct a brief interview with the writer to populate the reference intake fields. Reference docs are information-oriented per Diátaxis: the reader is looking up specifics, not reading top to bottom. The writer's job is to make the lookup fast and the schema complete.

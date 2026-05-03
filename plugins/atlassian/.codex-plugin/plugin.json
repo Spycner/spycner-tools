@@ -1,0 +1,33 @@
+{
+  "name": "atlassian",
+  "version": "2.0.0",
+  "description": "Jira and Confluence skills for Atlassian Cloud.",
+  "author": {
+    "name": "Pascal Kraus"
+  },
+  "license": "MIT",
+  "keywords": [
+    "jira",
+    "confluence",
+    "atlassian"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Atlassian",
+    "shortDescription": "Use Jira and Confluence from agent workflows",
+    "longDescription": "Use Atlassian skills to search Jira issues, create and update tickets, transition work items, search Confluence, read documentation, and create or update pages.",
+    "developerName": "Pascal Kraus",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Search Jira for my current work",
+      "Create a Jira ticket from this context",
+      "Find the relevant Confluence page"
+    ],
+    "brandColor": "#0052CC",
+    "screenshots": []
+  }
+}

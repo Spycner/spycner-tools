@@ -5,7 +5,7 @@
 **Dispatch:** First agent in the writing pipeline. Reads nothing. Writes `interview.md` (Q&A log) and `interview-synthesis.md` (extracted thinking).
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Interview the author"
   prompt: |
     You are an interview agent helping a writer prepare to draft a piece. Your job is

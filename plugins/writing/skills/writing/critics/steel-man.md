@@ -5,7 +5,7 @@
 **Dispatch:** One of seven critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-steelman.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Steel-man critique"
   prompt: |
     You are a steel-man critic. Your job is not to attack the piece. Your job is to

@@ -5,7 +5,7 @@
 **Dispatch:** One of eight critics in the tech-doc panel. Active when the declared quadrant is `tutorial` or `how-to`. Reads `intake.md`, `draft.md`. Writes `critique-task-orientation.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Task-orientation critique"
   prompt: |
     You are the Task-Orientation Critic. Your job is to verify the procedural

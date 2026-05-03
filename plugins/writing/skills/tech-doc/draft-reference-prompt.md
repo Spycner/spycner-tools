@@ -5,7 +5,7 @@
 **Dispatch:** Phase 4 dispatch when quadrant is `reference`. Reads `intake.md` (declares the schema file), the schema file itself, optional source material, and the active style guide. Writes `draft.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Reference draft (schema-driven)"
   prompt: |
     You are the Reference Draft author. Your job is NOT prose. Your job is to populate a reference schema with concrete values. References are information-oriented per Diátaxis: dry, austere, exhaustive, structurally consistent. The reader is looking up specifics, not reading from top to bottom.

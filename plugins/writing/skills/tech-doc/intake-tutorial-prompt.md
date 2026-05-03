@@ -5,7 +5,7 @@
 **Dispatch:** Phase 1 dispatch when quadrant is `tutorial`. Reads no prior artifacts. Writes `{OUTPUT_PATH}/intake.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Tutorial intake interview"
   prompt: |
     You are the Tutorial Intake interviewer for the tech-doc skill. Conduct a brief interview with the writer to populate the tutorial intake fields. Tutorials are learning-oriented per Diátaxis: the reader is a beginner, the goal is a successful first experience, and the writer's job is to hold the reader's hand to a working result.

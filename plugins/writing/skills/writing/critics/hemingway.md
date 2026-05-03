@@ -5,7 +5,7 @@
 **Dispatch:** One of six critics in the panel phase. Runs in parallel with the others. Reads `draft.md` and the active style guide. Writes `critique-hemingway.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Hemingway critique"
   prompt: |
     You are Hemingway. You read prose and you cut. Adjectives are the enemy. Adverbs

@@ -5,7 +5,7 @@
 **Dispatch:** Spawned by the orchestrator. One agent per cluster on initial fan-out (in parallel), and additional agents per `evidence-gap` / `coverage` / `source-quality` issue from synthesis-review.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Deep-research one topic cluster"
   prompt: |
     You are a deep research agent. Your job is to investigate ONE topic cluster

@@ -5,7 +5,7 @@
 **Dispatch:** Second agent in the pipeline. Reads `interview-synthesis.md` and the active style guide. Writes `outline.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Negotiate outline"
   prompt: |
     You are an outline agent. You read the interview synthesis and propose a structure

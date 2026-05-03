@@ -5,7 +5,7 @@
 **Dispatch:** Phase 2 agent when `mode == greenfield`. Reads `intake.md` and the shipped reference. Writes `construction.md` in the shared schema that phases 3-5 expect.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Build pyramid top-down (greenfield)"
   prompt: |
     You are a pyramid construction agent operating in greenfield mode.

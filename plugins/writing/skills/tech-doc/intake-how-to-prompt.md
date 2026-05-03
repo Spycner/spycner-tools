@@ -5,7 +5,7 @@
 **Dispatch:** Phase 1 dispatch when quadrant is `how-to`. Reads no prior artifacts. Writes `{OUTPUT_PATH}/intake.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "How-to intake interview"
   prompt: |
     You are the How-to Intake interviewer for the tech-doc skill. Conduct a brief interview with the writer to populate the how-to intake fields. How-to guides are task-oriented per Diátaxis: the reader has a specific goal in mind already and the relevant background; the writer's job is efficient task completion, not teaching.

@@ -5,7 +5,7 @@
 **Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `draft.md` and the active style preset. Writes `critique-code-fidelity.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Code fidelity critique"
   prompt: |
     You are the Code Fidelity Critic. Your job is to inspect every code snippet

@@ -11,12 +11,29 @@ Diátaxis-aware technical writing pipeline. Standalone, AND dispatched from the 
 
 ## Tool Preference
 
-1. **Agent tool:** to dispatch phase agents (intake per quadrant, draft per quadrant, panel critics, finishing passes). Throughline gate runs in the orchestrator.
-2. **Read:** to load prompt templates, schema files, style presets, existing artifacts.
-3. **Bash:** for directory creation, file existence checks, state file read/write.
-4. **TaskCreate / TaskUpdate:** to surface progress through the pipeline.
-5. **Write / Edit:** for state file management and orchestrator-level artifact updates.
-6. **AskUserQuestion:** for quadrant routing, throughline gate, panel re-dispatch overrides.
+1. **Subagent dispatch when available and permitted:** to dispatch phase agents (intake per quadrant, draft per quadrant, panel critics, finishing passes). Throughline gate runs in the orchestrator.
+2. **File read tools:** to load prompt templates, schema files, style presets, existing artifacts.
+3. **Shell:** for directory creation, file existence checks, state file read/write.
+4. **Progress list:** to surface progress through the pipeline.
+5. **File write and edit tools:** for state file management and orchestrator-level artifact updates.
+6. **User question tool or direct question:** for quadrant routing, throughline gate, panel re-dispatch overrides.
+
+## Platform Adaptation
+
+Use the host platform's equivalent tools without changing the workflow:
+
+| Capability | Claude Code | Codex |
+|---|---|---|
+| Subagent dispatch | Agent tool | `spawn_agent` only when available and permitted. Otherwise run the phase inline. |
+| Progress list | TaskCreate, TaskUpdate | `update_plan` |
+| User questions | AskUserQuestion | Ask a concise direct question, or use the host structured question tool when available |
+| File reads | Read | shell reads such as `sed`, `rg`, or equivalent file read tools |
+| File writes and edits | Write, Edit | `apply_patch` or equivalent file edit tools |
+| Shell | Bash | shell command tool |
+
+Where this skill says "Agent tool", "TaskCreate", "TaskUpdate", "AskUserQuestion", "Read", "Write", "Edit", or "Bash", use the mapped host capability. When a platform cannot dispatch subagents for the current request, keep the same artifact boundaries and run each phase inline in the orchestrator.
+
+State root is platform-specific. Claude Code uses `~/.claude/projects`. Codex uses `${CODEX_HOME:-~/.codex}/projects` when writable, otherwise create `.codex-skill-state/` under the current working directory.
 
 ## Workflow
 
@@ -26,7 +43,7 @@ Resolve working directory in this order:
 
 1. **Explicit flag:** `--dir ./path/to/project/`
 2. **Existing artifacts in cwd:** if the cwd already contains any of `intake.md`, `outline.md`, `schema.md`, `throughline.md`, `draft.md`, `critique.md`, `finishing-notes.md`, treat the cwd as the working directory.
-3. **State file lookup:** read `~/.claude/projects/<project-id>/tech-doc-skill-state.json`. If an in-flight piece is recorded, offer to resume there.
+3. **State file lookup:** read `<state-root>/<project-id>/tech-doc-skill-state.json`. If an in-flight piece is recorded, offer to resume there.
 4. **Default:** prompt for a slug, create `tech-doc/{slug}-{YYYY-MM-DD}/` in cwd.
 
 ### Step 2: Resolve the active style preset directory
@@ -69,7 +86,7 @@ User can pre-empt with `--phase X` (X is one of `intake`, `outline`, `throughlin
 
 ### Step 5: Create task list
 
-Use TaskCreate. Use this shape (varies by quadrant only in Phase 5 sub-task):
+Use the progress list. Use this shape (varies by quadrant only in Phase 5 sub-task):
 
 ```
 1. Phase 1: Intake (quadrant-specific)
@@ -95,12 +112,12 @@ For phase-selectable runs, only the requested phases get tasks. Mark each `in_pr
 
 ### Step 6: Execute phases
 
-Dispatch each phase agent via the Agent tool. The orchestrator injects context into the prompt template.
+Dispatch each phase agent via the host subagent tool when supported. The orchestrator injects context into the prompt template.
 
 #### Dispatch conventions
 
 - `{OUTPUT_PATH}` is always the working directory, never a file path. Each prompt file appends its own filename.
-- **Prompt file extraction.** Each prompt file documents the dispatched prompt inside a fenced block under the `**Dispatch:**` header. Read the entire prompt file as text, perform placeholder substitution (`{OUTPUT_PATH}`, `{STYLE_GUIDE_DIR}`, `{REVIEWER_FEEDBACK}`, `{YYYY-MM-DD}`, `{QUADRANT}`, `{LANGUAGE_OR_PLATFORM}`, `{AUDIENCE_SKILL_LEVEL}`), pass the full result to the Agent tool.
+- **Prompt file extraction.** Each prompt file documents the dispatched prompt inside a fenced block under the `**Dispatch:**` header. Read the entire prompt file as text, perform placeholder substitution (`{OUTPUT_PATH}`, `{STYLE_GUIDE_DIR}`, `{REVIEWER_FEEDBACK}`, `{YYYY-MM-DD}`, `{QUADRANT}`, `{LANGUAGE_OR_PLATFORM}`, `{AUDIENCE_SKILL_LEVEL}`), pass the full result to the host subagent tool.
 - **Reviewer feedback injection.** When `{REVIEWER_FEEDBACK}` is non-empty (re-dispatch on a failed gate), append: *"Reviewer feedback is provided above. Read the existing artifact in the output directory, address the specific concerns, and update the file in place rather than starting fresh."*
 - **Date substitution.** `{YYYY-MM-DD}` resolves to today's date in ISO format.
 
@@ -216,7 +233,7 @@ Sequential, NOT parallel. Each pass updates the draft in place; later passes nee
 2. `finishing/style-enforcer-tech.md`
 3. `finishing/terminology-consistency.md`
 
-For each pass: read prompt file, inject `{OUTPUT_PATH}`, `{STYLE_GUIDE_DIR}`, and `{REVIEWER_FEEDBACK}` (always empty for finishing passes), dispatch via Agent tool, verify the agent appended its log section to `finishing-notes.md`, mark sub-task completed.
+For each pass: read prompt file, inject `{OUTPUT_PATH}`, `{STYLE_GUIDE_DIR}`, and `{REVIEWER_FEEDBACK}` (always empty for finishing passes), dispatch via the host subagent tool, verify the agent appended its log section to `finishing-notes.md`, mark sub-task completed.
 
 After all three, present `draft.md`, `glossary.md`, and `finishing-notes.md` to the user. The piece is now ready for the writer's review.
 
@@ -251,7 +268,7 @@ Present final draft and a summary of what each pass did.
 
 ## State File Format
 
-`~/.claude/projects/<project-id>/tech-doc-skill-state.json`:
+`<state-root>/<project-id>/tech-doc-skill-state.json`:
 
 v1 state files (`"version": 1`) are forward-compatible: the `style_preset` field records a preset name (`google` / `microsoft` / `house`), not a path, so the orchestrator's resolution change (file to directory) does not break existing state files. New runs bump the version field to `2`.
 

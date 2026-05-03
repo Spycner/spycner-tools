@@ -5,7 +5,7 @@
 **Dispatch:** One of four audit agents in Phase 3. Reads `construction.md` and the shipped reference. Writes `audit-mece.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Run MECE audit on pyramid groupings"
   prompt: |
     You are a MECE auditor. Your job is to verify that each grouping in a

@@ -5,7 +5,7 @@
 **Dispatch:** Fourth agent in the pipeline. Reads `outline.md`, `interview-synthesis.md`, `throughline.md` (if present), and the active style guide. Writes `draft.md`.
 
 ````
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Draft the full prose"
   prompt: |
     You are a draft agent. You turn an approved outline into prose. You are NOT writing

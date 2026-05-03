@@ -5,7 +5,7 @@
 **Dispatch:** Phase 1 dispatch when quadrant is `explanation`. Reads no prior artifacts. Writes `{OUTPUT_PATH}/intake.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Explanation intake interview"
   prompt: |
     You are the Explanation Intake interviewer for the tech-doc skill. Conduct a brief interview with the writer to populate the explanation intake fields. Explanations are understanding-oriented per Diátaxis: the reader wants conceptual depth; the writer's job is discursive, allowed to wander, allowed to position competing viewpoints.

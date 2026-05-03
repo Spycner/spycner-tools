@@ -11,12 +11,29 @@ Multi-phase writing pipeline with a panel of specialised critics. Modeled on Kat
 
 ## Tool Preference
 
-1. **Agent tool**: to dispatch phase agents (interview, outline, draft, plus the dispatched pyramid pipeline for analytical formats) and critics (Hemingway, Hitchcock, Mom reader, Asshole reader, Clarity, Usage, Steel-man, plus Smart-Brevity for memo/newsletter/announcement formats) and finishing passes (AI-pattern detector, style enforcer, line editor, Sedaris for narrative formats or analytical-voice for analytical formats). The throughline gate runs in the orchestrator and does not dispatch an agent.
-2. **Read**: to load prompt templates and existing artifacts
-3. **Bash**: for directory creation, file existence checks, state file read/write
-4. **TaskCreate / TaskUpdate**: to surface progress through the pipeline visibly
-5. **Write / Edit**: for state file management and orchestrator-level artifact updates
-6. **AskUserQuestion**: for outline negotiation and resolution choices
+1. **Subagent dispatch when available and permitted**: to dispatch phase agents (interview, outline, draft, plus the dispatched pyramid pipeline for analytical formats) and critics (Hemingway, Hitchcock, Mom reader, Asshole reader, Clarity, Usage, Steel-man, plus Smart-Brevity for memo/newsletter/announcement formats) and finishing passes (AI-pattern detector, style enforcer, line editor, Sedaris for narrative formats or analytical-voice for analytical formats). The throughline gate runs in the orchestrator and does not dispatch an agent.
+2. **File read tools**: to load prompt templates and existing artifacts
+3. **Shell**: for directory creation, file existence checks, state file read/write
+4. **Progress list**: to surface progress through the pipeline visibly
+5. **File write and edit tools**: for state file management and orchestrator-level artifact updates
+6. **User question tool or direct question**: for outline negotiation and resolution choices
+
+## Platform Adaptation
+
+Use the host platform's equivalent tools without changing the workflow:
+
+| Capability | Claude Code | Codex |
+|---|---|---|
+| Subagent dispatch | Agent tool | `spawn_agent` only when available and permitted. Otherwise run the phase inline. |
+| Progress list | TaskCreate, TaskUpdate | `update_plan` |
+| User questions | AskUserQuestion | Ask a concise direct question, or use the host structured question tool when available |
+| File reads | Read | shell reads such as `sed`, `rg`, or equivalent file read tools |
+| File writes and edits | Write, Edit | `apply_patch` or equivalent file edit tools |
+| Shell | Bash | shell command tool |
+
+Where this skill says "Agent tool", "TaskCreate", "TaskUpdate", "AskUserQuestion", "Read", "Write", "Edit", or "Bash", use the mapped host capability. When a platform cannot dispatch subagents for the current request, keep the same artifact boundaries and run each phase inline in the orchestrator.
+
+State root is platform-specific. Claude Code uses `~/.claude/projects`. Codex uses `${CODEX_HOME:-~/.codex}/projects` when writable, otherwise create `.codex-skill-state/` under the current working directory.
 
 ## Workflow
 
@@ -27,7 +44,7 @@ Ask the user what they want to write about (or what existing piece they want to 
 Resolve working directory in this order:
 1. **Explicit flag**: `--dir ./path/to/project/`
 2. **Existing artifacts in cwd**: if the cwd already contains any of `interview.md`, `outline.md`, `intake.md`, `pyramid.md`, `draft.md`, `critique.md`, treat the cwd as the working directory
-3. **State file lookup**: read `~/.claude/projects/<project-id>/writing-skill-state.json` (where `<project-id>` is the cwd path with slashes replaced by hyphens, leading hyphen). If a working directory is recorded for an in-flight piece, offer to resume there.
+3. **State file lookup**: read `<state-root>/<project-id>/writing-skill-state.json` (where `<project-id>` is the cwd path with slashes replaced by hyphens, leading hyphen). If a working directory is recorded for an in-flight piece, offer to resume there.
 4. **Default**: prompt for a slug, create `writing/{slug}-{YYYY-MM-DD}/` in the cwd.
 
 ### Step 2: Resolve the active style guide
@@ -107,7 +124,7 @@ User can also pre-empt the dialogue by passing `--phase X` (X ∈ {interview, ou
 
 ### Step 5: Create task list
 
-Use TaskCreate to add one task per phase that will run, plus sub-tasks for the panel and finishing phases. Two task list shapes exist depending on format.
+Use the progress list to add one task per phase that will run, plus sub-tasks for the panel and finishing phases. Two task list shapes exist depending on format.
 
 **Narrative format task list** (essay, blog, talk, newsletter):
 
@@ -179,12 +196,12 @@ Mark each task as `in_progress` when starting, `completed` when the artifact is 
 
 ### Step 6: Execute phases
 
-Dispatch each phase agent via the Agent tool. The orchestrator injects context into the prompt template.
+Dispatch each phase agent via the host subagent tool when supported. The orchestrator injects context into the prompt template.
 
 #### Dispatch conventions (apply to every phase)
 
 - **`{OUTPUT_PATH}` is always the working directory**, never a file path. Each prompt file appends its own filename.
-- **Prompt file extraction.** Each prompt file documents the dispatched prompt inside a fenced block under the `**Dispatch:**` header. The dispatched body itself contains nested fences for example outputs. The simplest robust approach: read the entire prompt file as text, perform placeholder substitution (`{TOPIC}`, `{OUTPUT_PATH}`, `{STYLE_GUIDE_PATH}`, `{REVIEWER_FEEDBACK}`, `{YYYY-MM-DD}`), and pass the full result to the Agent tool. The dispatched agent ignores the surrounding commentary because the actionable instructions sit inside the visible prompt body.
+- **Prompt file extraction.** Each prompt file documents the dispatched prompt inside a fenced block under the `**Dispatch:**` header. The dispatched body itself contains nested fences for example outputs. The simplest robust approach: read the entire prompt file as text, perform placeholder substitution (`{TOPIC}`, `{OUTPUT_PATH}`, `{STYLE_GUIDE_PATH}`, `{REVIEWER_FEEDBACK}`, `{YYYY-MM-DD}`), and pass the full result to the host subagent tool. The dispatched agent ignores the surrounding commentary because the actionable instructions sit inside the visible prompt body.
 - **Reviewer feedback injection.** When `{REVIEWER_FEEDBACK}` is non-empty (re-dispatch on a failed gate), append this standing instruction to the dispatched prompt, regardless of what the prompt template itself says: *"Reviewer feedback is provided above. Read the existing artifact in the output directory, address the specific concerns, and update the file in place rather than starting fresh."* This compensates for the asymmetric treatment of feedback across the prompt files.
 - **Date substitution.** `{YYYY-MM-DD}` resolves to today's date in ISO format.
 
@@ -194,7 +211,7 @@ Dispatch each phase agent via the Agent tool. The orchestrator injects context i
 
 1. Read `interview-prompt.md` from this skill directory
 2. Inject: topic, output path, style guide path, empty reviewer feedback
-3. Dispatch via Agent tool. The agent will conduct an interactive interview with the user.
+3. Dispatch via the host subagent tool. The agent will conduct an interactive interview with the user.
 4. Verify `interview.md` and `interview-synthesis.md` exist
 5. Mark task completed
 
@@ -209,7 +226,7 @@ Skip writing's interview entirely. Run the pyramid skill's Phase 1 (intake) in *
 5. **Write intake.md (step 7 of pyramid intake):** as normal, but add field `dispatched_from: writing` so future runs know the entry point.
 6. **Mark Phase 1 task completed** when `intake.md` exists.
 
-The orchestrator (Claude at runtime) reads pyramid SKILL.md sections at dispatch time. No code or prompt files are duplicated; the dispatched mode is an instruction overlay applied to pyramid's standalone Phase 1.
+The orchestrator reads pyramid SKILL.md sections at dispatch time. No code or prompt files are duplicated; the dispatched mode is an instruction overlay applied to pyramid's standalone Phase 1.
 
 **Technical formats** (tutorial, how-to, reference, explanation):
 
@@ -220,7 +237,7 @@ Skip writing's interview entirely. Run the tech-doc skill's Phase 1 (intake) in 
 3. **Write intake.md field:** add `dispatched_from: writing` to the intake.md fields so resume logic can distinguish dispatched-mode intake from a standalone tech-doc run. (Mirrors the analytical dispatch's `dispatched_from: writing` field added to pyramid's intake.md.)
 4. **Mark Phase 1 task completed** when `intake.md` exists.
 
-The orchestrator (Claude at runtime) reads tech-doc SKILL.md sections at dispatch time. No code or prompt files are duplicated.
+The orchestrator reads tech-doc SKILL.md sections at dispatch time. No code or prompt files are duplicated.
 
 #### Phase 2: Outline (narrative formats) or Pyramid pipeline (analytical formats)
 
@@ -228,7 +245,7 @@ The orchestrator (Claude at runtime) reads tech-doc SKILL.md sections at dispatc
 
 1. Read `outline-prompt.md`
 2. Inject: output path, style guide path, empty reviewer feedback
-3. Dispatch via Agent tool
+3. Dispatch via the host subagent tool
 4. Verify `outline.md` exists
 5. Surface the outline to the user. Accept revisions via AskUserQuestion ("Outline as proposed, or revisions before draft?"). On revisions, re-dispatch with feedback injected.
 6. Mark task completed when user accepts.
@@ -284,7 +301,7 @@ Orchestrator-only synchronous gate. No agent dispatch. Happens after Phase 2 com
 
 1. Read `draft-prompt.md`
 2. Inject: output path, style guide path, empty reviewer feedback
-3. Dispatch via Agent tool
+3. Dispatch via the host subagent tool
 4. Verify `draft.md` exists
 5. Mark task completed
 
@@ -292,7 +309,7 @@ Orchestrator-only synchronous gate. No agent dispatch. Happens after Phase 2 com
 
 1. Read `draft-analytical-prompt.md`
 2. Inject: output path, style guide path, empty reviewer feedback
-3. Dispatch via Agent tool. The agent reads `pyramid.md`, `intake.md`, `throughline.md` (if present), and `audit-summary.md`.
+3. Dispatch via the host subagent tool. The agent reads `pyramid.md`, `intake.md`, `throughline.md` (if present), and `audit-summary.md`.
 4. Verify `draft.md` exists
 5. Mark task completed
 
@@ -300,7 +317,7 @@ Orchestrator-only synchronous gate. No agent dispatch. Happens after Phase 2 com
 
 **For technical formats (tutorial, how-to, reference, explanation):** SKIPPED. Tech-doc's Phase 5 has already run during the dispatch in writing's Phase 2. Mark phase task completed and proceed to Phase 6.
 
-Fan out: dispatch all critic agents in parallel (single message with multiple Agent tool calls). The critic set depends on format.
+Fan out: dispatch all critic agents in parallel when supported. The critic set depends on format.
 
 **Default panel (seven critics).** Used for `essay`, `blog`, `talk` formats.
 
@@ -323,7 +340,7 @@ Fan out: dispatch all critic agents in parallel (single message with multiple Ag
 For each critic in the active set:
 1. Read the prompt file from the tables above
 2. Inject: output path, style guide path, empty reviewer feedback
-3. Dispatch via Agent tool
+3. Dispatch via the host subagent tool
 4. Verify the corresponding output file exists
 5. Mark sub-task completed
 
@@ -400,7 +417,7 @@ Sequential, NOT parallel. Each pass updates the draft in place; later passes nee
 For each pass in order:
 1. Read the prompt file
 2. Inject: output path, style guide path, empty reviewer feedback
-3. Dispatch via Agent tool
+3. Dispatch via the host subagent tool
 4. Verify the agent appended its log section to `finishing-notes.md`
 5. Mark sub-task completed
 
@@ -441,7 +458,7 @@ Present the final draft and a summary of what each pass did.
 
 ## State File Format
 
-`~/.claude/projects/<project-id>/writing-skill-state.json`:
+`<state-root>/<project-id>/writing-skill-state.json`:
 
 ```json
 {

@@ -5,7 +5,7 @@
 **Dispatch:** One of six critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-mom.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Mom reader critique"
   prompt: |
     You are the Mom Reader. You are smart, curious, and not in this field. You want

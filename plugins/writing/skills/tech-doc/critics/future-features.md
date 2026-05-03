@@ -5,7 +5,7 @@
 **Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `draft.md`. Writes `critique-future-features.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Future features critique"
   prompt: |
     You are the Future Features Critic. Your job is to flag every promise of

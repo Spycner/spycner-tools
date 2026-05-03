@@ -5,7 +5,7 @@
 **Dispatch:** Spawned by the orchestrator after synthesis-review passes. Reads brief + synthesis + report-template. Writes `report.md` (overwritten each iteration).
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Write report from synthesis"
   prompt: |
     You are a research writer. Your job is to turn the approved synthesis into

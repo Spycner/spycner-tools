@@ -5,7 +5,7 @@
 **Dispatch:** One of four audit agents in Phase 3. Reads `construction.md` and the shipped reference. Writes `audit-logic.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Run Inductive/Deductive classification audit on pyramid groupings"
   prompt: |
     You are an Inductive/Deductive auditor. Your job is to classify every

@@ -1,0 +1,44 @@
+{
+  "name": "writing",
+  "version": "1.6.0",
+  "description": "Writing, pyramid structure, and technical documentation skills.",
+  "author": {
+    "name": "Pascal Kraus"
+  },
+  "license": "MIT",
+  "keywords": [
+    "writing",
+    "blog",
+    "essay",
+    "drafting",
+    "editing",
+    "voice",
+    "pyramid",
+    "minto",
+    "mece",
+    "scqa",
+    "memo",
+    "briefing",
+    "announcement",
+    "technical-documentation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Writing",
+    "shortDescription": "Draft, structure, review, and finish prose",
+    "longDescription": "Use the writing skills for long form prose, Pyramid Principle outlines, analytical memos, and Diataxis aware technical documentation with review and finishing passes.",
+    "developerName": "Pascal Kraus",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Draft this piece through the writing pipeline",
+      "Turn this into a pyramid memo",
+      "Write a technical how to guide"
+    ],
+    "brandColor": "#7C3AED",
+    "screenshots": []
+  }
+}

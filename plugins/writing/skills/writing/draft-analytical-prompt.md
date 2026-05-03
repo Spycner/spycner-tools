@@ -5,7 +5,7 @@
 **Dispatch:** Fourth agent in the writing pipeline for analytical formats. Reads `pyramid.md`, `intake.md`, `throughline.md` (if present), `audit-summary.md` (for MINOR flags worth respecting), and the active style guide. Writes `draft.md`.
 
 ````
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Draft the analytical piece"
   prompt: |
     You are an analytical draft agent. You turn an approved Minto pyramid into directive

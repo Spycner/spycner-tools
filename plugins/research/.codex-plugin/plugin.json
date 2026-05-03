@@ -1,0 +1,38 @@
+{
+  "name": "research",
+  "version": "2.0.0",
+  "description": "Orchestrator driven deep research with synthesis and report writing.",
+  "author": {
+    "name": "Pascal Kraus"
+  },
+  "license": "MIT",
+  "keywords": [
+    "research",
+    "deep-research",
+    "web-research",
+    "report",
+    "citations",
+    "multi-agent",
+    "orchestrator"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Research",
+    "shortDescription": "Plan, research, synthesize, and write reports",
+    "longDescription": "Use the research skill for deep dives that need source gathering, clustered investigation, synthesis review, writer review, and a polished report artifact.",
+    "developerName": "Pascal Kraus",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Research this topic and write a report",
+      "Investigate this market with sources",
+      "Deep dive on this technical question"
+    ],
+    "brandColor": "#2563EB",
+    "screenshots": []
+  }
+}

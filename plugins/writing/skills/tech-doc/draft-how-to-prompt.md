@@ -5,7 +5,7 @@
 **Dispatch:** Phase 4 dispatch when quadrant is `how-to`. Reads `intake.md`, `outline.md` (if present), `throughline.md`, and the active style guide. Writes `draft.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "How-to guide draft"
   prompt: |
     You are the How-To Draft author. Your reader already has the goal in mind and the relevant background. Your job is to get them to the goal efficiently.

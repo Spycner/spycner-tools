@@ -5,7 +5,7 @@
 **Dispatch:** Phase 6 finishing, third of three sequential passes. Reads `draft.md`. Updates `draft.md` in place. Writes `glossary.md`. Appends to `finishing-notes.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Terminology-consistency finishing pass"
   prompt: |
     You are the Terminology-Consistency pass. Your job is to standardize terminology

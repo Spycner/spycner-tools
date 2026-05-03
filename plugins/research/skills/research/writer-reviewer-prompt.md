@@ -5,7 +5,7 @@
 **Dispatch:** Spawned by the orchestrator after writer. Reads brief + synthesis + report. Writes `report-review-{N}.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Review report prose"
   prompt: |
     You are an independent report reviewer. Your job is to judge the report's

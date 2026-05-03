@@ -1,21 +1,30 @@
 # pgoell-claude-tools
 
-A Claude Code plugin marketplace containing skill plugins for external services.
+A plugin marketplace containing shared skills for Claude Code and Codex.
+
+Claude Code and Codex use separate plugin metadata, but they must reuse the same skill directories. Do not duplicate `SKILL.md` files for another runtime.
 
 ## Repository Structure
 
 ```
+AGENTS.md                   # Shared host-agent instructions (canonical file)
+CLAUDE.md                   # Symlink to AGENTS.md, kept for Claude Code discovery
 .claude-plugin/
-  marketplace.json          # Plugin registry — lists all plugins with name, source, version
+  marketplace.json          # Claude Code plugin registry, lists all plugins with name, source, version
+.agents/
+  plugins/
+    marketplace.json        # Codex plugin registry, lists all plugins with local source and policy metadata
 plugins/
   <plugin-name>/
     .claude-plugin/
-      plugin.json           # Plugin metadata (name, description, author, license, keywords)
+      plugin.json           # Claude Code plugin metadata
+    .codex-plugin/
+      plugin.json           # Codex plugin metadata, must set "skills": "./skills/"
     agents/                 # Optional: agent definitions for long-running isolated tasks
       <agent-name>.md
     skills/
       <service>/
-        SKILL.md            # Skill definition (THE core file — this is what Claude reads)
+        SKILL.md            # Shared skill definition, used by Claude Code and Codex
         <reference>.md      # Supporting reference docs (recipes, format guides)
 tests/
   test-helpers.sh           # Shared test utilities (run_claude, assertions, auth checks)
@@ -32,7 +41,8 @@ tests/
 |--------|---------|--------|
 | `atlassian` | 2.0.0 | `jira`, `confluence` |
 | `google-workspace` | 1.0.0 | `gmail`, `calendar` |
-| `research` | 1.3.0 | `research` (multi-agent pipeline with review gates) |
+| `research` | 2.0.0 | `research` (multi-agent pipeline with review gates) |
+| `writing` | 1.6.0 | `writing`, `pyramid`, `tech-doc` |
 
 ## How to Develop a New Skill
 
@@ -51,7 +61,7 @@ mkdir -p plugins/<plugin-name>/.claude-plugin
 mkdir -p plugins/<plugin-name>/skills/<service>
 ```
 
-Create `plugin.json`:
+Create `.claude-plugin/plugin.json`:
 ```json
 {
   "name": "<plugin-name>",
@@ -62,11 +72,38 @@ Create `plugin.json`:
 }
 ```
 
-Register in `.claude-plugin/marketplace.json` by adding to the `plugins` array.
+Create `.codex-plugin/plugin.json` for the same plugin. It must point to the existing skills directory:
+
+```json
+{
+  "name": "<plugin-name>",
+  "version": "<same-version-as-claude-plugin>",
+  "description": "<one-line description>",
+  "author": { "name": "Pascal Kraus" },
+  "license": "MIT",
+  "keywords": ["<relevant>", "<keywords>"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "<Plugin Display Name>",
+    "shortDescription": "<short human-facing description>",
+    "longDescription": "<long human-facing description>",
+    "developerName": "Pascal Kraus",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["<starter prompt>"],
+    "screenshots": []
+  }
+}
+```
+
+Register the plugin in both marketplaces:
+
+- `.claude-plugin/marketplace.json` for Claude Code
+- `.agents/plugins/marketplace.json` for Codex (each plugin entry must include `interface.displayName` and `interface.shortDescription` so the picker label is explicit)
 
 ### 3. Write SKILL.md
 
-This is the most important file — it's what Claude reads to understand the skill. Follow this structure:
+This is the most important file. Both Claude Code and Codex read it to understand the skill. Follow this structure:
 
 ```markdown
 ---
@@ -107,7 +144,8 @@ Key principles:
 - **Auth is lazy** — attempt the operation first, diagnose auth failures in Self-Healing. Never print credential values.
 - **Prefer helpers over raw API** — if the CLI has convenience commands, use them
 - **Confirm before destructive ops** — always ask the user before delete operations
-- **Self-healing is critical** — tell Claude how to debug when things go wrong
+- **Platform-aware tool names** — when a skill uses orchestration tools, include a short mapping for Claude Code and Codex instead of hardcoding one runtime only.
+- **Self-healing is critical** — tell the host agent how to debug when things go wrong
 
 ### 4. Add reference docs
 
@@ -151,6 +189,9 @@ Add the new plugin/skill to the Plugins section, Installation commands, and Setu
 # Unit tests (no auth required)
 PLUGIN_DIR=plugins/<plugin> bash tests/unit/test-<service>-skill.sh
 
+# Codex plugin structure
+bash tests/unit/test-codex-plugin-structure.sh
+
 # Integration tests (requires live auth)
 PLUGIN_DIR=plugins/<plugin> bash tests/integration/test-<service>-integration.sh
 
@@ -162,7 +203,8 @@ PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh <skill> test
 
 - **No wrapper scripts.** Skills use the underlying CLI directly (`gws` for Google Workspace) or raw `curl` with env-var auth (for Atlassian). This keeps each skill self-contained — no extra bash layer to maintain, debug, or ship with the plugin.
 - **One skill per service, one plugin per product family.** Gmail and Calendar are both under `google-workspace`. Jira and Confluence are both under `atlassian`.
-- **Skills are self-contained.** Each SKILL.md should contain everything Claude needs to use the service without reading other files (except reference docs it explicitly links to).
+- **Skills are self-contained.** Each SKILL.md should contain everything the host agent needs to use the service without reading other files (except reference docs it explicitly links to).
+- **Codex compatibility is metadata plus platform mapping.** Codex manifests live beside Claude Code manifests and point at the same `skills` directory. Platform-specific tool differences belong in the shared skill body as a mapping, not in duplicated skill files.
 - **Tests run Claude in a subprocess.** Unit tests use `run_claude` with `--dangerously-skip-permissions`. Integration tests use `run_claude_logged` with `--output-format stream-json` to capture tool usage.
-- **Agents for long-running, context-heavy operations.** When a skill's execution would consume significant context (e.g. dozens of web pages for research), define an agent in `agents/` and have the skill dispatch it via the Agent tool. The agent runs in an isolated subagent context. Use skills for everything else.
+- **Agents for long-running, context-heavy operations.** When a skill's execution would consume significant context (e.g. dozens of web pages for research), define an agent in `agents/` and have the skill dispatch it via the host subagent tool. The agent runs in an isolated subagent context. Use skills for everything else.
 - **Lazy auth, never print secrets.** Skills do not check authentication upfront. They attempt the operation and only diagnose auth issues when commands fail (in Self-Healing). Credentials, tokens, and API keys are NEVER printed or echoed — only check whether they are set (`test -n`), never display values.

@@ -5,7 +5,7 @@
 **Dispatch:** Second of four finishing passes. Reads `draft.md` and the active style guide. Updates `draft.md` in place. Appends to `finishing-notes.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Style enforcer pass"
   prompt: |
     You are a style enforcer. You apply the active style guide's mechanical rules to

@@ -11,15 +11,29 @@ Orchestrator-driven deep research. The skill plans the work itself, spawns paral
 
 ## Auth Approach
 
-No authentication required. Uses WebSearch and WebFetch (no credentials needed) and writes to the local filesystem.
+No authentication required. Uses the host agent's web search and fetch or browse capability, and writes to the local filesystem.
 
 ## Tool Preference
 
-1. **Agent tool**: dispatch researcher, synthesis, writer, and reviewer agents.
-2. **Read**: load prompt templates before dispatch.
-3. **Bash**: directory creation, date generation, simple file globbing for verification.
-4. **TaskCreate / TaskUpdate / TaskList**: live loop bookkeeping.
-5. **WebSearch / WebFetch**: fallback only if Agent dispatch fails.
+1. **Subagent dispatch when available and permitted**: dispatch researcher, synthesis, writer, and reviewer agents.
+2. **File read tools**: load prompt templates before dispatch.
+3. **Shell**: directory creation, date generation, simple file globbing for verification.
+4. **Progress list**: live loop bookkeeping.
+5. **Web search and fetch or browse tools**: fallback only if subagent dispatch fails.
+
+## Platform Adaptation
+
+Use the host platform's equivalent tools without changing the workflow:
+
+| Capability | Claude Code | Codex |
+|---|---|---|
+| Subagent dispatch | Agent tool | `spawn_agent` only when available and permitted. Otherwise run the phase inline. |
+| Progress list | TaskCreate, TaskUpdate, TaskList | `update_plan` |
+| Web research | WebSearch, WebFetch | `web.run` search and open calls, or the host browser/search tools |
+| File reads | Read | shell reads such as `sed`, `rg`, or equivalent file read tools |
+| Shell | Bash | shell command tool |
+
+When a platform cannot dispatch subagents for the current request, keep the same artifact boundaries and run each phase inline in the orchestrator. Tell the user when this changes runtime or context cost.
 
 ## Workflow
 
@@ -68,7 +82,7 @@ Sub-questions:
 ...
 ```
 
-Use TaskCreate to seed the task list with: "Spawn researchers", "Synthesize", "Review synthesis", "Write report", "Review report". Mark tasks completed as the pipeline progresses.
+Use the progress list to seed: "Spawn researchers", "Synthesize", "Review synthesis", "Write report", "Review report". Mark tasks completed as the pipeline progresses.
 
 ### Step 4: Spawn parallel researchers
 
@@ -76,7 +90,7 @@ Each researcher does iterative deep search on its cluster (round-by-round breadt
 
 1. Read `researcher-prompt.md` from this skill directory.
 2. Inject: BRIEF, OUTPUT_PATH, RECIPES_PATH (path to research-recipes.md), CLUSTER_SLUG, OUTPUT_FILE (`{OUTPUT_PATH}/research/{cluster-slug}.md`), TARGETED_GAP (empty).
-3. Dispatch via Agent tool. Send all clusters in parallel: one Agent call per cluster in a single message.
+3. Dispatch via the host subagent tool. Send all clusters in parallel when supported.
 4. Wait for all to complete. Verify each cluster's output file exists and is non-empty.
 
 If a researcher returns a near-empty file, treat as failed dispatch (re-dispatch once; if still thin, escalate to user as a likely cluster-boundary problem).
@@ -85,14 +99,14 @@ If a researcher returns a near-empty file, treat as failed dispatch (re-dispatch
 
 1. Read `synthesis-prompt.md`.
 2. Inject: BRIEF, OUTPUT_PATH, ITERATION, REVIEWER_FEEDBACK (empty on first pass; populated on re-dispatch).
-3. Dispatch via Agent tool. Wait for completion.
+3. Dispatch via the host subagent tool. Wait for completion.
 4. Verify `{OUTPUT_PATH}/research/synthesis.md` exists.
 
 ### Step 6: Review synthesis (iteration N)
 
 1. Read `synthesis-reviewer-prompt.md`.
 2. Inject: BRIEF, OUTPUT_PATH, ITERATION, REVIEWER_FEEDBACK (empty for normal flow; populated only when re-dispatched from cross-loop branch in Step 10).
-3. Dispatch via Agent tool. Wait for completion.
+3. Dispatch via the host subagent tool. Wait for completion.
 4. Read the verdict from agent response, or from `{OUTPUT_PATH}/research/synthesis-review-{N}.md` if response is unparseable.
 
 If verdict is PASS: continue to Step 8.
@@ -109,7 +123,7 @@ Classify each critical issue:
 For each gap-fill issue:
 
 1. Read `researcher-prompt.md`. Inject: BRIEF, OUTPUT_PATH, RECIPES_PATH, CLUSTER_SLUG=<best-fit existing cluster>, OUTPUT_FILE=`{OUTPUT_PATH}/research/gap-{N}-{issue-slug}.md`, TARGETED_GAP=<full issue description with location pointer>.
-2. Dispatch in parallel for all gap-fill issues. Wait for completion.
+2. Dispatch in parallel for all gap-fill issues when supported. Wait for completion.
 
 For batched logic/structure issues:
 
@@ -127,20 +141,20 @@ After all gap-fills and re-syntheses complete, return to Step 6 with iteration N
 - What's been narrowed (issues closed since iteration 1)
 - Options: `continue`, `ship as-is`, `intervene`
 
-Update task list at every step so user can run TaskList for live status.
+Update the progress list at every step so the user can inspect live status through the host platform.
 
 ### Step 8: Write (iteration M, starting at 1)
 
 1. Read `writer-prompt.md`.
 2. Inject: BRIEF, OUTPUT_PATH, TEMPLATE_PATH (path to report-template.md), REVIEWER_FEEDBACK (empty on first pass; populated on re-dispatch).
-3. Dispatch via Agent tool. Wait for completion.
+3. Dispatch via the host subagent tool. Wait for completion.
 4. Verify `{OUTPUT_PATH}/report.md` exists.
 
 ### Step 9: Review report (iteration M)
 
 1. Read `writer-reviewer-prompt.md`.
 2. Inject: BRIEF, OUTPUT_PATH, TEMPLATE_PATH, ITERATION=M.
-3. Dispatch via Agent tool. Wait for completion.
+3. Dispatch via the host subagent tool. Wait for completion.
 4. Read verdict.
 
 If PASS: continue to Step 11.

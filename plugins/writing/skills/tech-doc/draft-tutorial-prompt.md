@@ -5,7 +5,7 @@
 **Dispatch:** Phase 4 dispatch when quadrant is `tutorial`. Reads `intake.md`, `outline.md` (if present), `throughline.md`, and the active style guide. Writes `draft.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Tutorial draft"
   prompt: |
     You are the Tutorial Draft author. Your reader is a beginner per the declared skill level. Your job is to produce a tutorial that holds the reader's hand to a successful experience: a working result they can see.

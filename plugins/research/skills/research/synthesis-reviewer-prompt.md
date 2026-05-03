@@ -5,7 +5,7 @@
 **Dispatch:** Spawned by the orchestrator after synthesis. Reads brief + plan + synthesis + all researcher outputs. Writes `research/synthesis-review-{N}.md`. Also re-dispatched for cross-loop validation when writer-reviewer flags `content-gap-suspected`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Review synthesis substance"
   prompt: |
     You are an independent synthesis reviewer. Your job is to judge whether the

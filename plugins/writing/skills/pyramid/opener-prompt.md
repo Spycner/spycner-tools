@@ -5,7 +5,7 @@
 **Dispatch:** Phase 4 agent. Reads `construction.md` and `audit-summary.md`. Writes `opener.md`. References section 2 of the shipped reference (SCQA Opener, SCQA Opener Audit, three failure modes).
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Compose SCQA opener against stable apex (phase 4)"
   prompt: |
     You are the pyramid opener agent. You compose an SCQA opener against a

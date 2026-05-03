@@ -11,12 +11,29 @@ Multi-phase pyramid-principle skill with a parallel audit panel. Modeled on Barb
 
 ## Tool Preference
 
-1. **Agent tool**: to dispatch phase agents (construct in greenfield or restructure mode, opener) and the audit panel (MECE, So-What, Q-A Alignment, Inductive-Deductive). Intake and render run in the orchestrator itself and do not dispatch an agent.
-2. **Read**: to load prompt templates, the shipped reference, and existing artifacts.
-3. **Bash**: for directory creation, file existence checks, and state file read/write.
-4. **TaskCreate / TaskUpdate**: to surface progress through the pipeline visibly.
-5. **Write / Edit**: for intake.md, audit-summary.md, pyramid.md, and state file management.
-6. **AskUserQuestion**: for mode and genre selection, domain-limits gate, MISMATCH routing, and audit re-dispatch overrides.
+1. **Subagent dispatch when available and permitted**: to dispatch phase agents (construct in greenfield or restructure mode, opener) and the audit panel (MECE, So-What, Q-A Alignment, Inductive-Deductive). Intake and render run in the orchestrator itself and do not dispatch an agent.
+2. **File read tools**: to load prompt templates, the shipped reference, and existing artifacts.
+3. **Shell**: for directory creation, file existence checks, and state file read/write.
+4. **Progress list**: to surface progress through the pipeline visibly.
+5. **File write and edit tools**: for intake.md, audit-summary.md, pyramid.md, and state file management.
+6. **User question tool or direct question**: for mode and genre selection, domain-limits gate, MISMATCH routing, and audit re-dispatch overrides.
+
+## Platform Adaptation
+
+Use the host platform's equivalent tools without changing the workflow:
+
+| Capability | Claude Code | Codex |
+|---|---|---|
+| Subagent dispatch | Agent tool | `spawn_agent` only when available and permitted. Otherwise run the phase inline. |
+| Progress list | TaskCreate, TaskUpdate | `update_plan` |
+| User questions | AskUserQuestion | Ask a concise direct question, or use the host structured question tool when available |
+| File reads | Read | shell reads such as `sed`, `rg`, or equivalent file read tools |
+| File writes and edits | Write, Edit | `apply_patch` or equivalent file edit tools |
+| Shell | Bash | shell command tool |
+
+Where this skill says "Agent tool", "TaskCreate", "TaskUpdate", "AskUserQuestion", "Read", "Write", "Edit", or "Bash", use the mapped host capability. When a platform cannot dispatch subagents for the current request, keep the same artifact boundaries and run each phase inline in the orchestrator.
+
+State root is platform-specific. Claude Code uses `~/.claude/projects`. Codex uses `${CODEX_HOME:-~/.codex}/projects` when writable, otherwise create `.codex-skill-state/` under the current working directory.
 
 ## Workflow
 
@@ -25,7 +42,7 @@ Multi-phase pyramid-principle skill with a parallel audit panel. Modeled on Barb
 Resolve working directory in this order:
 1. **Explicit flag**: `--dir ./path/to/project/`
 2. **Existing artifacts in cwd**: if the cwd already contains any of `intake.md`, `construction.md`, `audit-summary.md`, `opener.md`, `pyramid.md`, treat the cwd as the working directory.
-3. **State file lookup**: read `~/.claude/projects/<project-id>/pyramid-skill-state.json` (where `<project-id>` is the cwd path with slashes replaced by hyphens, leading hyphen stripped). If an in-flight pyramid is recorded, offer to resume there.
+3. **State file lookup**: read `<state-root>/<project-id>/pyramid-skill-state.json` (where `<project-id>` is the cwd path with slashes replaced by hyphens, leading hyphen stripped). If an in-flight pyramid is recorded, offer to resume there.
 4. **Default**: prompt for a slug, create `pyramid/{slug}-{YYYY-MM-DD}/` in the cwd.
 
 ### Step 2: Resolve the active reference
@@ -54,7 +71,7 @@ The user can also pre-empt the dialogue by passing `--phase X` (X ∈ {intake, c
 
 ### Step 4: Create task list
 
-Use TaskCreate to add one task per phase that will run, plus four sub-tasks for the audit panel. Example for a fresh full pipeline:
+Use the progress list to add one task per phase that will run, plus four sub-tasks for the audit panel. Example for a fresh full pipeline:
 
 ```
 1. Phase 1: Intake (mode, genre, domain-limits gate, inputs)
@@ -74,12 +91,12 @@ Mark each task as `in_progress` when starting and `completed` when the artifact 
 
 ### Step 5: Execute phases
 
-Dispatch each phase agent via the Agent tool. The orchestrator injects context into the prompt template.
+Dispatch each phase agent via the host subagent tool when supported. The orchestrator injects context into the prompt template.
 
 #### Dispatch conventions (apply to every phase)
 
 - **`{OUTPUT_PATH}` is always the working directory**, never a file path. Each prompt file appends its own filename.
-- **Prompt file extraction.** Each prompt file documents the dispatched prompt inside a fenced block under the `**Dispatch:**` header. The simplest robust approach: read the entire prompt file as text, perform placeholder substitution (`{OUTPUT_PATH}`, `{REFERENCE_PATH}`, `{REVIEWER_FEEDBACK}`, `{HANDOFF}`, `{YYYY-MM-DD}`), and pass the full result to the Agent tool. The dispatched agent ignores the surrounding commentary because the actionable instructions sit inside the visible prompt body.
+- **Prompt file extraction.** Each prompt file documents the dispatched prompt inside a fenced block under the `**Dispatch:**` header. The simplest robust approach: read the entire prompt file as text, perform placeholder substitution (`{OUTPUT_PATH}`, `{REFERENCE_PATH}`, `{REVIEWER_FEEDBACK}`, `{HANDOFF}`, `{YYYY-MM-DD}`), and pass the full result to the host subagent tool. The dispatched agent ignores the surrounding commentary because the actionable instructions sit inside the visible prompt body.
 - **`{HANDOFF}` default.** When dispatching `construct-greenfield-prompt.md` in fresh-build or re-dispatch (CRITICAL audit) cases, substitute `{HANDOFF}` with `false`. Substitute `true` only when handing off mid-Mode-D dialogue, or when re-dispatching a Mode-D-built pyramid after a CRITICAL audit. The greenfield prompt's `## Handoff mode` section keys off this value.
 - **Reviewer feedback injection.** When `{REVIEWER_FEEDBACK}` is non-empty (re-dispatch on a failed audit gate, or after a MISMATCH the user asked to revise), append this standing instruction to the dispatched prompt, regardless of what the prompt template itself says: *"Reviewer feedback is provided above. Read the existing artifact in the output directory, address the specific concerns, and update the file in place rather than starting fresh."*
 - **Date substitution.** `{YYYY-MM-DD}` resolves to today's date in ISO format.
@@ -108,7 +125,7 @@ Mode-branched. Modes A and B run as one Agent dispatch. Mode D runs as an orches
 
 1. Read `construct-greenfield-prompt.md` if `mode == greenfield`, or `construct-restructure-prompt.md` if `mode == restructure`.
 2. Inject: output path, reference path, empty reviewer feedback (on first dispatch; populated on re-dispatch), `{HANDOFF}` set to `false`, today's date.
-3. Dispatch via Agent tool.
+3. Dispatch via the host subagent tool.
 4. Verify `{OUTPUT_PATH}/construction.md` exists. For Mode B (restructure), also verify `{OUTPUT_PATH}/restructure-notes.md` exists.
 5. Mark task completed.
 
@@ -129,7 +146,7 @@ On re-dispatch (after a CRITICAL audit gate from Phase 3), Mode D's pyramid is t
 
 ### Phase 3: Audit panel
 
-Four Agent dispatches in PARALLEL. Issue all four Agent tool calls in a single message so they run concurrently.
+Four subagent dispatches in parallel when supported. Issue all four host subagent calls in one turn when the platform supports concurrent dispatch.
 
 | Prompt file | Output file | Lens |
 |---|---|---|
@@ -141,7 +158,7 @@ Four Agent dispatches in PARALLEL. Issue all four Agent tool calls in a single m
 For each auditor:
 1. Read the prompt file from the table above.
 2. Inject output path, reference path, empty reviewer feedback.
-3. Dispatch via Agent tool (all four in the same message to run in parallel).
+3. Dispatch via the host subagent tool, all four in the same turn when supported.
 4. Verify the corresponding output file exists.
 5. Mark the sub-task completed.
 
@@ -185,7 +202,7 @@ One Agent dispatch.
 
 1. Read `opener-prompt.md`.
 2. Inject: output path, reference path, empty reviewer feedback.
-3. Dispatch via Agent tool.
+3. Dispatch via the host subagent tool.
 4. Verify `{OUTPUT_PATH}/opener.md` exists.
 5. Inspect the first non-frontmatter line. If it reads `**Verdict:** MISMATCH`, do NOT treat this as a failure. The opener agent correctly refused to manufacture a bogus complication. Read the `## Reason` and `## Partial opener` sections and ask the user via AskUserQuestion: *Proceed with degraded opener (S and A only, C and Q omitted) / Revise apex by re-running construct with the mismatch note injected as reviewer feedback / Cancel.*
 6. If the user chooses to revise the apex, inject the MISMATCH reason into `{REVIEWER_FEEDBACK}` and re-dispatch Phase 2, then re-run Phase 3, then re-run Phase 4. If the user proceeds with the degraded opener, Phase 5 will render only S and A.
@@ -276,7 +293,7 @@ Present `pyramid.md` and `audit-summary.md` to the user.
 
 ## State File Format
 
-`~/.claude/projects/<project-id>/pyramid-skill-state.json`:
+`<state-root>/<project-id>/pyramid-skill-state.json`:
 
 ```json
 {

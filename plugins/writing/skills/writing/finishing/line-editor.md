@@ -5,7 +5,7 @@
 **Dispatch:** Third of four finishing passes. Reads `draft.md` and the active style guide. Updates `draft.md` in place. Appends to `finishing-notes.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Line editor pass"
   prompt: |
     You are a line editor. You read the draft sentence by sentence and tighten. You

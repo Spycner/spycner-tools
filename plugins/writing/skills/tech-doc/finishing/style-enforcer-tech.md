@@ -5,7 +5,7 @@
 **Dispatch:** Phase 6 finishing, second of three sequential passes. Reads `draft.md` and the active style preset. Updates `draft.md` in place. Appends a section to `finishing-notes.md` listing every change with rule citation.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Style-enforcer-tech finishing pass"
   prompt: |
     You are the Style-Enforcer-Tech pass. Your job is to apply the resolved style

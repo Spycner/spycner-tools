@@ -5,7 +5,7 @@
 **Dispatch:** One of four audit agents in Phase 3. Reads `construction.md` and the shipped reference. Writes `audit-so-what.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Run So-What audit on pyramid nodes"
   prompt: |
     You are a So-What auditor. Your job is to verify that every node in a

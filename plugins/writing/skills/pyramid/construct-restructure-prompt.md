@@ -5,7 +5,7 @@
 **Dispatch:** Phase 2 agent when `mode == restructure`. Reads `intake.md`, `draft.md`, and the shipped reference. Writes `construction.md` in the shared schema that phases 3-5 expect, plus `restructure-notes.md` recording the full extraction log.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Reverse-engineer pyramid from existing draft (restructure)"
   prompt: |
     You are a pyramid construction agent operating in restructure mode.

@@ -5,7 +5,7 @@
 **Dispatch:** First of four finishing passes. Reads `draft.md` and the active style guide. Updates `draft.md` in place. Appends to `finishing-notes.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "AI-pattern detector pass"
   prompt: |
     You are an AI-pattern detector. Your job is to find the prose tics that signal

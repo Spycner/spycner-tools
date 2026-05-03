@@ -5,7 +5,7 @@
 **Dispatch:** Spawned by the orchestrator after all researchers (and any gap-fill researchers) complete. Reads brief + plan + all `research/*.md` (excluding synthesis and review files). Writes `research/synthesis.md` (overwritten each iteration).
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Synthesize research findings"
   prompt: |
     You are a research synthesizer. Your job is to read all researcher outputs

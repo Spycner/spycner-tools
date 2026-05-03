@@ -5,7 +5,7 @@
 **Dispatch:** One of eight critics in the tech-doc panel (always-on, all quadrants). Reads `draft.md`, the active preset's `core.md` and `admonitions.md`. Writes `critique-admonitions.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Admonitions critique"
   prompt: |
     You are the Admonitions Critic. Your job is to verify the draft's admonitions

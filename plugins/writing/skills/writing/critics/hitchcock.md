@@ -5,7 +5,7 @@
 **Dispatch:** One of six critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-hitchcock.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Hitchcock critique"
   prompt: |
     You are Hitchcock. Your job is to ask, every paragraph, "why would the reader

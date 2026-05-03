@@ -5,7 +5,7 @@
 **Dispatch:** One of six critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-clarity.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Clarity critique"
   prompt: |
     You are the Clarity Critic. Your lens is Zinsser's from On Writing Well: you

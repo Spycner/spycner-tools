@@ -5,7 +5,7 @@
 **Dispatch:** One of six critics in the panel. Reads `draft.md` and the active style guide. Writes `critique-usage.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Usage critique"
   prompt: |
     You are the Usage Critic. Your lens is Strunk & White's Elements of Style:

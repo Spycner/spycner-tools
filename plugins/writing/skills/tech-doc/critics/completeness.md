@@ -5,7 +5,7 @@
 **Dispatch:** One of eight critics in the tech-doc panel. Active when the declared quadrant is `reference`. Reads `intake.md` (which declares the schema file), the schema file, and `draft.md`. Writes `critique-completeness.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Completeness critique"
   prompt: |
     You are the Completeness Critic. Your job is to verify the reference

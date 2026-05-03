@@ -1,6 +1,21 @@
 # pgoell-claude-tools
 
-A personal Claude Code plugin marketplace.
+A personal plugin marketplace for Claude Code and Codex.
+
+The two runtimes use separate plugin metadata, but the skills are single sourced. Claude Code reads `.claude-plugin` metadata. Codex reads `.codex-plugin` metadata and `.agents/plugins/marketplace.json`. Both point at the same `plugins/<plugin>/skills/` directories.
+
+## Skills at a glance
+
+| Skill | Plugin | What it does |
+|---|---|---|
+| `jira` | atlassian | Search Jira issues, create and update tickets, transition workflows, comment, manage sprints, run bulk operations |
+| `confluence` | atlassian | Search Confluence pages, read documentation, create and update pages, browse spaces |
+| `gmail` | google-workspace | Triage inbox, search and read messages, send mail, manage drafts, labels, and filters via the `gws` CLI |
+| `calendar` | google-workspace | View agenda, create and manage events, check availability, manage calendars via the `gws` CLI |
+| `research` | research | Orchestrator-driven deep research: parallel cluster researchers, synthesis under independent review, polished report with citations |
+| `writing` | writing | Multi-phase prose pipeline (interview, outline, throughline gate, draft, seven-critic panel, finishing), with format-aware Smart-Brevity critic |
+| `pyramid` | writing | Barbara Minto pyramid-principle outlines or restructures, with a parallel MECE / So-What / Q-A / Inductive-Deductive audit panel and SCQA opener |
+| `tech-doc` | writing | Diátaxis-aware technical documentation pipeline (tutorials, how-tos, references, explanations) with Microsoft and Google style-guide presets |
 
 ## Plugins
 
@@ -34,9 +49,11 @@ Multi-phase writing pipeline modelled on Katie Parrott's process. Interview, out
 **Skills:**
 - `/pgoell-claude-tools:writing`: orchestrates the full pipeline with phase-selectable resume. For analytical formats (memo, briefing, announcement), dispatches to the pyramid skill for the outline phase and runs an analytical draft prompt. Ships with a default style guide that any project can override.
 - `/pgoell-claude-tools:pyramid`: produces a pyramid-structured outline (greenfield) or restructures an existing draft into pyramid form. Five phases (intake, construct, audit, opener, render) with a parallel audit panel (MECE, So-What, Q-A Alignment, Inductive-Deductive).
-- `/pgoell-claude-tools:tech-doc`: Diátaxis-aware technical writing pipeline. Drafts and reviews tutorials, how-to guides, API and CLI references, and conceptual explanations. Bundles curated subsets of the Microsoft Writing Style Guide and Google Developer Documentation Style Guide (selectable presets, with a merged `house` default). Six-phase pipeline (intake, outline, throughline, draft, panel, finishing) with seven-critic panel per quadrant.
+- `/pgoell-claude-tools:tech-doc`: Diátaxis-aware technical writing pipeline. Drafts and reviews tutorials, how-to guides, API and CLI references, and conceptual explanations. Bundles full transcriptions of the Microsoft Writing Style Guide and Google Developer Documentation Style Guide as selectable presets (with a merged `house` default), each preset structured as eight topic-scoped sidecars. Six-phase pipeline (intake, outline, throughline, draft, panel, finishing) with eight-critic panel per quadrant and three sequential finishing passes (AI-pattern-detector, style-enforcer-tech, terminology-consistency).
 
 ## Installation
+
+### Claude Code
 
 ```
 /plugin marketplace add pgoell/pgoell-claude-tools
@@ -45,6 +62,27 @@ Multi-phase writing pipeline modelled on Katie Parrott's process. Interview, out
 /plugin install research@pgoell-claude-tools
 /plugin install writing@pgoell-claude-tools
 ```
+
+### Codex
+
+Add the marketplace from your shell:
+
+```
+codex plugin marketplace add pgoell/pgoell-claude-tools
+```
+
+Then install plugins from inside Codex:
+
+```
+codex
+/plugins
+```
+
+In the picker, install `atlassian`, `google-workspace`, `research`, and `writing`.
+
+`codex plugin marketplace add` accepts `owner/repo[@ref]`, an HTTPS or SSH Git URL, or a local marketplace root directory. The marketplace file lives at `.agents/plugins/marketplace.json` and the per-plugin Codex manifests live at `plugins/<plugin>/.codex-plugin/plugin.json`. Both reuse the same `plugins/<plugin>/skills/` directories as Claude Code, single sourced.
+
+To pick up changes, run `codex plugin marketplace upgrade pgoell-claude-tools` and re-install the affected plugins from `/plugins` inside Codex. Codex does not poll for updates; it uses the cached snapshot from `add` time until you upgrade.
 
 ## Setup
 
@@ -81,4 +119,4 @@ For full setup instructions, see: https://github.com/googleworkspace/cli
 
 ### Research Plugin
 
-No authentication required. The research plugin uses WebSearch and WebFetch which work out of the box.
+No authentication required. The research plugin uses the host agent's web search and fetch or browse tools.

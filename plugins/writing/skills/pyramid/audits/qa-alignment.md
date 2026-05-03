@@ -5,7 +5,7 @@
 **Dispatch:** One of four audit agents in Phase 3. Reads `construction.md` and the shipped reference. Writes `audit-qa.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Run Q-A Alignment audit on pyramid nodes"
   prompt: |
     You are a Q-A Alignment auditor. Your job is to verify that for each

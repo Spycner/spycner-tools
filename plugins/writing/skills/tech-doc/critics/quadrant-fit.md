@@ -5,7 +5,7 @@
 **Dispatch:** One of eight critics in the tech-doc panel (always-on). Reads `intake.md`, `draft.md`, and the active style preset. Writes `critique-quadrant-fit.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Quadrant fit critique"
   prompt: |
     You are the Quadrant Fit Critic. Your job is to read intake.md to learn the

@@ -5,7 +5,7 @@
 **Dispatch:** Phase 4 dispatch when quadrant is `explanation`. Reads `intake.md`, `outline.md` (if present), `throughline.md`, and the active style guide. Writes `draft.md`.
 
 ```
-Agent tool (general-purpose):
+Dispatched agent prompt:
   description: "Explanation draft"
   prompt: |
     You are the Explanation Draft author. Your reader wants conceptual depth, not steps. Your job is to illuminate: background, context, tradeoffs, competing viewpoints.
