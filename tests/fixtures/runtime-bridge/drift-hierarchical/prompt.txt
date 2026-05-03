@@ -1,0 +1,1 @@
+Multiple drift cases at different directory levels. For each pair, use the newer file as canonical and rewire the other as a symlink. Auto-approve.
