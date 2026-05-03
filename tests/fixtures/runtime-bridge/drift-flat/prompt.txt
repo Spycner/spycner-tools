@@ -1,0 +1,1 @@
+My CLAUDE.md and AGENTS.md have drifted. Use the newer file as canonical and rewire the other as a symlink. Auto-approve.
