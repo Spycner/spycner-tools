@@ -142,3 +142,25 @@ Print to user:
 - For Codex writes, always include the trust gate reminder.
 
 See `manifest-schema.md` and `port-recipes.md` for the data contract and translation rules.
+
+## Smoke testing on real projects
+
+Before merging meaningful changes to this skill, run dry-run mode on at least one real project of each shape:
+
+- A Claude-only project with hierarchical `CLAUDE.md` files (e.g. `~/Code/Klassenzeit`).
+- A drift project with `CLAUDE.md` and `AGENTS.md` already present and out of sync (e.g. `~/Zettelkasten`).
+
+Invocation:
+
+```
+cd <project>
+claude  # or codex
+> Use the claude-codex-bridge skill on this project. Dry run only. Show me the manifest, do not apply anything.
+```
+
+Inspect the manifest. Sanity checks:
+
+- All hierarchical memory files are mapped.
+- No commands or rules appear in `ops` (they should be in `skip`).
+- Plugin report buckets are populated.
+- For Codex writes: `trust_warning: true` is set.
