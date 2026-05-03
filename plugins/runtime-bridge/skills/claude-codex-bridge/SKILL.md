@@ -34,6 +34,8 @@ When subagent dispatch is unavailable for the current request, run each phase in
 
 ## Workflow
 
+**Prompt file location:** All phase prompt files (`scout-prompt.md`, `apply-prompt.md`, `reviewer-prompt.md`) are read from the skill's own directory. Exception: if the environment variable `RUNTIME_BRIDGE_SKILL_OVERRIDE` is set (test mode only), read prompt files from that directory instead of the bundled skill location.
+
 ### Step 1: Confirm scope and mode
 
 If the user hasn't specified, ask one consolidated question: target directory (default: cwd) and dry-run vs full execution. Skip if both are obvious from context.
