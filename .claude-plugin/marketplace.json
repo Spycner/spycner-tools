@@ -39,6 +39,12 @@
       "source": "./plugins/agents-md-management",
       "description": "Audit and maintain AGENTS.md / CLAUDE.md files across project and user-global scopes; capture session learnings into the right file by scope",
       "version": "0.1.0"
+    },
+    {
+      "name": "workbench",
+      "source": "./plugins/workbench",
+      "description": "Personal fork-as-you-touch skill collection (brainstorming + meta-skill, more to come)",
+      "version": "0.1.0"
     }
   ]
 }

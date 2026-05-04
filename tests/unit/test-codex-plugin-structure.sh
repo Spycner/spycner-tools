@@ -18,9 +18,9 @@ marketplace_name="$(jq -r '.name' "$MARKETPLACE")"
 [ "$marketplace_name" = "pgoell-claude-tools" ] || fail "Unexpected marketplace name: $marketplace_name"
 
 plugin_count="$(jq '.plugins | length' "$MARKETPLACE")"
-[ "$plugin_count" -eq 6 ] || fail "Expected 6 Codex marketplace plugins, got $plugin_count"
+[ "$plugin_count" -eq 7 ] || fail "Expected 7 Codex marketplace plugins, got $plugin_count"
 
-for plugin in atlassian google-workspace research writing runtime-bridge agents-md-management; do
+for plugin in atlassian google-workspace research writing runtime-bridge agents-md-management workbench; do
     plugin_dir="$REPO_ROOT/plugins/$plugin"
     manifest="$plugin_dir/.codex-plugin/plugin.json"
 

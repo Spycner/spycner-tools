@@ -45,6 +45,7 @@ tests/
 | `writing` | 1.6.0 | `writing`, `pyramid`, `tech-doc` |
 | `runtime-bridge` | 0.1.0 | `claude-codex-bridge` |
 | `agents-md-management` | 0.1.0 | `agents-md-improver`, `agents-md-session-capture` |
+| `workbench` | 0.1.0 | `brainstorming`, `using-workbench` |
 
 ## How to Develop a New Skill
 

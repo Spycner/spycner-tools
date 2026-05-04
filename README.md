@@ -19,6 +19,8 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `claude-codex-bridge` | runtime-bridge | Align Claude Code and Codex artifacts in a project |
 | `agents-md-improver` | agents-md-management | Audit AGENTS.md / CLAUDE.md across project and user-global scopes; propose targeted edits |
 | `agents-md-session-capture` | agents-md-management | Capture session learnings into AGENTS.md / CLAUDE.md (or `*.local.md`, or user-global) by scope |
+| `brainstorming` | workbench | Design dialogue that turns ideas into specs, with a browser-based visual companion |
+| `using-workbench` | workbench | Meta-skill announcing Workbench skills; defers core meta-rules to upstream using-superpowers |
 
 ## Plugins
 
@@ -69,6 +71,14 @@ Audit and maintain `AGENTS.md` / `CLAUDE.md` files (and variants like `AGENTS.lo
 - `/pgoell-claude-tools:agents-md-improver`: Periodic cold audit. Scores each file against a six-criterion rubric, outputs a quality report, then proposes targeted edits with confirmation.
 - `/pgoell-claude-tools:agents-md-session-capture`: End-of-session warm capture. Reflects on what context was missing, classifies each learning by scope (project-shared, project-local, user-global), and routes additions to the right file. Triggers on `/revise-agents-md` or `/revise-claude-md`.
 
+### workbench
+
+Personal fork-as-you-touch skill collection. Today: brainstorming (a design dialogue that turns ideas into specs, with a browser-based visual companion) and a trimmed meta-skill that layers on top of upstream `superpowers:using-superpowers`. More skills will be added as Pascal commits to owning them.
+
+**Skills:**
+- `/pgoell-claude-tools:brainstorming`: Design dialogue from idea to spec, with a visual-companion mode
+- `/pgoell-claude-tools:using-workbench`: Meta-skill announcing Workbench skills, defers core meta-rules to upstream
+
 ## Installation
 
 ### Claude Code
@@ -81,6 +91,7 @@ Audit and maintain `AGENTS.md` / `CLAUDE.md` files (and variants like `AGENTS.lo
 /plugin install writing@pgoell-claude-tools
 /plugin install runtime-bridge@pgoell-claude-tools
 /plugin install agents-md-management@pgoell-claude-tools
+/plugin install workbench@pgoell-claude-tools
 ```
 
 ### Codex
@@ -98,7 +109,7 @@ codex
 /plugins
 ```
 
-In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, and `agents-md-management`.
+In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agents-md-management`, and `workbench`.
 
 `codex plugin marketplace add` accepts `owner/repo[@ref]`, an HTTPS or SSH Git URL, or a local marketplace root directory. The marketplace file lives at `.agents/plugins/marketplace.json` and the per-plugin Codex manifests live at `plugins/<plugin>/.codex-plugin/plugin.json`. Both reuse the same `plugins/<plugin>/skills/` directories as Claude Code, single sourced.
 

@@ -1,0 +1,16 @@
+{
+  "name": "workbench",
+  "version": "0.1.0",
+  "description": "Personal fork-as-you-touch skill collection (brainstorming + meta-skill, more to come)",
+  "author": {
+    "name": "Pascal Göllner"
+  },
+  "license": "MIT",
+  "keywords": [
+    "personal",
+    "brainstorming",
+    "design",
+    "specs",
+    "workflow"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "workbench",
+  "version": "0.1.0",
+  "description": "Personal fork-as-you-touch skill collection (brainstorming + meta-skill, more to come)",
+  "author": {
+    "name": "Pascal Göllner"
+  },
+  "license": "MIT",
+  "keywords": [
+    "personal",
+    "brainstorming",
+    "design",
+    "specs",
+    "workflow"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Workbench",
+    "shortDescription": "Personal forks of skills Pascal uses regularly",
+    "longDescription": "Personal fork-as-you-touch skill collection. Today: brainstorming (with visual companion) and a meta-skill that layers on top of using-superpowers. More skills will be added as Pascal commits to owning them.",
+    "developerName": "Pascal Göllner",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me brainstorm a new feature",
+      "Turn my idea into a spec",
+      "Run the design dialogue for this project"
+    ],
+    "screenshots": []
+  }
+}
