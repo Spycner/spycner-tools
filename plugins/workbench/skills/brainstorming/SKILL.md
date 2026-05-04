@@ -21,13 +21,13 @@ Every project goes through this process. A todo list, a single-function utility,
 
 You MUST create a task for each of these items and complete them in order:
 
-1. **Explore project context** — check files, docs, recent commits
+1. **Explore project context** — dispatch a cost-efficient subagent to survey files, docs, and recent commits; use its summary as starting context
 2. **Offer visual companion** (if topic will involve visual questions) — this is its own message, not combined with a clarifying question. See the Visual Companion section below.
 3. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria
 4. **Propose 2-3 approaches** — with trade-offs and your recommendation
 5. **Present design** — in sections scaled to their complexity, get user approval after each section
 6. **Write design doc** — save to `docs/workbench/specs/YYYY-MM-DD-<topic>-design.md` and commit
-7. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope (see below)
+7. **Spec self-review** — dispatch a reviewer subagent (host model inherits), then fix in place from its report (see below)
 8. **User reviews written spec** — ask user to review the spec file before proceeding
 9. **Transition to implementation** — invoke `superpowers:writing-plans` skill to create implementation plan
 
@@ -69,7 +69,7 @@ digraph brainstorming {
 
 **Understanding the idea:**
 
-- Check out the current project state first (files, docs, recent commits)
+- Delegate project-state exploration to a cost-efficient subagent (Claude Code: `Explore` agent type, haiku model. Codex: read-only research agent equivalent.) Pass a tight prompt: "Survey this repo. Report under 250 words: primary language, top-level structure, recent commits (last 5), presence of CLAUDE.md/AGENTS.md/README, any docs/ directory worth reading. Don't list every file." Use the returned summary as your starting context, do not read files yourself in the main session for this step.
 - Before asking detailed questions, assess scope: if the request describes multiple independent subsystems (e.g., "build a platform with chat, file storage, billing, and analytics"), flag this immediately. Don't spend questions refining details of a project that needs to be decomposed first.
 - If the project is too large for a single spec, help the user decompose into sub-projects: what are the independent pieces, how do they relate, what order should they be built? Then brainstorm the first sub-project through the normal design flow. Each sub-project gets its own spec → plan → implementation cycle.
 - For appropriately-scoped projects, ask questions one at a time to refine the idea
@@ -100,7 +100,7 @@ digraph brainstorming {
 
 **Working in existing codebases:**
 
-- Explore the current structure before proposing changes. Follow existing patterns.
+- Delegate exploration of existing structure to a cost-efficient subagent (Claude Code: `Explore` agent type, haiku model. Codex: read-only research agent equivalent.) Pass a tight prompt scoped to the area you're touching: "Survey [path or subsystem]. Report under 250 words: existing patterns and conventions, naming, key entry points, files that change together, any clearly-overgrown files. Don't list every file." Follow the returned conventions when proposing changes.
 - Where existing code has problems that affect the work (e.g., a file that's grown too large, unclear boundaries, tangled responsibilities), include targeted improvements as part of the design - the way a good developer improves code they're working in.
 - Don't propose unrelated refactoring. Stay focused on what serves the current goal.
 
@@ -114,14 +114,18 @@ digraph brainstorming {
 - Commit the design document to git
 
 **Spec Self-Review:**
-After writing the spec document, look at it with fresh eyes:
+After writing the spec document, dispatch a reviewer subagent that has not seen the brainstorming conversation. Pass the spec file path and the four checks below; the subagent reports findings, you fix in place.
 
-1. **Placeholder scan:** Any "TBD", "TODO", incomplete sections, or vague requirements? Fix them.
-2. **Internal consistency:** Do any sections contradict each other? Does the architecture match the feature descriptions?
-3. **Scope check:** Is this focused enough for a single implementation plan, or does it need decomposition?
-4. **Ambiguity check:** Could any requirement be interpreted two different ways? If so, pick one and make it explicit.
+Use a general-purpose subagent (Claude Code: `Agent` tool with `general-purpose` subagent_type. Codex: equivalent general-purpose subagent.) Do not specify a model override; the subagent inherits the host session's model so review depth matches your own.
 
-Fix any issues inline. No need to re-review — just fix and move on.
+The reviewer's checks:
+
+1. **Placeholder scan:** any "TBD", "TODO", incomplete sections, or vague requirements?
+2. **Internal consistency:** do any sections contradict each other? Does the architecture match the feature descriptions?
+3. **Scope check:** is this focused enough for a single implementation plan, or does it need decomposition?
+4. **Ambiguity check:** could any requirement be interpreted two different ways? If so, which interpretation should be made explicit?
+
+Why a separate subagent: "fresh eyes" means literally not having seen the dialogue or the writing. After the report comes back, fix any issues inline in the spec document. No re-review needed; fix and move on.
 
 **User Review Gate:**
 After the spec review loop passes, ask the user to review the written spec before proceeding:
