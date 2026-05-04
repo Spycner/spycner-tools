@@ -33,6 +33,12 @@
       "source": "./plugins/runtime-bridge",
       "description": "Bidirectionally align a project's Claude Code and Codex CLI configuration: memory files, subagents, hooks, settings",
       "version": "0.1.0"
+    },
+    {
+      "name": "agents-md-management",
+      "source": "./plugins/agents-md-management",
+      "description": "Audit and maintain AGENTS.md / CLAUDE.md files across project and user-global scopes; capture session learnings into the right file by scope",
+      "version": "0.1.0"
     }
   ]
 }
