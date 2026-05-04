@@ -68,7 +68,7 @@ Create `.claude-plugin/plugin.json`:
 {
   "name": "<plugin-name>",
   "description": "<one-line description>",
-  "author": { "name": "Pascal Kraus" },
+  "author": { "name": "Pascal Göllner" },
   "license": "MIT",
   "keywords": ["<relevant>", "<keywords>"]
 }
@@ -81,7 +81,7 @@ Create `.codex-plugin/plugin.json` for the same plugin. It must point to the exi
   "name": "<plugin-name>",
   "version": "<same-version-as-claude-plugin>",
   "description": "<one-line description>",
-  "author": { "name": "Pascal Kraus" },
+  "author": { "name": "Pascal Göllner" },
   "license": "MIT",
   "keywords": ["<relevant>", "<keywords>"],
   "skills": "./skills/",
@@ -89,7 +89,7 @@ Create `.codex-plugin/plugin.json` for the same plugin. It must point to the exi
     "displayName": "<Plugin Display Name>",
     "shortDescription": "<short human-facing description>",
     "longDescription": "<long human-facing description>",
-    "developerName": "Pascal Kraus",
+    "developerName": "Pascal Göllner",
     "category": "Productivity",
     "capabilities": ["Interactive", "Write"],
     "defaultPrompt": ["<starter prompt>"],

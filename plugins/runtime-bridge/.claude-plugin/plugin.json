@@ -2,7 +2,7 @@
   "name": "runtime-bridge",
   "version": "0.1.0",
   "description": "Bidirectionally align a project's Claude Code and Codex CLI configuration: memory files, subagents, hooks, settings",
-  "author": { "name": "Pascal Kraus" },
+  "author": { "name": "Pascal Göllner" },
   "license": "MIT",
   "keywords": ["claude-code", "codex", "agents-md", "claude-md", "runtime", "interop", "porting", "agents", "skills"]
 }

@@ -2,7 +2,7 @@
   "name": "agents-md-management",
   "version": "0.1.0",
   "description": "Audit and maintain AGENTS.md / CLAUDE.md files; capture session learnings",
-  "author": { "name": "Pascal Kraus" },
+  "author": { "name": "Pascal Göllner" },
   "license": "MIT",
   "keywords": ["agents-md", "claude-md", "memory", "audit", "session-capture", "claude-code", "codex"],
   "skills": "./skills/",
@@ -10,7 +10,7 @@
     "displayName": "Agents.md Management",
     "shortDescription": "Audit AGENTS.md/CLAUDE.md and capture session learnings",
     "longDescription": "Two skills for keeping agent-instruction files current. agents-md-improver runs a periodic cold audit, scoring each file against a six-criterion rubric and proposing targeted edits. agents-md-session-capture runs an end-of-session warm capture, classifying each learning by scope (project-shared, project-local, user-global) and routing edits to the right file. Discovery is symlink-aware via realpath, so paired CLAUDE.md/AGENTS.md count as one logical file. User-global memory files (~/.claude/CLAUDE.md, ~/.codex/AGENTS.md) are included in the default sweep.",
-    "developerName": "Pascal Kraus",
+    "developerName": "Pascal Göllner",
     "category": "Productivity",
     "capabilities": ["Interactive", "Read", "Write"],
     "defaultPrompt": [

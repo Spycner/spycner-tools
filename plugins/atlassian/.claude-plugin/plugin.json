@@ -2,7 +2,7 @@
   "name": "atlassian",
   "description": "Jira and Confluence skills for the Atlassian suite — search, create, update, and manage work items and pages",
   "author": {
-    "name": "Pascal Kraus"
+    "name": "Pascal Göllner"
   },
   "license": "MIT",
   "keywords": ["jira", "confluence", "atlassian"]

@@ -3,7 +3,7 @@
   "version": "1.6.0",
   "description": "Writing, pyramid structure, and technical documentation skills.",
   "author": {
-    "name": "Pascal Kraus"
+    "name": "Pascal Göllner"
   },
   "license": "MIT",
   "keywords": [
@@ -27,7 +27,7 @@
     "displayName": "Writing",
     "shortDescription": "Draft, structure, review, and finish prose",
     "longDescription": "Use the writing skills for long form prose, Pyramid Principle outlines, analytical memos, and Diataxis aware technical documentation with review and finishing passes.",
-    "developerName": "Pascal Kraus",
+    "developerName": "Pascal Göllner",
     "category": "Productivity",
     "capabilities": [
       "Interactive",

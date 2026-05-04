@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Jira and Confluence skills for Atlassian Cloud.",
   "author": {
-    "name": "Pascal Kraus"
+    "name": "Pascal Göllner"
   },
   "license": "MIT",
   "keywords": [
@@ -16,7 +16,7 @@
     "displayName": "Atlassian",
     "shortDescription": "Use Jira and Confluence from agent workflows",
     "longDescription": "Use Atlassian skills to search Jira issues, create and update tickets, transition work items, search Confluence, read documentation, and create or update pages.",
-    "developerName": "Pascal Kraus",
+    "developerName": "Pascal Göllner",
     "category": "Productivity",
     "capabilities": [
       "Interactive",

@@ -2,7 +2,7 @@
   "name": "agents-md-management",
   "version": "0.1.0",
   "description": "Audit and maintain AGENTS.md / CLAUDE.md files across project and user-global scopes; capture session learnings into the right file by scope.",
-  "author": { "name": "Pascal Kraus" },
+  "author": { "name": "Pascal Göllner" },
   "license": "MIT",
   "keywords": ["agents-md", "claude-md", "memory", "audit", "session-capture", "claude-code", "codex"]
 }
