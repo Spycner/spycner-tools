@@ -99,6 +99,22 @@
         "displayName": "Agents.md Management",
         "shortDescription": "Audit AGENTS.md/CLAUDE.md and capture session learnings"
       }
+    },
+    {
+      "name": "workbench",
+      "source": {
+        "source": "local",
+        "path": "./plugins/workbench"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity",
+      "interface": {
+        "displayName": "Workbench",
+        "shortDescription": "Personal forks of skills Pascal uses regularly"
+      }
     }
   ]
 }
