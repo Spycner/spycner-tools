@@ -1,30 +1,122 @@
 ---
 name: using-workbench
-description: Use when starting any conversation alongside using-superpowers. Announces workbench's currently-shipped skills, defers meta-rules to using-superpowers, and resolves slug collisions in workbench's favor.
+description: Use when starting any conversation, establishes how to find and use workbench skills, requiring Skill tool invocation before any response including clarifying questions
 ---
 
-# Using Workbench
+<SUBAGENT-STOP>
+If you were dispatched as a subagent to execute a specific task, skip this skill.
+</SUBAGENT-STOP>
 
-This skill is a thin companion to `using-superpowers`. Workbench layers on top of the upstream Superpowers plugin and forks individual skills as Pascal commits to owning them.
+<EXTREMELY-IMPORTANT>
+If you think there is even a 1% chance a skill might apply to what you are doing, you ABSOLUTELY MUST invoke the skill.
 
-## Relationship to using-superpowers
+IF A SKILL APPLIES TO YOUR TASK, YOU DO NOT HAVE A CHOICE. YOU MUST USE IT.
 
-The meta-rules for working with skills (when to invoke them, how to treat triggers, the "even 1% relevance" rule, the rule against rationalizing past skill use, the SUBAGENT-STOP block, the platform tool-name mapping) are owned by `using-superpowers`. This skill does NOT restate them.
+This is not negotiable. This is not optional. You cannot rationalize your way out of this.
+</EXTREMELY-IMPORTANT>
 
-If `superpowers` is not installed, see `references/using-superpowers-upstream.md` in this skill directory for the meta-rules in their original form, frozen at upstream version 5.0.7. Either install upstream, or promote that content into this skill body.
+## Instruction Priority
 
-## Workbench skills
+Workbench skills override default system prompt behavior, but **user instructions always take precedence**:
 
-Today, Workbench ships:
+1. **User's explicit instructions** (CLAUDE.md, AGENTS.md, direct requests) — highest priority
+2. **Workbench skills** — override default system behavior where they conflict
+3. **Default system prompt** — lowest priority
 
-- `brainstorming`: design dialogue that turns an idea into a spec, with a visual-companion mode
+If CLAUDE.md or AGENTS.md says "don't use TDD" and a skill says "always use TDD," follow the user's instructions. The user is in control.
 
-As more skills are forked into Workbench, add them to this list and promote relevant chunks from `references/using-superpowers-upstream.md` into this skill body.
+## How to Access Skills
 
-## Slug collision rule
+**In Claude Code:** Use the `Skill` tool. When you invoke a skill, its content is loaded and presented to you—follow it directly. Never use the Read tool on skill files.
 
-When a skill name exists in both Workbench and Superpowers, prefer the Workbench version. Today the only collision is `brainstorming`. The host agent should resolve the bare slug `brainstorming` to `workbench:brainstorming`.
+**In Codex:** Skills are auto-discovered from installed plugins and activate via Codex's plugin skill mechanism.
 
-## Reference file
+## Platform Adaptation
 
-`references/using-superpowers-upstream.md` is a verbatim snapshot of the upstream `using-superpowers/SKILL.md` at version 5.0.7. It exists so that, as more skills are ported, their corresponding chunks of meta-guidance can be lifted out of the snapshot and into this skill body.
+Skills use Claude Code tool names by default. Codex users: see `references/codex-tools.md` for tool equivalents.
+
+# Using Skills
+
+## The Rule
+
+**Invoke relevant or requested skills BEFORE any response or action.** Even a 1% chance a skill might apply means that you should invoke the skill to check. If an invoked skill turns out to be wrong for the situation, you don't need to use it.
+
+```dot
+digraph skill_flow {
+    "User message received" [shape=doublecircle];
+    "About to EnterPlanMode?" [shape=doublecircle];
+    "Already brainstormed?" [shape=diamond];
+    "Invoke brainstorming skill" [shape=box];
+    "Might any skill apply?" [shape=diamond];
+    "Invoke Skill tool" [shape=box];
+    "Announce: 'Using [skill] to [purpose]'" [shape=box];
+    "Has checklist?" [shape=diamond];
+    "Create TodoWrite todo per item" [shape=box];
+    "Follow skill exactly" [shape=box];
+    "Respond (including clarifications)" [shape=doublecircle];
+
+    "About to EnterPlanMode?" -> "Already brainstormed?";
+    "Already brainstormed?" -> "Invoke brainstorming skill" [label="no"];
+    "Already brainstormed?" -> "Might any skill apply?" [label="yes"];
+    "Invoke brainstorming skill" -> "Might any skill apply?";
+
+    "User message received" -> "Might any skill apply?";
+    "Might any skill apply?" -> "Invoke Skill tool" [label="yes, even 1%"];
+    "Might any skill apply?" -> "Respond (including clarifications)" [label="definitely not"];
+    "Invoke Skill tool" -> "Announce: 'Using [skill] to [purpose]'";
+    "Announce: 'Using [skill] to [purpose]'" -> "Has checklist?";
+    "Has checklist?" -> "Create TodoWrite todo per item" [label="yes"];
+    "Has checklist?" -> "Follow skill exactly" [label="no"];
+    "Create TodoWrite todo per item" -> "Follow skill exactly";
+}
+```
+
+## Red Flags
+
+These thoughts mean STOP—you're rationalizing:
+
+| Thought | Reality |
+|---------|---------|
+| "This is just a simple question" | Questions are tasks. Check for skills. |
+| "I need more context first" | Skill check comes BEFORE clarifying questions. |
+| "Let me explore the codebase first" | Skills tell you HOW to explore. Check first. |
+| "I can check git/files quickly" | Files lack conversation context. Check for skills. |
+| "Let me gather information first" | Skills tell you HOW to gather information. |
+| "This doesn't need a formal skill" | If a skill exists, use it. |
+| "I remember this skill" | Skills evolve. Read current version. |
+| "This doesn't count as a task" | Action = task. Check for skills. |
+| "The skill is overkill" | Simple things become complex. Use it. |
+| "I'll just do this one thing first" | Check BEFORE doing anything. |
+| "This feels productive" | Undisciplined action wastes time. Skills prevent this. |
+| "I know what that means" | Knowing the concept ≠ using the skill. Invoke it. |
+
+## Skill Priority
+
+When multiple skills could apply, use this order:
+
+1. **Process skills first** (brainstorming) - these determine HOW to approach the task
+2. **Implementation skills second** - these guide execution
+
+"Let's build X" → brainstorming first, then implementation skills.
+
+## Skill Types
+
+**Rigid**: Follow exactly. Don't adapt away discipline.
+
+**Flexible** (patterns): Adapt principles to context.
+
+The skill itself tells you which.
+
+## User Instructions
+
+Instructions say WHAT, not HOW. "Add X" or "Fix Y" doesn't mean skip workflows.
+
+---
+
+## Coexistence with using-superpowers
+
+Workbench coexists with the upstream `superpowers` plugin. If both are installed, both meta-skills (`using-workbench` and `using-superpowers`) may fire at session start. Their content overlaps but workbench's version is authoritative for workbench skills.
+
+When a slug exists in both workbench and superpowers (today: `brainstorming`), prefer the workbench version. The host agent should resolve the bare slug `brainstorming` to `workbench:brainstorming`.
+
+For attribution and a frozen snapshot of upstream `using-superpowers/SKILL.md` at v5.0.7, see `references/using-superpowers-upstream.md`. Workbench-specific divergences from that snapshot are documented in this file's git history; the snapshot itself is intentionally not edited.
