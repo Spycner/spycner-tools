@@ -1,0 +1,1 @@
+Write an implementation plan for refactoring the auth module.
