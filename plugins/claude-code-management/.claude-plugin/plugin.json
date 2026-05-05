@@ -1,0 +1,16 @@
+{
+  "name": "claude-code-management",
+  "version": "0.1.0",
+  "description": "Manage Claude Code customization assets across plugins and marketplaces.",
+  "author": { "name": "Pascal Göllner" },
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "codex",
+    "plugins",
+    "skills",
+    "scaffolding",
+    "marketplace",
+    "lifecycle"
+  ]
+}

@@ -115,6 +115,22 @@
         "displayName": "Workbench",
         "shortDescription": "Design and ship with Workbench skills"
       }
+    },
+    {
+      "name": "claude-code-management",
+      "source": {
+        "source": "local",
+        "path": "./plugins/claude-code-management"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity",
+      "interface": {
+        "displayName": "Claude Code Management",
+        "shortDescription": "Scaffold, iterate, and optimize Claude Code skills"
+      }
     }
   ]
 }
