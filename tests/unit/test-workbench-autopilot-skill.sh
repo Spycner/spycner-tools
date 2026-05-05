@@ -67,7 +67,7 @@ echo ""
 
 # Test 5: SKILL.md mentions every skill in the universal table
 echo "Test 5: SKILL.md mentions every universal skill..."
-for skill in 'workbench:using-workbench' 'workbench:brainstorming' 'superpowers:writing-plans' 'superpowers:test-driven-development' 'superpowers:subagent-driven-development' 'claude-md-management:revise-claude-md' 'claude-md-management:claude-md-improver'; do
+for skill in 'workbench:using-workbench' 'workbench:brainstorming' 'superpowers:writing-plans' 'superpowers:test-driven-development' 'superpowers:subagent-driven-development' 'agents-md-management:agents-md-session-capture' 'agents-md-management:agents-md-improver'; do
     if grep -qF "$skill" "$SKILL_MD"; then
         echo "  [PASS] SKILL.md mentions $skill"
     else
@@ -178,6 +178,25 @@ else
     echo "  [FAIL] Claude marketplace workbench not at 0.2.0"
     exit 1
 fi
+echo ""
+
+# Test 13: Old claude-md-management skill IDs are absent from SKILL.md and required-skills.md
+echo "Test 13: Old claude-md-management skill IDs absent from autopilot files..."
+RS="$SKILL_DIR/references/required-skills.md"
+for old_id in 'claude-md-management:revise-claude-md' 'claude-md-management:claude-md-improver'; do
+    if grep -qF "$old_id" "$SKILL_MD"; then
+        echo "  [FAIL] SKILL.md still references $old_id (should have been swapped to agents-md-management)"
+        exit 1
+    else
+        echo "  [PASS] SKILL.md does not reference $old_id"
+    fi
+    if grep -qF "$old_id" "$RS"; then
+        echo "  [FAIL] required-skills.md still references $old_id (should have been swapped to agents-md-management)"
+        exit 1
+    else
+        echo "  [PASS] required-skills.md does not reference $old_id"
+    fi
+done
 echo ""
 
 echo "=== Tests complete ==="
