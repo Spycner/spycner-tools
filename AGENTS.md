@@ -50,6 +50,8 @@ tests/
 
 ## How to Develop a New Skill
 
+> **Tip:** The `claude-code-management:creating-skills` skill automates this entire workflow. Invoke it for greenfield scaffolding, iteration with eval loops, pressure-testing discipline skills, description optimization, or extraction from a session. The steps below remain the canonical reference.
+
 ### 1. Plan the skill
 
 - Identify the CLI tool or API the skill wraps
@@ -210,5 +212,7 @@ PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh <skill> test
 - **Skills are self-contained.** Each SKILL.md should contain everything the host agent needs to use the service without reading other files (except reference docs it explicitly links to).
 - **Codex compatibility is metadata plus platform mapping.** Codex manifests live beside Claude Code manifests and point at the same `skills` directory. Platform-specific tool differences belong in the shared skill body as a mapping, not in duplicated skill files.
 - **Tests run Claude in a subprocess.** Unit tests use `run_claude` with `--dangerously-skip-permissions`. Integration tests use `run_claude_logged` with `--output-format stream-json` to capture tool usage.
+- **Prefer filesystem-check unit tests over `run_claude` for structure verification.** When verifying a skill exists, has valid frontmatter, references its bundled docs, or hits required headings, use `jq`, `grep`, `head`, and `[ -s "$f" ]` (see `tests/unit/test-workbench-autopilot-skill.sh` for the canonical shape). Reserve `run_claude` for cases where actual model output must be exercised. Filesystem checks are fast, deterministic, and run without spawning Claude Code subprocesses.
+- **Em-dash lint and instruction text:** when a markdown file needs to describe the forbidden em-dash or en-dash characters (e.g., a SKILL.md that explains the no-em-dash rule), reference them by Unicode codepoint (`U+2014`, `U+2013`) instead of including the literal characters. Otherwise the em-dash lint matches on the description itself.
 - **Agents for long-running, context-heavy operations.** When a skill's execution would consume significant context (e.g. dozens of web pages for research), define an agent in `agents/` and have the skill dispatch it via the host subagent tool. The agent runs in an isolated subagent context. Use skills for everything else.
 - **Lazy auth, never print secrets.** Skills do not check authentication upfront. They attempt the operation and only diagnose auth issues when commands fail (in Self-Healing). Credentials, tokens, and API keys are NEVER printed or echoed — only check whether they are set (`test -n`), never display values.
