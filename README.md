@@ -73,7 +73,7 @@ Audit and maintain `AGENTS.md` / `CLAUDE.md` files (and variants like `AGENTS.lo
 
 ### workbench
 
-Personal fork-as-you-touch skill collection. Today: brainstorming (a design dialogue that turns ideas into specs, with a browser-based visual companion) and a trimmed meta-skill that layers on top of upstream `superpowers:using-superpowers`. More skills will be added as Pascal commits to owning them.
+Personal fork-as-you-touch skill collection. Today: brainstorming (a design dialogue that turns ideas into specs, with a browser-based visual companion), a trimmed meta-skill that layers on top of upstream `superpowers:using-superpowers`, and the autopilot project-profile convention (`plugins/workbench/skills/autopilot/references/profile-schema.md`); the autopilot skill itself ships in a follow-up PR. More skills will be added as Pascal commits to owning them.
 
 **Skills:**
 - `/pgoell-claude-tools:brainstorming`: Design dialogue from idea to spec, with a visual-companion mode
