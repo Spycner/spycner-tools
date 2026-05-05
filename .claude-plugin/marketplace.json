@@ -43,8 +43,8 @@
     {
       "name": "workbench",
       "source": "./plugins/workbench",
-      "description": "Personal fork-as-you-touch skill collection (brainstorming + meta-skill, more to come)",
-      "version": "0.1.0"
+      "description": "Personal fork-as-you-touch skill collection: brainstorming, using-workbench meta-skill, and the autopilot autonomous feature-flow skill (kernel + project profile at .workbench/autopilot.md)",
+      "version": "0.2.0"
     }
   ]
 }
