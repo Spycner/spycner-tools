@@ -93,7 +93,7 @@ Hooks:
 | `## PR behavior` | `Mode: stop_at_green`, `Base branch:` = default branch, `Squash: yes`, no hooks |
 | `## Required skills` | universal table only, no overrides, no additions |
 | `## Project name` | repo dir basename |
-| `## Branching` | default branch detected via `git symbolic-ref refs/remotes/origin/HEAD`, fallback `main`; standard Conventional Commits prefixes |
+| `## Branching` | default branch detected via `git symbolic-ref refs/remotes/origin/HEAD`, fallback `master`; standard Conventional Commits prefixes |
 | `## Commands` | task runner detected from `mise.toml` / `Makefile` / `package.json`; lint and test commands inferred from runner conventions |
 | `## Documentation paths` | `docs/superpowers/specs`, `docs/superpowers/plans`, `docs/superpowers/OPEN_THINGS.md`, `docs/adr`; each used only if it exists |
 | `## Project-specific rules` | none beyond what `CLAUDE.md` or `AGENTS.md` provides |
