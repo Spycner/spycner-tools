@@ -1,6 +1,6 @@
 {
   "name": "atlassian",
-  "description": "Jira and Confluence skills for the Atlassian suite — search, create, update, and manage work items and pages",
+  "description": "Use Jira and Confluence from agent workflows.",
   "author": {
     "name": "Pascal Göllner"
   },

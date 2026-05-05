@@ -1,6 +1,6 @@
 # Workbench Autopilot Profile Schema
 
-This document defines the convention for `.workbench/autopilot.md` files in projects that use the `workbench:autopilot` skill. The autopilot skill itself ships in PR 2; this doc describes the convention it will consume.
+This document defines the convention for `.workbench/autopilot.md` files in projects that use the `workbench:autopilot` skill.
 
 ## What goes in the profile
 
@@ -59,8 +59,8 @@ Test: <command suffix>
 Format: <command suffix>
 
 ## Documentation paths
-Specs: <path>
-Plans: <path>
+Specs: <path | don't commit>
+Plans: <path | don't commit>
 Open things: <file>
 ADRs: <dir>
 
@@ -95,7 +95,7 @@ Hooks:
 | `## Project name` | repo dir basename |
 | `## Branching` | default branch detected via `git symbolic-ref refs/remotes/origin/HEAD`, fallback `master`; standard Conventional Commits prefixes |
 | `## Commands` | task runner detected from `mise.toml` / `Makefile` / `package.json`; lint and test commands inferred from runner conventions |
-| `## Documentation paths` | `docs/superpowers/specs`, `docs/superpowers/plans`, `docs/superpowers/OPEN_THINGS.md`, `docs/adr`; each used only if it exists |
+| `## Documentation paths` | `docs/superpowers/specs`, `docs/superpowers/plans`, `docs/superpowers/OPEN_THINGS.md`, `docs/adr`; each used only if it exists. Use `don't commit` to keep generated specs or plans out of the repo. |
 | `## Project-specific rules` | none beyond what `CLAUDE.md` or `AGENTS.md` provides |
 
 ## Bootstrap precedence

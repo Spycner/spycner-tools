@@ -17,7 +17,7 @@
       "category": "Productivity",
       "interface": {
         "displayName": "Atlassian",
-        "shortDescription": "Use Jira and Confluence from agent workflows"
+        "shortDescription": "Use Jira and Confluence"
       }
     },
     {
@@ -33,7 +33,7 @@
       "category": "Productivity",
       "interface": {
         "displayName": "Google Workspace",
-        "shortDescription": "Use Gmail and Calendar through gws"
+        "shortDescription": "Use Gmail and Calendar"
       }
     },
     {
@@ -49,7 +49,7 @@
       "category": "Productivity",
       "interface": {
         "displayName": "Research",
-        "shortDescription": "Plan, research, synthesize, and write reports"
+        "shortDescription": "Research and write sourced reports"
       }
     },
     {
@@ -81,7 +81,7 @@
       "category": "Productivity",
       "interface": {
         "displayName": "Runtime Bridge",
-        "shortDescription": "Make a project work with both Claude Code and Codex CLI"
+        "shortDescription": "Align Claude Code and Codex"
       }
     },
     {
@@ -97,7 +97,7 @@
       "category": "Productivity",
       "interface": {
         "displayName": "Agents.md Management",
-        "shortDescription": "Audit AGENTS.md/CLAUDE.md and capture session learnings"
+        "shortDescription": "Audit agent instructions and capture learnings"
       }
     },
     {
@@ -113,7 +113,7 @@
       "category": "Productivity",
       "interface": {
         "displayName": "Workbench",
-        "shortDescription": "Personal skill forks: brainstorming, using-workbench, and autopilot (autonomous feature-flow skill)"
+        "shortDescription": "Design and ship with Workbench skills"
       }
     }
   ]

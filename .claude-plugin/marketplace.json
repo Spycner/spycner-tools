@@ -7,43 +7,43 @@
     {
       "name": "atlassian",
       "source": "./plugins/atlassian",
-      "description": "Jira and Confluence skills for the Atlassian suite — search, create, update, and manage work items and pages",
+      "description": "Use Jira and Confluence from agent workflows.",
       "version": "2.0.0"
     },
     {
       "name": "google-workspace",
       "source": "./plugins/google-workspace",
-      "description": "Google Workspace skills (Gmail, Calendar) powered by the gws CLI",
+      "description": "Use Gmail and Calendar through gws.",
       "version": "1.0.0"
     },
     {
       "name": "research",
       "source": "./plugins/research",
-      "description": "Orchestrator-driven deep research: parallel cluster researchers, unbounded review loops, synthesis and writer split",
+      "description": "Research complex topics and produce sourced reports.",
       "version": "2.0.0"
     },
     {
       "name": "writing",
       "source": "./plugins/writing",
-      "description": "Multi-phase writing pipeline with panel-of-critics review for blog posts, essays, talks, and longer-form prose. Format-aware: Smart-Brevity critic added for memo/newsletter/announcement formats. Ships a dedicated Pyramid Principle skill (Barbara Minto) with three construction modes (greenfield, restructure, Socratic). Also ships a Diátaxis-aware tech-doc skill for tutorials, how-to guides, references, and explanations, with full transcriptions of the Microsoft and Google style guides via a modular sidecar architecture (core, wordlist, procedures, admonitions, code-samples, links, numbers, api-reference) and an eight-critic panel.",
+      "description": "Draft, structure, review, and finish prose and technical docs.",
       "version": "1.6.1"
     },
     {
       "name": "runtime-bridge",
       "source": "./plugins/runtime-bridge",
-      "description": "Bidirectionally align a project's Claude Code and Codex CLI configuration: memory files, subagents, hooks, settings",
+      "description": "Align Claude Code and Codex project configuration.",
       "version": "0.1.0"
     },
     {
       "name": "agents-md-management",
       "source": "./plugins/agents-md-management",
-      "description": "Audit and maintain AGENTS.md / CLAUDE.md files across project and user-global scopes; capture session learnings into the right file by scope",
+      "description": "Audit AGENTS.md and CLAUDE.md files, then capture session learnings.",
       "version": "0.1.1"
     },
     {
       "name": "workbench",
       "source": "./plugins/workbench",
-      "description": "Personal fork-as-you-touch skill collection: brainstorming, using-workbench meta-skill, and the autopilot autonomous feature-flow skill (kernel + project profile at .workbench/autopilot.md)",
+      "description": "Personal Workbench skills for design and autonomous feature work.",
       "version": "0.2.0"
     }
   ]

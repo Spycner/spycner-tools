@@ -1,7 +1,7 @@
 {
   "name": "google-workspace",
   "version": "1.0.0",
-  "description": "Gmail and Calendar skills for Google Workspace via the gws CLI.",
+  "description": "Use Gmail and Calendar through gws.",
   "author": {
     "name": "Pascal Göllner"
   },
@@ -16,8 +16,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Google Workspace",
-    "shortDescription": "Use Gmail and Calendar through gws",
-    "longDescription": "Use Google Workspace skills to triage Gmail, search and read messages, send mail, view calendar agendas, create events, and check availability through the gws CLI.",
+    "shortDescription": "Use Gmail and Calendar",
+    "longDescription": "Search mail, manage drafts and labels, view agendas, create events, and check availability through the gws CLI.",
     "developerName": "Pascal Göllner",
     "category": "Productivity",
     "capabilities": [

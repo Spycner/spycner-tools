@@ -1,7 +1,7 @@
 {
   "name": "atlassian",
   "version": "2.0.0",
-  "description": "Jira and Confluence skills for Atlassian Cloud.",
+  "description": "Use Jira and Confluence from agent workflows.",
   "author": {
     "name": "Pascal Göllner"
   },
@@ -14,8 +14,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Atlassian",
-    "shortDescription": "Use Jira and Confluence from agent workflows",
-    "longDescription": "Use Atlassian skills to search Jira issues, create and update tickets, transition work items, search Confluence, read documentation, and create or update pages.",
+    "shortDescription": "Use Jira and Confluence",
+    "longDescription": "Search Jira and Confluence, update issues and pages, add comments, and manage status from agent workflows.",
     "developerName": "Pascal Göllner",
     "category": "Productivity",
     "capabilities": [

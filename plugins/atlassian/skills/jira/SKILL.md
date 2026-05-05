@@ -1,6 +1,6 @@
 ---
 name: jira
-description: Use when the user wants to interact with Jira — search issues, create/update tickets, transition status, add comments, or check sprint work
+description: Search Jira, manage issues, add comments, transition work, and inspect sprints.
 ---
 
 # Jira Skill

@@ -1,7 +1,6 @@
 ---
 name: pyramid
-description: >
-  Use when the user wants a pyramid-structured outline (Barbara Minto's pyramid principle) for a memo, recommendation, briefing, decision document, or analytical report; or wants to restructure an existing draft into pyramid form; or explicitly asks for pyramid structure, Minto structure, SCQA, MECE, so-what logic, or pyramid-ify on ANY piece of writing (including borderline genres like essays, where the intake phase surfaces a domain-limits gate offering to switch to the writing skill). Three construction modes (greenfield, restructure, socratic interactive dialogue). Orchestrates a five-phase pipeline: intake with domain-limits gate, construct, parallel audit panel of MECE / So-What / Q-A Alignment / Inductive-Deductive, SCQA opener, render. Trigger heuristic: any explicit mention of pyramid, Minto, SCQA, MECE, or pyramid-style outline activates this skill. Bare requests to "draft" or "write" a narrative, personal essay, or exploratory piece (without a pyramid mention) should go to the writing skill instead.
+description: Structure memos, recommendations, briefings, and decision documents with the Pyramid Principle.
 ---
 
 # Pyramid Skill

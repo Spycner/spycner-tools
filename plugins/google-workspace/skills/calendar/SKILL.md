@@ -1,6 +1,6 @@
 ---
 name: calendar
-description: Use when the user wants to view agenda, create and manage events, check availability, and manage calendars via the gws CLI.
+description: View agendas, manage events, check availability, and update calendars with gws.
 ---
 
 # Calendar Skill

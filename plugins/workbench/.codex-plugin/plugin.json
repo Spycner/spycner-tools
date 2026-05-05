@@ -1,7 +1,7 @@
 {
   "name": "workbench",
   "version": "0.2.0",
-  "description": "Personal fork-as-you-touch skill collection: brainstorming, using-workbench meta-skill, and the autopilot autonomous feature-flow skill",
+  "description": "Personal Workbench skills for design and autonomous feature work.",
   "author": {
     "name": "Pascal Göllner"
   },
@@ -17,8 +17,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Workbench",
-    "shortDescription": "Personal forks of skills Pascal uses regularly",
-    "longDescription": "Personal fork-as-you-touch skill collection. Today: brainstorming (with visual companion), a using-workbench meta-skill that layers on top of using-superpowers, and the autopilot skill which runs the full autonomous brainstorm-spec-plan-implement-PR-green-CI flow against a project profile at .workbench/autopilot.md. More skills will be added as Pascal commits to owning them.",
+    "shortDescription": "Design and ship with Workbench skills",
+    "longDescription": "Use Workbench for design dialogue, skill routing, and profile driven feature shipping through autopilot.",
     "developerName": "Pascal Göllner",
     "category": "Productivity",
     "capabilities": [
