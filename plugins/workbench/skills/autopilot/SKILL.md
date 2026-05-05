@@ -46,7 +46,7 @@ Read `references/required-skills.md` for the full table and `replaces` / `additi
 | 2 | `workbench:brainstorming` |
 | 4 | `superpowers:writing-plans` |
 | 5 | `superpowers:test-driven-development` and `superpowers:subagent-driven-development` |
-| 6 | `claude-md-management:revise-claude-md` and `claude-md-management:claude-md-improver` |
+| 6 | `agents-md-management:agents-md-session-capture` and `agents-md-management:agents-md-improver` |
 
 If a listed skill is unavailable in the current runtime, say so explicitly in the end-of-turn summary and skip only that entry. Never silently drop a row.
 
@@ -152,18 +152,33 @@ If `Hooks.post_implementation` is defined, run it now after the last implementat
 
 ### Step 6: Finalize docs and improvement pass
 
-**First actions, in order:** invoke `claude-md-management:revise-claude-md`, then `claude-md-management:claude-md-improver`. Both via the `Skill` tool. (Replace either if the profile says so.)
+**First actions, in order:**
 
-**Autonomous mode: apply every skill's proposed edits directly.** Do not pause for approval; running autopilot is the approval. Briefly report the edits in the end-of-turn summary so the user can see what landed.
+1. Invoke `agents-md-management:agents-md-session-capture` via the `Skill` tool in the main session. This skill reads the conversation transcript, so it must run inline in the orchestrator. Pass **inline-prompt A** below. Wait for it to return and verify its commits exist on the feature branch via `git log` before proceeding.
+2. After session-capture has returned and its commits have landed, dispatch `agents-md-management:agents-md-improver` to a general-purpose subagent (Claude Code: `Agent` tool, `general-purpose` subagent_type, no model override. Codex: equivalent general-purpose subagent.) Pass **inline-prompt B** below. The improver does a cold audit and does not need session context; running it in a subagent keeps the orchestrator's context lean.
 
-All edits land on the feature branch in this run. CLAUDE.md updates, ADRs, OPEN_THINGS updates, auto-memory updates: each one a commit on the current branch with a matching Conventional-Commits type. No follow-up chore PRs.
+Either skill can be replaced via the profile.
 
-Then:
+**Inline-prompt A (orchestrator pastes into the session-capture Skill invocation):**
+
+> "You are running inside workbench autopilot in the main orchestrator session, on the feature branch in the current working directory. Skip the approval prompt at the end of your skill. After deciding what to change, apply the edits directly. Commit each logical change on the feature branch with a Conventional Commits message. Report back: every file you edited and a one-line summary per file."
+
+**Inline-prompt B (orchestrator pastes into the improver subagent dispatch):**
+
+> "You are running inside workbench autopilot as a subagent, on the feature branch in the current working directory. Invoke `agents-md-management:agents-md-improver` via the `Skill` tool. Skip the approval prompt at the end of the skill. After deciding what to change, apply the edits directly. Commit each logical change on the feature branch with a Conventional Commits message (`docs(agents-md): ...`). Report back: every file you edited, a one-line summary per file, and the commit hashes you created."
+
+**All edits land on the feature branch in this run.** AGENTS.md, CLAUDE.md, `*.local.md`, user-global agent-instruction files, ADRs, OPEN_THINGS updates: each one a commit on the current branch with a matching Conventional Commits type. No follow-up chore PRs.
+
+After the subagent returns, the orchestrator:
+
+1. Reads the subagent's summary.
+2. Verifies the commits exist via `git log <feature-branch> --oneline`.
+3. Includes both skills' summaries in the end-of-turn report.
+
+Then, **the orchestrator** updates the following inline (it does not delegate to a subagent), committing each as a separate Conventional Commits entry on the feature branch:
 
 - Update `<paths.adr>/NNNN-<short-title>.md` for load-bearing decisions if the path exists in the project. Index in `<paths.adr>/README.md`.
 - Update `<paths.open_things>` if it exists: remove resolved items, add follow-ups ordered by importance.
-- Update other project doc files that drifted (architecture overview, README commands table).
-- Refresh user auto-memory entries for this project.
 
 ### Skill audit (between step 6 and step 7, blocking)
 

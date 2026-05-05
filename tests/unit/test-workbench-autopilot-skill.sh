@@ -2,7 +2,7 @@
 # Test: workbench:autopilot skill structure
 # Verifies PR 2 of the autopilot port: SKILL.md exists, references all six refs,
 # names every universal skill, has all ten step headings, and the plugin manifests
-# are at 0.2.0.
+# are at 0.3.0.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -67,7 +67,7 @@ echo ""
 
 # Test 5: SKILL.md mentions every skill in the universal table
 echo "Test 5: SKILL.md mentions every universal skill..."
-for skill in 'workbench:using-workbench' 'workbench:brainstorming' 'superpowers:writing-plans' 'superpowers:test-driven-development' 'superpowers:subagent-driven-development' 'claude-md-management:revise-claude-md' 'claude-md-management:claude-md-improver'; do
+for skill in 'workbench:using-workbench' 'workbench:brainstorming' 'superpowers:writing-plans' 'superpowers:test-driven-development' 'superpowers:subagent-driven-development' 'agents-md-management:agents-md-session-capture' 'agents-md-management:agents-md-improver'; do
     if grep -qF "$skill" "$SKILL_MD"; then
         echo "  [PASS] SKILL.md mentions $skill"
     else
@@ -157,27 +157,46 @@ else
 fi
 echo ""
 
-# Test 11: Plugin manifests at 0.2.0
-echo "Test 11: Plugin manifests at 0.2.0..."
+# Test 11: Plugin manifests at 0.3.0
+echo "Test 11: Plugin manifests at 0.3.0..."
 CCM="$REPO_ROOT/plugins/workbench/.claude-plugin/plugin.json"
 CXM="$REPO_ROOT/plugins/workbench/.codex-plugin/plugin.json"
-if jq -e '.version == "0.2.0"' "$CCM" >/dev/null && jq -e '.version == "0.2.0"' "$CXM" >/dev/null; then
-    echo "  [PASS] both plugin manifests at 0.2.0"
+if jq -e '.version == "0.3.0"' "$CCM" >/dev/null && jq -e '.version == "0.3.0"' "$CXM" >/dev/null; then
+    echo "  [PASS] both plugin manifests at 0.3.0"
 else
-    echo "  [FAIL] plugin manifests not at 0.2.0"
+    echo "  [FAIL] plugin manifests not at 0.3.0"
     exit 1
 fi
 echo ""
 
-# Test 12: Marketplace entries at 0.2.0
+# Test 12: Marketplace entries at 0.3.0
 echo "Test 12: Marketplace entries..."
 MP="$REPO_ROOT/.claude-plugin/marketplace.json"
-if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.2.0"' "$MP" >/dev/null; then
-    echo "  [PASS] Claude marketplace workbench at 0.2.0"
+if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.3.0"' "$MP" >/dev/null; then
+    echo "  [PASS] Claude marketplace workbench at 0.3.0"
 else
-    echo "  [FAIL] Claude marketplace workbench not at 0.2.0"
+    echo "  [FAIL] Claude marketplace workbench not at 0.3.0"
     exit 1
 fi
+echo ""
+
+# Test 13: Old claude-md-management skill IDs are absent from SKILL.md and required-skills.md
+echo "Test 13: Old claude-md-management skill IDs absent from autopilot files..."
+RS="$SKILL_DIR/references/required-skills.md"
+for old_id in 'claude-md-management:revise-claude-md' 'claude-md-management:claude-md-improver'; do
+    if grep -qF "$old_id" "$SKILL_MD"; then
+        echo "  [FAIL] SKILL.md still references $old_id (should have been swapped to agents-md-management)"
+        exit 1
+    else
+        echo "  [PASS] SKILL.md does not reference $old_id"
+    fi
+    if grep -qF "$old_id" "$RS"; then
+        echo "  [FAIL] required-skills.md still references $old_id (should have been swapped to agents-md-management)"
+        exit 1
+    else
+        echo "  [PASS] required-skills.md does not reference $old_id"
+    fi
+done
 echo ""
 
 echo "=== Tests complete ==="
