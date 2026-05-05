@@ -1,6 +1,6 @@
 ---
 name: claude-codex-bridge
-description: Use when the user wants to port a project so it works with both Claude Code and Codex CLI; or wants to detect drift between CLAUDE.md and AGENTS.md (and other paired runtime artifacts); or wants to check whether installed plugins/skills are available in both runtimes. Bidirectional. Auto-detects direction from what exists.
+description: Align Claude Code and Codex project files, settings, hooks, agents, and plugins.
 ---
 
 # Claude ↔ Codex Bridge Skill

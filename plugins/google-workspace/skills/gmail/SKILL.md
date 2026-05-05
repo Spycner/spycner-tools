@@ -1,6 +1,6 @@
 ---
 name: gmail
-description: Use when the user wants to search, read, send, or manage Gmail messages, drafts, labels, and filters via the gws CLI.
+description: Search, read, send, and manage Gmail messages, drafts, labels, and filters with gws.
 ---
 
 # Gmail Skill

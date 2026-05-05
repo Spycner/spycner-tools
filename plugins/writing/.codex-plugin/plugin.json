@@ -1,7 +1,7 @@
 {
   "name": "writing",
   "version": "1.6.1",
-  "description": "Writing, pyramid structure, and technical documentation skills.",
+  "description": "Draft, structure, review, and finish prose and technical docs.",
   "author": {
     "name": "Pascal Göllner"
   },
@@ -26,7 +26,7 @@
   "interface": {
     "displayName": "Writing",
     "shortDescription": "Draft, structure, review, and finish prose",
-    "longDescription": "Use the writing skills for long form prose, Pyramid Principle outlines, analytical memos, and Diataxis aware technical documentation with review and finishing passes.",
+    "longDescription": "Draft long form prose, structure analytical documents, and produce technical documentation with review and finishing passes.",
     "developerName": "Pascal Göllner",
     "category": "Productivity",
     "capabilities": [

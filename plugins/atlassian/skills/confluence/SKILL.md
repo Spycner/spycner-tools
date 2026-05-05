@@ -1,6 +1,6 @@
 ---
 name: confluence
-description: Use when the user wants to interact with Confluence — search pages, read documentation, create or update pages, or browse spaces
+description: Search, read, create, and update Confluence pages.
 ---
 
 # Confluence Skill

@@ -12,72 +12,75 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `confluence` | atlassian | Search Confluence pages, read documentation, create and update pages, browse spaces |
 | `gmail` | google-workspace | Triage inbox, search and read messages, send mail, manage drafts, labels, and filters via the `gws` CLI |
 | `calendar` | google-workspace | View agenda, create and manage events, check availability, manage calendars via the `gws` CLI |
-| `research` | research | Orchestrator-driven deep research: parallel cluster researchers, synthesis under independent review, polished report with citations |
-| `writing` | writing | Multi-phase prose pipeline (interview, outline, throughline gate, draft, seven-critic panel, finishing), with format-aware Smart-Brevity critic |
-| `pyramid` | writing | Barbara Minto pyramid-principle outlines or restructures, with a parallel MECE / So-What / Q-A / Inductive-Deductive audit panel and SCQA opener |
-| `tech-doc` | writing | Diátaxis-aware technical documentation pipeline (tutorials, how-tos, references, explanations) with Microsoft and Google style-guide presets |
-| `claude-codex-bridge` | runtime-bridge | Align Claude Code and Codex artifacts in a project |
-| `agents-md-improver` | agents-md-management | Audit AGENTS.md / CLAUDE.md across project and user-global scopes; propose targeted edits |
-| `agents-md-session-capture` | agents-md-management | Capture session learnings into AGENTS.md / CLAUDE.md (or `*.local.md`, or user-global) by scope |
-| `brainstorming` | workbench | Design dialogue that turns ideas into specs, with a browser-based visual companion |
-| `using-workbench` | workbench | Meta-skill announcing Workbench skills; defers core meta-rules to upstream using-superpowers |
+| `research` | research | Research complex topics and produce sourced reports |
+| `writing` | writing | Draft, review, and finish long form prose |
+| `pyramid` | writing | Structure analytical documents with the Pyramid Principle |
+| `tech-doc` | writing | Draft, review, and finish technical documentation |
+| `claude-codex-bridge` | runtime-bridge | Align Claude Code and Codex project files |
+| `agents-md-improver` | agents-md-management | Audit and improve agent instruction files |
+| `agents-md-session-capture` | agents-md-management | Capture session learnings into the right instruction file |
+| `brainstorming` | workbench | Turn ideas into clear design decisions |
+| `using-workbench` | workbench | Load Workbench skill rules and routing |
 
 ## Plugins
 
 ### atlassian
 
-Jira and Confluence skills for the Atlassian suite — search, create, update, and manage work items and pages.
+Jira and Confluence skills for Atlassian Cloud.
 
 **Skills:**
-- `/pgoell-claude-tools:jira` — Search issues, create/update tickets, transition status, add comments, manage sprints
-- `/pgoell-claude-tools:confluence` — Search pages, read documentation, create/update pages, browse spaces
+- `/pgoell-claude-tools:jira`: Search issues, update tickets, transition status, add comments, and manage sprints
+- `/pgoell-claude-tools:confluence`: Search pages, read documentation, update pages, and browse spaces
 
 ### google-workspace
 
-Gmail and Calendar skills for Google Workspace — powered by the `gws` CLI.
+Gmail and Calendar skills for Google Workspace, powered by the `gws` CLI.
 
 **Skills:**
-- `/pgoell-claude-tools:gmail` — Search, read, send, and manage Gmail messages, drafts, labels, and filters
-- `/pgoell-claude-tools:calendar` — View agenda, create and manage events, check availability, manage calendars
+- `/pgoell-claude-tools:gmail`: Search, read, send, and manage Gmail messages, drafts, labels, and filters
+- `/pgoell-claude-tools:calendar`: View agendas, manage events, check availability, and manage calendars
 
 ### research
 
-Orchestrator-driven deep research with parallel cluster researchers, synthesis under independent review, and a writer pass that produces a polished report.
+Research complex topics and produce sourced reports.
 
 **Skills:**
-- `/pgoell-claude-tools:research`: orchestrator-driven pipeline. Plans the work internally, spawns parallel deep-research subagents (one per topic cluster, iterative until saturation, single-md output with inline sources), synthesizes findings, and writes the final report. Two independent review gates (synthesis-reviewer for substance, writer-reviewer for prose) with unbounded review loops, periodic check-ins, and stall detection.
+- `/pgoell-claude-tools:research`: Plan focused investigations, gather sources, synthesize findings, review conclusions, and write reports.
 
 ### writing
 
-Multi-phase writing pipeline modelled on Katie Parrott's process. Interview, outline, throughline gate (≤10-word compression), draft, panel review (seven critics including steel-man preemption audit), and finishing passes for blog posts and longer-form prose. Format-aware: opt-in Smart-Brevity critic for memos, newsletters, and announcements. Also ships a dedicated Pyramid Principle skill for memos, recommendations, and analytical documents, and a Diátaxis-aware tech-doc skill for tutorials, how-to guides, references, and explanations.
+Writing skills for prose, analytical structure, and technical documentation.
 
 **Skills:**
-- `/pgoell-claude-tools:writing`: orchestrates the full pipeline with phase-selectable resume. For analytical formats (memo, briefing, announcement), dispatches to the pyramid skill for the outline phase and runs an analytical draft prompt. Ships with a default style guide that any project can override.
-- `/pgoell-claude-tools:pyramid`: produces a pyramid-structured outline (greenfield) or restructures an existing draft into pyramid form. Five phases (intake, construct, audit, opener, render) with a parallel audit panel (MECE, So-What, Q-A Alignment, Inductive-Deductive).
-- `/pgoell-claude-tools:tech-doc`: Diátaxis-aware technical writing pipeline. Drafts and reviews tutorials, how-to guides, API and CLI references, and conceptual explanations. Bundles full transcriptions of the Microsoft Writing Style Guide and Google Developer Documentation Style Guide as selectable presets (with a merged `house` default), each preset structured as eight topic-scoped sidecars. Six-phase pipeline (intake, outline, throughline, draft, panel, finishing) with eight-critic panel per quadrant and three sequential finishing passes (AI-pattern-detector, style-enforcer-tech, terminology-consistency).
+- `/pgoell-claude-tools:writing`: Draft, review, and finish long form prose.
+- `/pgoell-claude-tools:pyramid`: Structure memos, recommendations, briefings, and decision documents with the Pyramid Principle.
+- `/pgoell-claude-tools:tech-doc`: Draft, review, and finish tutorials, how to guides, references, and explanations.
 
 ### runtime-bridge
 
-Aligns Claude Code and Codex artifacts across a project. When Claude Code and Codex work together on the same codebase, this skill helps ensure files are formatted and structured consistently so both runtimes can understand them.
+Aligns Claude Code and Codex project configuration.
 
 **Skills:**
-- `/pgoell-claude-tools:claude-codex-bridge`: Analyze and align Claude Code and Codex artifacts
+- `/pgoell-claude-tools:claude-codex-bridge`: Align project files, settings, hooks, agents, and plugin availability
 
 ### agents-md-management
 
-Audit and maintain `AGENTS.md` / `CLAUDE.md` files (and variants like `AGENTS.local.md`, `CLAUDE.local.md`, `.claude.md`, `.claude.local.md`, plus user-global `~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md`). Symlink-aware via `realpath`, so `CLAUDE.md` symlinked to `AGENTS.md` counts as one logical file. Derived from Anthropic's `claude-md-management` plugin by Isabella He, with adaptations for cross-runtime use.
+Audit agent instruction files and capture session learnings across project and user scopes.
 
 **Skills:**
-- `/pgoell-claude-tools:agents-md-improver`: Periodic cold audit. Scores each file against a six-criterion rubric, outputs a quality report, then proposes targeted edits with confirmation.
-- `/pgoell-claude-tools:agents-md-session-capture`: End-of-session warm capture. Reflects on what context was missing, classifies each learning by scope (project-shared, project-local, user-global), and routes additions to the right file. Triggers on `/revise-agents-md` or `/revise-claude-md`.
+- `/pgoell-claude-tools:agents-md-improver`: Audit and improve AGENTS.md and CLAUDE.md files.
+- `/pgoell-claude-tools:agents-md-session-capture`: Capture session learnings into the right instruction file.
 
 ### workbench
 
-Personal fork-as-you-touch skill collection. Today: brainstorming (a design dialogue that turns ideas into specs, with a browser-based visual companion), a trimmed meta-skill that layers on top of upstream `superpowers:using-superpowers`, and the autopilot project-profile convention (`plugins/workbench/skills/autopilot/references/profile-schema.md`); the autopilot skill itself ships in a follow-up PR. More skills will be added as Pascal commits to owning them.
+Workbench skills for design dialogue, skill routing, and profile driven feature shipping.
 
 **Skills:**
-- `/pgoell-claude-tools:brainstorming`: Design dialogue from idea to spec, with a visual-companion mode
-- `/pgoell-claude-tools:using-workbench`: Meta-skill announcing Workbench skills, defers core meta-rules to upstream
+- `/pgoell-claude-tools:brainstorming`: Turn ideas into clear design decisions.
+- `/pgoell-claude-tools:using-workbench`: Load Workbench skill rules and routing.
+- `/pgoell-claude-tools:autopilot`: Ship a feature from brainstorm to PR using a project profile.
+
+Autopilot profiles are documented in `plugins/workbench/skills/autopilot/references/profile-schema.md`.
 
 ## Installation
 

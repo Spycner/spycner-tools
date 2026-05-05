@@ -1,6 +1,6 @@
 ---
 name: research
-description: Use when the user wants to research a topic, investigate something, conduct a deep dive, find sources and citations, or write a research report. Triggers on research intent, not simple factual questions Claude can answer directly.
+description: Research complex topics with sources, synthesis, review, and a final report.
 ---
 
 # Research Skill

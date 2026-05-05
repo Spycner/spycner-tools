@@ -1,15 +1,15 @@
 {
   "name": "runtime-bridge",
   "version": "0.1.0",
-  "description": "Bidirectionally align a project's Claude Code and Codex CLI configuration",
+  "description": "Align Claude Code and Codex project configuration.",
   "author": { "name": "Pascal Göllner" },
   "license": "MIT",
   "keywords": ["claude-code", "codex", "agents-md", "claude-md", "runtime", "interop", "porting", "agents", "skills"],
   "skills": "./skills/",
   "interface": {
     "displayName": "Runtime Bridge",
-    "shortDescription": "Make a project work with both Claude Code and Codex CLI",
-    "longDescription": "Detects what runtime artifacts a project has (CLAUDE.md or AGENTS.md, .claude/, .codex/) and produces the missing side. Hierarchical memory file mirroring via symlinks. Mechanical translation of subagents and hooks. Lossy translation of settings keys with defensible analogues. Source-sniff plugin report with no migration. Scout/apply/reviewer subagent pipeline with no fixed loop cap.",
+    "shortDescription": "Align Claude Code and Codex",
+    "longDescription": "Detect runtime files, mirror missing configuration, surface drift, and report plugin or skill availability across Claude Code and Codex.",
     "developerName": "Pascal Göllner",
     "category": "Productivity",
     "capabilities": ["Interactive", "Read", "Write"],

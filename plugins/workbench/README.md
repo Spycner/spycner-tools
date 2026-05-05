@@ -1,17 +1,18 @@
 # Workbench
 
-Personal fork-as-you-touch skill collection.
+Workbench skills for design dialogue, skill routing, and profile driven feature shipping.
 
 ## Skills
 
-- `brainstorming`: Design dialogue that turns an idea into a spec, with a visual-companion mode for browser-based mockups. Forked from upstream Superpowers and adapted with Workbench-specific paths.
-- `using-workbench`: Trimmed meta-skill that announces what Workbench ships and resolves slug collisions in Workbench's favor. Defers core meta-rules to the upstream `using-superpowers` skill.
+- `brainstorming`: Turn ideas into clear design decisions.
+- `using-workbench`: Load Workbench skill rules and routing.
+- `autopilot`: Ship a feature from brainstorm to PR using a project profile.
 
 ## Project profiles
 
-Workbench owns reusable agent workflows. Projects own their local policy through small profile files at `.workbench/<skill>.md`. Today this convention is documented for the upcoming `autopilot` skill (PR 2 in the autopilot port); see [`skills/autopilot/references/profile-schema.md`](skills/autopilot/references/profile-schema.md) for the schema and [`skills/autopilot/references/example-project-profile.md`](skills/autopilot/references/example-project-profile.md) for examples.
+Workbench owns reusable workflow kernels. Projects own local policy through small profile files at `.workbench/<skill>.md`. See [`skills/autopilot/references/profile-schema.md`](skills/autopilot/references/profile-schema.md) for the autopilot schema and [`skills/autopilot/references/example-project-profile.md`](skills/autopilot/references/example-project-profile.md) for examples.
 
-The split: workbench ships the kernel (steps, audit, invariants); the project profile carries autopilot-specific bits (PR behavior, hooks, audit-table overrides). Project information that already lives in `CLAUDE.md` or `AGENTS.md` is sourced from session context, not duplicated in the profile.
+Workbench ships the steps, audit, and invariants. The project profile carries PR behavior, hooks, and audit overrides. Project information that already lives in `CLAUDE.md` or `AGENTS.md` stays there.
 
 ## Coexistence
 
