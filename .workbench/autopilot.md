@@ -10,11 +10,10 @@ Branch prefixes: feat, fix, docs, chore, refactor, test, perf, style, ci, build,
 ## Commands
 Task runner: bash
 Lint: tests/unit/test-skill-frontmatter-yaml.sh
-Test: tests/unit/test-codex-plugin-structure.sh
 
 ## Documentation paths
-Specs: docs/superpowers/specs
-Plans: docs/superpowers/plans
+Specs: don't commit
+Plans: don't commit
 
 ## PR behavior
 Mode: stop_at_green
@@ -24,9 +23,4 @@ Squash: yes
 ## Project-specific rules
 
 Use `uv` instead of direct `python` commands.
-
-Use `podman` instead of direct `docker` commands because noninteractive shells do not load the local alias.
-
 Do not duplicate skill directories between Claude Code and Codex. Runtime metadata must point at the same `skills` directory.
-
-Keep pull requests manual. Autopilot creates the PR and waits for review, but does not merge.
