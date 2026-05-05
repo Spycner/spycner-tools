@@ -1,5 +1,5 @@
 ---
-name: agents-md-improver
+name: improving-instructions
 description: Audit and improve AGENTS.md and CLAUDE.md files across project and user scopes.
 tools: Read, Glob, Grep, Bash, Edit
 ---

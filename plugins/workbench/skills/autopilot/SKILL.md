@@ -46,7 +46,7 @@ Read `references/required-skills.md` for the full table and `replaces` / `additi
 | 2 | `workbench:brainstorming` |
 | 4 | `superpowers:writing-plans` |
 | 5 | `superpowers:test-driven-development` and `superpowers:subagent-driven-development` |
-| 6 | `agents-md-management:agents-md-session-capture` and `agents-md-management:agents-md-improver` |
+| 6 | `agent-system-management:capturing-session-learnings` and `agent-system-management:improving-instructions` |
 
 If a listed skill is unavailable in the current runtime, say so explicitly in the end-of-turn summary and skip only that entry. Never silently drop a row.
 
@@ -154,8 +154,8 @@ If `Hooks.post_implementation` is defined, run it now after the last implementat
 
 **First actions, in order:**
 
-1. Invoke `agents-md-management:agents-md-session-capture` via the `Skill` tool in the main session. This skill reads the conversation transcript, so it must run inline in the orchestrator. Pass **inline-prompt A** below. Wait for it to return and verify its commits exist on the feature branch via `git log` before proceeding.
-2. After session-capture has returned and its commits have landed, dispatch `agents-md-management:agents-md-improver` to a general-purpose subagent (Claude Code: `Agent` tool, `general-purpose` subagent_type, no model override. Codex: equivalent general-purpose subagent.) Pass **inline-prompt B** below. The improver does a cold audit and does not need session context; running it in a subagent keeps the orchestrator's context lean.
+1. Invoke `agent-system-management:capturing-session-learnings` via the `Skill` tool in the main session. This skill reads the conversation transcript, so it must run inline in the orchestrator. Pass **inline-prompt A** below. Wait for it to return and verify its commits exist on the feature branch via `git log` before proceeding.
+2. After session-capture has returned and its commits have landed, dispatch `agent-system-management:improving-instructions` to a general-purpose subagent (Claude Code: `Agent` tool, `general-purpose` subagent_type, no model override. Codex: equivalent general-purpose subagent.) Pass **inline-prompt B** below. The improver does a cold audit and does not need session context; running it in a subagent keeps the orchestrator's context lean.
 
 Either skill can be replaced via the profile.
 
@@ -165,7 +165,7 @@ Either skill can be replaced via the profile.
 
 **Inline-prompt B (orchestrator pastes into the improver subagent dispatch):**
 
-> "You are running inside workbench autopilot as a subagent, on the feature branch in the current working directory. Invoke `agents-md-management:agents-md-improver` via the `Skill` tool. Skip the approval prompt at the end of the skill. After deciding what to change, apply the edits directly. Commit each logical change on the feature branch with a Conventional Commits message (`docs(agents-md): ...`). Report back: every file you edited, a one-line summary per file, and the commit hashes you created."
+> "You are running inside workbench autopilot as a subagent, on the feature branch in the current working directory. Invoke `agent-system-management:improving-instructions` via the `Skill` tool. Skip the approval prompt at the end of the skill. After deciding what to change, apply the edits directly. Commit each logical change on the feature branch with a Conventional Commits message (`docs(agents-md): ...`). Report back: every file you edited, a one-line summary per file, and the commit hashes you created."
 
 **All edits land on the feature branch in this run.** AGENTS.md, CLAUDE.md, `*.local.md`, user-global agent-instruction files, ADRs, OPEN_THINGS updates: each one a commit on the current branch with a matching Conventional Commits type. No follow-up chore PRs.
 

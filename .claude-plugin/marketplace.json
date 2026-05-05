@@ -35,16 +35,16 @@
       "version": "0.1.0"
     },
     {
-      "name": "agents-md-management",
-      "source": "./plugins/agents-md-management",
-      "description": "Audit AGENTS.md and CLAUDE.md files, then capture session learnings.",
-      "version": "0.1.1"
+      "name": "agent-system-management",
+      "source": "./plugins/agent-system-management",
+      "description": "Audit AGENTS.md / CLAUDE.md, capture session learnings, and create Claude Code / Codex skills.",
+      "version": "0.2.0"
     },
     {
       "name": "workbench",
       "source": "./plugins/workbench",
       "description": "Personal Workbench skills for design and autonomous feature work.",
-      "version": "0.4.0"
+      "version": "0.4.1"
     }
   ]
 }

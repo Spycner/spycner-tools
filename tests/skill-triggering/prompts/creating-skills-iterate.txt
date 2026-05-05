@@ -1,0 +1,1 @@
+The jira skill keeps producing bad output for "find tickets in this sprint". Help me iterate on it with eval loops until it works.

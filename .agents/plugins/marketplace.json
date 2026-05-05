@@ -85,10 +85,10 @@
       }
     },
     {
-      "name": "agents-md-management",
+      "name": "agent-system-management",
       "source": {
         "source": "local",
-        "path": "./plugins/agents-md-management"
+        "path": "./plugins/agent-system-management"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -96,8 +96,8 @@
       },
       "category": "Productivity",
       "interface": {
-        "displayName": "Agents.md Management",
-        "shortDescription": "Audit agent instructions and capture learnings"
+        "displayName": "Agent System Management",
+        "shortDescription": "Manage agent instructions and create skills"
       }
     },
     {

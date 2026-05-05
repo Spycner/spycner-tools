@@ -1,0 +1,1 @@
+I wrote a skill that enforces TDD discipline but agents keep rationalizing their way around it under deadline pressure. Help me pressure-test it.

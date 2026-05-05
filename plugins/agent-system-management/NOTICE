@@ -1,16 +1,16 @@
-agents-md-management
+agent-system-management
 Copyright 2026 Pascal Göllner
 
 This plugin contains content derived from Anthropic's claude-md-management
 plugin (https://github.com/anthropics/claude-plugins), authored by Isabella He,
 licensed under the Apache License, Version 2.0:
 
-  - skills/agents-md-improver/SKILL.md
+  - skills/improving-instructions/SKILL.md
       (workflow phases, quality rubric structure, report format)
-  - skills/agents-md-improver/references/quality-criteria.md (verbatim)
-  - skills/agents-md-improver/references/templates.md         (verbatim)
-  - skills/agents-md-improver/references/update-guidelines.md (verbatim)
-  - skills/agents-md-session-capture/SKILL.md
+  - skills/improving-instructions/references/quality-criteria.md (verbatim)
+  - skills/improving-instructions/references/templates.md         (verbatim)
+  - skills/improving-instructions/references/update-guidelines.md (verbatim)
+  - skills/capturing-session-learnings/SKILL.md
       (adapted from upstream's /revise-claude-md slash command)
 
 Apache License 2.0: http://www.apache.org/licenses/LICENSE-2.0

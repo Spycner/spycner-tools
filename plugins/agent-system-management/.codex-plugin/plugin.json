@@ -1,0 +1,24 @@
+{
+  "name": "agent-system-management",
+  "version": "0.2.0",
+  "description": "Audit AGENTS.md / CLAUDE.md, capture session learnings, and create Claude Code / Codex skills.",
+  "author": { "name": "Pascal Göllner" },
+  "license": "MIT",
+  "keywords": ["agents-md", "claude-md", "memory", "audit", "session-capture", "skill-creation", "skill-lifecycle", "plugin-development", "claude-code", "codex"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Agent System Management",
+    "shortDescription": "Manage agent instructions and create skills",
+    "longDescription": "Audit and update AGENTS.md / CLAUDE.md across project and user scopes, capture session learnings, and scaffold/iterate/pressure-test new Claude Code and Codex skills.",
+    "developerName": "Pascal Göllner",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "defaultPrompt": [
+      "Audit my CLAUDE.md and AGENTS.md files",
+      "Update AGENTS.md with what we learned this session",
+      "Check if my agent instructions are up to date",
+      "Scaffold a new skill for plugin X"
+    ],
+    "screenshots": []
+  }
+}

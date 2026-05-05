@@ -1,5 +1,5 @@
 ---
-name: agents-md-session-capture
+name: capturing-session-learnings
 description: Capture session learnings into AGENTS.md or CLAUDE.md. Triggers on /revise-agents-md and /revise-claude-md.
 tools: Read, Glob, Grep, Bash, Edit
 ---

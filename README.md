@@ -17,10 +17,11 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `pyramid` | writing | Structure analytical documents with the Pyramid Principle |
 | `tech-doc` | writing | Draft, review, and finish technical documentation |
 | `claude-codex-bridge` | runtime-bridge | Align Claude Code and Codex project files |
-| `agents-md-improver` | agents-md-management | Audit and improve agent instruction files |
-| `agents-md-session-capture` | agents-md-management | Capture session learnings into the right instruction file |
+| `improving-instructions` | agent-system-management | Audit and improve agent instruction files |
+| `capturing-session-learnings` | agent-system-management | Capture session learnings into the right instruction file |
 | `brainstorming` | workbench | Turn ideas into clear design decisions |
 | `using-workbench` | workbench | Load Workbench skill rules and routing |
+| `creating-skills` | agent-system-management | Scaffold, iterate, pressure-test, and tune skills across the full lifecycle |
 
 ## Plugins
 
@@ -63,13 +64,14 @@ Aligns Claude Code and Codex project configuration.
 **Skills:**
 - `/pgoell-claude-tools:claude-codex-bridge`: Align project files, settings, hooks, agents, and plugin availability
 
-### agents-md-management
+### agent-system-management
 
-Audit agent instruction files and capture session learnings across project and user scopes.
+Manage the host agent's instruction layer and skill layer: audit AGENTS.md / CLAUDE.md, capture session learnings, and scaffold or iterate on Claude Code / Codex skills.
 
 **Skills:**
-- `/pgoell-claude-tools:agents-md-improver`: Audit and improve AGENTS.md and CLAUDE.md files.
-- `/pgoell-claude-tools:agents-md-session-capture`: Capture session learnings into the right instruction file.
+- `/pgoell-claude-tools:improving-instructions`: Audit and improve AGENTS.md and CLAUDE.md files.
+- `/pgoell-claude-tools:capturing-session-learnings`: Capture session learnings into the right instruction file.
+- `/pgoell-claude-tools:creating-skills`: Scaffold a new skill in a Claude Code or Codex marketplace, iterate on an existing one with eval loops, pressure-test discipline skills, optimize triggering, or extract a skill from this conversation.
 
 ### workbench
 
@@ -93,7 +95,7 @@ Autopilot profiles are documented in `plugins/workbench/skills/autopilot/referen
 /plugin install research@pgoell-claude-tools
 /plugin install writing@pgoell-claude-tools
 /plugin install runtime-bridge@pgoell-claude-tools
-/plugin install agents-md-management@pgoell-claude-tools
+/plugin install agent-system-management@pgoell-claude-tools
 /plugin install workbench@pgoell-claude-tools
 ```
 
@@ -112,7 +114,7 @@ codex
 /plugins
 ```
 
-In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agents-md-management`, and `workbench`.
+In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, and `workbench`.
 
 `codex plugin marketplace add` accepts `owner/repo[@ref]`, an HTTPS or SSH Git URL, or a local marketplace root directory. The marketplace file lives at `.agents/plugins/marketplace.json` and the per-plugin Codex manifests live at `plugins/<plugin>/.codex-plugin/plugin.json`. Both reuse the same `plugins/<plugin>/skills/` directories as Claude Code, single sourced.
 
@@ -159,6 +161,6 @@ No authentication required. The research plugin uses the host agent's web search
 
 No setup required. In any project, ask the skill to align Claude Code and Codex artifacts (e.g. "make this project work with both Claude Code and Codex"). After the first apply that writes into `.codex/`, run `codex` once in that project and accept the trust prompt.
 
-### agents-md-management
+### agent-system-management
 
-No setup required. In any project, ask either skill: "audit my CLAUDE.md files" (cold audit) or "update AGENTS.md with what we learned this session" (warm capture). Operates on local agent-instruction files only; no network or auth.
+No setup required. Three skills in one plugin: ask `improving-instructions` to "audit my CLAUDE.md files" (cold audit), `capturing-session-learnings` to "update AGENTS.md with what we learned this session" (warm capture), or `creating-skills` to "scaffold a new skill in this marketplace", "iterate on this skill until it triggers reliably", "pressure-test this discipline skill", "optimize the description for triggering", or "turn this conversation into a reusable skill". The instruction skills operate on local agent-instruction files only (no network); the lifecycle skill detects the marketplace shape (Claude Code, Codex, or both) and adapts.

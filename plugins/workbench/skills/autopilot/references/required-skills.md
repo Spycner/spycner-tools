@@ -11,8 +11,8 @@ The universal table that the autopilot skill walks at the pre-PR audit. Profiles
 | 4 | `superpowers:writing-plans` | not yet ported into workbench |
 | 5 | `superpowers:test-driven-development` | not yet ported |
 | 5 | `superpowers:subagent-driven-development` | not yet ported |
-| 6 | `agents-md-management:agents-md-session-capture` | cross-plugin |
-| 6 | `agents-md-management:agents-md-improver` | cross-plugin |
+| 6 | `agent-system-management:capturing-session-learnings` | cross-plugin |
+| 6 | `agent-system-management:improving-instructions` | cross-plugin |
 
 These are the rows shipped with workbench v0.3.0. As more skills are ported into workbench, this table flips them to `workbench:*`.
 
@@ -52,7 +52,7 @@ Example:
 | 6 | my-project:custom-changelog | additional |
 ```
 
-This says "at step 6, in addition to `agents-md-session-capture` and `agents-md-improver`, also audit `my-project:custom-changelog`."
+This says "at step 6, in addition to `capturing-session-learnings` and `improving-instructions`, also audit `my-project:custom-changelog`."
 
 ### Removal not supported
 

@@ -1,0 +1,8 @@
+{
+  "name": "agent-system-management",
+  "version": "0.2.0",
+  "description": "Audit AGENTS.md / CLAUDE.md, capture session learnings, and create Claude Code / Codex skills.",
+  "author": { "name": "Pascal Göllner" },
+  "license": "MIT",
+  "keywords": ["agents-md", "claude-md", "memory", "audit", "session-capture", "skill-creation", "skill-lifecycle", "plugin-development", "claude-code", "codex"]
+}
