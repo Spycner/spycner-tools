@@ -52,14 +52,18 @@ Full replacement for `plugins/workbench/skills/autopilot/SKILL.md` lines 151-164
 
 **First actions, in order:**
 
-1. Invoke `agents-md-management:agents-md-session-capture` via the `Skill` tool in the main session. This skill reads the conversation transcript, so it must run inline in the orchestrator. Pass the autonomous-mode instruction below.
-2. Dispatch `agents-md-management:agents-md-improver` to a general-purpose subagent (Claude Code: `Agent` tool, `general-purpose` subagent_type, no model override. Codex: equivalent general-purpose subagent.) Pass the autonomous-mode instruction below. The improver does a cold audit and does not need session context; running it in a subagent keeps the orchestrator's context lean.
+1. Invoke `agents-md-management:agents-md-session-capture` via the `Skill` tool in the main session. This skill reads the conversation transcript, so it must run inline in the orchestrator. Pass **inline-prompt A** below. Wait for it to return and verify its commits exist on the feature branch via `git log` before proceeding.
+2. After session-capture has returned and its commits have landed, dispatch `agents-md-management:agents-md-improver` to a general-purpose subagent (Claude Code: `Agent` tool, `general-purpose` subagent_type, no model override. Codex: equivalent general-purpose subagent.) Pass **inline-prompt B** below. The improver does a cold audit and does not need session context; running it in a subagent keeps the orchestrator's context lean.
 
 Either skill can be replaced via the profile.
 
-**Autonomous-mode instruction (paste into both invocation prompts):**
+**Inline-prompt A (orchestrator pastes into the session-capture Skill invocation):**
 
-> "You are running inside workbench autopilot, on the feature branch in the current working directory. Skip the approval prompt at the end of your skill. After deciding what to change, apply the edits directly. Commit each logical change on the feature branch with a Conventional Commits message. Report back: every file you edited, a one-line summary per file, and (subagent only) the commit hashes you created."
+> "You are running inside workbench autopilot in the main orchestrator session, on the feature branch in the current working directory. Skip the approval prompt at the end of your skill. After deciding what to change, apply the edits directly. Commit each logical change on the feature branch with a Conventional Commits message. Report back: every file you edited and a one-line summary per file."
+
+**Inline-prompt B (orchestrator pastes into the improver subagent dispatch):**
+
+> "You are running inside workbench autopilot as a subagent, on the feature branch in the current working directory. Invoke `agents-md-management:agents-md-improver` via the `Skill` tool. Skip the approval prompt at the end of the skill. After deciding what to change, apply the edits directly. Commit each logical change on the feature branch with a Conventional Commits message (`docs(agents-md): ...`). Report back: every file you edited, a one-line summary per file, and the commit hashes you created."
 
 **All edits land on the feature branch in this run.** AGENTS.md, CLAUDE.md, `*.local.md`, user-global agent-instruction files, ADRs, OPEN_THINGS updates: each one a commit on the current branch with a matching Conventional Commits type. No follow-up chore PRs.
 
@@ -69,7 +73,7 @@ After the subagent returns, the orchestrator:
 2. Verifies the commits exist via `git log <feature-branch> --oneline`.
 3. Includes both skills' summaries in the end-of-turn report.
 
-Then:
+Then, **the orchestrator** updates the following inline (it does not delegate to a subagent), committing each as a separate Conventional Commits entry on the feature branch:
 
 - Update `<paths.adr>/NNNN-<short-title>.md` for load-bearing decisions if the path exists in the project. Index in `<paths.adr>/README.md`.
 - Update `<paths.open_things>` if it exists: remove resolved items, add follow-ups ordered by importance.
@@ -85,11 +89,11 @@ Note the explicit drops compared to the current text:
 
 The orchestrator dispatches the improver *after* session-capture's commits have landed, so the subagent sees the latest file state.
 
-The dispatch prompt must include:
+The dispatch prompt is **inline-prompt B** above, which already includes:
 
-- The working directory (the feature-branch worktree the orchestrator is in).
+- Confirmation that the subagent runs on the feature branch in the current working directory.
 - The Skill invocation: `agents-md-management:agents-md-improver`.
-- The autonomous-mode instruction (above).
+- The autonomous-mode override (skip approval, apply directly).
 - Conventional Commits guidance: type `docs`, scope `agents-md` or similar; one commit per logical change.
 - Acceptance criteria: report every edited file, a one-line summary per file, and the commit hashes.
 
