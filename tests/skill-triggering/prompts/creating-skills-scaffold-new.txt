@@ -1,0 +1,1 @@
+I want to add a new skill to my marketplace that wraps the Stripe CLI for billing operations. Help me scaffold the plugin and the skill.
