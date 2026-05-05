@@ -1,6 +1,6 @@
 {
   "name": "agents-md-management",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Audit and maintain AGENTS.md / CLAUDE.md files; capture session learnings",
   "author": { "name": "Pascal Göllner" },
   "license": "MIT",

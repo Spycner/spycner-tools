@@ -26,7 +26,7 @@
       "name": "writing",
       "source": "./plugins/writing",
       "description": "Multi-phase writing pipeline with panel-of-critics review for blog posts, essays, talks, and longer-form prose. Format-aware: Smart-Brevity critic added for memo/newsletter/announcement formats. Ships a dedicated Pyramid Principle skill (Barbara Minto) with three construction modes (greenfield, restructure, Socratic). Also ships a Diátaxis-aware tech-doc skill for tutorials, how-to guides, references, and explanations, with full transcriptions of the Microsoft and Google style guides via a modular sidecar architecture (core, wordlist, procedures, admonitions, code-samples, links, numbers, api-reference) and an eight-critic panel.",
-      "version": "1.6.0"
+      "version": "1.6.1"
     },
     {
       "name": "runtime-bridge",
@@ -38,7 +38,7 @@
       "name": "agents-md-management",
       "source": "./plugins/agents-md-management",
       "description": "Audit and maintain AGENTS.md / CLAUDE.md files across project and user-global scopes; capture session learnings into the right file by scope",
-      "version": "0.1.0"
+      "version": "0.1.1"
     },
     {
       "name": "workbench",
