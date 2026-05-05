@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Test: claude-code-management:creating-skills skill structure
+# Test: agent-system-management:creating-skills skill structure
 # Verifies SKILL.md exists, frontmatter is valid, all five mode sections are present,
 # all five reference files exist and are non-empty, plugin manifests are at 0.1.0,
 # and the skill mentions marketplace detection plus the three SKILL.md template types.
@@ -9,15 +9,15 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/../test-helpers.sh"
 
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-PLUGIN_ROOT="$REPO_ROOT/plugins/claude-code-management"
+PLUGIN_ROOT="$REPO_ROOT/plugins/agent-system-management"
 SKILL_DIR="$PLUGIN_ROOT/skills/creating-skills"
 SKILL_MD="$SKILL_DIR/SKILL.md"
 
-echo "=== Test: claude-code-management:creating-skills skill structure ==="
+echo "=== Test: agent-system-management:creating-skills skill structure ==="
 echo ""
 
-# Test 1: Plugin manifests exist, parse, and are at 0.1.0
-echo "Test 1: Plugin manifests at 0.1.0..."
+# Test 1: Plugin manifests exist, parse, and are at 0.2.0
+echo "Test 1: Plugin manifests at 0.2.0..."
 for manifest in .claude-plugin/plugin.json .codex-plugin/plugin.json; do
     f="$PLUGIN_ROOT/$manifest"
     if [ ! -f "$f" ]; then
@@ -29,11 +29,11 @@ for manifest in .claude-plugin/plugin.json .codex-plugin/plugin.json; do
         exit 1
     fi
     version=$(jq -r .version "$f")
-    if [ "$version" != "0.1.0" ]; then
-        echo "  [FAIL] $manifest version is $version, expected 0.1.0"
+    if [ "$version" != "0.2.0" ]; then
+        echo "  [FAIL] $manifest version is $version, expected 0.2.0"
         exit 1
     fi
-    echo "  [PASS] $manifest exists, parses, version 0.1.0"
+    echo "  [PASS] $manifest exists, parses, version 0.2.0"
 done
 echo ""
 
@@ -180,10 +180,10 @@ echo ""
 # Test 11: Marketplace registration in both files
 echo "Test 11: Marketplace registration..."
 for mkt in .claude-plugin/marketplace.json .agents/plugins/marketplace.json; do
-    if jq -r '.plugins[].name' "$REPO_ROOT/$mkt" | grep -q '^claude-code-management$'; then
-        echo "  [PASS] $mkt registers claude-code-management"
+    if jq -r '.plugins[].name' "$REPO_ROOT/$mkt" | grep -q '^agent-system-management$'; then
+        echo "  [PASS] $mkt registers agent-system-management"
     else
-        echo "  [FAIL] $mkt does not register claude-code-management"
+        echo "  [FAIL] $mkt does not register agent-system-management"
         exit 1
     fi
 done

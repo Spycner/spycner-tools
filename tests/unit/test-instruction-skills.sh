@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Test: agents-md-improver and agents-md-session-capture skills
+# Test: improving-instructions and capturing-session-learnings skills
 # Verifies the skills load, mention both AGENTS.md and CLAUDE.md, include
 # realpath dedup, the Platform Adaptation table, and reference docs.
 set -euo pipefail
@@ -7,9 +7,9 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/../test-helpers.sh"
 
-PLUGIN_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)/plugins/agents-md-management"
+PLUGIN_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)/plugins/agent-system-management"
 
-echo "=== Test: agents-md-management plugin structure ==="
+echo "=== Test: agent-system-management plugin structure ==="
 echo ""
 
 # Test 1: Plugin manifest files exist and parse
@@ -32,7 +32,7 @@ echo ""
 
 # Test 2: Both skills' SKILL.md files exist
 echo "Test 2: Skill files exist..."
-for skill in agents-md-improver agents-md-session-capture; do
+for skill in improving-instructions capturing-session-learnings; do
     if [ -f "$PLUGIN_ROOT/skills/$skill/SKILL.md" ]; then
         echo "  [PASS] skills/$skill/SKILL.md exists"
     else
@@ -45,7 +45,7 @@ echo ""
 # Test 3: Reference docs exist and are non-empty
 echo "Test 3: Reference docs exist..."
 for ref in quality-criteria.md templates.md update-guidelines.md; do
-    f="$PLUGIN_ROOT/skills/agents-md-improver/references/$ref"
+    f="$PLUGIN_ROOT/skills/improving-instructions/references/$ref"
     if [ -s "$f" ]; then
         echo "  [PASS] references/$ref exists"
     else
@@ -57,7 +57,7 @@ echo ""
 
 # Test 4: Both skill bodies mention AGENTS.md and CLAUDE.md
 echo "Test 4: Both skill bodies mention AGENTS.md and CLAUDE.md..."
-for skill in agents-md-improver agents-md-session-capture; do
+for skill in improving-instructions capturing-session-learnings; do
     body="$(cat "$PLUGIN_ROOT/skills/$skill/SKILL.md")"
     if echo "$body" | grep -q 'AGENTS\.md' && echo "$body" | grep -q 'CLAUDE\.md'; then
         echo "  [PASS] $skill mentions both"
@@ -70,7 +70,7 @@ echo ""
 
 # Test 5: Both skill bodies mention realpath (dedup hint, embedded in shared discovery snippet)
 echo "Test 5: Both skill bodies mention realpath..."
-for skill in agents-md-improver agents-md-session-capture; do
+for skill in improving-instructions capturing-session-learnings; do
     if grep -q 'realpath' "$PLUGIN_ROOT/skills/$skill/SKILL.md"; then
         echo "  [PASS] $skill mentions realpath"
     else
@@ -82,7 +82,7 @@ echo ""
 
 # Test 6: Both skill bodies include Platform Adaptation table
 echo "Test 6: Both skill bodies have Platform Adaptation table..."
-for skill in agents-md-improver agents-md-session-capture; do
+for skill in improving-instructions capturing-session-learnings; do
     body="$(cat "$PLUGIN_ROOT/skills/$skill/SKILL.md")"
     if echo "$body" | grep -q '## Platform Adaptation' \
        && echo "$body" | grep -q 'Claude Code' \
@@ -95,9 +95,9 @@ for skill in agents-md-improver agents-md-session-capture; do
 done
 echo ""
 
-# Test 7: agents-md-improver SKILL.md references the three reference docs by name
-echo "Test 7: agents-md-improver references all three docs..."
-body="$(cat "$PLUGIN_ROOT/skills/agents-md-improver/SKILL.md")"
+# Test 7: improving-instructions SKILL.md references the three reference docs by name
+echo "Test 7: improving-instructions references all three docs..."
+body="$(cat "$PLUGIN_ROOT/skills/improving-instructions/SKILL.md")"
 for ref in quality-criteria.md templates.md update-guidelines.md; do
     if echo "$body" | grep -q "references/$ref"; then
         echo "  [PASS] references $ref"
@@ -110,7 +110,7 @@ echo ""
 
 # Test 8: User-global memory files mentioned in both skill bodies
 echo "Test 8: User-global files mentioned in both skill bodies..."
-for skill in agents-md-improver agents-md-session-capture; do
+for skill in improving-instructions capturing-session-learnings; do
     body="$(cat "$PLUGIN_ROOT/skills/$skill/SKILL.md")"
     if echo "$body" | grep -q '~/.claude/CLAUDE.md' \
        && echo "$body" | grep -q '~/.codex/AGENTS.md'; then
@@ -124,8 +124,8 @@ echo ""
 
 # Test 9: Skill descriptions trigger on the right phrases
 echo "Test 9: Description fields mention key trigger phrases..."
-improver_body="$(cat "$PLUGIN_ROOT/skills/agents-md-improver/SKILL.md")"
-capture_body="$(cat "$PLUGIN_ROOT/skills/agents-md-session-capture/SKILL.md")"
+improver_body="$(cat "$PLUGIN_ROOT/skills/improving-instructions/SKILL.md")"
+capture_body="$(cat "$PLUGIN_ROOT/skills/capturing-session-learnings/SKILL.md")"
 
 improver_desc=$(echo "$improver_body" | awk '/^description:/{flag=1;sub(/^description:[ ]*/,"")} /^---$/{flag=0} flag')
 capture_desc=$(echo "$capture_body" | awk '/^description:/{flag=1;sub(/^description:[ ]*/,"")} /^---$/{flag=0} flag')

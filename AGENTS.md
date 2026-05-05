@@ -44,13 +44,12 @@ tests/
 | `research` | 2.0.0 | `research` (multi-agent pipeline with review gates) |
 | `writing` | 1.6.1 | `writing`, `pyramid`, `tech-doc` |
 | `runtime-bridge` | 0.1.0 | `claude-codex-bridge` |
-| `agents-md-management` | 0.1.1 | `agents-md-improver`, `agents-md-session-capture` |
-| `workbench` | 0.4.0 | `brainstorming`, `using-workbench`, `autopilot` |
-| `claude-code-management` | 0.1.0 | `creating-skills` |
+| `agent-system-management` | 0.2.0 | `improving-instructions`, `capturing-session-learnings`, `creating-skills` |
+| `workbench` | 0.4.1 | `brainstorming`, `using-workbench`, `autopilot` |
 
 ## How to Develop a New Skill
 
-> **Tip:** The `claude-code-management:creating-skills` skill automates this entire workflow. Invoke it for greenfield scaffolding, iteration with eval loops, pressure-testing discipline skills, description optimization, or extraction from a session. The steps below remain the canonical reference.
+> **Tip:** The `agent-system-management:creating-skills` skill automates this entire workflow. Invoke it for greenfield scaffolding, iteration with eval loops, pressure-testing discipline skills, description optimization, or extraction from a session. The steps below remain the canonical reference.
 
 ### 1. Plan the skill
 

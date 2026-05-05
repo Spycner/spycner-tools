@@ -1,8 +1,0 @@
-{
-  "name": "agents-md-management",
-  "version": "0.1.1",
-  "description": "Audit AGENTS.md and CLAUDE.md files, then capture session learnings.",
-  "author": { "name": "Pascal Göllner" },
-  "license": "MIT",
-  "keywords": ["agents-md", "claude-md", "memory", "audit", "session-capture", "claude-code", "codex"]
-}

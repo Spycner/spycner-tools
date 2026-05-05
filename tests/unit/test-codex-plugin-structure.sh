@@ -20,7 +20,7 @@ marketplace_name="$(jq -r '.name' "$MARKETPLACE")"
 plugin_count="$(jq '.plugins | length' "$MARKETPLACE")"
 [ "$plugin_count" -eq 7 ] || fail "Expected 7 Codex marketplace plugins, got $plugin_count"
 
-for plugin in atlassian google-workspace research writing runtime-bridge agents-md-management workbench; do
+for plugin in atlassian google-workspace research writing runtime-bridge agent-system-management workbench; do
     plugin_dir="$REPO_ROOT/plugins/$plugin"
     manifest="$plugin_dir/.codex-plugin/plugin.json"
 
