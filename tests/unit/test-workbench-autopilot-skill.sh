@@ -2,7 +2,7 @@
 # Test: workbench:autopilot skill structure
 # Verifies PR 2 of the autopilot port: SKILL.md exists, references all six refs,
 # names every universal skill, has all ten step headings, and the plugin manifests
-# are at 0.2.0.
+# are at 0.3.0.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -157,8 +157,8 @@ else
 fi
 echo ""
 
-# Test 11: Plugin manifests at 0.2.0
-echo "Test 11: Plugin manifests at 0.2.0..."
+# Test 11: Plugin manifests at 0.3.0
+echo "Test 11: Plugin manifests at 0.3.0..."
 CCM="$REPO_ROOT/plugins/workbench/.claude-plugin/plugin.json"
 CXM="$REPO_ROOT/plugins/workbench/.codex-plugin/plugin.json"
 if jq -e '.version == "0.3.0"' "$CCM" >/dev/null && jq -e '.version == "0.3.0"' "$CXM" >/dev/null; then
@@ -169,7 +169,7 @@ else
 fi
 echo ""
 
-# Test 12: Marketplace entries at 0.2.0
+# Test 12: Marketplace entries at 0.3.0
 echo "Test 12: Marketplace entries..."
 MP="$REPO_ROOT/.claude-plugin/marketplace.json"
 if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.3.0"' "$MP" >/dev/null; then
