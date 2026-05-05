@@ -161,10 +161,10 @@ echo ""
 echo "Test 11: Plugin manifests at 0.2.0..."
 CCM="$REPO_ROOT/plugins/workbench/.claude-plugin/plugin.json"
 CXM="$REPO_ROOT/plugins/workbench/.codex-plugin/plugin.json"
-if jq -e '.version == "0.2.0"' "$CCM" >/dev/null && jq -e '.version == "0.2.0"' "$CXM" >/dev/null; then
-    echo "  [PASS] both plugin manifests at 0.2.0"
+if jq -e '.version == "0.3.0"' "$CCM" >/dev/null && jq -e '.version == "0.3.0"' "$CXM" >/dev/null; then
+    echo "  [PASS] both plugin manifests at 0.3.0"
 else
-    echo "  [FAIL] plugin manifests not at 0.2.0"
+    echo "  [FAIL] plugin manifests not at 0.3.0"
     exit 1
 fi
 echo ""
@@ -172,10 +172,10 @@ echo ""
 # Test 12: Marketplace entries at 0.2.0
 echo "Test 12: Marketplace entries..."
 MP="$REPO_ROOT/.claude-plugin/marketplace.json"
-if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.2.0"' "$MP" >/dev/null; then
-    echo "  [PASS] Claude marketplace workbench at 0.2.0"
+if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.3.0"' "$MP" >/dev/null; then
+    echo "  [PASS] Claude marketplace workbench at 0.3.0"
 else
-    echo "  [FAIL] Claude marketplace workbench not at 0.2.0"
+    echo "  [FAIL] Claude marketplace workbench not at 0.3.0"
     exit 1
 fi
 echo ""
