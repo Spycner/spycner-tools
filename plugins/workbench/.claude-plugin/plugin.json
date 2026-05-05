@@ -1,7 +1,7 @@
 {
   "name": "workbench",
-  "version": "0.1.0",
-  "description": "Personal fork-as-you-touch skill collection (brainstorming + meta-skill, more to come)",
+  "version": "0.2.0",
+  "description": "Personal fork-as-you-touch skill collection: brainstorming, using-workbench meta-skill, and the autopilot autonomous feature-flow skill",
   "author": {
     "name": "Pascal Göllner"
   },
