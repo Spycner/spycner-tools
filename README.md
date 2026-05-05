@@ -21,6 +21,7 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `agents-md-session-capture` | agents-md-management | Capture session learnings into the right instruction file |
 | `brainstorming` | workbench | Turn ideas into clear design decisions |
 | `using-workbench` | workbench | Load Workbench skill rules and routing |
+| `creating-skills` | claude-code-management | Scaffold, iterate, pressure-test, and tune skills across the full lifecycle |
 
 ## Plugins
 
@@ -82,6 +83,13 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 
 Autopilot profiles are documented in `plugins/workbench/skills/autopilot/references/profile-schema.md`.
 
+### claude-code-management
+
+Owns the full Claude Code skill lifecycle: scaffold, iterate, pressure-test, optimize description, or extract from session.
+
+**Skills:**
+- `/pgoell-claude-tools:creating-skills`: Scaffold a new skill in a Claude Code or Codex marketplace, iterate on an existing one with eval loops, pressure-test discipline skills, optimize triggering, or extract a skill from this conversation.
+
 ## Installation
 
 ### Claude Code
@@ -95,6 +103,7 @@ Autopilot profiles are documented in `plugins/workbench/skills/autopilot/referen
 /plugin install runtime-bridge@pgoell-claude-tools
 /plugin install agents-md-management@pgoell-claude-tools
 /plugin install workbench@pgoell-claude-tools
+/plugin install claude-code-management@pgoell-claude-tools
 ```
 
 ### Codex
@@ -112,7 +121,7 @@ codex
 /plugins
 ```
 
-In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agents-md-management`, and `workbench`.
+In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agents-md-management`, `workbench`, and `claude-code-management`.
 
 `codex plugin marketplace add` accepts `owner/repo[@ref]`, an HTTPS or SSH Git URL, or a local marketplace root directory. The marketplace file lives at `.agents/plugins/marketplace.json` and the per-plugin Codex manifests live at `plugins/<plugin>/.codex-plugin/plugin.json`. Both reuse the same `plugins/<plugin>/skills/` directories as Claude Code, single sourced.
 
@@ -162,3 +171,7 @@ No setup required. In any project, ask the skill to align Claude Code and Codex 
 ### agents-md-management
 
 No setup required. In any project, ask either skill: "audit my CLAUDE.md files" (cold audit) or "update AGENTS.md with what we learned this session" (warm capture). Operates on local agent-instruction files only; no network or auth.
+
+### claude-code-management
+
+No setup required. In any plugin marketplace, invoke the skill with phrases like "scaffold a new skill in this marketplace", "iterate on this skill until it triggers reliably", "pressure-test this discipline skill", "optimize the description for triggering", or "turn this conversation into a reusable skill". The skill detects the marketplace shape (Claude Code, Codex, or both) and adapts.
