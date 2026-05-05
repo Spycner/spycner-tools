@@ -22,5 +22,4 @@ Files derived from upstream Superpowers:
   hooks/run-hook.cmd
   hooks/session-start
 
-Adaptations from upstream are documented in
-docs/workbench/specs/2026-05-04-workbench-brainstorming-port-design.md.
+Adaptations from upstream live in the git history for the Workbench plugin files.

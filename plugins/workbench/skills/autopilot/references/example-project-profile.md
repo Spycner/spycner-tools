@@ -36,8 +36,8 @@ Test: test
 Format: fmt
 
 ## Documentation paths
-Specs: docs/superpowers/specs
-Plans: docs/superpowers/plans
+Specs: don't commit
+Plans: don't commit
 Open things: docs/superpowers/OPEN_THINGS.md
 ADRs: docs/adr
 
@@ -47,7 +47,7 @@ Base branch: master
 Squash: yes
 
 Hooks:
-- post_pr: python3 .claude/commands/post_brainstorm_comments.py {{pr}}
+- post_pr: uv run .claude/commands/post_brainstorm_comments.py {{pr}}
 - post_ci_green: ./scripts/notify-slack.sh "{{pr}} merged"
 
 ## Required skills

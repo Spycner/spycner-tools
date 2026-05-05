@@ -1,6 +1,6 @@
 # Pyramid Principle Reference
 
-Condensed operational reference shipped with the pyramid skill. Every phase prompt can cite this file by section. Full research is at `docs/superpowers/specs/2026-04-24-pyramid-principle-research.md` in the repo.
+Condensed operational reference shipped with the pyramid skill. Every phase prompt can cite this file by section.
 
 ## 1. The Three Rules [research §1]
 

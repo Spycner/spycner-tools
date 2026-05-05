@@ -1,6 +1,6 @@
 ---
 name: agents-md-improver
-description: Audit and improve AGENTS.md / CLAUDE.md files (and variants like AGENTS.local.md, CLAUDE.local.md, .claude.md, .claude.local.md, plus user-global ~/.claude/CLAUDE.md and ~/.codex/AGENTS.md) in repositories. Use when user asks to check, audit, update, improve, or fix agent-instruction files. Scans for all variants, dedupes symlinked pairs via realpath, evaluates quality against a six-criterion rubric, outputs a quality report, then makes targeted updates. Also triggers on "CLAUDE.md maintenance", "AGENTS.md audit", "project memory optimization", or "agent instructions audit".
+description: Audit and improve AGENTS.md and CLAUDE.md files across project and user scopes.
 tools: Read, Glob, Grep, Bash, Edit
 ---
 

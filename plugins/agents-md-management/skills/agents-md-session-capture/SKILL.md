@@ -1,7 +1,6 @@
 ---
 name: agents-md-session-capture
-description: >
-  Capture learnings from the current session and update AGENTS.md / CLAUDE.md (and variants, including user-global ~/.claude/CLAUDE.md and ~/.codex/AGENTS.md) with context that would help future sessions. Use when the user wants to "update CLAUDE.md with what we learned", "capture session learnings", "revise AGENTS.md", or types "/revise-agents-md" or "/revise-claude-md". Routes each learning to the right file by scope: project-specific learnings to AGENTS.md/CLAUDE.md, personal overrides to *.local.md, generalizable rules to the user-global file.
+description: Capture session learnings into AGENTS.md or CLAUDE.md. Triggers on /revise-agents-md and /revise-claude-md.
 tools: Read, Glob, Grep, Bash, Edit
 ---
 

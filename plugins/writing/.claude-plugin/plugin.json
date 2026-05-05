@@ -1,7 +1,7 @@
 {
   "name": "writing",
   "version": "1.6.1",
-  "description": "Multi-phase writing pipeline with panel-of-critics review for blog posts, essays, talks, and longer-form prose. Also ships a dedicated Pyramid Principle skill for memos, recommendations, and analytical documents.",
+  "description": "Draft, structure, review, and finish prose and technical docs.",
   "author": {
     "name": "Pascal Göllner"
   },

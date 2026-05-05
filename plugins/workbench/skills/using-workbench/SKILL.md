@@ -1,6 +1,6 @@
 ---
 name: using-workbench
-description: Use when starting any conversation, establishes how to find and use workbench skills, requiring Skill tool invocation before any response including clarifying questions
+description: Load Workbench skill rules and choose the right Workbench skill.
 ---
 
 <SUBAGENT-STOP>

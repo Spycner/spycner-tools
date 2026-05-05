@@ -1,6 +1,6 @@
 ---
 name: autopilot
-description: Use when the user wants to autonomously ship a feature end-to-end (brainstorm, spec, plan, implement, PR, green CI) using a configured project profile at .workbench/autopilot.md
+description: Autopilot for autonomous feature shipping from brainstorm to PR using .workbench/autopilot.md.
 ---
 
 # Autopilot: autonomous feature flow
@@ -108,8 +108,9 @@ The first count must be greater than zero and match the number of questions answ
 
 - Use the spec template that `workbench:brainstorming` surfaced in step 2.
 - Path: `<paths.specs>/YYYY-MM-DD-<topic>-design.md`. `<paths.specs>` resolves through the bootstrap precedence chain.
+- If `<paths.specs>` is `don't commit`, write the spec under `/tmp/<project-name>-autopilot/` instead and do not commit it.
 - Run the spec self-review: placeholders, internal consistency, scope, ambiguity. Fix inline.
-- Commit: `docs: add <topic> design spec`.
+- Commit: `docs: add <topic> design spec`, unless `<paths.specs>` is `don't commit`.
 
 If `Hooks.post_spec` is defined in the profile, run it now with `{{spec_path}}` substituted to the spec path.
 
@@ -120,8 +121,9 @@ If `Hooks.post_spec` is defined in the profile, run it now with `{{spec_path}}` 
 Then:
 
 - Path: `<paths.plans>/YYYY-MM-DD-<topic>.md`.
+- If `<paths.plans>` is `don't commit`, write the plan under `/tmp/<project-name>-autopilot/` instead and do not commit it.
 - Use checkbox syntax (`- [ ]`) per task step so progress is trackable.
-- Commit: `docs: add <topic> implementation plan`.
+- Commit: `docs: add <topic> implementation plan`, unless `<paths.plans>` is `don't commit`.
 
 If `Hooks.post_plan` is defined, run it now with `{{plan_path}}` substituted.
 
