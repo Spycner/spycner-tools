@@ -1,0 +1,1 @@
+We just finished talking through the design for the new caching layer. Take what we agreed on, write it up as a spec doc with self-review, and let me look at it before we plan implementation.
