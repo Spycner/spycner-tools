@@ -5,7 +5,7 @@ description: "Use before creative work to clarify intent, requirements, and desi
 
 # Brainstorming Ideas Into Designs
 
-Help turn ideas into well-formed designs through natural collaborative dialogue. This skill runs the question-and-answer loop only; spec writing lives in `workbench:writing-spec`, and visual options live in `workbench:visualizing-options`.
+Help turn ideas into well-formed designs through natural collaborative dialogue.
 
 Start by understanding the current project context, then ask questions one at a time to refine the idea. Once the design is clear and the user approves, hand off to `workbench:writing-spec`.
 
