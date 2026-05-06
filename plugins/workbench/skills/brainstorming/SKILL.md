@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "Use before creative work to clarify intent, requirements, and design through sequential question and answer. Recommends workbench:writing-spec when the discussion is ready to be written down."
+description: "Use before creative work to clarify intent, requirements, and design through sequential question and answer."
 ---
 
 # Brainstorming Ideas Into Designs
