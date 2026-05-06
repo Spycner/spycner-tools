@@ -19,7 +19,9 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `claude-codex-bridge` | runtime-bridge | Align Claude Code and Codex project files |
 | `improving-instructions` | agent-system-management | Audit and improve agent instruction files |
 | `capturing-session-learnings` | agent-system-management | Capture session learnings into the right instruction file |
-| `brainstorming` | workbench | Turn ideas into clear design decisions |
+| `brainstorming` | workbench | Sequential Q&A to clarify design intent |
+| `writing-spec` | workbench | Synthesize a design discussion into a spec doc |
+| `visualizing-options` | workbench | Browser-based visual companion for layout choices |
 | `using-workbench` | workbench | Load Workbench skill rules and routing |
 | `creating-skills` | agent-system-management | Scaffold, iterate, pressure-test, and tune skills across the full lifecycle |
 
@@ -78,7 +80,9 @@ Manage the host agent's instruction layer and skill layer: audit AGENTS.md / CLA
 Workbench skills for design dialogue, skill routing, and profile driven feature shipping.
 
 **Skills:**
-- `/pgoell-claude-tools:brainstorming`: Turn ideas into clear design decisions.
+- `/pgoell-claude-tools:brainstorming`: Sequential question-and-answer loop to clarify design intent. Hands off to `writing-spec` when the design is ready to be written down.
+- `/pgoell-claude-tools:writing-spec`: Synthesize a design discussion into a spec doc, run a fresh-eyes self-review subagent, gate on user approval, then hand off to `superpowers:writing-plans`.
+- `/pgoell-claude-tools:visualizing-options`: Browser-based visual companion for mockups, layout comparisons, wireframes, and architecture diagrams. The user clicks to choose between options.
 - `/pgoell-claude-tools:using-workbench`: Load Workbench skill rules and routing.
 - `/pgoell-claude-tools:autopilot`: Ship a feature from brainstorm to PR using a project profile.
 
