@@ -64,6 +64,7 @@ digraph brainstorming {
 - Prefer multiple choice questions when possible.
 - One question per message.
 - Focus on understanding: purpose, constraints, success criteria.
+- Really grill the user until full understanding for you and the user is achieved.
 
 **Exploring approaches:**
 
