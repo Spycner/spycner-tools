@@ -44,6 +44,7 @@ Read `references/required-skills.md` for the full table and `replaces` / `additi
 |---|---|
 | 0 | `workbench:using-workbench` |
 | 2 | `workbench:brainstorming` |
+| 3 | `workbench:writing-spec` |
 | 4 | `superpowers:writing-plans` |
 | 5 | `superpowers:test-driven-development` and `superpowers:subagent-driven-development` |
 | 6 | `agent-system-management:capturing-session-learnings` and `agent-system-management:improving-instructions` |
@@ -106,10 +107,14 @@ The first count must be greater than zero and match the number of questions answ
 
 ### Step 3: Write the spec
 
+**First action:** invoke `workbench:writing-spec` via the `Skill` tool. (If the profile replaces this row, invoke the replacement.)
+
+Then, following that skill's guidance:
+
 - Use the spec template that `workbench:brainstorming` surfaced in step 2.
 - Path: `<paths.specs>/YYYY-MM-DD-<topic>-design.md`. `<paths.specs>` resolves through the bootstrap precedence chain.
 - If `<paths.specs>` is `don't commit`, write the spec under `/tmp/<project-name>-autopilot/` instead and do not commit it.
-- Run the spec self-review: placeholders, internal consistency, scope, ambiguity. Fix inline.
+- The skill runs the self-review subagent and the user approval gate; in autonomous mode self-answer the gate.
 - Commit: `docs: add <topic> design spec`, unless `<paths.specs>` is `don't commit`.
 
 If `Hooks.post_spec` is defined in the profile, run it now with `{{spec_path}}` substituted to the spec path.

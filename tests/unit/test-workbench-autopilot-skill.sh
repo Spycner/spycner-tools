@@ -67,7 +67,7 @@ echo ""
 
 # Test 5: SKILL.md mentions every skill in the universal table
 echo "Test 5: SKILL.md mentions every universal skill..."
-for skill in 'workbench:using-workbench' 'workbench:brainstorming' 'superpowers:writing-plans' 'superpowers:test-driven-development' 'superpowers:subagent-driven-development' 'agent-system-management:capturing-session-learnings' 'agent-system-management:improving-instructions'; do
+for skill in 'workbench:using-workbench' 'workbench:brainstorming' 'workbench:writing-spec' 'superpowers:writing-plans' 'superpowers:test-driven-development' 'superpowers:subagent-driven-development' 'agent-system-management:capturing-session-learnings' 'agent-system-management:improving-instructions'; do
     if grep -qF "$skill" "$SKILL_MD"; then
         echo "  [PASS] SKILL.md mentions $skill"
     else
@@ -157,25 +157,25 @@ else
 fi
 echo ""
 
-# Test 11: Plugin manifests at 0.4.1
-echo "Test 11: Plugin manifests at 0.4.1..."
+# Test 11: Plugin manifests at 0.5.0
+echo "Test 11: Plugin manifests at 0.5.0..."
 CCM="$REPO_ROOT/plugins/workbench/.claude-plugin/plugin.json"
 CXM="$REPO_ROOT/plugins/workbench/.codex-plugin/plugin.json"
-if jq -e '.version == "0.4.1"' "$CCM" >/dev/null && jq -e '.version == "0.4.1"' "$CXM" >/dev/null; then
-    echo "  [PASS] both plugin manifests at 0.4.1"
+if jq -e '.version == "0.5.0"' "$CCM" >/dev/null && jq -e '.version == "0.5.0"' "$CXM" >/dev/null; then
+    echo "  [PASS] both plugin manifests at 0.5.0"
 else
-    echo "  [FAIL] plugin manifests not at 0.4.1"
+    echo "  [FAIL] plugin manifests not at 0.5.0"
     exit 1
 fi
 echo ""
 
-# Test 12: Marketplace entries at 0.4.1
+# Test 12: Marketplace entries at 0.5.0
 echo "Test 12: Marketplace entries..."
 MP="$REPO_ROOT/.claude-plugin/marketplace.json"
-if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.4.1"' "$MP" >/dev/null; then
-    echo "  [PASS] Claude marketplace workbench at 0.4.1"
+if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.5.0"' "$MP" >/dev/null; then
+    echo "  [PASS] Claude marketplace workbench at 0.5.0"
 else
-    echo "  [FAIL] Claude marketplace workbench not at 0.4.1"
+    echo "  [FAIL] Claude marketplace workbench not at 0.5.0"
     exit 1
 fi
 echo ""
@@ -197,6 +197,23 @@ for old_id in 'claude-md-management:revise-claude-md' 'claude-md-management:clau
         echo "  [PASS] required-skills.md does not reference $old_id"
     fi
 done
+echo ""
+
+# Test 14: required-skills.md has Step 3 row for writing-spec
+echo "Test 14: required-skills.md has Step 3 row for writing-spec..."
+RS="$SKILL_DIR/references/required-skills.md"
+if grep -qE '^\| 3 \| `workbench:writing-spec`' "$RS"; then
+    echo "  [PASS] Step 3 row present in required-skills.md"
+else
+    echo "  [FAIL] Step 3 row missing in required-skills.md"
+    exit 1
+fi
+if grep -qE '^\| 3 \| `workbench:writing-spec` \|$' "$SKILL_MD"; then
+    echo "  [PASS] Step 3 row present in SKILL.md"
+else
+    echo "  [FAIL] Step 3 row missing in SKILL.md"
+    exit 1
+fi
 echo ""
 
 echo "=== Tests complete ==="

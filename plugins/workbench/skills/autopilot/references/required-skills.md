@@ -8,6 +8,7 @@ The universal table that the autopilot skill walks at the pre-PR audit. Profiles
 |---|---|---|
 | 0 | `workbench:using-workbench` | session-start meta, workbench-native fork |
 | 2 | `workbench:brainstorming` | already ported into workbench |
+| 3 | `workbench:writing-spec` | already ported into workbench |
 | 4 | `superpowers:writing-plans` | not yet ported into workbench |
 | 5 | `superpowers:test-driven-development` | not yet ported |
 | 5 | `superpowers:subagent-driven-development` | not yet ported |
