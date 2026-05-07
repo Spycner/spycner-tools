@@ -2,3 +2,4 @@ reports/
 .worktrees/
 docs/superpowers/
 notes/
+.claude/*.lock
