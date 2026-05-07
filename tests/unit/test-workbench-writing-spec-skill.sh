@@ -32,7 +32,7 @@ for term in 'design discussion' 'spec' 'self-review' 'writing-plans'; do
 done
 
 # Test 3: Body markers present
-for marker in 'When to Invoke' 'Self-Review' 'User Approval Gate' 'superpowers:writing-plans' 'spec-document-reviewer-prompt.md'; do
+for marker in 'When to Invoke' 'Self-Review' 'User Approval Gate' 'workbench:writing-plans' 'spec-document-reviewer-prompt.md'; do
     if grep -qF "$marker" "$SKILL_MD"; then
         echo "[PASS] body mentions $marker"
     else

@@ -97,7 +97,7 @@ The offer message should contain ONLY the pointer; do not combine it with clarif
 
 ## Handoff
 
-Once the user has approved the design, your terminal action is to recommend `workbench:writing-spec`. Do NOT invoke any implementation skill, do NOT write the spec yourself, and do NOT proceed to planning. The spec writing skill takes over from there, runs its self-review, and gates on user approval before handing off to `superpowers:writing-plans`.
+Once the user has approved the design, your terminal action is to recommend `workbench:writing-spec`. Do NOT invoke any implementation skill, do NOT write the spec yourself, and do NOT proceed to planning. The spec writing skill takes over from there, runs its self-review, and gates on user approval before handing off to `workbench:writing-plans`.
 
 ## Key Principles
 

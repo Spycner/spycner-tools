@@ -9,6 +9,7 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 - `terse-mode`: Explicit session switch for compact token-saving replies.
 - `autopilot`: Ship a feature from brainstorm to PR using a project profile.
 - `verification-before-completion`: Require fresh verification evidence before completion claims.
+- `writing-plans`: Turn approved specs into concrete implementation plans.
 
 ## Project profiles
 
@@ -18,9 +19,7 @@ Workbench ships the steps, audit, and invariants. The project profile carries PR
 
 ## Coexistence
 
-Workbench is designed to run alongside the upstream `superpowers` plugin. When a slug exists in both plugins (today: `brainstorming`), prefer the Workbench version.
-
-The brainstorming skill's terminal handoff currently invokes `superpowers:writing-plans` cross-plugin. When `writing-plans` is later ported into Workbench, that reference will flip.
+Workbench is designed to run alongside the upstream `superpowers` plugin. When a slug exists in both plugins, prefer the Workbench version.
 
 ## Credits
 
