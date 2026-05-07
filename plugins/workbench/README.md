@@ -6,6 +6,7 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 
 - `brainstorming`: Turn ideas into clear design decisions.
 - `using-workbench`: Load Workbench skill rules and routing.
+- `terse-mode`: Explicit session switch for compact token-saving replies.
 - `autopilot`: Ship a feature from brainstorm to PR using a project profile.
 
 ## Project profiles
