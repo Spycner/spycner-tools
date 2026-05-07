@@ -18,6 +18,7 @@ Files derived from upstream Superpowers:
   skills/brainstorming/scripts/start-server.sh
   skills/brainstorming/scripts/stop-server.sh
   skills/using-workbench/references/using-superpowers-upstream.md
+  skills/verification-before-completion/SKILL.md
   hooks/hooks.json
   hooks/run-hook.cmd
   hooks/session-start

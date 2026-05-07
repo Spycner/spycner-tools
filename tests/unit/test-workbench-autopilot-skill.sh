@@ -67,7 +67,7 @@ echo ""
 
 # Test 5: SKILL.md mentions every skill in the universal table
 echo "Test 5: SKILL.md mentions every universal skill..."
-for skill in 'workbench:using-workbench' 'workbench:brainstorming' 'workbench:writing-spec' 'superpowers:writing-plans' 'superpowers:test-driven-development' 'superpowers:subagent-driven-development' 'agent-system-management:capturing-session-learnings' 'agent-system-management:improving-instructions'; do
+for skill in 'workbench:using-workbench' 'workbench:brainstorming' 'workbench:writing-spec' 'superpowers:writing-plans' 'superpowers:test-driven-development' 'superpowers:subagent-driven-development' 'agent-system-management:capturing-session-learnings' 'agent-system-management:improving-instructions' 'workbench:verification-before-completion'; do
     if grep -qF "$skill" "$SKILL_MD"; then
         echo "  [PASS] SKILL.md mentions $skill"
     else
@@ -112,7 +112,7 @@ echo ""
 # Test 8: required-skills.md complete
 echo "Test 8: required-skills.md complete..."
 RS="$SKILL_DIR/references/required-skills.md"
-for term in 'workbench:using-workbench' 'workbench:brainstorming' 'replaces' 'additional' 'Removal not supported'; do
+for term in 'workbench:using-workbench' 'workbench:brainstorming' 'workbench:verification-before-completion' 'replaces' 'additional' 'Removal not supported'; do
     if grep -qF "$term" "$RS"; then
         echo "  [PASS] required-skills mentions $term"
     else

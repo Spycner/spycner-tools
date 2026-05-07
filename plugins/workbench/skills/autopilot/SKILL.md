@@ -48,6 +48,7 @@ Read `references/required-skills.md` for the full table and `replaces` / `additi
 | 4 | `superpowers:writing-plans` |
 | 5 | `superpowers:test-driven-development` and `superpowers:subagent-driven-development` |
 | 6 | `agent-system-management:capturing-session-learnings` and `agent-system-management:improving-instructions` |
+| pre-PR | `workbench:verification-before-completion` |
 
 If a listed skill is unavailable in the current runtime, say so explicitly in the end-of-turn summary and skip only that entry. Never silently drop a row.
 
@@ -186,6 +187,8 @@ Then, **the orchestrator** updates the following inline (it does not delegate to
 - Update `<paths.open_things>` if it exists: remove resolved items, add follow-ups ordered by importance.
 
 ### Skill audit (between step 6 and step 7, blocking)
+
+**First action:** invoke `workbench:verification-before-completion` via the `Skill` tool. This governs the audit, push, and PR readiness claim.
 
 Re-read `references/required-skills.md` and the profile's `## Required skills` section. Walk every row in the merged table:
 
