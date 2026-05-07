@@ -10,7 +10,7 @@ The universal table that the autopilot skill walks at the pre-PR audit. Profiles
 | 2 | `workbench:brainstorming` | already ported into workbench |
 | 3 | `workbench:writing-spec` | already ported into workbench |
 | 4 | `workbench:writing-plans` | already ported into workbench |
-| 5 | `superpowers:test-driven-development` | not yet ported |
+| 5 | `workbench:test-driven-development` | ported into workbench |
 | 5 | `superpowers:subagent-driven-development` | not yet ported |
 | 6 | `agent-system-management:capturing-session-learnings` | cross-plugin |
 | 6 | `agent-system-management:improving-instructions` | cross-plugin |

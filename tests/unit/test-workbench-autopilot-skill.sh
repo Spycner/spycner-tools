@@ -67,7 +67,7 @@ echo ""
 
 # Test 5: SKILL.md mentions every skill in the universal table
 echo "Test 5: SKILL.md mentions every universal skill..."
-for skill in 'workbench:using-workbench' 'workbench:brainstorming' 'workbench:writing-spec' 'workbench:writing-plans' 'superpowers:test-driven-development' 'superpowers:subagent-driven-development' 'agent-system-management:capturing-session-learnings' 'agent-system-management:improving-instructions' 'workbench:verification-before-completion'; do
+for skill in 'workbench:using-workbench' 'workbench:brainstorming' 'workbench:writing-spec' 'workbench:writing-plans' 'workbench:test-driven-development' 'superpowers:subagent-driven-development' 'agent-system-management:capturing-session-learnings' 'agent-system-management:improving-instructions' 'workbench:verification-before-completion'; do
     if grep -qF "$skill" "$SKILL_MD"; then
         echo "  [PASS] SKILL.md mentions $skill"
     else
@@ -157,25 +157,25 @@ else
 fi
 echo ""
 
-# Test 11: Plugin manifests at 0.7.1
-echo "Test 11: Plugin manifests at 0.7.1..."
+# Test 11: Plugin manifests at 0.8.0
+echo "Test 11: Plugin manifests at 0.8.0..."
 CCM="$REPO_ROOT/plugins/workbench/.claude-plugin/plugin.json"
 CXM="$REPO_ROOT/plugins/workbench/.codex-plugin/plugin.json"
-if jq -e '.version == "0.7.1"' "$CCM" >/dev/null && jq -e '.version == "0.7.1"' "$CXM" >/dev/null; then
-    echo "  [PASS] both plugin manifests at 0.7.1"
+if jq -e '.version == "0.8.0"' "$CCM" >/dev/null && jq -e '.version == "0.8.0"' "$CXM" >/dev/null; then
+    echo "  [PASS] both plugin manifests at 0.8.0"
 else
-    echo "  [FAIL] plugin manifests not at 0.7.1"
+    echo "  [FAIL] plugin manifests not at 0.8.0"
     exit 1
 fi
 echo ""
 
-# Test 12: Marketplace entries at 0.7.1
+# Test 12: Marketplace entries at 0.8.0
 echo "Test 12: Marketplace entries..."
 MP="$REPO_ROOT/.claude-plugin/marketplace.json"
-if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.7.1"' "$MP" >/dev/null; then
-    echo "  [PASS] Claude marketplace workbench at 0.7.1"
+if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.8.0"' "$MP" >/dev/null; then
+    echo "  [PASS] Claude marketplace workbench at 0.8.0"
 else
-    echo "  [FAIL] Claude marketplace workbench not at 0.7.1"
+    echo "  [FAIL] Claude marketplace workbench not at 0.8.0"
     exit 1
 fi
 echo ""

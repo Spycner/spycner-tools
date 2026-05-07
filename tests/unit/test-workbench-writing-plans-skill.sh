@@ -25,7 +25,7 @@ for marker in 'Path Resolution' 'Scope Check' 'File Structure' 'Bite-Sized Task 
     fi
 done
 
-for marker in 'workbench:writing-spec' 'checkbox (`- [ ]`) syntax' 'exact file paths' 'Expected: FAIL' 'Expected: PASS' 'git commit -m'; do
+for marker in 'workbench:writing-spec' 'workbench:test-driven-development' 'checkbox (`- [ ]`) syntax' 'exact file paths' 'Expected: FAIL' 'Expected: PASS' 'git commit -m'; do
     if grep -qF "$marker" "$SKILL_MD"; then
         echo "[PASS] planning rule mentions $marker"
     else

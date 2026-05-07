@@ -10,6 +10,7 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 - `autopilot`: Ship a feature from brainstorm to PR using a project profile.
 - `verification-before-completion`: Require fresh verification evidence before completion claims.
 - `writing-plans`: Turn approved specs into concrete implementation plans.
+- `test-driven-development`: Enforce test-first RED-GREEN-REFACTOR implementation discipline.
 
 ## Project profiles
 

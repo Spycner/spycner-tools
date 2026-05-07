@@ -117,6 +117,6 @@ Instructions say WHAT, not HOW. "Add X" or "Fix Y" doesn't mean skip workflows.
 
 Workbench coexists with the upstream `superpowers` plugin. If both are installed, both meta-skills (`using-workbench` and `using-superpowers`) may fire at session start. Their content overlaps but workbench's version is authoritative for workbench skills.
 
-When a slug exists in both workbench and superpowers (today: `brainstorming`), prefer the workbench version. The host agent should resolve the bare slug `brainstorming` to `workbench:brainstorming`.
+When a slug exists in both workbench and superpowers, prefer the workbench version. Today that includes `brainstorming` and `test-driven-development`. The host agent should resolve bare slugs such as `brainstorming` and `test-driven-development` to `workbench:brainstorming` and `workbench:test-driven-development`.
 
 For attribution and a frozen snapshot of upstream `using-superpowers/SKILL.md` at v5.0.7, see `references/using-superpowers-upstream.md`. Workbench-specific divergences from that snapshot are documented in this file's git history; the snapshot itself is intentionally not edited.

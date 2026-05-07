@@ -20,6 +20,7 @@ Files derived from upstream Superpowers:
   skills/using-workbench/references/using-superpowers-upstream.md
   skills/verification-before-completion/SKILL.md
   skills/writing-plans/SKILL.md
+  skills/test-driven-development/SKILL.md
   hooks/hooks.json
   hooks/run-hook.cmd
   hooks/session-start
