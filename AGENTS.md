@@ -45,7 +45,7 @@ tests/
 | `writing` | 1.6.1 | `writing`, `pyramid`, `tech-doc` |
 | `runtime-bridge` | 0.1.0 | `claude-codex-bridge` |
 | `agent-system-management` | 0.3.0 | `improving-instructions`, `capturing-session-learnings`, `creating-skills` |
-| `workbench` | 0.9.0 | `brainstorming`, `writing-spec`, `writing-plans`, `visualizing-options`, `using-workbench`, `terse-mode`, `autopilot`, `verification-before-completion`, `test-driven-development`, `dispatching-parallel-agents`, `subagent-driven-development` |
+| `workbench` | 0.9.1 | `brainstorming`, `writing-spec`, `writing-plans`, `visualizing-options`, `using-workbench`, `terse-mode`, `autopilot`, `verification-before-completion`, `test-driven-development`, `dispatching-parallel-agents`, `subagent-driven-development` |
 | `terminal` | 0.1.0 | `tmux` |
 
 ## How to Develop a New Skill
