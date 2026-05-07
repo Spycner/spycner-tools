@@ -1,0 +1,1 @@
+Fix the empty email validation bug with test-driven development.

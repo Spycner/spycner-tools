@@ -24,6 +24,10 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `visualizing-options` | workbench | Browser-based visual companion for layout choices |
 | `using-workbench` | workbench | Load Workbench skill rules and routing |
 | `terse-mode` | workbench | Explicit session switch for compact token-saving replies |
+| `autopilot` | workbench | Ship a feature from brainstorm to PR using a project profile |
+| `verification-before-completion` | workbench | Require fresh verification evidence before completion claims |
+| `writing-plans` | workbench | Turn approved specs into concrete implementation plans |
+| `test-driven-development` | workbench | Enforce test-first RED-GREEN-REFACTOR implementation discipline |
 | `creating-skills` | agent-system-management | Scaffold, iterate, pressure-test, and tune skills across the full lifecycle |
 
 ## Plugins
@@ -82,11 +86,14 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 
 **Skills:**
 - `/pgoell-claude-tools:brainstorming`: Sequential question-and-answer loop to clarify design intent. Hands off to `writing-spec` when the design is ready to be written down.
-- `/pgoell-claude-tools:writing-spec`: Synthesize a design discussion into a spec doc, run a fresh-eyes self-review subagent, gate on user approval, then hand off to `superpowers:writing-plans`.
+- `/pgoell-claude-tools:writing-spec`: Synthesize a design discussion into a spec doc, run a fresh-eyes self-review subagent, gate on user approval, then hand off to `workbench:writing-plans`.
 - `/pgoell-claude-tools:visualizing-options`: Browser-based visual companion for mockups, layout comparisons, wireframes, and architecture diagrams. The user clicks to choose between options.
 - `/pgoell-claude-tools:using-workbench`: Load Workbench skill rules and routing.
 - `/pgoell-claude-tools:terse-mode`: Explicit session switch for compact token-saving replies until disabled with normal mode.
 - `/pgoell-claude-tools:autopilot`: Ship a feature from brainstorm to PR using a project profile.
+- `/pgoell-claude-tools:verification-before-completion`: Require fresh verification evidence before completion claims.
+- `/pgoell-claude-tools:writing-plans`: Turn approved specs into concrete implementation plans.
+- `/pgoell-claude-tools:test-driven-development`: Enforce test-first RED-GREEN-REFACTOR implementation discipline.
 
 Autopilot profiles are documented in `plugins/workbench/skills/autopilot/references/profile-schema.md`.
 

@@ -60,7 +60,7 @@ Every plan MUST start with this header:
 ```markdown
 # [Feature Name] Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:test-driven-development` for implementation chunks. Use `superpowers:subagent-driven-development` when independent tasks can be delegated, or execute sequentially in the main session when subagents are unavailable. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use `workbench:test-driven-development` for implementation chunks. Use `superpowers:subagent-driven-development` when independent tasks can be delegated, or execute sequentially in the main session when subagents are unavailable. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** [One sentence describing what this builds]
 
@@ -148,7 +148,7 @@ After saving the plan, report the path and offer the execution route that fits t
 ```text
 Plan complete and saved to `<path>`.
 
-Recommended execution: use `superpowers:test-driven-development` for each implementation chunk. If subagents are available, use `superpowers:subagent-driven-development`; otherwise execute the checkbox steps sequentially in this session.
+Recommended execution: use `workbench:test-driven-development` for each implementation chunk. If subagents are available, use `superpowers:subagent-driven-development`; otherwise execute the checkbox steps sequentially in this session.
 ```
 
 Do not start implementation until the plan is saved, the reviewer pass is complete, and the required implementation discipline is clear.
