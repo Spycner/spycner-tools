@@ -115,6 +115,22 @@
         "displayName": "Workbench",
         "shortDescription": "Design and ship with Workbench skills"
       }
+    },
+    {
+      "name": "terminal",
+      "source": {
+        "source": "local",
+        "path": "./plugins/terminal"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools",
+      "interface": {
+        "displayName": "Terminal",
+        "shortDescription": "Control interactive CLIs through tmux"
+      }
     }
   ]
 }

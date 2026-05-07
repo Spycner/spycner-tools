@@ -1,0 +1,15 @@
+{
+  "name": "terminal",
+  "version": "0.1.0",
+  "description": "Control interactive terminal programs through tmux.",
+  "author": {
+    "name": "Pascal Göllner"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "terminal",
+    "tmux",
+    "interactive",
+    "cli"
+  ]
+}

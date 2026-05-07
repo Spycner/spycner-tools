@@ -1,0 +1,33 @@
+{
+  "name": "terminal",
+  "version": "0.1.0",
+  "description": "Control interactive terminal programs through tmux.",
+  "author": {
+    "name": "Pascal Göllner"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "terminal",
+    "tmux",
+    "interactive",
+    "cli"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Terminal",
+    "shortDescription": "Control interactive CLIs through tmux",
+    "longDescription": "Use tmux sessions to drive interactive terminal programs, inspect pane output, and experiment with steering nested agent CLI sessions.",
+    "developerName": "Pascal Göllner",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use tmux to drive this interactive CLI",
+      "Start a Python REPL in tmux and inspect it",
+      "Try steering a Codex session through tmux"
+    ],
+    "screenshots": []
+  }
+}
