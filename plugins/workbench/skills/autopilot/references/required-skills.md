@@ -11,7 +11,8 @@ The universal table that the autopilot skill walks at the pre-PR audit. Profiles
 | 3 | `workbench:writing-spec` | already ported into workbench |
 | 4 | `workbench:writing-plans` | already ported into workbench |
 | 5 | `workbench:test-driven-development` | ported into workbench |
-| 5 | `superpowers:subagent-driven-development` | not yet ported |
+| 5 | `workbench:dispatching-parallel-agents` | governs safe fanout for independent tasks |
+| 5 | `workbench:subagent-driven-development` | governs plan execution with subagents |
 | 6 | `agent-system-management:capturing-session-learnings` | cross-plugin |
 | 6 | `agent-system-management:improving-instructions` | cross-plugin |
 | pre-PR | `workbench:verification-before-completion` | verify before push and PR readiness claims |

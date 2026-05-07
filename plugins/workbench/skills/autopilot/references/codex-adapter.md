@@ -14,7 +14,7 @@ This doc maps the autopilot skill's tool references to Codex equivalents. The au
 
 ## Subagent strategy on Codex
 
-`superpowers:subagent-driven-development` is best-effort on Codex. The autopilot expects a fresh subagent per plan task. If Codex's runtime exposes such a primitive, use it. If it does not, fall back to **sequential execution in the main session with explicit context-reset discipline**:
+`workbench:subagent-driven-development` is best-effort on Codex. The autopilot expects a fresh subagent per plan task. If Codex's runtime exposes such a primitive, use it. If it does not, fall back to **sequential execution in the main session with explicit context-reset discipline**:
 
 1. Treat each plan task as its own logical scope.
 2. Before starting a task, write a one-line context-reset note: `--- starting task <n>: <title> ---`. This is for legibility, not behavior.
@@ -22,7 +22,7 @@ This doc maps the autopilot skill's tool references to Codex equivalents. The au
 4. After completing a task, write a one-line note: `--- completed task <n> ---`.
 5. Continue with the next task.
 
-Sequential fallback gives up the parallelism of independent tasks but preserves the per-task discipline of subagent-driven-development.
+Sequential fallback gives up the fanout from `workbench:dispatching-parallel-agents` but preserves the per-task discipline of subagent-driven-development.
 
 ## CI polling shape (step 8)
 

@@ -19,7 +19,7 @@ Plan tasks dispatch through `Agent` with `subagent_type=general-purpose`. Three 
 
 ### Independent tasks (parallel)
 
-No shared files, no ordering dependency. Send multiple `Agent` calls in a single message; they run in parallel.
+No shared files, no ordering dependency. Invoke `workbench:dispatching-parallel-agents`, then send multiple `Agent` calls in a single message; they run in parallel.
 
 Typical examples:
 
