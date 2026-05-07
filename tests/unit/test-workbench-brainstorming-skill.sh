@@ -59,13 +59,13 @@ else
     echo "[PASS] no em or en-dash"
 fi
 
-# Test 7: Plugin manifests at 0.6.0
+# Test 7: Plugin manifests at 0.7.0
 CCM="$REPO_ROOT/plugins/workbench/.claude-plugin/plugin.json"
 CXM="$REPO_ROOT/plugins/workbench/.codex-plugin/plugin.json"
-if jq -e '.version == "0.6.0"' "$CCM" >/dev/null && jq -e '.version == "0.6.0"' "$CXM" >/dev/null; then
-    echo "[PASS] plugin manifests at 0.6.0"
+if jq -e '.version == "0.7.0"' "$CCM" >/dev/null && jq -e '.version == "0.7.0"' "$CXM" >/dev/null; then
+    echo "[PASS] plugin manifests at 0.7.0"
 else
-    echo "[FAIL] plugin manifests not at 0.6.0"; exit 1
+    echo "[FAIL] plugin manifests not at 0.7.0"; exit 1
 fi
 
 echo "=== Tests complete ==="
