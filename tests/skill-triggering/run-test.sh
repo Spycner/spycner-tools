@@ -7,6 +7,12 @@ REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 export PLUGIN_DIR="${PLUGIN_DIR:-$REPO_DIR/plugins/atlassian}"
 cd "$REPO_DIR"
 
+NEGATIVE=false
+if [ "${1:-}" = "--not" ]; then
+    NEGATIVE=true
+    shift
+fi
+
 EXPECTED_SKILL="$1"
 PROMPT_FILE="$2"
 PROMPT="$(cat "$PROMPT_FILE")"
@@ -32,9 +38,20 @@ fi
 # Check if the skill was triggered
 SKILL_PATTERN="\"skill\":\"([^\"]*:)?${EXPECTED_SKILL}\""
 if grep -qE "$SKILL_PATTERN" "$LOG_FILE"; then
+    if $NEGATIVE; then
+        echo "  [FAIL] Skill '$EXPECTED_SKILL' was triggered"
+        echo "  Log file (first 500 chars):"
+        head -c 500 "$LOG_FILE" | sed 's/^/    /'
+        exit 1
+    fi
     echo "  [PASS] Skill '$EXPECTED_SKILL' was triggered"
 else
-    echo "  [FAIL] Skill '$EXPECTED_SKILL' was NOT triggered"
-    echo "  Log file (first 500 chars):"
-    head -c 500 "$LOG_FILE" | sed 's/^/    /'
+    if $NEGATIVE; then
+        echo "  [PASS] Skill '$EXPECTED_SKILL' was not triggered"
+    else
+        echo "  [FAIL] Skill '$EXPECTED_SKILL' was NOT triggered"
+        echo "  Log file (first 500 chars):"
+        head -c 500 "$LOG_FILE" | sed 's/^/    /'
+        exit 1
+    fi
 fi
