@@ -21,6 +21,8 @@ Files derived from upstream Superpowers:
   skills/verification-before-completion/SKILL.md
   skills/writing-plans/SKILL.md
   skills/test-driven-development/SKILL.md
+  skills/dispatching-parallel-agents/SKILL.md
+  skills/subagent-driven-development/SKILL.md
   hooks/hooks.json
   hooks/run-hook.cmd
   hooks/session-start

@@ -11,6 +11,8 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 - `verification-before-completion`: Require fresh verification evidence before completion claims.
 - `writing-plans`: Turn approved specs into concrete implementation plans.
 - `test-driven-development`: Enforce test-first RED-GREEN-REFACTOR implementation discipline.
+- `dispatching-parallel-agents`: Split independent tasks across concurrent agents.
+- `subagent-driven-development`: Execute implementation plans with fresh agents and review gates.
 
 ## Project profiles
 

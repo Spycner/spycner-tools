@@ -1,0 +1,1 @@
+Execute this implementation plan with a fresh subagent per task and review gates between tasks.

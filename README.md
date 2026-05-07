@@ -28,6 +28,8 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `verification-before-completion` | workbench | Require fresh verification evidence before completion claims |
 | `writing-plans` | workbench | Turn approved specs into concrete implementation plans |
 | `test-driven-development` | workbench | Enforce test-first RED-GREEN-REFACTOR implementation discipline |
+| `dispatching-parallel-agents` | workbench | Split independent tasks across concurrent agents |
+| `subagent-driven-development` | workbench | Execute implementation plans with fresh agents and review gates |
 | `creating-skills` | agent-system-management | Scaffold, iterate, pressure-test, and tune skills across the full lifecycle |
 
 ## Plugins
@@ -94,6 +96,8 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 - `/pgoell-claude-tools:verification-before-completion`: Require fresh verification evidence before completion claims.
 - `/pgoell-claude-tools:writing-plans`: Turn approved specs into concrete implementation plans.
 - `/pgoell-claude-tools:test-driven-development`: Enforce test-first RED-GREEN-REFACTOR implementation discipline.
+- `/pgoell-claude-tools:dispatching-parallel-agents`: Split independent tasks across concurrent agents.
+- `/pgoell-claude-tools:subagent-driven-development`: Execute implementation plans with fresh agents and review gates.
 
 Autopilot profiles are documented in `plugins/workbench/skills/autopilot/references/profile-schema.md`.
 

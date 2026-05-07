@@ -46,7 +46,7 @@ Read `references/required-skills.md` for the full table and `replaces` / `additi
 | 2 | `workbench:brainstorming` |
 | 3 | `workbench:writing-spec` |
 | 4 | `workbench:writing-plans` |
-| 5 | `workbench:test-driven-development` and `superpowers:subagent-driven-development` |
+| 5 | `workbench:test-driven-development`, `workbench:dispatching-parallel-agents`, and `workbench:subagent-driven-development` |
 | 6 | `agent-system-management:capturing-session-learnings` and `agent-system-management:improving-instructions` |
 | pre-PR | `workbench:verification-before-completion` |
 
@@ -54,7 +54,7 @@ If a listed skill is unavailable in the current runtime, say so explicitly in th
 
 ## Runtime adapters
 
-This skill uses Claude Code tool names by default. If running on Codex, see `references/codex-adapter.md` for the tool-name mapping and the sequential-fallback note for subagent-driven-development. For Claude Code specifics (subagent dispatch patterns, CI polling shape, error recovery), see `references/claude-code-adapter.md`.
+This skill uses Claude Code tool names by default. If running on Codex, see `references/codex-adapter.md` for the tool-name mapping and the sequential fallback note for subagent-driven-development. For Claude Code specifics (subagent dispatch patterns, CI polling shape, error recovery), see `references/claude-code-adapter.md`.
 
 ---
 
@@ -135,7 +135,7 @@ If `Hooks.post_plan` is defined, run it now with `{{plan_path}}` substituted.
 
 ### Step 5: Execute the plan
 
-**First actions, in order:** invoke `workbench:test-driven-development`, then `superpowers:subagent-driven-development`. Both via the `Skill` tool. (Replace either if the profile says so.) TDD governs every implementation chunk; subagent-driven-development governs how those chunks run.
+**First actions, in order:** invoke `workbench:test-driven-development`, then `workbench:dispatching-parallel-agents`, then `workbench:subagent-driven-development`. All three via the `Skill` tool. (Replace any of them if the profile says so.) TDD governs every implementation chunk, dispatching-parallel-agents governs safe fanout, and subagent-driven-development governs how chunks run.
 
 **Subagent dispatch (Claude Code):** see `references/claude-code-adapter.md` for the full pattern. Summary:
 
