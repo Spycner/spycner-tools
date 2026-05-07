@@ -7,6 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 SKILL_DIR="$REPO_ROOT/plugins/workbench/skills/writing-plans"
 SKILL_MD="$SKILL_DIR/SKILL.md"
+REVIEWER="$SKILL_DIR/plan-reviewer-prompt.md"
 
 echo "=== Test: workbench:writing-plans skill ==="
 
@@ -16,7 +17,7 @@ else
     echo "[FAIL] SKILL.md missing or no frontmatter"; exit 1
 fi
 
-for marker in 'Path Resolution' 'Scope Check' 'File Structure' 'Bite-Sized Task Granularity' 'Plan Document Header' 'Task Structure' 'No Placeholders' 'Self-Review' 'Execution Handoff'; do
+for marker in 'Path Resolution' 'Scope Check' 'File Structure' 'Bite-Sized Task Granularity' 'Plan Document Header' 'Task Structure' 'No Placeholders' 'Plan Review' 'Execution Handoff'; do
     if grep -qF "$marker" "$SKILL_MD"; then
         echo "[PASS] body mentions $marker"
     else
@@ -31,6 +32,20 @@ for marker in 'workbench:writing-spec' 'checkbox (`- [ ]`) syntax' 'exact file p
         echo "[FAIL] planning rule missing $marker"; exit 1
     fi
 done
+
+for marker in 'fresh-eyes reviewer subagent' 'plan-reviewer-prompt.md' 'Apply the reviewer' 'reviewer pass is complete'; do
+    if grep -qF "$marker" "$SKILL_MD"; then
+        echo "[PASS] reviewer flow mentions $marker"
+    else
+        echo "[FAIL] reviewer flow missing $marker"; exit 1
+    fi
+done
+
+if [ -s "$REVIEWER" ] && grep -qF 'Plan Reviewer Prompt Template' "$REVIEWER" && grep -qF 'Review implementation plan' "$REVIEWER"; then
+    echo "[PASS] plan-reviewer-prompt.md present and well-formed"
+else
+    echo "[FAIL] plan reviewer prompt missing or incomplete"; exit 1
+fi
 
 if grep -qP '[\x{2013}\x{2014}]' "$SKILL_MD"; then
     echo "[FAIL] em-dash or en-dash in SKILL.md"; exit 1

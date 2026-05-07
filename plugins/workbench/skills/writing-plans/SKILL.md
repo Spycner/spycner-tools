@@ -124,9 +124,14 @@ Never write plan steps that leave work to interpretation:
 - Code steps that omit the code, command, expected output, or file path.
 - References to types, functions, files, or methods not introduced by the plan or already present in the codebase.
 
-## Self-Review
+## Plan Review
 
-After writing the plan, review it yourself before presenting it:
+After writing the plan, dispatch a fresh-eyes reviewer subagent before presenting it. The reviewer should not receive the conversation history. Give it only the plan path, the source spec or requirements path when available, and the prompt template in `plan-reviewer-prompt.md`.
+
+Claude Code: `Agent` tool, `general-purpose` subagent_type, no model override.
+Codex: equivalent general-purpose subagent.
+
+The reviewer checks:
 
 1. Spec coverage: each requirement maps to at least one task.
 2. Placeholder scan: the plan contains none of the forbidden placeholder patterns.
@@ -134,7 +139,7 @@ After writing the plan, review it yourself before presenting it:
 4. Testability: every implementation task has a command that proves the change.
 5. Scope: the plan still fits one coherent implementation sequence.
 
-Fix any issue inline. No separate review pass is required.
+Apply the reviewer's blocking findings inline. No re-review is required. Advisory recommendations do not block handoff unless they expose a real implementation risk.
 
 ## Execution Handoff
 
@@ -146,4 +151,4 @@ Plan complete and saved to `<path>`.
 Recommended execution: use `superpowers:test-driven-development` for each implementation chunk. If subagents are available, use `superpowers:subagent-driven-development`; otherwise execute the checkbox steps sequentially in this session.
 ```
 
-Do not start implementation until the plan is saved and the required implementation discipline is clear.
+Do not start implementation until the plan is saved, the reviewer pass is complete, and the required implementation discipline is clear.
