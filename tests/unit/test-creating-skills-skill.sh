@@ -16,8 +16,8 @@ SKILL_MD="$SKILL_DIR/SKILL.md"
 echo "=== Test: agent-system-management:creating-skills skill structure ==="
 echo ""
 
-# Test 1: Plugin manifests exist, parse, and are at 0.2.0
-echo "Test 1: Plugin manifests at 0.2.0..."
+# Test 1: Plugin manifests exist, parse, and are at 0.3.0
+echo "Test 1: Plugin manifests at 0.3.0..."
 for manifest in .claude-plugin/plugin.json .codex-plugin/plugin.json; do
     f="$PLUGIN_ROOT/$manifest"
     if [ ! -f "$f" ]; then
@@ -29,11 +29,11 @@ for manifest in .claude-plugin/plugin.json .codex-plugin/plugin.json; do
         exit 1
     fi
     version=$(jq -r .version "$f")
-    if [ "$version" != "0.2.0" ]; then
-        echo "  [FAIL] $manifest version is $version, expected 0.2.0"
+    if [ "$version" != "0.3.0" ]; then
+        echo "  [FAIL] $manifest version is $version, expected 0.3.0"
         exit 1
     fi
-    echo "  [PASS] $manifest exists, parses, version 0.2.0"
+    echo "  [PASS] $manifest exists, parses, version 0.3.0"
 done
 echo ""
 
@@ -187,6 +187,28 @@ for mkt in .claude-plugin/marketplace.json .agents/plugins/marketplace.json; do
         exit 1
     fi
 done
+echo ""
+
+# Test 12: Version bump invariant is explicit
+echo "Test 12: Version bump invariant..."
+if grep -qF 'Version bump required for every plugin change' "$SKILL_MD"; then
+    echo "  [PASS] SKILL.md requires plugin version bumps"
+else
+    echo "  [FAIL] SKILL.md missing version bump invariant"
+    exit 1
+fi
+if grep -qF 'Every plugin change bumps version' "$REPO_ROOT/AGENTS.md"; then
+    echo "  [PASS] AGENTS.md requires plugin version bumps"
+else
+    echo "  [FAIL] AGENTS.md missing plugin version bump rule"
+    exit 1
+fi
+if jq -e '.plugins[] | select(.name == "agent-system-management") | .version == "0.3.0"' "$REPO_ROOT/.claude-plugin/marketplace.json" >/dev/null; then
+    echo "  [PASS] Claude marketplace agent-system-management at 0.3.0"
+else
+    echo "  [FAIL] Claude marketplace agent-system-management not at 0.3.0"
+    exit 1
+fi
 echo ""
 
 echo "=== Tests complete ==="
