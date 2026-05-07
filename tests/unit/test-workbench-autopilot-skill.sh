@@ -157,31 +157,43 @@ else
 fi
 echo ""
 
-# Test 11: Plugin manifests at 0.9.0
-echo "Test 11: Plugin manifests at 0.9.0..."
+# Test 11: Autopilot task-list discipline
+echo "Test 11: Autopilot task-list discipline..."
+for term in 'Task List Discipline' 'TodoWrite' 'update_plan' 'exactly one item `in_progress`' 'After step 4 writes the implementation plan' 'Step 5: <plan task>' 'end-of-turn summary'; do
+    if grep -qF "$term" "$SKILL_MD"; then
+        echo "  [PASS] SKILL.md mentions $term"
+    else
+        echo "  [FAIL] SKILL.md missing task-list term: $term"
+        exit 1
+    fi
+done
+echo ""
+
+# Test 12: Plugin manifests at 0.9.1
+echo "Test 12: Plugin manifests at 0.9.1..."
 CCM="$REPO_ROOT/plugins/workbench/.claude-plugin/plugin.json"
 CXM="$REPO_ROOT/plugins/workbench/.codex-plugin/plugin.json"
-if jq -e '.version == "0.9.0"' "$CCM" >/dev/null && jq -e '.version == "0.9.0"' "$CXM" >/dev/null; then
-    echo "  [PASS] both plugin manifests at 0.9.0"
+if jq -e '.version == "0.9.1"' "$CCM" >/dev/null && jq -e '.version == "0.9.1"' "$CXM" >/dev/null; then
+    echo "  [PASS] both plugin manifests at 0.9.1"
 else
-    echo "  [FAIL] plugin manifests not at 0.9.0"
+    echo "  [FAIL] plugin manifests not at 0.9.1"
     exit 1
 fi
 echo ""
 
-# Test 12: Marketplace entries at 0.9.0
-echo "Test 12: Marketplace entries..."
+# Test 13: Marketplace entries at 0.9.1
+echo "Test 13: Marketplace entries..."
 MP="$REPO_ROOT/.claude-plugin/marketplace.json"
-if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.9.0"' "$MP" >/dev/null; then
-    echo "  [PASS] Claude marketplace workbench at 0.9.0"
+if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.9.1"' "$MP" >/dev/null; then
+    echo "  [PASS] Claude marketplace workbench at 0.9.1"
 else
-    echo "  [FAIL] Claude marketplace workbench not at 0.9.0"
+    echo "  [FAIL] Claude marketplace workbench not at 0.9.1"
     exit 1
 fi
 echo ""
 
-# Test 13: Old claude-md-management skill IDs are absent from SKILL.md and required-skills.md
-echo "Test 13: Old claude-md-management skill IDs absent from autopilot files..."
+# Test 14: Old claude-md-management skill IDs are absent from SKILL.md and required-skills.md
+echo "Test 14: Old claude-md-management skill IDs absent from autopilot files..."
 RS="$SKILL_DIR/references/required-skills.md"
 for old_id in 'claude-md-management:revise-claude-md' 'claude-md-management:claude-md-improver'; do
     if grep -qF "$old_id" "$SKILL_MD"; then
@@ -199,8 +211,8 @@ for old_id in 'claude-md-management:revise-claude-md' 'claude-md-management:clau
 done
 echo ""
 
-# Test 14: required-skills.md has Step 3 row for writing-spec
-echo "Test 14: required-skills.md has Step 3 row for writing-spec..."
+# Test 15: required-skills.md has Step 3 row for writing-spec
+echo "Test 15: required-skills.md has Step 3 row for writing-spec..."
 RS="$SKILL_DIR/references/required-skills.md"
 if grep -qE '^\| 3 \| `workbench:writing-spec`' "$RS"; then
     echo "  [PASS] Step 3 row present in required-skills.md"

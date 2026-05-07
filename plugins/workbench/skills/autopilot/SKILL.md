@@ -25,6 +25,19 @@ If the file exists:
 
 A field that no source provides and the active step needs stops the workflow with a question.
 
+## Task List Discipline
+
+Autopilot maintains a visible task list for the whole run and keeps it current. This is part of the workflow contract, not optional reporting.
+
+- Create the task list immediately after bootstrap and before step 0. Use one top-level item per autopilot step, plus one item for the skill audit.
+- Use the runtime's task-list primitive. Claude Code: `TodoWrite`. Codex: `update_plan`.
+- Keep exactly one item `in_progress` while work is active. Mark an item `completed` as soon as its step finishes.
+- Expand the task list dynamically when new work becomes known. After step 4 writes the implementation plan, add each implementation checkbox as a task-list item nested by naming convention, for example `Step 5: <plan task>`.
+- Add discovered follow-up tasks when hooks, audits, CI failures, or docs updates create real work. Do not add speculative items.
+- Before dispatching a subagent, mark the owned task in progress or add a concrete task-list item for that agent's assignment. When the subagent returns, update that item based on its result.
+- Keep the task list aligned with the committed or scratch plan. If the plan changes, update the task list in the same turn before executing the changed work.
+- In the end-of-turn summary, mention any task-list item that remains incomplete and why.
+
 ## Non-negotiables
 
 See `references/invariants.md` for the full list. Summary:
