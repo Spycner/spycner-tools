@@ -45,6 +45,12 @@
       "source": "./plugins/workbench",
       "description": "Personal Workbench skills for design and autonomous feature work.",
       "version": "0.9.0"
+    },
+    {
+      "name": "terminal",
+      "source": "./plugins/terminal",
+      "description": "Control interactive terminal programs through tmux.",
+      "version": "0.1.0"
     }
   ]
 }

@@ -30,6 +30,7 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `test-driven-development` | workbench | Enforce test-first RED-GREEN-REFACTOR implementation discipline |
 | `dispatching-parallel-agents` | workbench | Split independent tasks across concurrent agents |
 | `subagent-driven-development` | workbench | Execute implementation plans with fresh agents and review gates |
+| `tmux` | terminal | Control interactive terminal programs through isolated tmux sessions |
 | `creating-skills` | agent-system-management | Scaffold, iterate, pressure-test, and tune skills across the full lifecycle |
 
 ## Plugins
@@ -101,6 +102,13 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 
 Autopilot profiles are documented in `plugins/workbench/skills/autopilot/references/profile-schema.md`.
 
+### terminal
+
+Terminal skills for interactive command-line programs.
+
+**Skills:**
+- `/pgoell-claude-tools:tmux`: Drive interactive CLIs, REPLs, debuggers, and experimental nested agent sessions through isolated tmux sessions.
+
 ## Installation
 
 ### Claude Code
@@ -114,6 +122,7 @@ Autopilot profiles are documented in `plugins/workbench/skills/autopilot/referen
 /plugin install runtime-bridge@pgoell-claude-tools
 /plugin install agent-system-management@pgoell-claude-tools
 /plugin install workbench@pgoell-claude-tools
+/plugin install terminal@pgoell-claude-tools
 ```
 
 ### Codex
@@ -131,7 +140,7 @@ codex
 /plugins
 ```
 
-In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, and `workbench`.
+In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, and `terminal`.
 
 `codex plugin marketplace add` accepts `owner/repo[@ref]`, an HTTPS or SSH Git URL, or a local marketplace root directory. The marketplace file lives at `.agents/plugins/marketplace.json` and the per-plugin Codex manifests live at `plugins/<plugin>/.codex-plugin/plugin.json`. Both reuse the same `plugins/<plugin>/skills/` directories as Claude Code, single sourced.
 
@@ -181,3 +190,7 @@ No setup required. In any project, ask the skill to align Claude Code and Codex 
 ### agent-system-management
 
 No setup required. Three skills in one plugin: ask `improving-instructions` to "audit my CLAUDE.md files" (cold audit), `capturing-session-learnings` to "update AGENTS.md with what we learned this session" (warm capture), or `creating-skills` to "scaffold a new skill in this marketplace", "iterate on this skill until it triggers reliably", "pressure-test this discipline skill", "optimize the description for triggering", or "turn this conversation into a reusable skill". The instruction skills operate on local agent-instruction files only (no network); the lifecycle skill detects the marketplace shape (Claude Code, Codex, or both) and adapts.
+
+### terminal
+
+Install `tmux` on Linux, macOS, or WSL. Native Windows terminals are not supported by the `tmux` skill.
