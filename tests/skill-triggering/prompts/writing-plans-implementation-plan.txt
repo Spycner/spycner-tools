@@ -1,0 +1,1 @@
+I have an approved spec for a small feature. Please turn it into a concrete implementation plan with exact files, checkbox steps, tests, and commit points.

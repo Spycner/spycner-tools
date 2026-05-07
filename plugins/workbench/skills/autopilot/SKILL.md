@@ -45,7 +45,7 @@ Read `references/required-skills.md` for the full table and `replaces` / `additi
 | 0 | `workbench:using-workbench` |
 | 2 | `workbench:brainstorming` |
 | 3 | `workbench:writing-spec` |
-| 4 | `superpowers:writing-plans` |
+| 4 | `workbench:writing-plans` |
 | 5 | `superpowers:test-driven-development` and `superpowers:subagent-driven-development` |
 | 6 | `agent-system-management:capturing-session-learnings` and `agent-system-management:improving-instructions` |
 | pre-PR | `workbench:verification-before-completion` |
@@ -122,7 +122,7 @@ If `Hooks.post_spec` is defined in the profile, run it now with `{{spec_path}}` 
 
 ### Step 4: Write the implementation plan
 
-**First action:** invoke `superpowers:writing-plans` via the `Skill` tool. (If the profile replaces this row, invoke the replacement.)
+**First action:** invoke `workbench:writing-plans` via the `Skill` tool. (If the profile replaces this row, invoke the replacement.)
 
 Then:
 

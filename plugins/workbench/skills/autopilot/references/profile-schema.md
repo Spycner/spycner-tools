@@ -133,7 +133,7 @@ Each hook value is a shell command. The autopilot skill substitutes `{{pr}}`, `{
 
 The profile's `## Required skills` table supports two operations on the autopilot skill's universal required-skills table (defined in `references/required-skills.md` once PR 2 lands):
 
-- **Replace.** A row matching an existing step swaps which skill fulfills it. Example: `Step 4 | workbench:writing-plans | replaces superpowers:writing-plans`. The audit walks the replacement instead of the universal row.
+- **Replace.** A row matching an existing step swaps which skill fulfills it. Example: `Step 4 | my-project:writing-plans | replaces workbench:writing-plans`. The audit walks the replacement instead of the universal row.
 - **Additional.** A row marked `additional` adds a new mandatory skill at a step. Example: `Step 6 | my-project:custom-changelog | additional`. The audit walks the universal row and the additional row.
 
 Removal is not supported. The profile cannot weaken the universal discipline floor.

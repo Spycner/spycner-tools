@@ -5,7 +5,7 @@ description: "Use when a design discussion is ready to be written into a spec do
 
 # Writing a Design Spec
 
-Take a design discussion and synthesize it into a written spec document. Run a fresh-eyes self-review, fix issues inline, gate on user approval, then recommend `superpowers:writing-plans` as the next step.
+Take a design discussion and synthesize it into a written spec document. Run a fresh-eyes self-review, fix issues inline, gate on user approval, then recommend `workbench:writing-plans` as the next step.
 
 ## When to Invoke
 
@@ -23,7 +23,7 @@ You MUST create a task for each of these items and complete them in order:
 4. **Apply the reviewer's findings inline.** No re-review.
 5. **Present to the user for approval.**
 6. **Commit the spec** if the path is committable.
-7. **Recommend `superpowers:writing-plans`** as the next skill.
+7. **Recommend `workbench:writing-plans`** as the next skill.
 
 ## Path Resolution
 
@@ -74,7 +74,7 @@ Wait for the user's response. If they request changes, make them and re-run the 
 
 ## Handoff
 
-The terminal action of this skill is recommending `superpowers:writing-plans`. Do not invoke any implementation skill yourself. The spec is the artifact; the plan comes next.
+The terminal action of this skill is recommending `workbench:writing-plans`. Do not invoke any implementation skill yourself. The spec is the artifact; the plan comes next.
 
 ## Reference
 

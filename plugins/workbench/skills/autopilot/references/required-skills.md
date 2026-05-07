@@ -9,7 +9,7 @@ The universal table that the autopilot skill walks at the pre-PR audit. Profiles
 | 0 | `workbench:using-workbench` | session-start meta, workbench-native fork |
 | 2 | `workbench:brainstorming` | already ported into workbench |
 | 3 | `workbench:writing-spec` | already ported into workbench |
-| 4 | `superpowers:writing-plans` | not yet ported into workbench |
+| 4 | `workbench:writing-plans` | already ported into workbench |
 | 5 | `superpowers:test-driven-development` | not yet ported |
 | 5 | `superpowers:subagent-driven-development` | not yet ported |
 | 6 | `agent-system-management:capturing-session-learnings` | cross-plugin |
@@ -39,10 +39,10 @@ A row whose `Action` column says `replaces <skill-id>` swaps which skill fulfill
 Example:
 
 ```md
-| 4 | workbench:writing-plans | replaces superpowers:writing-plans |
+| 4 | my-project:writing-plans | replaces workbench:writing-plans |
 ```
 
-This says "for step 4, audit `workbench:writing-plans` instead of `superpowers:writing-plans`." The other six universal rows are unchanged.
+This says "for step 4, audit `my-project:writing-plans` instead of `workbench:writing-plans`." The other six universal rows are unchanged.
 
 ### Additional
 

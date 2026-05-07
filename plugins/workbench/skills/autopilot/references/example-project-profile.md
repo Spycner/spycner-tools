@@ -53,7 +53,7 @@ Hooks:
 ## Required skills
 | Step | Skill | Action |
 |---|---|---|
-| 4 | workbench:writing-plans | replaces superpowers:writing-plans |
+| 4 | my-project:writing-plans | replaces workbench:writing-plans |
 | 6 | widgetshop:regenerate-changelog | additional |
 
 ## Project-specific rules
