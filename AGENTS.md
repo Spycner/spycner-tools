@@ -202,6 +202,7 @@ PLUGIN_DIR=plugins/<plugin> bash tests/integration/test-<service>-integration.sh
 
 # Skill triggering
 PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh <skill> tests/skill-triggering/prompts/<prompt>.txt
+PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh --not <skill> tests/skill-triggering/prompts/<prompt>.txt
 ```
 
 ## Design Decisions
