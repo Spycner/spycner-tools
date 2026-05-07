@@ -14,8 +14,9 @@ The universal table that the autopilot skill walks at the pre-PR audit. Profiles
 | 5 | `superpowers:subagent-driven-development` | not yet ported |
 | 6 | `agent-system-management:capturing-session-learnings` | cross-plugin |
 | 6 | `agent-system-management:improving-instructions` | cross-plugin |
+| pre-PR | `workbench:verification-before-completion` | verify before push and PR readiness claims |
 
-These are the rows shipped with workbench v0.3.0. As more skills are ported into workbench, this table flips them to `workbench:*`.
+These are the rows shipped with Workbench. As more skills are ported into workbench, this table flips them to `workbench:*`.
 
 `fewer-permission-prompts` is intentionally not in the universal table. It is Claude-Code-specific (touches `.claude/settings.json`) and an optimization rather than a discipline gate. Projects that want it can add it via `additional` (see below).
 

@@ -190,6 +190,7 @@ These hold for every mode, in every runtime:
 - **No em-dashes in prose.** Forbid the Unicode characters at codepoints `U+2014` (em-dash) and `U+2013` (en-dash) anywhere in markdown files. Use commas, colons, periods, parentheses, or sentence splits instead. Hyphens (`U+002D`) in compound words are fine.
 - **Author = "Pascal Göllner"** (umlaut, not "Kraus") in every manifest, marketplace entry, and README.
 - **Conventional Commits.** Each commit uses an appropriate type (`feat`, `fix`, `docs`, `chore`, `test`, `refactor`) and a scope matching the plugin or area. No AI attribution lines in commits, PRs, or code.
+- **Version bump required for every plugin change.** Creating, editing, or testing a plugin skill is a plugin change. Bump the plugin version in the same commit or an adjacent release commit. New skills are minor bumps; fixes, docs, tests, and description changes are patch bumps unless they change behavior materially.
 - **Lockstep version.** When a plugin's version changes, update all four places that track it: both plugin manifests and both marketplace entries (where the marketplace tracks per-plugin versions).
 - **No wrapper scripts.** Skills call the underlying CLI or `curl` directly. No bundled bash or Python wrappers around CLIs the user already has.
 - **Lazy auth, never print secrets.** Skills attempt the operation first and diagnose auth failures only on error. Credentials, tokens, and API keys are never echoed or logged.

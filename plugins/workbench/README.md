@@ -8,6 +8,7 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 - `using-workbench`: Load Workbench skill rules and routing.
 - `terse-mode`: Explicit session switch for compact token-saving replies.
 - `autopilot`: Ship a feature from brainstorm to PR using a project profile.
+- `verification-before-completion`: Require fresh verification evidence before completion claims.
 
 ## Project profiles
 
