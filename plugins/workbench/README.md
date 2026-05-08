@@ -27,3 +27,5 @@ Workbench is designed to run alongside the upstream `superpowers` plugin. When a
 ## Credits
 
 This plugin includes content derived from the Superpowers plugin by Jesse Vincent (https://github.com/obra/superpowers), version 5.0.7, MIT-licensed. See the NOTICE file for the full list of derived files and the LICENSE file for the upstream license text.
+
+This plugin also includes content derived from [`ThariqS/html-effectiveness`](https://github.com/ThariqS/html-effectiveness) at commit `5d64f68`. It provides the 21-file HTML artifact gallery vendored under `skills/crafting-html/references/`. The upstream repository carries no declared license at time of port; the content is vendored under the upstream author's public publishing intent (see `NOTICE` for full attribution). U+2014 and U+2013 codepoints were substituted at port time per this repo's lint convention.
