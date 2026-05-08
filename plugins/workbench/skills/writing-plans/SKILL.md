@@ -152,3 +152,19 @@ Recommended execution: use `workbench:test-driven-development` for each implemen
 ```
 
 Do not start implementation until the plan is saved, the reviewer pass is complete, and the required implementation discipline is clear.
+
+## Output Format
+
+Default for this artifact: **md**.
+
+Override resolution order, highest precedence first:
+
+1. Per-invocation override in the user prompt. Recognize phrases like `"an HTML plan"`, `"in markdown"`, `"as a markdown plan"`, `"give me HTML"`, and equivalents.
+2. `.workbench/config.md` `## Output formats` entry for `Plans:`. Schema documented in `plugins/workbench/skills/autopilot/references/config-schema.md`.
+3. Per-skill hard-coded default (md).
+
+Path resolution order: `.workbench/autopilot.md` `## Documentation paths` `Plans:` first; then `.workbench/config.md` `## Output paths` `Plans:`; then `docs/plans/` default. Path and format resolve independently.
+
+When emitting HTML, follow the structural skeleton in `references/plan-template.html` in this skill's directory. Read the template lazily, only when actually producing the artifact. Do not introduce U+2014 or U+2013 codepoints in body copy; HTML entity forms (`&mdash;`, `&#8212;`, `&ndash;`, `&#8211;`) are permitted.
+
+For other HTML artifact types not covered by a workbench or research skill, see `workbench:crafting-html`.
