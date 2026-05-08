@@ -53,7 +53,7 @@ containers/
 |--------|---------|--------|
 | `atlassian` | 2.0.0 | `jira`, `confluence` |
 | `google-workspace` | 1.0.0 | `gmail`, `calendar` |
-| `research` | 2.0.0 | `research` (multi-agent pipeline with review gates) |
+| `research` | 2.1.0 | `research` (multi-agent pipeline with review gates) |
 | `writing` | 1.6.1 | `writing`, `pyramid`, `tech-doc` |
 | `runtime-bridge` | 0.1.0 | `claude-codex-bridge` |
 | `agent-system-management` | 0.4.2 | `improving-instructions`, `capturing-session-learnings`, `creating-skills` |
