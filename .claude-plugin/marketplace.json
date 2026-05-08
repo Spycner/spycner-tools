@@ -38,7 +38,7 @@
       "name": "agent-system-management",
       "source": "./plugins/agent-system-management",
       "description": "Audit AGENTS.md / CLAUDE.md, capture session learnings, and create Claude Code / Codex skills.",
-      "version": "0.3.0"
+      "version": "0.4.0"
     },
     {
       "name": "workbench",
