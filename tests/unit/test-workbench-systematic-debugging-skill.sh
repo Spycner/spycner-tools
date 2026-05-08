@@ -35,7 +35,8 @@ fi
 pass "no em/en-dashes in ported files"
 
 # 5-6. Bundled references + TS example exist and are non-empty (upstream flat layout).
-for ref in root-cause-tracing.md defense-in-depth.md condition-based-waiting.md; do
+# four-phases.md is workbench-authored: holds the detailed phase walk-through that was factored out of SKILL.md.
+for ref in root-cause-tracing.md defense-in-depth.md condition-based-waiting.md four-phases.md; do
   [ -s "$SKILL_DIR/$ref" ] || fail "$ref missing or empty"
 done
 [ -s "$SKILL_DIR/condition-based-waiting-example.ts" ] || fail "condition-based-waiting-example.ts missing or empty"
@@ -47,7 +48,7 @@ pass "all bundled references present"
 pass "find-polluter.sh shipped and executable"
 
 # 8. SKILL.md links to each reference filename.
-for ref in root-cause-tracing.md defense-in-depth.md condition-based-waiting.md; do
+for ref in root-cause-tracing.md defense-in-depth.md condition-based-waiting.md four-phases.md; do
   grep -q "$ref" "$SKILL_MD" || fail "SKILL.md does not reference $ref"
 done
 pass "SKILL.md links to all references"

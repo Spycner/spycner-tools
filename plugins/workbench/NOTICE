@@ -24,6 +24,7 @@ Files derived from upstream Superpowers:
   skills/dispatching-parallel-agents/SKILL.md
   skills/subagent-driven-development/SKILL.md
   skills/systematic-debugging/SKILL.md
+  skills/systematic-debugging/four-phases.md
   skills/systematic-debugging/root-cause-tracing.md
   skills/systematic-debugging/defense-in-depth.md
   skills/systematic-debugging/condition-based-waiting.md
