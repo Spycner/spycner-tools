@@ -1,14 +1,18 @@
-# Test patterns for skills in pgoell-claude-tools
+# Test patterns for skills in any plugin marketplace
+
+Adapts to the host repo's test layout via the convention probes in `SKILL.md`. Paths in this file use handlebars (`{{test_unit_dir}}`, `{{plugin_dir}}`, etc.) that are resolved at runtime from probe results.
 
 ## Overview
 
-Three categories of tests live in this repo. Unit tests are bash scripts that run filesystem and `jq` checks against plugin manifests and SKILL.md files. They are fast, deterministic, and require no network or auth, so write one for every new skill. Skill-triggering tests run a real Claude subprocess against a single natural-language prompt and verify the expected skill name appears in the model's tool-use trace, so write at least one per skill (more if the skill has distinct entry points). Integration tests exercise a live API or CLI end-to-end (create, read, update, delete) and are opt-in: write one only when the skill wraps an external service.
+Three categories of tests for skills. Unit tests are bash scripts that run filesystem and `jq` checks against plugin manifests and SKILL.md files. They are fast, deterministic, and require no network or auth, so write one for every new skill. Skill-triggering tests run a real Claude subprocess against a single natural-language prompt and verify the expected skill name appears in the model's tool-use trace, so write at least one per skill (more if the skill has distinct entry points). Integration tests exercise a live API or CLI end-to-end (create, read, update, delete) and are opt-in: write one only when the skill wraps an external service.
+
+If the host repo has no test layout at all (`{{test_unit_dir}}` and `{{test_triggering_dir}}` were absent in Probe 4), see `templates/bootstrap.md` for minimal scaffolds (frontmatter validator and skill-triggering runner) you can drop in.
 
 ## Unit tests (filesystem checks)
 
-Unit tests verify static structure, not Claude behavior. They live at `tests/unit/test-<service>-skill.sh` and use `bash` plus `jq` plus `grep`. Always write a unit test for a new skill: it catches typos, broken references, missing manifests, and en-dash slips before any subprocess runs.
+Unit tests verify static structure, not Claude behavior. They live at `{{test_unit_dir}}/test-<service>-skill.sh` and use `bash` plus `jq` plus `grep`. Always write a unit test for a new skill: it catches typos, broken references, missing manifests, and en-dash slips before any subprocess runs.
 
-Standard structure, modeled on `tests/unit/test-workbench-autopilot-skill.sh`:
+Standard structure (pattern after whichever existing skill test the probe found in `{{test_unit_dir}}`):
 
 ```bash
 #!/usr/bin/env bash
@@ -19,7 +23,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/../test-helpers.sh"
 
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-PLUGIN_ROOT="$REPO_ROOT/plugins/<plugin-name>"
+PLUGIN_ROOT="$REPO_ROOT/{{plugin_dir}}/<plugin-name>"
 SKILL_DIR="$PLUGIN_ROOT/skills/<skill-name>"
 SKILL_MD="$SKILL_DIR/SKILL.md"
 
@@ -31,8 +35,10 @@ echo "Test 1: Plugin manifests parse..."
 for m in "$PLUGIN_ROOT/.claude-plugin/plugin.json" "$PLUGIN_ROOT/.codex-plugin/plugin.json"; do
     if [ -f "$m" ] && jq empty "$m" 2>/dev/null; then
         echo "  [PASS] $m parses"
+    elif [ ! -f "$m" ]; then
+        echo "  [SKIP] $m not present in this marketplace"
     else
-        echo "  [FAIL] $m missing or malformed"
+        echo "  [FAIL] $m malformed"
         exit 1
     fi
 done
@@ -102,11 +108,11 @@ for n in 0 1 2 3 4 5; do
 done
 ```
 
-Output convention: `[PASS]` or `[FAIL]` with two-space indent, `exit 1` on the first failure, and a final `=== Tests complete ===` line. Run with `PLUGIN_DIR=plugins/<plugin> bash tests/unit/test-<service>-skill.sh`.
+Output convention: `[PASS]` or `[FAIL]` with two-space indent, `exit 1` on the first failure, and a final `=== Tests complete ===` line. Run with `PLUGIN_DIR={{plugin_dir}}/<plugin> bash {{test_unit_dir}}/test-<service>-skill.sh`.
 
 ## Skill-triggering tests (one prompt per file)
 
-Each prompt lives at `tests/skill-triggering/prompts/<skill>-<action>.txt` and contains a single realistic user message of one or two sentences. Action-led, with a concrete object (file path, project key, name) when realistic. The runner at `tests/skill-triggering/run-test.sh` greps the stream-json log for `"skill":"...:<expected-skill>"`; pass means the skill triggered.
+Each prompt lives at `{{test_triggering_dir}}/prompts/<skill>-<action>.txt` and contains a single realistic user message of one or two sentences. Action-led, with a concrete object (file path, project key, name) when realistic. The runner at `{{test_triggering_dir}}/run-test.sh` greps the stream-json log for `"skill":"...:<expected-skill>"`; pass means the skill triggered.
 
 Good examples:
 
@@ -127,14 +133,14 @@ help with jira
 Run command:
 
 ```bash
-PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh <skill> tests/skill-triggering/prompts/<file>.txt
+PLUGIN_DIR={{plugin_dir}}/<plugin> bash {{test_triggering_dir}}/run-test.sh <skill> {{test_triggering_dir}}/prompts/<file>.txt
 ```
 
 If a skill has multiple entry paths (for example a slash-command form and a natural-language form), write one prompt file per path. Add no-trigger negative prompts (e.g. `autopilot-no-trigger-spec-only.txt`) when you need to verify the skill stays quiet on adjacent intent.
 
 ## Integration tests (opt-in)
 
-Write an integration test only when the skill wraps a live API or CLI. Skills that only manipulate local files do not need one. Tests live at `tests/integration/test-<service>-integration.sh`. Use the auth helpers in `tests/test-helpers.sh` (`check_acli_auth`, `check_env_auth`, `check_any_auth`, `check_gws_auth`) and skip gracefully when auth is missing. Use `run_claude_logged` with a log file plus `show_tools_used` for diagnostics. Always clean up created resources, including on failure (use `trap`). See `tests/integration/test-jira-integration.sh` as the canonical model.
+Write an integration test only when the skill wraps a live API or CLI. Skills that only manipulate local files do not need one. Tests live at `{{test_integration_dir}}/test-<service>-integration.sh`. Use the auth helpers from the host repo's shared test helpers (often `{{test_unit_dir}}/../test-helpers.sh`, with functions like `check_acli_auth`, `check_env_auth`, `check_any_auth`, `check_gws_auth`) and skip gracefully when auth is missing. Use `run_claude_logged` with a log file plus `show_tools_used` for diagnostics. Always clean up created resources, including on failure (use `trap`). Pattern after whichever existing integration test the host repo already has.
 
 Outline:
 
@@ -172,12 +178,12 @@ assert_not_contains "$output" "401|403|unauthorized" "Update without auth errors
 echo "=== Integration tests complete ==="
 ```
 
-## Frontmatter lint (always run)
+## Frontmatter lint (always run if a linter exists)
 
-Every change to a SKILL.md must run:
+If Probe 5 found a frontmatter linter at `{{frontmatter_linter_path}}`, every change to a SKILL.md must run:
 
 ```bash
-bash tests/unit/test-skill-frontmatter-yaml.sh
+bash {{frontmatter_linter_path}}
 ```
 
 If it fails, surface the failure verbatim. Common failures:
@@ -187,6 +193,12 @@ If it fails, surface the failure verbatim. Common failures:
 - YAML frontmatter not at file start (line 1 is not `---`).
 - Unbalanced `---` delimiters (missing closing fence).
 
+If Probe 5 returned absent, drop the minimal scaffold from `templates/bootstrap.md` into `{{test_unit_dir}}/test-skill-frontmatter-yaml.sh`.
+
 ## How tests integrate with autopilot
 
-The workbench autopilot profile at `.workbench/autopilot.md` declares which lints run locally during step 7 (PR review). Frontmatter lint and unit tests run there because they are fast and offline. Integration tests are opt-in: run them locally when you have credentials, or in CI under a guarded job. Skill-triggering tests use a real Claude subprocess and are slow (one prompt costs tens of seconds), so they typically run only at PR review time, not on every commit.
+If the host repo uses `workbench:autopilot`, the autopilot profile (per that skill's docs) declares which lints run during PR review. Frontmatter lint and unit tests run there because they are fast and offline. Integration tests are opt-in: run them locally when you have credentials, or in CI under a guarded job. Skill-triggering tests use a real Claude subprocess and are slow (one prompt costs tens of seconds), so they typically run only at PR review time, not on every commit.
+
+## Bootstrap
+
+If Probe 5 found no frontmatter linter or Probe 4 found no `{{test_triggering_dir}}/run-test.sh`, drop in the minimal scaffolds from `templates/bootstrap.md`. Both are self-contained: the validator walks every `SKILL.md` under `{{plugin_dir}}` and checks frontmatter; the runner shells out to `claude -p ... --output-format stream-json` and greps the trace for the expected skill name.

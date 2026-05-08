@@ -149,10 +149,10 @@ Show the user a before/after side-by-side and report:
 - Final test score for the winner.
 - Number of iterations.
 
-Commit with the `chore` scope:
+Commit with the `chore` type and the host repo's plugin scope:
 
 ```
-chore(<plugin>): tune <skill> description for triggering
+chore({{conventional_commits_scope}}): tune <skill> description for triggering
 ```
 
 ## Anti-patterns
@@ -169,6 +169,6 @@ Five concrete failure modes, each one we have actually seen:
 
 Methodology adapted from the upstream `skill-creator:skill-creator` skill by Anthropic, MIT-licensed.
 
-The upstream provides a Python script (`run_loop.py`) that automates this loop using `claude -p` subprocess calls, with extended thinking for description proposals and an HTML report at the end. This file describes the same conceptual loop in the pgoell-claude-tools repo's voice and uses the host agent's subagent dispatch instead of bundling Python.
+The upstream provides a Python script (`run_loop.py`) that automates this loop using `claude -p` subprocess calls, with extended thinking for description proposals and an HTML report at the end. This file describes the same conceptual loop in marketplace-agnostic form and uses the host agent's subagent dispatch instead of bundling Python.
 
 For the upstream's full take, including extended thinking and per-query reliability analysis, see that skill directly.
