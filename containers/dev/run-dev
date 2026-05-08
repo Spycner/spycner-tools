@@ -68,11 +68,53 @@ start_container() {
     fi
 }
 
+shell_into() {
+    local engine
+    engine="$(detect_engine)"
+    local host_shell="${HOST_SHELL:-${SHELL:-/bin/bash}}"
+    "$engine" exec -it "$CONTAINER_NAME" "$host_shell"
+}
+
+stop_container() {
+    local engine
+    engine="$(detect_engine)"
+    "$engine" stop "$CONTAINER_NAME" >/dev/null
+}
+
+status_container() {
+    local engine
+    engine="$(detect_engine)"
+    echo "engine: $engine"
+    echo "container: $CONTAINER_NAME"
+    if container_exists "$engine"; then
+        local running
+        running="$("$engine" inspect -f '{{.State.Running}}' "$CONTAINER_NAME" 2>/dev/null || echo unknown)"
+        echo "running: $running"
+    else
+        echo "running: not created"
+    fi
+    echo "image: $IMAGE_TAG"
+    echo "volumes: $MISE_VOLUME, $HISTORY_VOLUME"
+}
+
+rebuild_container() {
+    local engine
+    engine="$(detect_engine)"
+    "$engine" rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
+    "$engine" rmi -f "$IMAGE_TAG" >/dev/null 2>&1 || true
+    build_image "$engine"
+    run_container "$engine" >/dev/null
+}
+
 cmd="${1:-start}"
 shift || true
 
 case "$cmd" in
-    engine) detect_engine ;;
-    start)  start_container ;;
+    engine)  detect_engine ;;
+    start)   start_container ;;
+    shell)   shell_into ;;
+    stop)    stop_container ;;
+    status)  status_container ;;
+    rebuild) rebuild_container ;;
     *) echo "unknown subcommand: $cmd" >&2; exit 2 ;;
 esac
