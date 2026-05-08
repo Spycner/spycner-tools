@@ -136,3 +136,30 @@ These references in this directory deepen specific phases:
 
 - **workbench:test-driven-development** - For creating the failing test case in Phase 4, Step 1.
 - **workbench:verification-before-completion** - Verify the fix worked before claiming success.
+
+## Output Format
+
+Default for this artifact: **html**.
+
+Override resolution order, highest precedence first:
+
+1. Per-invocation override in the user prompt. Recognize phrases like `"a markdown debug report"`, `"in HTML"`, `"as a markdown report"`, and equivalents.
+2. `.workbench/config.md` `## Output formats` entry for `Debug reports:`. Schema documented in `plugins/workbench/skills/autopilot/references/config-schema.md`.
+3. Per-skill hard-coded default (html).
+
+Path: `.workbench/debug-reports/YYYY-MM-DD-<topic>-debug.<ext>` by default. Override path via `.workbench/config.md` `## Output paths` `Debug reports:`.
+
+When emitting HTML, follow `references/debug-report-template.html` in this skill's directory. Read the template lazily.
+
+## Report File Behavior
+
+At the end of the four-phase loop, after the fix is verified, write a debug report file to the resolved path. The report captures:
+
+- Hypothesis tree from Phase 1.
+- "What I tried" timeline from Phase 2.
+- Root cause from Phase 3.
+- Fix description and validation from Phase 4.
+
+Announce the file path in the conversation when emitting (for example: "Debug report written to `.workbench/debug-reports/2026-05-08-cache-stale-debug.html`") before the final summary message.
+
+For other HTML artifact types not covered by a workbench or research skill, see `workbench:crafting-html`.
