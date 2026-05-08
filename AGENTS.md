@@ -37,6 +37,13 @@ tests/
   skill-triggering/         # Verify correct skill activates for prompts
     prompts/                # One .txt file per test case
     run-test.sh             # Test runner
+containers/
+  dev/                      # Podman-first dev container for running Claude or Codex
+                            # with bypass permissions in host-isolated mode
+    Dockerfile
+    entrypoint.sh
+    run-dev                 # wrapper script
+    README.md               # usage and manual acceptance checklist
 ```
 
 ## Current Plugins
