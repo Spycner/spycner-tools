@@ -201,14 +201,9 @@ Follow the existing patterns in `tests/`:
 
 ### 6. Update README.md and AGENTS.md
 
-When adding a new plugin, edit five places in `README.md` and one in `AGENTS.md`:
+When adding a new plugin, the documentation lockstep set is six sites: five in `README.md` and one in `AGENTS.md`. (1) `README.md` "Skills at a glance" table at the top. (2) `README.md` per-plugin "Plugins" section. (3) `README.md` "Installation > Claude Code" `/plugin install` list. (4) `README.md` "Installation > Codex" `/plugins` picker line. (5) `README.md` "Setup" subsection for the new plugin (even if "no setup required"). (6) `AGENTS.md` "Current Plugins" table (CLAUDE.md is a symlink, so it updates automatically).
 
-- `README.md` "Skills at a glance" table at the top.
-- `README.md` per-plugin "Plugins" section.
-- `README.md` "Installation > Claude Code" `/plugin install` list.
-- `README.md` "Installation > Codex" `/plugins` picker line.
-- `README.md` "Setup" subsection for the new plugin (even if "no setup required").
-- `AGENTS.md` "Current Plugins" table.
+This is separate from, and additional to, the version-bump lockstep documented under Design Decisions ("Every plugin change bumps version"). Adding a new plugin requires both lockstep sets in the same commit: the six docs sites here, plus the five version-pinned sites listed there.
 
 When adding only a new skill to an existing plugin, the "Skills at a glance" table and per-plugin section are usually the only required edits.
 
