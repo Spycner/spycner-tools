@@ -27,6 +27,9 @@ plugins/
       <service>/
         SKILL.md            # Shared skill definition, used by Claude Code and Codex
         <reference>.md      # Supporting reference docs (recipes, format guides)
+    LICENSE                 # Required for ported plugins: this repo's MIT license
+    NOTICE                  # Required for ported plugins: per-file upstream attribution
+    README.md               # Required for ported plugins: human-facing overview with Credits section
 tests/
   test-helpers.sh           # Shared test utilities (run_claude, assertions, auth checks)
   unit/                     # Skill recognition and capability tests
@@ -48,6 +51,7 @@ tests/
 | `agent-system-management` | 0.3.0 | `improving-instructions`, `capturing-session-learnings`, `creating-skills` |
 | `workbench` | 0.10.0 | `brainstorming`, `writing-spec`, `writing-plans`, `visualizing-options`, `using-workbench`, `terse-mode`, `autopilot`, `verification-before-completion`, `test-driven-development`, `dispatching-parallel-agents`, `subagent-driven-development`, `systematic-debugging` |
 | `terminal` | 0.1.0 | `tmux` |
+| `frontend-design` | 0.1.0 | `frontend-design` (ported from Anthropic, Apache 2.0 upstream) |
 
 ## How to Develop a New Skill
 
@@ -187,9 +191,18 @@ Follow the existing patterns in `tests/`:
 
 **Auth helpers.** Add a `check_<tool>_auth()` function to `tests/test-helpers.sh` if your tool has its own auth mechanism.
 
-### 6. Update README.md
+### 6. Update README.md and AGENTS.md
 
-Add the new plugin/skill to the Plugins section, Installation commands, and Setup instructions.
+When adding a new plugin, edit five places in `README.md` and one in `AGENTS.md`:
+
+- `README.md` "Skills at a glance" table at the top.
+- `README.md` per-plugin "Plugins" section.
+- `README.md` "Installation > Claude Code" `/plugin install` list.
+- `README.md` "Installation > Codex" `/plugins` picker line.
+- `README.md` "Setup" subsection for the new plugin (even if "no setup required").
+- `AGENTS.md` "Current Plugins" table.
+
+When adding only a new skill to an existing plugin, the "Skills at a glance" table and per-plugin section are usually the only required edits.
 
 ## Running Tests
 
@@ -214,6 +227,7 @@ PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh --not <skill
 - **No wrapper scripts.** Skills use the underlying CLI directly (`gws` for Google Workspace) or raw `curl` with env-var auth (for Atlassian). This keeps each skill self-contained, with no extra bash layer to maintain, debug, or ship with the plugin.
 - **One skill per service, one plugin per product family.** Gmail and Calendar are both under `google-workspace`. Jira and Confluence are both under `atlassian`. Workbench is the exception: its skills (`brainstorming`, `writing-spec`, `writing-plans`, `visualizing-options`, `using-workbench`, `terse-mode`, `autopilot`, `verification-before-completion`, `test-driven-development`, `dispatching-parallel-agents`, `subagent-driven-development`, `systematic-debugging`) are peer workflow and session-control capabilities rather than separate services, so they ship together but stay split so the host agent (or autopilot) can invoke each phase independently. Terminal capabilities that depend on local Unix tools belong in the `terminal` plugin, so Windows users can skip them unless they use WSL.
 - **Every plugin change bumps version.** Any change to a plugin's skills, metadata, docs, hooks, agents, or tests must bump that plugin's version in lockstep across both runtime manifests and every marketplace entry that records a version. New skills are minor bumps; fixes, docs, tests, and description changes are patch bumps unless they change behavior materially. The Claude marketplace entry (`.claude-plugin/marketplace.json`) carries a `version` field per plugin; the Codex marketplace entry (`.agents/plugins/marketplace.json`) does not, so version assertions only apply to the Claude marketplace and the two runtime manifests. Several `tests/unit/test-workbench-*-skill.sh` files pin the workbench plugin version with `jq -e '.version == "X.Y.Z"'`; bumping the workbench version requires updating those literal pins in the same commit, otherwise the next test run fails on stale assertions.
+- **`tests/unit/test-codex-plugin-structure.sh` pins the plugin count and the plugin name list.** Two coupled assertions: a `plugin_count -eq N` literal and a `for plugin in <space-separated names>` list. Adding or removing a plugin requires updating both in the same commit; updating just one leaves the suite either red or asserting a stale set.
 - **Skills are self-contained.** Each SKILL.md should contain everything the host agent needs to use the service without reading other files (except reference docs it explicitly links to).
 - **Codex compatibility is metadata plus platform mapping.** Codex manifests live beside Claude Code manifests and point at the same `skills` directory. Platform-specific tool differences belong in the shared skill body as a mapping, not in duplicated skill files.
 - **Workflow skills are execution protocols.** When a user invokes a workflow skill such as `workbench:autopilot`, follow its required sequence as an operational workflow, including branch setup, brainstorm, spec, plan, pressure-test, implementation, and verification where applicable. Do not treat the skill body as informal guidance.
@@ -222,3 +236,4 @@ PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh --not <skill
 - **Em-dash lint and instruction text:** when a markdown file needs to describe the forbidden em-dash or en-dash characters (e.g., a SKILL.md that explains the no-em-dash rule), reference them by Unicode codepoint (`U+2014`, `U+2013`) instead of including the literal characters. Otherwise the em-dash lint matches on the description itself.
 - **Agents for long-running, context-heavy operations.** When a skill's execution would consume significant context (e.g. dozens of web pages for research), define an agent in `agents/` and have the skill dispatch it via the host subagent tool. The agent runs in an isolated subagent context. Use skills for everything else.
 - **Lazy auth, never print secrets.** Skills do not check authentication upfront. They attempt the operation and only diagnose auth issues when commands fail (in Self-Healing). Credentials, tokens, and API keys are NEVER printed or echoed. Only check whether they are set (`test -n`), never display values.
+- **Upstream-port attribution.** When a plugin ports a skill from a non-MIT upstream (e.g. Anthropic's Apache 2.0 `frontend-design`), the plugin directory must ship `LICENSE` (this repo's MIT license), `NOTICE` (per-file upstream attribution and original license), and a plugin-level `README.md` with a Credits section linking back to the source. Normalize the SKILL.md frontmatter to drop upstream-only fields like `license:`. See `plugins/frontend-design/` for the canonical layout.

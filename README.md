@@ -33,6 +33,7 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `systematic-debugging` | workbench | Enforce root-cause investigation before proposing bug fixes |
 | `tmux` | terminal | Control interactive terminal programs through isolated tmux sessions |
 | `creating-skills` | agent-system-management | Scaffold, iterate, pressure-test, and tune skills across the full lifecycle |
+| `frontend-design` | frontend-design | Generate distinctive, production-grade frontend interfaces that avoid generic AI aesthetics |
 
 ## Plugins
 
@@ -111,6 +112,13 @@ Terminal skills for interactive command-line programs.
 **Skills:**
 - `/pgoell-claude-tools:tmux`: Drive interactive CLIs, REPLs, debuggers, and experimental nested agent sessions through isolated tmux sessions.
 
+### frontend-design
+
+Generate distinctive, production-grade frontend interfaces that avoid generic AI aesthetics. Ported from Anthropic's `frontend-design` plugin (Apache 2.0); see `plugins/frontend-design/NOTICE`.
+
+**Skills:**
+- `/pgoell-claude-tools:frontend-design`: Build web components, pages, and applications with a clear aesthetic point of view (typography, color, motion, composition).
+
 ## Installation
 
 ### Claude Code
@@ -125,6 +133,7 @@ Terminal skills for interactive command-line programs.
 /plugin install agent-system-management@pgoell-claude-tools
 /plugin install workbench@pgoell-claude-tools
 /plugin install terminal@pgoell-claude-tools
+/plugin install frontend-design@pgoell-claude-tools
 ```
 
 ### Codex
@@ -142,7 +151,7 @@ codex
 /plugins
 ```
 
-In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, and `terminal`.
+In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, `terminal`, and `frontend-design`.
 
 `codex plugin marketplace add` accepts `owner/repo[@ref]`, an HTTPS or SSH Git URL, or a local marketplace root directory. The marketplace file lives at `.agents/plugins/marketplace.json` and the per-plugin Codex manifests live at `plugins/<plugin>/.codex-plugin/plugin.json`. Both reuse the same `plugins/<plugin>/skills/` directories as Claude Code, single sourced.
 
@@ -196,3 +205,7 @@ No setup required. Three skills in one plugin: ask `improving-instructions` to "
 ### terminal
 
 Install `tmux` on Linux, macOS, or WSL. Native Windows terminals are not supported by the `tmux` skill.
+
+### frontend-design
+
+No setup required. The skill triggers automatically when the host agent is asked to build a web component, page, or application.

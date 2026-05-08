@@ -1,0 +1,24 @@
+{
+  "name": "frontend-design",
+  "version": "0.1.0",
+  "description": "Create distinctive, production-grade frontend interfaces.",
+  "author": { "name": "Pascal Göllner" },
+  "license": "MIT",
+  "keywords": ["frontend", "design", "ui", "css", "html", "react", "aesthetics"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Frontend Design",
+    "shortDescription": "Create distinctive, production-grade frontend interfaces",
+    "longDescription": "Generates production-grade frontend code (HTML/CSS/JS, React, Vue) with bold, distinctive aesthetic choices and meticulous attention to typography, color, motion, and composition. Avoids generic AI design defaults.",
+    "developerName": "Pascal Göllner",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": [
+      "Create a dashboard for a music streaming app",
+      "Build a landing page for an AI security startup",
+      "Design a settings panel with dark mode",
+      "Build a portfolio site with a brutalist aesthetic"
+    ],
+    "screenshots": []
+  }
+}

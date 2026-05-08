@@ -1,0 +1,8 @@
+{
+  "name": "frontend-design",
+  "version": "0.1.0",
+  "description": "Create distinctive, production-grade frontend interfaces.",
+  "author": { "name": "Pascal Göllner" },
+  "license": "MIT",
+  "keywords": ["frontend", "design", "ui", "css", "html", "react", "aesthetics"]
+}
