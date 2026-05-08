@@ -45,7 +45,7 @@ If both fail, also check for any nested `marketplace.json`:
 find . -maxdepth 4 -name marketplace.json -not -path '*/node_modules/*' -not -path '*/.git/*'
 ```
 
-If the find returns nothing and both fixed checks failed, **stop**. Print: "This skill targets Claude Code or Codex plugin marketplaces. No `.claude-plugin/marketplace.json` or `.agents/plugins/marketplace.json` was found. Bootstrap one of those first; the templates in `references/templates.md` show the minimal shape." Exit cleanly.
+If the find returns nothing and both fixed checks failed, **stop**. Print: "This skill targets Claude Code or Codex plugin marketplaces. No `.claude-plugin/marketplace.json` or `.agents/plugins/marketplace.json` was found. Bootstrap one of those first; the templates in `references/templates/` show the minimal shape." Exit cleanly.
 
 ### Probe 2: Plugin directory
 
@@ -166,9 +166,9 @@ Goal: produce a runnable skill scaffold (SKILL.md, plugin manifests if a new plu
 1. **Run convention probes** (Stage 0). Skip if already run earlier in this session.
 2. **Confirm probe results.** One round trip with the user.
 3. **Scope the new skill.** Ask: new plugin or extending an existing one? (offer pick-list from `{{plugin_dir}}`). If new: plugin name, one-line description, keywords. Skill name, one-line skill description. Validate names: kebab-case only.
-4. **Classify type.** Ask: A. API or CLI wrapper, B. workflow, C. reference. Each maps to a SKILL.md template in `references/templates.md`.
+4. **Classify type.** Ask: A. API or CLI wrapper, B. workflow, C. reference. Each maps to a SKILL.md template in `references/templates/skill-bodies.md`.
 5. **Gather details.** Trigger phrases (3 to 5). Optional reference doc list. Per type: tier 1/2/3 operations, or numbered workflow steps, or source-of-truth pointers.
-6. **Scaffold the plugin** (only if new). Use templates from `references/templates.md`. Write only the manifests this marketplace uses (Claude only, Codex only, or both, per Probe 1). Both manifests start at `0.1.0`, author `{{author}}`, license `{{license}}`.
+6. **Scaffold the plugin** (only if new). Use templates from `references/templates/manifests.md`. Write only the manifests this marketplace uses (Claude only, Codex only, or both, per Probe 1). Both manifests start at `0.1.0`, author `{{author}}`, license `{{license}}`.
 7. **Scaffold SKILL.md.** Use `{{plugin_dir}}/<plugin>/skills/<skill>/SKILL.md` from the chosen template.
 8. **Scaffold reference docs** (optional). One stub per reference doc the user listed.
 9. **Wire marketplaces.** Use `Edit` (NOT `Write`). Insert into `{{marketplace_claude_path}}` and `{{marketplace_codex_path}}` only where they exist (probe 1). The lockstep version invariant: the value in every file from `{{lockstep_files}}` (probe 7) plus the new files just created must agree.
@@ -177,7 +177,7 @@ Goal: produce a runnable skill scaffold (SKILL.md, plugin manifests if a new plu
 12. **Verify.** Run `{{frontmatter_linter_path}}` if it exists. Run the new unit test if `{{test_unit_dir}}` exists. Surface failures verbatim.
 13. **Report.** Summarize the files written and updated. Suggest next steps.
 
-Reference: see `references/templates.md` for boilerplate (handlebars-templated) and `references/test-patterns.md` for the testing conventions.
+Reference: see `references/templates/` for boilerplate (handlebars-templated; index in `references/templates/README.md`) and `references/test-patterns.md` for the testing conventions.
 
 ---
 
@@ -256,14 +256,14 @@ These are filled in from Stage 0; the skill never hardcodes a value:
 - **Author** = `{{author}}` (Probe 3).
 - **License** = `{{license}}` (Probe 3).
 - **Lockstep version set** = `{{lockstep_files}}` (Probe 7). When a plugin's version changes, every file in this set must update in the same commit.
-- **Em-dash rule.** If `CLAUDE.md` or `AGENTS.md` documents a no-em-dash / no-en-dash rule, follow it. Forbid Unicode codepoints `U+2014` (em-dash) and `U+2013` (en-dash) anywhere in markdown. Use commas, colons, periods, parentheses, or sentence splits instead. Hyphens (`U+002D`) in compound words are fine. (See: this very SKILL.md and `references/templates.md` reference these codepoints, not the literal characters, to avoid lint false positives.)
+- **Em-dash rule.** If `CLAUDE.md` or `AGENTS.md` documents a no-em-dash / no-en-dash rule, follow it. Forbid Unicode codepoints `U+2014` (em-dash) and `U+2013` (en-dash) anywhere in markdown. Use commas, colons, periods, parentheses, or sentence splits instead. Hyphens (`U+002D`) in compound words are fine. (See: this very SKILL.md and the files under `references/templates/` reference these codepoints, not the literal characters, to avoid lint false positives.)
 - **AI attribution.** No AI attribution lines (`Co-Authored-By: Claude`, `Generated with X`) in commits, PRs, or code, unless the host repo's `CLAUDE.md` or `AGENTS.md` says otherwise.
 
 ---
 
 ## Reference files
 
-- `references/templates.md`: handlebars-templated boilerplate for Mode A. SKILL.md per type (api, workflow, reference); both plugin manifests; both marketplace entries; top-level doc rows; unit test scaffold; skill-triggering prompt template; integration test scaffold. Templates accept the variables from the variable table above as inputs.
+- `references/templates/`: handlebars-templated boilerplate for Mode A, split by artifact. Index in `references/templates/README.md`. Files: `skill-bodies.md` (api, workflow, reference SKILL.md types), `manifests.md` (both plugin.json files), `marketplace-entries.md` (both marketplace entries), `index-doc-rows.md` (top-level plugin-index doc row variants), `tests.md` (unit, skill-triggering, integration scaffolds). Templates accept the variables from the variable table above as inputs.
 - `references/test-patterns.md`: testing conventions for Mode A. Three test categories (unit, skill-triggering, integration). Uses handlebars for paths. Includes a minimal bootstrap section with a 30-line frontmatter validator and a `run-test.sh` for repos without testing infrastructure.
 - `references/iteration-loop.md`: Mode B methodology. Workspace layout, evals.json schema, subagent dispatch templates, side-by-side result presentation, stop conditions, anti-patterns. Source paths are handlebars-resolved.
 - `references/pressure-testing.md`: Mode C methodology. Pressure types, scenario design, RED-GREEN-REFACTOR mapping, bulletproofing patterns (rationalization tables, red-flag lists, spirit-vs-letter framing). Attribution to upstream `superpowers:writing-skills`.
