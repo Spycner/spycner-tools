@@ -1,0 +1,1 @@
+Can you review the animation timing on this dropdown component for me? It feels sluggish when opening.

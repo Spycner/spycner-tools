@@ -34,6 +34,7 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `tmux` | terminal | Control interactive terminal programs through isolated tmux sessions |
 | `creating-skills` | agent-system-management | Scaffold, iterate, pressure-test, and tune skills across the full lifecycle |
 | `frontend-design` | frontend-design | Generate distinctive, production-grade frontend interfaces that avoid generic AI aesthetics |
+| `emil-design-eng` | frontend-design | Emil Kowalski's design engineering philosophy: animation timing, component polish, and the invisible details that make UI feel right |
 
 ## Plugins
 
@@ -114,10 +115,11 @@ Terminal skills for interactive command-line programs.
 
 ### frontend-design
 
-Generate distinctive, production-grade frontend interfaces that avoid generic AI aesthetics. Ported from Anthropic's `frontend-design` plugin (Apache 2.0); see `plugins/frontend-design/NOTICE`.
+Distinctive, production-grade frontend interfaces with deep UI craft and animation discipline. Ports two complementary skills: Anthropic's `frontend-design` (Apache 2.0) for creative direction, and Emil Kowalski's [`emil-design-eng`](https://github.com/emilkowalski/skill) for design engineering and animation discipline (the upstream repo carries no declared license; included under the upstream author's public publishing intent). See `plugins/frontend-design/NOTICE` for full attribution.
 
 **Skills:**
 - `/pgoell-claude-tools:frontend-design`: Build web components, pages, and applications with a clear aesthetic point of view (typography, color, motion, composition).
+- `/pgoell-claude-tools:emil-design-eng`: Review UI craft, choose easing curves and durations, build interaction-rich components, and audit motion. Encodes Emil Kowalski's design engineering philosophy.
 
 ## Installation
 
@@ -208,4 +210,4 @@ Install `tmux` on Linux, macOS, or WSL. Native Windows terminals are not support
 
 ### frontend-design
 
-No setup required. The skill triggers automatically when the host agent is asked to build a web component, page, or application.
+No setup required. `frontend-design` triggers automatically when the host agent is asked to build a web component, page, or application; `emil-design-eng` triggers on requests to review UI craft, animation timing, easing/duration choices, or component polish.
