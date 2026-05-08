@@ -2,6 +2,9 @@
 # containers/dev/entrypoint.sh
 set -euo pipefail
 
+CLAUDE_INSTALL_CMD='curl -fsSL https://claude.ai/install.sh | bash'
+CODEX_INSTALL_CMD='npm install -g @openai/codex && mise reshim'
+
 DOTFILES=(.bashrc .profile .zshenv .tmux.conf .gitconfig)
 DOTDIRS=(.tmux)
 
@@ -21,10 +24,6 @@ snapshot_dotfiles() {
     done
 }
 
-# Comment out lines in copied dotfiles that reference binaries deliberately
-# not bundled in this container, so the user does not see one-off errors on
-# every shell start. Currently: linuxbrew shellenv (linuxbrew is too heavy to
-# bundle).
 neutralize_unsupported_lines() {
     local target=/home/dev/.bashrc
     [ -f "$target" ] || return 0
@@ -47,10 +46,20 @@ select_default_shell() {
     fi
 }
 
+install_agents() {
+    if ! command -v claude >/dev/null 2>&1; then
+        eval "$CLAUDE_INSTALL_CMD"
+    fi
+    if ! command -v codex >/dev/null 2>&1; then
+        eval "$CODEX_INSTALL_CMD"
+    fi
+}
+
 if [ "${COPY_DOTFILES:-1}" = "1" ]; then
     snapshot_dotfiles
     neutralize_unsupported_lines
 fi
 select_default_shell
+install_agents
 
 exec tail -f /dev/null

@@ -148,4 +148,31 @@ sleep 2
 shell_for_dev=$("$ENGINE" exec "$CONTAINER_NAME" getent passwd dev | cut -d: -f7)
 [ "$shell_for_dev" = "/bin/bash" ] || fail "expected /bin/bash fallback, got $shell_for_dev"
 
-echo "PASS: dev container build smoke + dotfile snapshot + shell selection"
+# --- Task 8: Claude and Codex install ---
+
+# Skip this section if the test runner is offline; installers need network.
+if ! curl -fsS -m 5 -o /dev/null https://claude.ai/install.sh; then
+    echo "SKIP: offline, skipping Claude/Codex install assertions"
+else
+    "$ENGINE" rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
+    "$ENGINE" run -d --name "$CONTAINER_NAME" \
+        "${USERNS_ARGS[@]}" \
+        -v "$fixture_home:/host-home:ro" \
+        -e "HOST_SHELL=/bin/bash" \
+        -e "COPY_DOTFILES=1" \
+        "$IMAGE_TAG" \
+        || fail "container start (install assertions) failed"
+    # Installs may take 30-90 seconds.
+    for _ in $(seq 1 30); do
+        if "$ENGINE" exec "$CONTAINER_NAME" bash -lc 'command -v claude && command -v codex' >/dev/null 2>&1; then
+            break
+        fi
+        sleep 3
+    done
+    "$ENGINE" exec "$CONTAINER_NAME" bash -lc 'command -v claude' \
+        || fail "claude not on PATH after install"
+    "$ENGINE" exec "$CONTAINER_NAME" bash -lc 'command -v codex' \
+        || fail "codex not on PATH after install"
+fi
+
+echo "PASS: dev container build smoke + dotfile snapshot + shell selection + agent install"
