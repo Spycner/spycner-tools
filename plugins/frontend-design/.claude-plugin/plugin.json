@@ -1,8 +1,20 @@
 {
   "name": "frontend-design",
-  "version": "0.1.0",
-  "description": "Create distinctive, production-grade frontend interfaces.",
-  "author": { "name": "Pascal Göllner" },
+  "version": "0.2.0",
+  "description": "Create distinctive, production-grade frontend interfaces with deep UI craft and animation discipline.",
+  "author": {
+    "name": "Pascal Göllner"
+  },
   "license": "MIT",
-  "keywords": ["frontend", "design", "ui", "css", "html", "react", "aesthetics"]
+  "keywords": [
+    "aesthetics",
+    "animation",
+    "css",
+    "design",
+    "frontend",
+    "html",
+    "motion",
+    "react",
+    "ui"
+  ]
 }
