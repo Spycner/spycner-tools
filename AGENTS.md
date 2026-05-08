@@ -71,6 +71,7 @@ Create `.claude-plugin/plugin.json`:
 ```json
 {
   "name": "<plugin-name>",
+  "version": "0.1.0",
   "description": "<one-line description>",
   "author": { "name": "Pascal Göllner" },
   "license": "MIT",
