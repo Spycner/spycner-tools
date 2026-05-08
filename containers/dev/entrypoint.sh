@@ -38,9 +38,19 @@ neutralize_unsupported_lines() {
     sed -i 's|/home/[^/]*/\.local/bin/mise|/home/dev/.local/bin/mise|g' "$target"
 }
 
+select_default_shell() {
+    local requested="${HOST_SHELL:-/bin/bash}"
+    if [ -x "$requested" ]; then
+        sudo chsh -s "$requested" dev
+    else
+        sudo chsh -s /bin/bash dev
+    fi
+}
+
 if [ "${COPY_DOTFILES:-1}" = "1" ]; then
     snapshot_dotfiles
     neutralize_unsupported_lines
 fi
+select_default_shell
 
 exec tail -f /dev/null

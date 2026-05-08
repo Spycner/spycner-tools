@@ -118,4 +118,34 @@ if "$ENGINE" exec "$CONTAINER_NAME" test -f "/home/dev/.bashrc" 2>/dev/null; the
         && fail "COPY_DOTFILES=0 should not have copied .bashrc"
 fi
 
-echo "PASS: dev container build smoke + dotfile snapshot"
+# --- Task 7: default shell selection ---
+
+"$ENGINE" rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
+"$ENGINE" run -d --name "$CONTAINER_NAME" \
+    "${USERNS_ARGS[@]}" \
+    -v "$fixture_home:/host-home:ro" \
+    -e "HOST_SHELL=/usr/bin/zsh" \
+    -e "COPY_DOTFILES=1" \
+    "$IMAGE_TAG" \
+    || fail "container start (zsh) failed"
+sleep 2
+
+shell_for_dev=$("$ENGINE" exec "$CONTAINER_NAME" getent passwd dev | cut -d: -f7) \
+    || fail "getent passwd dev failed"
+[ "$shell_for_dev" = "/usr/bin/zsh" ] || fail "expected /usr/bin/zsh as dev shell, got $shell_for_dev"
+
+# Fallback to bash for an unknown shell.
+"$ENGINE" rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
+"$ENGINE" run -d --name "$CONTAINER_NAME" \
+    "${USERNS_ARGS[@]}" \
+    -v "$fixture_home:/host-home:ro" \
+    -e "HOST_SHELL=/usr/bin/fish" \
+    -e "COPY_DOTFILES=1" \
+    "$IMAGE_TAG" \
+    || fail "container start (fish fallback) failed"
+sleep 2
+
+shell_for_dev=$("$ENGINE" exec "$CONTAINER_NAME" getent passwd dev | cut -d: -f7)
+[ "$shell_for_dev" = "/bin/bash" ] || fail "expected /bin/bash fallback, got $shell_for_dev"
+
+echo "PASS: dev container build smoke + dotfile snapshot + shell selection"
