@@ -29,7 +29,8 @@ Claude picks a clear aesthetic direction and writes production code (HTML/CSS/JS
 | File | Purpose |
 |---|---|
 | `skills/frontend-design/SKILL.md` | The creative-direction skill body (verbatim from Anthropic upstream) |
-| `skills/emil-design-eng/SKILL.md` | Emil Kowalski's design engineering skill (verbatim from upstream, dashes substituted) |
+| `skills/emil-design-eng/SKILL.md` | Index skill: identity, review format, reference doc map, quick review checklist |
+| `skills/emil-design-eng/references/*.md` | Topic references the index points to (animation framework, components, CSS, gestures, performance, accessibility, Sonner principles) |
 | `LICENSE` | MIT license for original additions |
 | `NOTICE` | Per-upstream attribution and license posture |
 

@@ -12,6 +12,7 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 PLUGIN_DIR="${PLUGIN_DIR:-$REPO_ROOT/plugins/frontend-design}"
 SKILL_DIR="$PLUGIN_DIR/skills/emil-design-eng"
 SKILL_MD="$SKILL_DIR/SKILL.md"
+REF_DIR="$SKILL_DIR/references"
 PLUGIN_JSON="$PLUGIN_DIR/.claude-plugin/plugin.json"
 CODEX_PLUGIN_JSON="$PLUGIN_DIR/.codex-plugin/plugin.json"
 NOTICE_FILE="$PLUGIN_DIR/NOTICE"
@@ -82,43 +83,69 @@ else
 fi
 echo ""
 
-# Test 6: All required body headings
-echo "Test 6: All required body headings..."
-required_headings=(
+# Test 6: SKILL.md is a slim index (identity, review format, reference map, checklist)
+echo "Test 6: SKILL.md index headings..."
+index_headings=(
     '## Initial Response'
     '## Core Philosophy'
     '## Review Format (Required)'
-    '## The Animation Decision Framework'
-    '## Spring Animations'
-    '## Component Building Principles'
-    '## CSS Transform Mastery'
-    '## clip-path for Animation'
-    '## Gesture and Drag Interactions'
-    '## Performance Rules'
-    '## Accessibility'
-    '## The Sonner Principles (Building Loved Components)'
-    '## Stagger Animations'
-    '## Debugging Animations'
+    '## Reference Docs'
     '## Review Checklist'
 )
-for heading in "${required_headings[@]}"; do
+for heading in "${index_headings[@]}"; do
     if grep -qF "$heading" "$SKILL_MD"; then
-        echo "  [PASS] heading present: $heading"
+        echo "  [PASS] index heading present: $heading"
     else
-        echo "  [FAIL] heading missing: $heading"
+        echo "  [FAIL] index heading missing: $heading"
+        exit 1
+    fi
+done
+# Index discipline: SKILL.md should stay small. 200 lines is generous.
+skill_lines=$(wc -l < "$SKILL_MD")
+if [ "$skill_lines" -le 200 ]; then
+    echo "  [PASS] SKILL.md is $skill_lines lines (<= 200, index-sized)"
+else
+    echo "  [FAIL] SKILL.md is $skill_lines lines; index skill should stay <= 200"
+    exit 1
+fi
+echo ""
+
+# Test 7: All seven topic references exist and are mentioned in SKILL.md
+echo "Test 7: Reference docs..."
+required_refs=(
+    'animation-framework.md'
+    'component-principles.md'
+    'css-techniques.md'
+    'gestures.md'
+    'performance.md'
+    'accessibility.md'
+    'sonner-principles.md'
+)
+for ref in "${required_refs[@]}"; do
+    f="$REF_DIR/$ref"
+    if [ -s "$f" ]; then
+        echo "  [PASS] references/$ref exists and non-empty"
+    else
+        echo "  [FAIL] references/$ref missing or empty"
+        exit 1
+    fi
+    if grep -qF "references/$ref" "$SKILL_MD"; then
+        echo "  [PASS] SKILL.md points to references/$ref"
+    else
+        echo "  [FAIL] SKILL.md does not point to references/$ref"
         exit 1
     fi
 done
 echo ""
 
-# Test 7: No em-dashes (U+2014) or en-dashes (U+2013)
-echo "Test 7: SKILL.md free of em-dashes and en-dashes..."
-if grep -qP '[\x{2014}\x{2013}]' "$SKILL_MD"; then
-    echo "  [FAIL] SKILL.md contains em-dashes or en-dashes"
-    grep -nP '[\x{2014}\x{2013}]' "$SKILL_MD" | head -5
+# Test 7b: No em-dashes (U+2014) or en-dashes (U+2013) anywhere in the skill
+echo "Test 7b: Skill tree free of em-dashes and en-dashes..."
+if grep -rqP '[\x{2014}\x{2013}]' "$SKILL_DIR"; then
+    echo "  [FAIL] skill tree contains em-dashes or en-dashes"
+    grep -rnP '[\x{2014}\x{2013}]' "$SKILL_DIR" | head -5
     exit 1
 else
-    echo "  [PASS] no em-dashes or en-dashes"
+    echo "  [PASS] no em-dashes or en-dashes in skill tree"
 fi
 echo ""
 

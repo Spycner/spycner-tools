@@ -21,9 +21,16 @@ This plugin contains content derived from emilkowalski/skill
 (https://github.com/emilkowalski/skill, commit ecf66bb at time of port),
 authored by Emil Kowalski:
 
-  - skills/emil-design-eng/SKILL.md (verbatim body except em-dashes
-      (U+2014) and en-dashes (U+2013) replaced with project-lint-compliant
-      punctuation; no semantic content changed)
+  - skills/emil-design-eng/SKILL.md and skills/emil-design-eng/references/
+      (verbatim body except em-dashes (U+2014) and en-dashes (U+2013)
+      replaced with project-lint-compliant punctuation; the upstream's
+      single SKILL.md body is split across SKILL.md and seven reference
+      files (animation-framework, component-principles, css-techniques,
+      gestures, performance, accessibility, sonner-principles) so the
+      host agent can load only what each task needs; each reference
+      file gains a one-paragraph header explaining its scope, but the
+      body content under the original H2 sections is verbatim from
+      upstream; no semantic content changed)
 
 The upstream repository declares no license at time of port (GitHub API
 reports license: null, no LICENSE file in the repo). Content is
