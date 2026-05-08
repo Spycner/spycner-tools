@@ -192,6 +192,6 @@ Until all four hold, you are still in REFACTOR.
 
 ## Attribution
 
-This methodology is adapted from the `superpowers:writing-skills` skill by Jesse Vincent and contributors (MIT-licensed). The RED-GREEN-REFACTOR mapping, the pressure-types taxonomy, the rationalization table, the red-flag list, and the spirit-vs-letter framing all originate there. This file restates the methodology in the pgoell-claude-tools repo's voice; no content is copy-pasted.
+This methodology is adapted from the `superpowers:writing-skills` skill by Jesse Vincent and contributors (MIT-licensed). The RED-GREEN-REFACTOR mapping, the pressure-types taxonomy, the rationalization table, the red-flag list, and the spirit-vs-letter framing all originate there. This file restates the methodology in marketplace-agnostic form; no content is copy-pasted.
 
 For the upstream's full take on bulletproofing patterns, persuasion principles, and meta-testing, load the `superpowers:writing-skills` skill directly and read its `testing-skills-with-subagents.md` and `persuasion-principles.md` references.
