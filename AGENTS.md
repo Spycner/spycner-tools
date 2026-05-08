@@ -48,6 +48,7 @@ tests/
 | `agent-system-management` | 0.3.0 | `improving-instructions`, `capturing-session-learnings`, `creating-skills` |
 | `workbench` | 0.10.0 | `brainstorming`, `writing-spec`, `writing-plans`, `visualizing-options`, `using-workbench`, `terse-mode`, `autopilot`, `verification-before-completion`, `test-driven-development`, `dispatching-parallel-agents`, `subagent-driven-development`, `systematic-debugging` |
 | `terminal` | 0.1.0 | `tmux` |
+| `frontend-design` | 0.1.0 | `frontend-design` |
 
 ## How to Develop a New Skill
 

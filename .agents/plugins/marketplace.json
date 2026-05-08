@@ -131,6 +131,22 @@
         "displayName": "Terminal",
         "shortDescription": "Control interactive CLIs through tmux"
       }
+    },
+    {
+      "name": "frontend-design",
+      "source": {
+        "source": "local",
+        "path": "./plugins/frontend-design"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools",
+      "interface": {
+        "displayName": "Frontend Design",
+        "shortDescription": "Create distinctive, production-grade frontend interfaces"
+      }
     }
   ]
 }

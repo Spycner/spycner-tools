@@ -1,0 +1,16 @@
+frontend-design
+Copyright 2026 Pascal Göllner
+
+This plugin contains content derived from Anthropic's frontend-design plugin
+(https://github.com/anthropics/claude-plugins/tree/main/plugins/frontend-design),
+authored by Prithvi Rajasekaran and Alexander Bricken, licensed under the
+Apache License, Version 2.0:
+
+  - skills/frontend-design/SKILL.md (verbatim body; frontmatter normalized
+      to drop the upstream `license: Complete terms in LICENSE.txt` line,
+      since this plugin uses LICENSE and NOTICE rather than LICENSE.txt)
+
+Apache License 2.0: http://www.apache.org/licenses/LICENSE-2.0
+
+Adaptations are licensed under MIT (see LICENSE) where they qualify as
+original work; preserved upstream content remains under Apache 2.0.
