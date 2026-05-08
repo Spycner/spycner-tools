@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+# containers/dev/run-dev
+set -euo pipefail
+
+IMAGE_TAG="pgoell-dev-container:latest"
+CONTAINER_NAME="claude-codex-dev"
+MISE_VOLUME="claude-codex-mise"
+HISTORY_VOLUME="claude-codex-shell-history"
+
+detect_engine() {
+    if [ -n "${CONTAINER_ENGINE:-}" ]; then
+        if command -v "$CONTAINER_ENGINE" >/dev/null 2>&1; then
+            echo "$CONTAINER_ENGINE"
+            return 0
+        fi
+        echo "CONTAINER_ENGINE=$CONTAINER_ENGINE not found on PATH" >&2
+        return 1
+    fi
+    if command -v podman >/dev/null 2>&1; then echo podman; return 0; fi
+    if command -v docker >/dev/null 2>&1; then echo docker; return 0; fi
+    echo "neither podman nor docker found on PATH" >&2
+    return 1
+}
+
+image_exists() {
+    local engine="$1"
+    "$engine" images -q "$IMAGE_TAG" 2>/dev/null | grep -q .
+}
+
+container_exists() {
+    local engine="$1"
+    "$engine" inspect "$CONTAINER_NAME" >/dev/null 2>&1
+}
+
+build_image() {
+    local engine="$1"
+    local script_dir
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    "$engine" build -t "$IMAGE_TAG" "$script_dir"
+}
+
+run_container() {
+    local engine="$1"
+    local host_shell="${HOST_SHELL:-${SHELL:-/bin/bash}}"
+    local copy_dotfiles="${COPY_DOTFILES:-1}"
+    # Rootless podman remaps container UIDs into a subordinate range by
+    # default, which makes the bind-mounted host home (mode 0750) unreadable
+    # to the container's dev user. --userns=keep-id keeps host UID == container
+    # UID so the dev user inside is the same person who owns the host files.
+    # Docker has no default user namespace remapping, so passing --user is
+    # enough there.
+    local userns_args=()
+    if [ "$engine" = "podman" ]; then
+        userns_args=(--userns=keep-id)
+    else
+        userns_args=(--user "$(id -u):$(id -g)")
+    fi
+    "$engine" run -d \
+        --name "$CONTAINER_NAME" \
+        "${userns_args[@]}" \
+        -v "$HOME/.claude:/home/dev/.claude" \
+        -v "$HOME/.codex:/home/dev/.codex" \
+        -v "$PWD:/workspace" \
+        -v "$HOME:/host-home:ro" \
+        -v "$MISE_VOLUME:/home/dev/.local/share/mise" \
+        -v "$HISTORY_VOLUME:/home/dev/.shell_history" \
+        -e "HOST_SHELL=$host_shell" \
+        -e "COPY_DOTFILES=$copy_dotfiles" \
+        "$IMAGE_TAG"
+}
+
+start_container() {
+    local engine
+    engine="$(detect_engine)"
+    image_exists "$engine" || build_image "$engine"
+    if container_exists "$engine"; then
+        "$engine" start "$CONTAINER_NAME" >/dev/null
+    else
+        run_container "$engine" >/dev/null
+    fi
+}
+
+shell_into() {
+    local engine
+    engine="$(detect_engine)"
+    local host_shell="${HOST_SHELL:-${SHELL:-/bin/bash}}"
+    "$engine" exec -it "$CONTAINER_NAME" "$host_shell"
+}
+
+stop_container() {
+    local engine
+    engine="$(detect_engine)"
+    "$engine" stop "$CONTAINER_NAME" >/dev/null
+}
+
+status_container() {
+    local engine
+    engine="$(detect_engine)"
+    echo "engine: $engine"
+    echo "container: $CONTAINER_NAME"
+    if container_exists "$engine"; then
+        local running
+        running="$("$engine" inspect -f '{{.State.Running}}' "$CONTAINER_NAME" 2>/dev/null || echo unknown)"
+        echo "running: $running"
+    else
+        echo "running: not created"
+    fi
+    echo "image: $IMAGE_TAG"
+    echo "volumes: $MISE_VOLUME, $HISTORY_VOLUME"
+}
+
+rebuild_container() {
+    local engine
+    engine="$(detect_engine)"
+    "$engine" rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
+    "$engine" rmi -f "$IMAGE_TAG" >/dev/null 2>&1 || true
+    build_image "$engine"
+    run_container "$engine" >/dev/null
+}
+
+cmd="${1:-start}"
+shift || true
+
+case "$cmd" in
+    engine)  detect_engine ;;
+    start)   start_container ;;
+    shell)   shell_into ;;
+    stop)    stop_container ;;
+    status)  status_container ;;
+    rebuild) rebuild_container ;;
+    *) echo "unknown subcommand: $cmd" >&2; exit 2 ;;
+esac
