@@ -25,12 +25,12 @@ Mode B (this file) is about behavior under realistic prompts, judged by the user
 
 ## Prerequisites
 
-- The skill exists at `plugins/<plugin>/skills/<skill>/`.
+- The skill exists at `{{plugin_dir}}/<plugin>/skills/<skill>/`.
 - The user is willing to provide 2 to 3 realistic test prompts the skill should handle.
 - The host agent has subagent dispatch available:
   - **Claude Code**: `Agent` tool with `subagent_type: "general-purpose"`.
   - **Codex**: equivalent general-purpose subagent dispatcher.
-- If subagent dispatch is unavailable, fall back to running prompts via the repo's `run_claude` helper from `tests/test-helpers.sh` and pasting outputs back into the controller context. Output quality is the same; the controller just carries more context.
+- If subagent dispatch is unavailable, fall back to running prompts via the host repo's test helpers (typically a `run_claude` function in `tests/test-helpers.sh` or equivalent) and pasting outputs back into the controller context. Output quality is the same; the controller just carries more context.
 
 ---
 
@@ -89,7 +89,7 @@ Before any edits, freeze the baseline:
 
 ```bash
 mkdir -p /tmp/<skill>-iteration
-cp -r plugins/<plugin>/skills/<skill> /tmp/<skill>-iteration/skill-snapshot
+cp -r {{plugin_dir}}/<plugin>/skills/<skill> /tmp/<skill>-iteration/skill-snapshot
 ```
 
 Why: the baseline arm always uses the pre-edit version, so user feedback compares apples to apples across iterations. If you skip this and edit the live skill, your "old" arm drifts and you lose the comparison.
@@ -108,7 +108,7 @@ Good prompts:
 - Match what a real user would actually type, not a clean test case.
 - Cover different shapes of work the skill should handle (e.g. for a Confluence skill: create a new page, update an existing page, search for prior art).
 
-Reuse `tests/skill-triggering/prompts/<service>-*.txt` if those prompts cover real use cases. Otherwise write fresh ones with the user.
+Reuse `{{test_triggering_dir}}/prompts/<service>-*.txt` if those prompts cover real use cases. Otherwise write fresh ones with the user.
 
 Save to `/tmp/<skill>-iteration/evals.json` using the schema above.
 
@@ -140,10 +140,10 @@ Why a subagent: the subagent does the work in an isolated context. The controlle
 
 Dispatch all baseline subagents in parallel (one Agent call per eval, all in the same turn).
 
-If subagent dispatch is unavailable, run the prompts inline via the `run_claude` helper from `tests/test-helpers.sh`:
+If subagent dispatch is unavailable, run the prompts inline via the host repo's `run_claude` helper (typically `tests/test-helpers.sh` or equivalent):
 
 ```bash
-source tests/test-helpers.sh
+source {{test_unit_dir}}/../test-helpers.sh   # or wherever the host repo keeps shared helpers
 PLUGIN_DIR=/tmp/<skill>-iteration/skill-snapshot run_claude "<eval prompt>"
 ```
 
@@ -156,7 +156,7 @@ Capture the output to the same `old/outputs/` directory by hand.
 Same template as Step 3, but point at the live skill directory and write to `new/`:
 
 ```
-Skill path: plugins/<plugin>/skills/<skill>
+Skill path: {{plugin_dir}}/<plugin>/skills/<skill>
 ...
 Save all output files to: /tmp/<skill>-iteration/iteration-<N>/eval-<id>/new/outputs/
 Save a short transcript to: /tmp/<skill>-iteration/iteration-<N>/eval-<id>/new/transcript.txt
@@ -195,7 +195,7 @@ Generalize from the feedback. Do not overfit to one prompt:
 
 Prefer explanations over rules. If you find yourself writing `ALWAYS` or `NEVER` in caps to enforce something, reframe it as the reasoning behind the behavior. The model is smart; it follows reasoning better than it follows shouting.
 
-Edits land in the live skill directory (`plugins/<plugin>/skills/<skill>/`). The snapshot stays untouched.
+Edits land in the live skill directory (`{{plugin_dir}}/<plugin>/skills/<skill>/`). The snapshot stays untouched.
 
 ---
 
@@ -239,6 +239,6 @@ Five common mistakes to avoid:
 
 ## Attribution
 
-Methodology adapted from the upstream `skill-creator:skill-creator` skill (MIT). This file describes the conceptual loop in this repo's voice; no scripts are bundled.
+Methodology adapted from the upstream `skill-creator:skill-creator` skill (MIT). This file describes the conceptual loop in marketplace-agnostic form; no scripts are bundled.
 
-The upstream uses Python helpers (`scripts/aggregate_benchmark.py`, `eval-viewer/generate_review.py`) to manage the eval workspace and render results. This file relies on the host agent's subagent dispatch and the repo's existing `tests/test-helpers.sh` (`run_claude`, `run_claude_logged`) for the same effect at lower complexity. If you need quantitative benchmarking with grading and variance analysis, reach for the upstream skill instead.
+The upstream uses Python helpers (`scripts/aggregate_benchmark.py`, `eval-viewer/generate_review.py`) to manage the eval workspace and render results. This file relies on the host agent's subagent dispatch and the host repo's test helpers (`run_claude`, `run_claude_logged` or equivalent) for the same effect at lower complexity. If you need quantitative benchmarking with grading and variance analysis, reach for the upstream skill instead.
