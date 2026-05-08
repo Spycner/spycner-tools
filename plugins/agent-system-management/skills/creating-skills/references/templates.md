@@ -1,6 +1,6 @@
 # Skill scaffolding templates
 
-Boilerplate for new skills in the pgoell-claude-tools repo. Copy a section to the target location, then fill in `<placeholder>` values.
+Boilerplate for new skills in any plugin marketplace. Copy a section to the target location, then fill in `{{handlebars}}` from probe results (see the variable table at the top of `SKILL.md`) and `<placeholder>` from user input. The two intents stay distinguishable on purpose: handlebars are filled at runtime by the convention probes; angle-bracket placeholders are filled by the user.
 
 ## SKILL.md template: API/CLI wrapper (Tier 1/2/3)
 
@@ -181,8 +181,8 @@ description: Use when the user wants reference material on <topic>.
   "name": "<plugin-name>",
   "version": "0.1.0",
   "description": "<one-line description>",
-  "author": { "name": "Pascal Göllner" },
-  "license": "MIT",
+  "author": { "name": "{{author}}" },
+  "license": "{{license}}",
   "keywords": ["<keyword-1>", "<keyword-2>", "<keyword-3>"]
 }
 ```
@@ -194,15 +194,15 @@ description: Use when the user wants reference material on <topic>.
   "name": "<plugin-name>",
   "version": "0.1.0",
   "description": "<one-line description>",
-  "author": { "name": "Pascal Göllner" },
-  "license": "MIT",
+  "author": { "name": "{{author}}" },
+  "license": "{{license}}",
   "keywords": ["<keyword-1>", "<keyword-2>", "<keyword-3>"],
   "skills": "./skills/",
   "interface": {
     "displayName": "<Plugin Display Name>",
     "shortDescription": "<short human-facing description>",
     "longDescription": "<longer human-facing description, two or three sentences>",
-    "developerName": "Pascal Göllner",
+    "developerName": "{{author}}",
     "category": "Productivity",
     "capabilities": ["Interactive", "Read", "Write"],
     "defaultPrompt": [
@@ -216,12 +216,12 @@ description: Use when the user wants reference material on <topic>.
 
 ## Claude Code marketplace entry template
 
-Insert into the `plugins` array of `.claude-plugin/marketplace.json`:
+Insert into the `plugins` array of `{{marketplace_claude_path}}` (only if probe 1 found this manifest):
 
 ```json
 {
   "name": "<plugin-name>",
-  "source": "./plugins/<plugin-name>",
+  "source": "./{{plugin_dir}}/<plugin-name>",
   "description": "<one-line description>",
   "version": "0.1.0"
 }
@@ -229,14 +229,14 @@ Insert into the `plugins` array of `.claude-plugin/marketplace.json`:
 
 ## Codex marketplace entry template
 
-Insert into the `plugins` array of `.agents/plugins/marketplace.json`:
+Insert into the `plugins` array of `{{marketplace_codex_path}}` (only if probe 1 found this manifest):
 
 ```json
 {
   "name": "<plugin-name>",
   "source": {
     "source": "local",
-    "path": "./plugins/<plugin-name>"
+    "path": "./{{plugin_dir}}/<plugin-name>"
   },
   "policy": {
     "installation": "AVAILABLE",
@@ -250,15 +250,17 @@ Insert into the `plugins` array of `.agents/plugins/marketplace.json`:
 }
 ```
 
-## README.md plugin row template
+## Top-level plugin index doc templates
 
-Insert into the Skills table in `README.md`. One row per skill in the new plugin:
+Edit `{{plugin_index_doc}}` (only the docs probe 6 found). Use whichever shape your existing index doc already follows.
+
+**Variant A: skills table row.** When the index doc uses a markdown table per skill:
 
 ```markdown
 | `<skill-name>` | <plugin-name> | <what the skill does, one short clause> |
 ```
 
-If the plugin needs its own section under Plugins, follow this shape:
+**Variant B: per-plugin section.** When the index doc uses a section per plugin:
 
 ```markdown
 ### <plugin-name>
@@ -266,20 +268,20 @@ If the plugin needs its own section under Plugins, follow this shape:
 <One-line description of the plugin.>
 
 **Skills:**
-- `/pgoell-claude-tools:<skill-name>`: <what the skill does>
+- `<skill-name>`: <what the skill does>
 ```
 
-## CLAUDE.md "Current Plugins" row template
-
-Insert into the Current Plugins table in `CLAUDE.md`:
+**Variant C: current-plugins table row.** When the index doc tracks plugin versions in a table:
 
 ```markdown
 | `<plugin-name>` | 0.1.0 | `<skill-1>`, `<skill-2>` |
 ```
 
+The version field is bumped in lockstep with the plugin manifests; see Probe 7's `{{lockstep_files}}` set.
+
 ## Unit test scaffold template
 
-Save as `tests/unit/test-<plugin>-<skill>-skill.sh` and `chmod +x`.
+Save as `{{test_unit_dir}}/test-<plugin>-<skill>-skill.sh` and `chmod +x`. (If `{{test_unit_dir}}` is absent, see the Bootstrap section in `references/test-patterns.md`.)
 
 ```bash
 #!/usr/bin/env bash
@@ -292,7 +294,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/../test-helpers.sh"
 
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-SKILL_DIR="$REPO_ROOT/plugins/<plugin>/skills/<skill>"
+SKILL_DIR="$REPO_ROOT/{{plugin_dir}}/<plugin>/skills/<skill>"
 SKILL_MD="$SKILL_DIR/SKILL.md"
 
 echo "=== Test: <plugin>:<skill> skill structure ==="
@@ -346,8 +348,8 @@ echo ""
 
 # Test 5: Plugin manifests valid JSON and at expected version
 echo "Test 5: Plugin manifests valid and at <expected-version>..."
-CCM="$REPO_ROOT/plugins/<plugin>/.claude-plugin/plugin.json"
-CXM="$REPO_ROOT/plugins/<plugin>/.codex-plugin/plugin.json"
+CCM="$REPO_ROOT/{{plugin_dir}}/<plugin>/.claude-plugin/plugin.json"
+CXM="$REPO_ROOT/{{plugin_dir}}/<plugin>/.codex-plugin/plugin.json"
 if jq empty "$CCM" >/dev/null 2>&1 && jq empty "$CXM" >/dev/null 2>&1; then
     echo "  [PASS] both manifests are valid JSON"
 else
@@ -364,16 +366,20 @@ echo ""
 
 # Test 6: Marketplace entries present
 echo "Test 6: Marketplace entries present..."
-MP_CC="$REPO_ROOT/.claude-plugin/marketplace.json"
-MP_CX="$REPO_ROOT/.agents/plugins/marketplace.json"
-if jq -e '.plugins[] | select(.name == "<plugin>")' "$MP_CC" >/dev/null; then
+MP_CC="$REPO_ROOT/{{marketplace_claude_path}}"
+MP_CX="$REPO_ROOT/{{marketplace_codex_path}}"
+if [ -f "$MP_CC" ] && jq -e '.plugins[] | select(.name == "<plugin>")' "$MP_CC" >/dev/null; then
     echo "  [PASS] Claude marketplace lists <plugin>"
+elif [ ! -f "$MP_CC" ]; then
+    echo "  [SKIP] Claude marketplace not present in this repo"
 else
     echo "  [FAIL] Claude marketplace missing <plugin>"
     exit 1
 fi
-if jq -e '.plugins[] | select(.name == "<plugin>")' "$MP_CX" >/dev/null; then
+if [ -f "$MP_CX" ] && jq -e '.plugins[] | select(.name == "<plugin>")' "$MP_CX" >/dev/null; then
     echo "  [PASS] Codex marketplace lists <plugin>"
+elif [ ! -f "$MP_CX" ]; then
+    echo "  [SKIP] Codex marketplace not present in this repo"
 else
     echo "  [FAIL] Codex marketplace missing <plugin>"
     exit 1
@@ -385,7 +391,7 @@ echo "=== Tests complete ==="
 
 ## Skill-triggering prompt template
 
-Save as `tests/skill-triggering/prompts/<skill>-<action>.txt`. One-line, action-led, realistic.
+Save as `{{test_triggering_dir}}/prompts/<skill>-<action>.txt`. One-line, action-led, realistic.
 
 Good (concrete verb, names the artifact):
 
@@ -402,12 +408,12 @@ Find some stuff for me please.
 Run with:
 
 ```bash
-PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh <skill> tests/skill-triggering/prompts/<skill>-<action>.txt
+PLUGIN_DIR={{plugin_dir}}/<plugin> bash {{test_triggering_dir}}/run-test.sh <skill> {{test_triggering_dir}}/prompts/<skill>-<action>.txt
 ```
 
 ## Integration test scaffold template
 
-Save as `tests/integration/test-<plugin>-<skill>-integration.sh` and `chmod +x`. Skip cleanly when auth is missing.
+Save as `{{test_integration_dir}}/test-<plugin>-<skill>-integration.sh` and `chmod +x`. Skip cleanly when auth is missing.
 
 ```bash
 #!/usr/bin/env bash
