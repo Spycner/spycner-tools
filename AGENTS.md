@@ -55,7 +55,7 @@ tests/
 ### 1. Plan the skill
 
 - Identify the CLI tool or API the skill wraps
-- Prefer invoking the CLI or `curl` directly in the skill — no wrapper scripts
+- Prefer invoking the CLI or `curl` directly in the skill (no wrapper scripts)
 - Define operation tiers: Tier 1 (Read), Tier 2 (Write), Tier 3 (Manage/Admin)
 
 ### 2. Create the plugin structure
@@ -129,38 +129,38 @@ description: Use when the user wants to <what this skill does>
 ## Tool Preference
 <What tools to use and in what priority order>
 
-## Operations — Tier 1 (Read)
+## Operations: Tier 1 (Read)
 <Read-only operations with exact commands>
 
-## Operations — Tier 2 (Write)
+## Operations: Tier 2 (Write)
 <Create/update operations with exact commands>
 
-## Operations — Tier 3 (Manage)
+## Operations: Tier 3 (Manage)
 <Admin/destructive operations with exact commands>
 
 ## Self-Healing
-<What to do when commands fail — help flags, schema inspection, error codes>
+<What to do when commands fail (help flags, schema inspection, error codes)>
 
 ## Behavioral Guidelines
 <How Claude should infer intent and pick operations>
 ```
 
 Key principles:
-- **Exact commands** — show copy-pasteable commands, not pseudocode
-- **Auth is lazy** — attempt the operation first, diagnose auth failures in Self-Healing. Never print credential values.
-- **Prefer helpers over raw API** — if the CLI has convenience commands, use them
-- **Confirm before destructive ops** — always ask the user before delete operations
-- **Platform-aware tool names** — when a skill uses orchestration tools, include a short mapping for Claude Code and Codex instead of hardcoding one runtime only.
-- **Self-healing is critical** — tell the host agent how to debug when things go wrong
+- **Exact commands.** Show copy-pasteable commands, not pseudocode.
+- **Auth is lazy.** Attempt the operation first, diagnose auth failures in Self-Healing. Never print credential values.
+- **Prefer helpers over raw API.** If the CLI has convenience commands, use them.
+- **Confirm before destructive ops.** Always ask the user before delete operations.
+- **Platform-aware tool names.** When a skill uses orchestration tools, include a short mapping for Claude Code and Codex instead of hardcoding one runtime only.
+- **Self-healing is critical.** Tell the host agent how to debug when things go wrong.
 
 ### 4. Add reference docs
 
 Create `<service>-<topic>.md` files for complex query syntaxes, format references, or recipe collections. Keep them in the same directory as SKILL.md. Reference them from SKILL.md with `See <filename>`.
 
 Examples:
-- `jql-recipes.md` — JQL query patterns for Jira
-- `gmail-search-recipes.md` — Gmail search operators
-- `calendar-recipes.md` — Calendar operation patterns
+- `jql-recipes.md`: JQL query patterns for Jira
+- `gmail-search-recipes.md`: Gmail search operators
+- `calendar-recipes.md`: Calendar operation patterns
 
 ### 5. Write tests
 
@@ -183,7 +183,7 @@ Follow the existing patterns in `tests/`:
 - One natural-language prompt per file
 - Run with: `PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh <skill-name> tests/skill-triggering/prompts/<file>.txt`
 
-**Auth helpers** — add a `check_<tool>_auth()` function to `tests/test-helpers.sh` if your tool has its own auth mechanism.
+**Auth helpers.** Add a `check_<tool>_auth()` function to `tests/test-helpers.sh` if your tool has its own auth mechanism.
 
 ### 6. Update README.md
 
@@ -209,8 +209,8 @@ PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh --not <skill
 
 ## Design Decisions
 
-- **No wrapper scripts.** Skills use the underlying CLI directly (`gws` for Google Workspace) or raw `curl` with env-var auth (for Atlassian). This keeps each skill self-contained — no extra bash layer to maintain, debug, or ship with the plugin.
-- **One skill per service, one plugin per product family.** Gmail and Calendar are both under `google-workspace`. Jira and Confluence are both under `atlassian`. Workbench is the exception: its skills (`brainstorming`, `writing-spec`, `writing-plans`, `visualizing-options`, `using-workbench`, `terse-mode`, `autopilot`, `verification-before-completion`, `test-driven-development`, `dispatching-parallel-agents`, `subagent-driven-development`, `systematic-debugging`) are peer workflow and session-control capabilities rather than separate services, so they ship together but stay split so the host agent (or autopilot) can invoke each phase independently. Terminal capabilities that depend on local Unix tools belong in the `terminal` plugin so Windows users can skip them unless they use WSL.
+- **No wrapper scripts.** Skills use the underlying CLI directly (`gws` for Google Workspace) or raw `curl` with env-var auth (for Atlassian). This keeps each skill self-contained, with no extra bash layer to maintain, debug, or ship with the plugin.
+- **One skill per service, one plugin per product family.** Gmail and Calendar are both under `google-workspace`. Jira and Confluence are both under `atlassian`. Workbench is the exception: its skills (`brainstorming`, `writing-spec`, `writing-plans`, `visualizing-options`, `using-workbench`, `terse-mode`, `autopilot`, `verification-before-completion`, `test-driven-development`, `dispatching-parallel-agents`, `subagent-driven-development`, `systematic-debugging`) are peer workflow and session-control capabilities rather than separate services, so they ship together but stay split so the host agent (or autopilot) can invoke each phase independently. Terminal capabilities that depend on local Unix tools belong in the `terminal` plugin, so Windows users can skip them unless they use WSL.
 - **Every plugin change bumps version.** Any change to a plugin's skills, metadata, docs, hooks, agents, or tests must bump that plugin's version in lockstep across both runtime manifests and every marketplace entry that records a version. New skills are minor bumps; fixes, docs, tests, and description changes are patch bumps unless they change behavior materially. The Claude marketplace entry (`.claude-plugin/marketplace.json`) carries a `version` field per plugin; the Codex marketplace entry (`.agents/plugins/marketplace.json`) does not, so version assertions only apply to the Claude marketplace and the two runtime manifests. Several `tests/unit/test-workbench-*-skill.sh` files pin the workbench plugin version with `jq -e '.version == "X.Y.Z"'`; bumping the workbench version requires updating those literal pins in the same commit, otherwise the next test run fails on stale assertions.
 - **Skills are self-contained.** Each SKILL.md should contain everything the host agent needs to use the service without reading other files (except reference docs it explicitly links to).
 - **Codex compatibility is metadata plus platform mapping.** Codex manifests live beside Claude Code manifests and point at the same `skills` directory. Platform-specific tool differences belong in the shared skill body as a mapping, not in duplicated skill files.
@@ -219,4 +219,4 @@ PLUGIN_DIR=plugins/<plugin> bash tests/skill-triggering/run-test.sh --not <skill
 - **Prefer filesystem-check unit tests over `run_claude` for structure verification.** When verifying a skill exists, has valid frontmatter, references its bundled docs, or hits required headings, use `jq`, `grep`, `head`, and `[ -s "$f" ]` (see `tests/unit/test-workbench-autopilot-skill.sh` for the canonical shape). Reserve `run_claude` for cases where actual model output must be exercised. Filesystem checks are fast, deterministic, and run without spawning Claude Code subprocesses.
 - **Em-dash lint and instruction text:** when a markdown file needs to describe the forbidden em-dash or en-dash characters (e.g., a SKILL.md that explains the no-em-dash rule), reference them by Unicode codepoint (`U+2014`, `U+2013`) instead of including the literal characters. Otherwise the em-dash lint matches on the description itself.
 - **Agents for long-running, context-heavy operations.** When a skill's execution would consume significant context (e.g. dozens of web pages for research), define an agent in `agents/` and have the skill dispatch it via the host subagent tool. The agent runs in an isolated subagent context. Use skills for everything else.
-- **Lazy auth, never print secrets.** Skills do not check authentication upfront. They attempt the operation and only diagnose auth issues when commands fail (in Self-Healing). Credentials, tokens, and API keys are NEVER printed or echoed — only check whether they are set (`test -n`), never display values.
+- **Lazy auth, never print secrets.** Skills do not check authentication upfront. They attempt the operation and only diagnose auth issues when commands fail (in Self-Healing). Credentials, tokens, and API keys are NEVER printed or echoed. Only check whether they are set (`test -n`), never display values.
