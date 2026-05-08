@@ -44,4 +44,39 @@ make_shim podman
 out=$(PATH="$mock_dir:$PATH" CONTAINER_ENGINE=docker "$WRAPPER" engine 2>&1) || fail "override failed"
 [ "$out" = "docker" ] || fail "expected docker via override, got: $out"
 
+# --- Task 4: start subcommand tests ---
+
+# Capture-shim: writes invocation to a log file instead of executing.
+make_capture_shim() {
+    local name="$1"
+    local log="$2"
+    cat > "$mock_dir/$name" <<EOF
+#!/usr/bin/env bash
+echo "\$@" >> "$log"
+case "\$1" in
+    inspect) exit 1 ;;  # simulate "container does not exist"
+    images) echo "" ;;  # simulate "image does not exist"
+    *) exit 0 ;;
+esac
+EOF
+    chmod +x "$mock_dir/$name"
+}
+
+log_file="$(mktemp)"
+make_capture_shim podman "$log_file"
+rm -f "$mock_dir/docker"
+
+cd /tmp
+PATH="$mock_dir:$PATH" HOST_SHELL=/bin/bash "$WRAPPER" start >/dev/null 2>&1 || fail "start subcmd failed"
+
+grep -q "^build " "$log_file" || fail "expected 'build' invocation"
+grep -q "^run .*--name claude-codex-dev" "$log_file" || fail "expected '--name claude-codex-dev'"
+grep -q "^run .*-v .*\.claude:/home/dev/\.claude" "$log_file" || fail "expected .claude bind mount"
+grep -q "^run .*-v .*\.codex:/home/dev/\.codex" "$log_file"  || fail "expected .codex bind mount"
+grep -q "^run .*-v /tmp:/workspace" "$log_file" || fail "expected /tmp:/workspace bind mount"
+grep -q "^run .*-v claude-codex-mise:/home/dev/\.local/share/mise" "$log_file" || fail "expected mise volume"
+grep -q "^run .*-e HOST_SHELL=/bin/bash" "$log_file" || fail "expected HOST_SHELL env"
+grep -q "^run .*-e COPY_DOTFILES=" "$log_file" || fail "expected COPY_DOTFILES env"
+grep -q "^run .*-v .*:/host-home:ro" "$log_file" || fail "expected /host-home read-only mount"
+
 echo "PASS: wrapper engine detection"

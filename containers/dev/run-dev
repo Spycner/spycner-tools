@@ -2,6 +2,11 @@
 # containers/dev/run-dev
 set -euo pipefail
 
+IMAGE_TAG="pgoell-dev-container:latest"
+CONTAINER_NAME="claude-codex-dev"
+MISE_VOLUME="claude-codex-mise"
+HISTORY_VOLUME="claude-codex-shell-history"
+
 detect_engine() {
     if [ -n "${CONTAINER_ENGINE:-}" ]; then
         if command -v "$CONTAINER_ENGINE" >/dev/null 2>&1; then
@@ -17,10 +22,57 @@ detect_engine() {
     return 1
 }
 
+image_exists() {
+    local engine="$1"
+    "$engine" images -q "$IMAGE_TAG" 2>/dev/null | grep -q .
+}
+
+container_exists() {
+    local engine="$1"
+    "$engine" inspect "$CONTAINER_NAME" >/dev/null 2>&1
+}
+
+build_image() {
+    local engine="$1"
+    local script_dir
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    "$engine" build -t "$IMAGE_TAG" "$script_dir"
+}
+
+run_container() {
+    local engine="$1"
+    local host_shell="${HOST_SHELL:-${SHELL:-/bin/bash}}"
+    local copy_dotfiles="${COPY_DOTFILES:-1}"
+    "$engine" run -d \
+        --name "$CONTAINER_NAME" \
+        --user "$(id -u):$(id -g)" \
+        -v "$HOME/.claude:/home/dev/.claude" \
+        -v "$HOME/.codex:/home/dev/.codex" \
+        -v "$PWD:/workspace" \
+        -v "$HOME:/host-home:ro" \
+        -v "$MISE_VOLUME:/home/dev/.local/share/mise" \
+        -v "$HISTORY_VOLUME:/home/dev/.shell_history" \
+        -e "HOST_SHELL=$host_shell" \
+        -e "COPY_DOTFILES=$copy_dotfiles" \
+        "$IMAGE_TAG"
+}
+
+start_container() {
+    local engine
+    engine="$(detect_engine)"
+    image_exists "$engine" || build_image "$engine"
+    if container_exists "$engine"; then
+        "$engine" start "$CONTAINER_NAME" >/dev/null
+    else
+        run_container "$engine" >/dev/null
+    fi
+}
+
 cmd="${1:-start}"
 shift || true
 
 case "$cmd" in
     engine) detect_engine ;;
+    start)  start_container ;;
     *) echo "unknown subcommand: $cmd" >&2; exit 2 ;;
 esac
