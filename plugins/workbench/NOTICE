@@ -35,3 +35,27 @@ Files derived from upstream Superpowers:
   hooks/session-start
 
 Adaptations from upstream live in the git history for the Workbench plugin files.
+
+---
+
+This plugin contains content derived from ThariqS/html-effectiveness
+(https://github.com/ThariqS/html-effectiveness, commit 5d64f68 at time
+of port), authored by Thariq Shihipar:
+
+  - skills/crafting-html/SKILL.md (original work, not derived)
+  - skills/crafting-html/references/*.html (verbatim bodies except
+      U+2014 and U+2013 replaced with project-lint-compliant
+      punctuation; no semantic content changed)
+
+The upstream repository declares no license at time of port (GitHub
+API reports license: null, no LICENSE file in the repo). Content is
+included under the upstream author's public publishing intent (the
+repository is the published gallery referenced from Thariq Shihipar's
+blog post on HTML effectiveness, with the explicit invitation
+"you can see a bunch here: https://thariqs.github.io/html-effectiveness").
+All rights to the original text remain with Thariq Shihipar. If the
+upstream license posture changes, this NOTICE should be updated and
+files may need to be removed or relicensed accordingly.
+
+Adaptations to the crafting-html references (the punctuation
+substitution) are mechanical and add no original authorship.
