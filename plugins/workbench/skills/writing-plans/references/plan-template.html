@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Implementation Plan Template</title>
+  <style>
+    :root {
+      --bg: #f7f7f4;
+      --surface: #ffffff;
+      --ink: #1c1c1a;
+      --muted: #6b6b66;
+      --rule: #e5e3dc;
+      --rule-strong: #cdcabe;
+      --accent: #2d5a8a;
+      --accent-soft: #e6eef7;
+      --good: #1f7a3d;
+      --good-soft: #e6f4ec;
+      --bad: #b13a2a;
+      --bad-soft: #fbe8e3;
+      --warn: #8a6d1f;
+      --warn-soft: #f6efd8;
+      --code-bg: #1d1f23;
+      --code-ink: #e9e7df;
+
+      --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-lg: 14px;
+
+      --pad: clamp(16px, 4vw, 32px);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: var(--pad);
+    }
+
+    a { color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; }
+    a:hover { opacity: 0.8; }
+
+    h1, h2, h3, h4 { color: var(--ink); line-height: 1.25; margin: 0; }
+    h1 { font-size: clamp(24px, 5vw, 32px); font-weight: 700; letter-spacing: -0.01em; }
+    h2 { font-size: clamp(18px, 3.6vw, 22px); font-weight: 600; letter-spacing: -0.005em; }
+    h3 { font-size: clamp(16px, 3vw, 18px); font-weight: 600; }
+    p  { margin: 0 0 12px; }
+
+    code, pre, kbd, samp { font-family: var(--mono); }
+    code { font-size: 0.92em; background: var(--rule); padding: 0.05em 0.35em; border-radius: 4px; }
+    pre  { font-size: 0.9em; }
+
+    /* ---------- header ---------- */
+
+    .page-head {
+      display: grid;
+      gap: 12px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 32px;
+    }
+    .page-head .eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .page-head .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      font-size: 14px;
+      color: var(--muted);
+      align-items: center;
+    }
+    .meta .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+    .meta .pill.status-draft   { background: var(--warn-soft); color: var(--warn); border-color: var(--warn); }
+    .meta .pill.status-active  { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+    .meta .pill.status-done    { background: var(--good-soft); color: var(--good); border-color: var(--good); }
+
+    /* ---------- sections ---------- */
+
+    section { margin: 0 0 40px; }
+
+    section > h2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--rule);
+    }
+    section > h2::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    /* ---------- summary (definition list) ---------- */
+
+    #summary dl {
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      gap: 10px 24px;
+      margin: 0;
+    }
+    #summary dt {
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding-top: 2px;
+    }
+    #summary dd { margin: 0; }
+    #summary dd ul { margin: 0; padding-left: 18px; }
+    @media (max-width: 540px) {
+      #summary dl { grid-template-columns: 1fr; gap: 4px 0; }
+      #summary dt { padding-top: 12px; }
+      #summary dd { padding-bottom: 8px; border-bottom: 1px solid var(--rule); }
+      #summary dd:last-of-type { border-bottom: 0; }
+    }
+
+    /* ---------- file structure ---------- */
+
+    #file-structure details {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: var(--r-md);
+      padding: 12px 16px;
+      margin-bottom: 8px;
+    }
+    #file-structure details + details { margin-top: 8px; }
+    #file-structure summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--ink);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #file-structure summary::-webkit-details-marker { display: none; }
+    #file-structure summary::before {
+      content: "+";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      background: var(--rule);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1;
+    }
+    #file-structure details[open] > summary::before { content: "\2212"; }
+    #file-structure .tree {
+      margin: 12px 0 0;
+      padding: 12px;
+      background: var(--bg);
+      border-radius: var(--r-sm);
+      font-family: var(--mono);
+      font-size: 13px;
+      white-space: pre;
+      overflow-x: auto;
+      color: var(--ink);
+    }
+    #file-structure .tag {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-left: 8px;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+    #file-structure .tag.modify { background: var(--warn-soft); color: var(--warn); }
+    #file-structure .tag.delete { background: var(--bad-soft); color: var(--bad); }
+
+    /* ---------- tasks ---------- */
+
+    #tasks .task {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--r-md);
+      padding: 18px 20px;
+      margin-bottom: 18px;
+    }
+    #tasks .task header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 8px 14px;
+      margin-bottom: 12px;
+    }
+    #tasks .task header .num {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    #tasks .task .files {
+      margin: 0 0 14px;
+      padding: 10px 12px;
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      border-radius: var(--r-sm);
+      font-family: var(--mono);
+      font-size: 12.5px;
+    }
+    #tasks .task .files ul { margin: 4px 0 0; padding-left: 0; list-style: none; }
+    #tasks .task .files li { padding: 1px 0; }
+    #tasks .task .files .label {
+      display: inline-block;
+      width: 60px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+
+    .steps {
+      list-style: none;
+      counter-reset: step;
+      margin: 0;
+      padding: 0;
+    }
+    .steps > li {
+      counter-increment: step;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 10px 12px;
+      padding: 10px 0;
+      border-top: 1px dashed var(--rule);
+    }
+    .steps > li:first-child { border-top: 0; padding-top: 4px; }
+    .steps .checkbox {
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--rule-strong);
+      border-radius: 4px;
+      background: var(--surface);
+      display: inline-block;
+      position: relative;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+    .steps .checkbox.done {
+      background: var(--good);
+      border-color: var(--good);
+    }
+    .steps .checkbox.done::after {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 1px;
+      width: 6px;
+      height: 11px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    .steps .step-body p:first-child { font-weight: 600; }
+    .steps .step-body p:first-child::before {
+      counter(step);
+      content: "Step " counter(step) ". ";
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .diff-block {
+      margin: 10px 0;
+      background: var(--code-bg);
+      color: var(--code-ink);
+      border-radius: var(--r-sm);
+      padding: 10px 0;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      overflow-x: auto;
+    }
+    .diff-block .line {
+      display: block;
+      padding: 1px 14px 1px 30px;
+      white-space: pre;
+      position: relative;
+    }
+    .diff-block .line::before {
+      position: absolute;
+      left: 10px;
+      width: 14px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .diff-block .add {
+      background: rgba(31, 122, 61, 0.18);
+      color: #b3e7c1;
+    }
+    .diff-block .add::before { content: "+"; color: #6fcf85; }
+    .diff-block .del {
+      background: rgba(177, 58, 42, 0.18);
+      color: #f3b8ad;
+    }
+    .diff-block .del::before { content: "-"; color: #ee8a7c; }
+    .diff-block .ctx::before { content: " "; }
+
+    .test-cmd {
+      display: block;
+      margin: 8px 0 4px;
+      padding: 8px 12px;
+      background: var(--code-bg);
+      color: var(--code-ink);
+      border-radius: var(--r-sm);
+      font-family: var(--mono);
+      font-size: 12.5px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .test-cmd::before {
+      content: "$ ";
+      color: var(--muted);
+      user-select: none;
+    }
+    .expected {
+      margin: 4px 0 0;
+      padding-left: 12px;
+      border-left: 3px solid var(--rule-strong);
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    /* ---------- testing table ---------- */
+
+    #testing .table-wrap { overflow-x: auto; }
+    #testing table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      font-size: 14px;
+    }
+    #testing th, #testing td {
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+    }
+    #testing th {
+      background: var(--bg);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    #testing tbody tr:last-child td { border-bottom: 0; }
+    #testing td code { display: inline-block; max-width: 100%; word-break: break-word; }
+
+    /* ---------- commit points ---------- */
+
+    #commit-points ol {
+      list-style: none;
+      counter-reset: cmt;
+      margin: 0;
+      padding: 0;
+    }
+    #commit-points li {
+      counter-increment: cmt;
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    #commit-points li::before {
+      content: counter(cmt, decimal-leading-zero);
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      background: var(--rule);
+      border-radius: 999px;
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .commit-msg {
+      position: relative;
+      display: block;
+      background: var(--code-bg);
+      color: var(--code-ink);
+      font-family: var(--mono);
+      font-size: 13px;
+      padding: 10px 56px 10px 14px;
+      border-radius: var(--r-sm);
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .commit-msg::after {
+      content: "copy";
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--code-ink);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      transition: background 120ms ease, color 120ms ease;
+    }
+    .commit-msg:hover::after {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      content: "copy to clipboard";
+    }
+
+    /* ---------- print ---------- */
+
+    @media print {
+      body { background: #fff; }
+      .page { padding: 0; max-width: 100%; }
+      #tasks .task { break-inside: avoid; }
+      .commit-msg::after { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <header class="page-head" id="header">
+      <span class="eyebrow">Implementation Plan</span>
+      <h1>Comment threads on task cards</h1>
+      <div class="meta">
+        <span><strong>Date:</strong> 2026-05-08</span>
+        <span><strong>Owner:</strong> Pascal Goellner</span>
+        <span class="pill status-active">Active</span>
+        <span><a href="../specs/2026-05-08-task-comments.md">Source spec</a></span>
+      </div>
+    </header>
+
+    <section id="summary">
+      <h2>Summary</h2>
+      <dl>
+        <dt>Goal</dt>
+        <dd>Add inline comment threads to task cards so collaborators can discuss work without leaving the board view.</dd>
+
+        <dt>Architecture</dt>
+        <dd>
+          <ul>
+            <li>New <code>comments</code> table joined to <code>tasks</code> by <code>task_id</code>.</li>
+            <li>Server-side rendered list with progressive enhancement for inline reply.</li>
+            <li>Read endpoint piggybacks on the existing task fetch to avoid a second round trip.</li>
+          </ul>
+        </dd>
+
+        <dt>Tech stack</dt>
+        <dd>
+          <ul>
+            <li>Backend: Node 20, Fastify, Postgres 16, Knex migrations.</li>
+            <li>Frontend: TypeScript, Preact, Tailwind, Vitest.</li>
+            <li>Testing: Vitest unit, Playwright e2e.</li>
+          </ul>
+        </dd>
+
+        <dt>Out of scope</dt>
+        <dd>Notifications, reactions, threaded replies (single-level only for v1).</dd>
+      </dl>
+    </section>
+
+    <section id="file-structure">
+      <h2>File structure</h2>
+
+      <details open>
+        <summary>Backend <span class="tag">create</span><span class="tag modify">modify</span></summary>
+        <pre class="tree">apps/api/
+  src/
+    routes/
+      tasks.ts            (modify)
+      comments.ts         (create)
+    services/
+      comments.ts         (create)
+    db/
+      migrations/
+        20260508_comments.sql   (create)
+  test/
+    routes/
+      comments.test.ts    (create)</pre>
+      </details>
+
+      <details>
+        <summary>Frontend <span class="tag">create</span><span class="tag modify">modify</span></summary>
+        <pre class="tree">apps/web/
+  src/
+    components/
+      TaskCard.tsx        (modify)
+      CommentThread.tsx   (create)
+      CommentForm.tsx     (create)
+    hooks/
+      useComments.ts      (create)
+  test/
+    CommentThread.test.tsx  (create)</pre>
+      </details>
+
+      <details>
+        <summary>Docs <span class="tag">create</span></summary>
+        <pre class="tree">docs/
+  features/
+    task-comments.md      (create)</pre>
+      </details>
+    </section>
+
+    <section id="tasks">
+      <h2>Tasks</h2>
+
+      <article class="task">
+        <header>
+          <span class="num">Task 01</span>
+          <h3>Create the <code>comments</code> table and migration</h3>
+        </header>
+
+        <div class="files">
+          <ul>
+            <li><span class="label">Create</span><code>apps/api/src/db/migrations/20260508_comments.sql</code></li>
+            <li><span class="label">Modify</span><code>apps/api/src/db/schema.ts</code></li>
+          </ul>
+        </div>
+
+        <ol class="steps">
+          <li>
+            <span class="checkbox" aria-hidden="true"></span>
+            <div class="step-body">
+              <p>Write the migration that defines the <code>comments</code> table.</p>
+              <div class="diff-block" aria-label="diff">
+                <span class="line add">CREATE TABLE comments (</span>
+                <span class="line add">  id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),</span>
+                <span class="line add">  task_id     uuid NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,</span>
+                <span class="line add">  author_id   uuid NOT NULL REFERENCES users(id),</span>
+                <span class="line add">  body        text NOT NULL,</span>
+                <span class="line add">  created_at  timestamptz NOT NULL DEFAULT now()</span>
+                <span class="line add">);</span>
+                <span class="line ctx">CREATE INDEX comments_task_idx ON comments(task_id, created_at);</span>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <span class="checkbox done" aria-hidden="true"></span>
+            <div class="step-body">
+              <p>Run the migration locally and confirm the table exists.</p>
+              <code class="test-cmd">npm run db:migrate &amp;&amp; psql $DATABASE_URL -c "\d comments"</code>
+              <div class="expected">Expected: table description prints with six columns and one index.</div>
+            </div>
+          </li>
+
+          <li>
+            <span class="checkbox" aria-hidden="true"></span>
+            <div class="step-body">
+              <p>Commit when the migration applies cleanly on a fresh database.</p>
+              <code class="test-cmd">git add apps/api/src/db/migrations apps/api/src/db/schema.ts &amp;&amp; git commit</code>
+            </div>
+          </li>
+        </ol>
+      </article>
+
+      <article class="task">
+        <header>
+          <span class="num">Task 02</span>
+          <h3>Add the <code>POST /tasks/:id/comments</code> route</h3>
+        </header>
+
+        <div class="files">
+          <ul>
+            <li><span class="label">Create</span><code>apps/api/src/routes/comments.ts</code></li>
+            <li><span class="label">Create</span><code>apps/api/src/services/comments.ts</code></li>
+            <li><span class="label">Modify</span><code>apps/api/src/app.ts</code></li>
+          </ul>
+        </div>
+
+        <ol class="steps">
+          <li>
+            <span class="checkbox" aria-hidden="true"></span>
+            <div class="step-body">
+              <p>Implement the service that inserts a comment and returns the created row.</p>
+              <div class="diff-block" aria-label="diff">
+                <span class="line add">export async function createComment(input: NewComment) {</span>
+                <span class="line add">  const [row] = await db("comments").insert(input).returning("*");</span>
+                <span class="line add">  return row;</span>
+                <span class="line add">}</span>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <span class="checkbox" aria-hidden="true"></span>
+            <div class="step-body">
+              <p>Register the route on the Fastify app and validate the body with the existing zod schema.</p>
+              <div class="diff-block" aria-label="diff">
+                <span class="line del">app.register(tasksRoutes);</span>
+                <span class="line add">app.register(tasksRoutes);</span>
+                <span class="line add">app.register(commentsRoutes);</span>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <span class="checkbox" aria-hidden="true"></span>
+            <div class="step-body">
+              <p>Run the route test suite and confirm a 201 response body matches the schema.</p>
+              <code class="test-cmd">npm test -- routes/comments</code>
+              <div class="expected">Expected: 4 tests passing, no skipped, status 201 with id and created_at.</div>
+            </div>
+          </li>
+        </ol>
+      </article>
+
+      <article class="task">
+        <header>
+          <span class="num">Task 03</span>
+          <h3>Render <code>CommentThread</code> inside <code>TaskCard</code></h3>
+        </header>
+
+        <div class="files">
+          <ul>
+            <li><span class="label">Create</span><code>apps/web/src/components/CommentThread.tsx</code></li>
+            <li><span class="label">Create</span><code>apps/web/src/components/CommentForm.tsx</code></li>
+            <li><span class="label">Modify</span><code>apps/web/src/components/TaskCard.tsx</code></li>
+          </ul>
+        </div>
+
+        <ol class="steps">
+          <li>
+            <span class="checkbox" aria-hidden="true"></span>
+            <div class="step-body">
+              <p>Build the read-only <code>CommentThread</code> component that renders the list of comments passed in via props.</p>
+            </div>
+          </li>
+
+          <li>
+            <span class="checkbox" aria-hidden="true"></span>
+            <div class="step-body">
+              <p>Add <code>CommentForm</code> with optimistic insert and error rollback on failure.</p>
+            </div>
+          </li>
+
+          <li>
+            <span class="checkbox" aria-hidden="true"></span>
+            <div class="step-body">
+              <p>Wire both into <code>TaskCard</code> behind the <code>FEATURE_TASK_COMMENTS</code> flag.</p>
+              <code class="test-cmd">npm run test:e2e -- task-comments</code>
+              <div class="expected">Expected: e2e flow opens a card, posts a comment, sees it appear without reload.</div>
+            </div>
+          </li>
+        </ol>
+      </article>
+    </section>
+
+    <section id="testing">
+      <h2>Testing</h2>
+      <p>The following commands gate the feature. All must pass on CI before merge.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Layer</th>
+              <th>Command</th>
+              <th>Expected output</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Migrations</td>
+              <td><code>npm run db:migrate</code></td>
+              <td>Batch 1 run: 1 migration applied (<code>20260508_comments.sql</code>).</td>
+            </tr>
+            <tr>
+              <td>API unit</td>
+              <td><code>npm test -- services/comments</code></td>
+              <td>3 passed, 0 failed, coverage above 90 percent on the file.</td>
+            </tr>
+            <tr>
+              <td>API route</td>
+              <td><code>npm test -- routes/comments</code></td>
+              <td>4 passed, 0 failed; 201, 400, 401, 404 responses asserted.</td>
+            </tr>
+            <tr>
+              <td>Web component</td>
+              <td><code>npm run test:web -- CommentThread</code></td>
+              <td>5 passed, 0 failed, no console errors.</td>
+            </tr>
+            <tr>
+              <td>End-to-end</td>
+              <td><code>npm run test:e2e -- task-comments</code></td>
+              <td>1 passed (Chromium), trace artifact written to <code>./e2e-trace</code>.</td>
+            </tr>
+            <tr>
+              <td>Lint and types</td>
+              <td><code>npm run lint &amp;&amp; npm run typecheck</code></td>
+              <td>Both report 0 errors, 0 warnings.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="commit-points">
+      <h2>Commit points</h2>
+      <p>Chronological commits that land this feature. Each one is a green checkpoint.</p>
+      <ol>
+        <li><code class="commit-msg">feat(api): add comments table migration and schema</code></li>
+        <li><code class="commit-msg">feat(api): add POST /tasks/:id/comments route and service</code></li>
+        <li><code class="commit-msg">test(api): cover comments service and route happy and error paths</code></li>
+        <li><code class="commit-msg">feat(web): render CommentThread inside TaskCard behind feature flag</code></li>
+        <li><code class="commit-msg">test(web): add CommentThread component test and e2e task-comments flow</code></li>
+        <li><code class="commit-msg">docs(features): document task comments rollout and feature flag</code></li>
+      </ol>
+    </section>
+
+  </div>
+</body>
+</html>
