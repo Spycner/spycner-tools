@@ -34,6 +34,17 @@ if grep -RnP "[\x{2013}\x{2014}]" "$SKILL_DIR" >/dev/null 2>&1; then
 fi
 pass "no em/en-dashes in ported files"
 
+for f in "$SKILL_DIR"/references/*.html; do
+    [ -e "$f" ] || continue
+    if grep -qP '[\x{2013}\x{2014}]' "$f"; then
+        echo "[FAIL] em-dash or en-dash in $f"; exit 1
+    fi
+done
+TEMPLATE="$SKILL_DIR/references/debug-report-template.html"
+[ -s "$TEMPLATE" ] || { echo "[FAIL] missing template: $TEMPLATE"; exit 1; }
+head -c 32 "$TEMPLATE" | grep -qiE '<!DOCTYPE|<html' || { echo "[FAIL] template malformed: $TEMPLATE"; exit 1; }
+echo "[PASS] em-dash + template checks"
+
 # 5-6. Bundled references + TS example exist and are non-empty (upstream flat layout).
 # four-phases.md is workbench-authored: holds the detailed phase walk-through that was factored out of SKILL.md.
 for ref in root-cause-tracing.md defense-in-depth.md condition-based-waiting.md four-phases.md; do
