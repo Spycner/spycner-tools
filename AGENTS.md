@@ -22,6 +22,7 @@ plugins/
       plugin.json           # Codex plugin metadata, must set "skills": "./skills/"
     agents/                 # Optional: agent definitions for long-running isolated tasks
       <agent-name>.md
+    hooks/                  # Optional: hook scripts plus hooks.json (e.g. workbench session-start)
     skills/
       <service>/
         SKILL.md            # Shared skill definition, used by Claude Code and Codex
