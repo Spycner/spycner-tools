@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spec, [Feature name]</title>
+  <style>
+    :root {
+      --bg:           #fbfaf6;
+      --bg-soft:      #f1efe7;
+      --bg-code:      #ecebe1;
+      --bg-row-alt:   #f6f4ec;
+      --bg-row-hover: #e8e6d8;
+      --ink:          #1f1d1a;
+      --ink-soft:     #4a4744;
+      --ink-mute:     #84817a;
+      --rule:         #d8d4c4;
+      --accent:       #5b6f4d;
+      --accent-soft:  #b9c2a8;
+      --warn:         #b86b3a;
+
+      --sans:  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --serif: ui-serif, Georgia, "Times New Roman", serif;
+      --mono:  ui-monospace, "SF Mono", Menlo, Monaco, "Cascadia Mono", Consolas, monospace;
+
+      --measure: 70ch;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:           #16181a;
+        --bg-soft:      #1f2225;
+        --bg-code:      #23272b;
+        --bg-row-alt:   #1c1f22;
+        --bg-row-hover: #2a2e33;
+        --ink:          #ecebe6;
+        --ink-soft:     #c8c6c0;
+        --ink-mute:     #8a8780;
+        --rule:         #353a3f;
+        --accent:       #9ab489;
+        --accent-soft:  #4f6347;
+        --warn:         #d28a5a;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      background: var(--bg);
+      color: var(--ink-soft);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    h1, h2, h3, h4 {
+      font-family: var(--serif);
+      color: var(--ink);
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: -0.005em;
+    }
+
+    h1 { font-size: 2rem; margin: 0 0 0.5rem; }
+    h2 { font-size: 1.4rem; margin: 0 0 0.75rem; }
+    h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+    h4 { font-size: 1rem; margin: 1rem 0 0.4rem; }
+
+    p { margin: 0 0 1rem; max-width: var(--measure); }
+    ul, ol { margin: 0 0 1rem 1.25rem; padding: 0; max-width: var(--measure); }
+    li { margin-bottom: 0.4rem; }
+
+    /* ---------- layout ---------- */
+
+    .layout {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 4rem;
+    }
+
+    .page-header {
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-mute);
+      margin-bottom: 0.5rem;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
+      font-size: 0.9rem;
+      color: var(--ink-mute);
+      margin-top: 0.75rem;
+    }
+    .meta dt {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-mute);
+      display: inline;
+    }
+    .meta dd {
+      margin: 0 0 0 0.4rem;
+      display: inline;
+      color: var(--ink-soft);
+    }
+    .meta .pair {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.3rem;
+    }
+
+    .status-pill {
+      display: inline-block;
+      padding: 0.1rem 0.55rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--ink);
+      font-size: 0.78rem;
+      font-family: var(--mono);
+      letter-spacing: 0.04em;
+    }
+
+    /* ---------- TOC ---------- */
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .toc {
+      background: var(--bg-soft);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      font-size: 0.92rem;
+    }
+    .toc h2 {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-mute);
+      margin: 0 0 0.6rem;
+      font-weight: 600;
+    }
+    .toc ol {
+      list-style: decimal;
+      margin: 0 0 0 1.1rem;
+      padding: 0;
+    }
+    .toc li { margin-bottom: 0.3rem; }
+    .toc a { color: var(--ink-soft); }
+    .toc a:hover { color: var(--accent); }
+
+    @media (min-width: 900px) {
+      .grid {
+        grid-template-columns: 240px minmax(0, 1fr);
+        gap: 2.25rem;
+      }
+      .toc {
+        position: sticky;
+        top: 1.25rem;
+        align-self: start;
+        max-height: calc(100vh - 2.5rem);
+        overflow-y: auto;
+      }
+    }
+
+    /* ---------- sections ---------- */
+
+    main { min-width: 0; }
+
+    section {
+      padding-top: 0.5rem;
+      margin-bottom: 2.5rem;
+      scroll-margin-top: 1rem;
+    }
+
+    section + section {
+      border-top: 1px solid var(--rule);
+      padding-top: 1.75rem;
+    }
+
+    .subsection {
+      margin: 1.25rem 0 1rem;
+    }
+
+    /* ---------- placeholders ---------- */
+
+    .placeholder {
+      color: var(--ink-mute);
+      font-style: italic;
+    }
+    .placeholder::before { content: ""; }
+
+    /* ---------- code blocks ---------- */
+
+    code, kbd, samp {
+      font-family: var(--mono);
+      font-size: 0.92em;
+    }
+
+    p code, li code {
+      background: var(--bg-code);
+      padding: 0.05rem 0.35rem;
+      border-radius: 4px;
+      color: var(--ink);
+    }
+
+    pre {
+      background: var(--bg-code);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      overflow-x: auto;
+      margin: 0 0 1rem;
+      max-width: 100%;
+      line-height: 1.5;
+    }
+    pre code {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      background: transparent;
+      padding: 0;
+      color: var(--ink);
+      white-space: pre;
+    }
+
+    /* ---------- tables ---------- */
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 0 0 1rem;
+      max-width: 100%;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 0.94rem;
+      background: var(--bg);
+    }
+    th, td {
+      text-align: left;
+      padding: 0.55rem 0.75rem;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+    }
+    th {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-mute);
+      background: var(--bg-soft);
+      font-weight: 600;
+    }
+    tbody tr:nth-child(even) { background: var(--bg-row-alt); }
+    tbody tr:hover { background: var(--bg-row-hover); }
+
+    /* ---------- details / file tree ---------- */
+
+    details.file-tree {
+      background: var(--bg-soft);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 0.4rem 0.9rem;
+      margin: 0 0 1rem;
+    }
+    details.file-tree summary {
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      padding: 0.35rem 0;
+      list-style: none;
+    }
+    details.file-tree summary::-webkit-details-marker { display: none; }
+    details.file-tree summary::before {
+      content: "+";
+      display: inline-block;
+      width: 1em;
+      color: var(--ink-mute);
+    }
+    details.file-tree[open] summary::before { content: "-"; }
+    details.file-tree pre {
+      margin-top: 0.5rem;
+      background: var(--bg);
+    }
+
+    /* ---------- user stories / risks ---------- */
+
+    ol.stories, ol.risks {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      max-width: var(--measure);
+      counter-reset: item;
+    }
+    ol.stories > li, ol.risks > li {
+      counter-increment: item;
+      padding: 0.75rem 0.9rem 0.75rem 2.6rem;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      margin-bottom: 0.6rem;
+      background: var(--bg-soft);
+      position: relative;
+    }
+    ol.stories > li::before, ol.risks > li::before {
+      content: counter(item);
+      position: absolute;
+      left: 0.75rem;
+      top: 0.75rem;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--ink-mute);
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .story-title, .risk-title {
+      font-family: var(--serif);
+      color: var(--ink);
+      font-size: 1.02rem;
+      margin: 0 0 0.25rem;
+    }
+
+    /* ---------- responsive tweaks ---------- */
+
+    @media (max-width: 480px) {
+      body { font-size: 15px; }
+      .layout { padding: 1rem 0.85rem 3rem; }
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.2rem; }
+      ol.stories > li, ol.risks > li { padding-left: 2.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+
+    <header class="page-header" id="header">
+      <div class="eyebrow">Spec document</div>
+      <h1><span class="placeholder">[Feature name]</span></h1>
+      <p class="placeholder" style="max-width: var(--measure);">
+        [One sentence statement of what this spec proposes and the user-visible outcome it delivers.]
+      </p>
+      <dl class="meta">
+        <span class="pair"><dt>Date</dt><dd><span class="placeholder">[YYYY-MM-DD]</span></dd></span>
+        <span class="pair"><dt>Status</dt><dd><span class="status-pill">Draft</span></dd></span>
+        <span class="pair"><dt>Author</dt><dd><span class="placeholder">[Name]</span></dd></span>
+        <span class="pair"><dt>Source brainstorm</dt><dd><span class="placeholder">[link or file path]</span></dd></span>
+      </dl>
+    </header>
+
+    <div class="grid">
+
+      <nav class="toc" id="toc" aria-label="Table of contents">
+        <h2>Contents</h2>
+        <ol>
+          <li><a href="#problem">Problem</a></li>
+          <li><a href="#solution-overview">Solution overview</a></li>
+          <li><a href="#user-stories">User stories</a></li>
+          <li><a href="#implementation-decisions">Implementation decisions</a></li>
+          <li><a href="#testing-decisions">Testing decisions</a></li>
+          <li><a href="#out-of-scope">Out of scope</a></li>
+          <li><a href="#risks">Risks</a></li>
+        </ol>
+      </nav>
+
+      <main>
+
+        <section id="problem">
+          <h2>Problem</h2>
+          <p>
+            <span class="placeholder">[Describe the user pain or system gap in concrete, observable terms.]</span>
+            Today, the workflow forces contributors to keep context in their head across multiple tools, which causes
+            handoffs to drop information and reviewers to repeat questions that earlier discussion already answered.
+          </p>
+          <p>
+            <span class="placeholder">[Cite the evidence that this is worth solving now: support tickets, recent
+            incidents, qualitative feedback, or measured friction.]</span> Without intervention, the cost compounds as
+            the team grows and the surface area expands.
+          </p>
+        </section>
+
+        <section id="solution-overview">
+          <h2>Solution overview</h2>
+          <p>
+            <span class="placeholder">[Two or three sentences naming the chosen approach and the shape of the change.]</span>
+            We introduce a single canonical artifact that captures the decisions made during brainstorming and exposes
+            them to downstream tooling through stable anchors.
+          </p>
+          <p>
+            The artifact is a self-contained HTML document. It renders in any browser without a build step, ships next
+            to the skill that produces it, and remains readable as plain source. Downstream consumers depend only on
+            the section anchors listed in the table of contents.
+          </p>
+        </section>
+
+        <section id="user-stories">
+          <h2>User stories</h2>
+          <p>
+            The following stories describe whole-task outcomes. Each one is independently shippable and testable.
+            <span class="placeholder">[Tighten or split stories until each fits in a single review.]</span>
+          </p>
+          <ol class="stories">
+            <li>
+              <p class="story-title">As a contributor, I open the spec and immediately see status and authorship.</p>
+              <p>
+                The header surfaces title, date, status, and author near the top of the viewport so a reviewer landing
+                cold can orient in under five seconds. <span class="placeholder">[Acceptance: header visible above the
+                fold at 1280 by 800.]</span>
+              </p>
+            </li>
+            <li>
+              <p class="story-title">As a reviewer on a phone, I can jump between sections without losing my place.</p>
+              <p>
+                On narrow viewports the table of contents collapses to the top of the page; on wider viewports it sticks
+                to the side. <span class="placeholder">[Acceptance: TOC anchors all resolve, no horizontal scroll at
+                320px.]</span>
+              </p>
+            </li>
+            <li>
+              <p class="story-title">As a downstream tool, I can extract sections by stable id.</p>
+              <p>
+                Every required section uses a documented id. A consumer that needs only the risks block can fetch the
+                document and select <code>#risks</code> without parsing prose. <span class="placeholder">[Acceptance:
+                ids match the schema check in CI.]</span>
+              </p>
+            </li>
+          </ol>
+        </section>
+
+        <section id="implementation-decisions">
+          <h2>Implementation decisions</h2>
+          <p>
+            This section records the choices that constrain the plan. Each decision names the alternative considered
+            and the reason for the pick, so the plan author does not relitigate them.
+          </p>
+
+          <div class="subsection" id="file-structure">
+            <h3>File structure</h3>
+            <p>
+              The template ships as a single file under the skill that produces it. No external assets, no shared
+              stylesheet, no build artifact. <span class="placeholder">[Add or remove paths to reflect the actual
+              feature.]</span>
+            </p>
+            <details class="file-tree">
+              <summary>Files added or modified</summary>
+<pre><code>plugins/
+  workbench/
+    skills/
+      writing-spec/
+        SKILL.md                        (modified, references the new template)
+        references/
+          spec-template.html            (new, this document)
+</code></pre>
+            </details>
+          </div>
+
+          <div class="subsection" id="module-decisions">
+            <h3>Module decisions</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Area</th>
+                    <th>Decision</th>
+                    <th>Rationale</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Styling</td>
+                    <td>Inline <code>&lt;style&gt;</code>, no external CSS</td>
+                    <td>Single file renders without a network or a build step.</td>
+                  </tr>
+                  <tr>
+                    <td>Typography</td>
+                    <td>System font stack only</td>
+                    <td>Avoids font loading and works on every platform.</td>
+                  </tr>
+                  <tr>
+                    <td>Theme</td>
+                    <td><code>prefers-color-scheme</code></td>
+                    <td>Respects the reader's environment without a toggle.</td>
+                  </tr>
+                  <tr>
+                    <td>Interactivity</td>
+                    <td>HTML and CSS only</td>
+                    <td>No JavaScript keeps the artifact safe to vendor and easy to audit.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="placeholder">[List the calls that you made about libraries, data shape, or external dependencies, and the alternative you rejected.]</p>
+          </div>
+        </section>
+
+        <section id="testing-decisions">
+          <h2>Testing decisions</h2>
+          <p>
+            We verify the template through filesystem checks rather than rendered output. The checks run fast and stay
+            deterministic, and they catch the regressions that downstream consumers actually care about.
+          </p>
+          <ul>
+            <li>The file is non-empty and starts with a valid HTML5 doctype or <code>&lt;html&gt;</code> tag.</li>
+            <li>The source is free of em-dash (U+2014) and en-dash (U+2013) characters.</li>
+            <li>Every required section id is present so downstream extractors do not break.</li>
+          </ul>
+          <p class="placeholder">[Add any rendered or visual checks that the feature warrants beyond the structural pass above.]</p>
+        </section>
+
+        <section id="out-of-scope">
+          <h2>Out of scope</h2>
+          <p>
+            We name the boundaries of this spec so reviewers do not propose work that belongs in a follow-up.
+          </p>
+          <ul>
+            <li>JavaScript-driven interactivity such as live editing or collapsible TOC behaviour beyond CSS.</li>
+            <li>Server-side rendering or templating engines. The artifact is hand-edited HTML.</li>
+            <li>Localization. The template ships in English. <span class="placeholder">[Track translation as a separate
+              spec when needed.]</span></li>
+          </ul>
+        </section>
+
+        <section id="risks">
+          <h2>Risks</h2>
+          <p>
+            Each risk lists its trigger, its impact, and the mitigation we accept up front. Unlisted risks default to
+            the team's standard escalation path.
+          </p>
+          <ol class="risks">
+            <li>
+              <p class="risk-title">The template drifts from the section schema downstream tools expect.</p>
+              <p>
+                If a section id is renamed without coordination, downstream extractors silently drop content. We
+                mitigate this with a CI check that asserts the full id list. <span class="placeholder">[Owner: the
+                team that ships the extractor.]</span>
+              </p>
+            </li>
+            <li>
+              <p class="risk-title">Authors paste em-dash characters from word processors.</p>
+              <p>
+                Pasted em-dashes break the project's writing-style lint. The same CI check that gates the section ids
+                also greps for U+2014 and U+2013, so a regression fails the build rather than reaching review.
+              </p>
+            </li>
+            <li>
+              <p class="risk-title">Dark mode rendering reads poorly on some monitors.</p>
+              <p>
+                The palette uses muted greens and warm neutrals tuned for both schemes, but contrast remains
+                environment-dependent. <span class="placeholder">[Mitigation: spot-check on at least one OLED panel
+                and one matte IPS panel before release.]</span>
+              </p>
+            </li>
+          </ol>
+        </section>
+
+      </main>
+    </div>
+  </div>
+</body>
+</html>
