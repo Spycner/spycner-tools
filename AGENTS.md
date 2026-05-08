@@ -27,6 +27,9 @@ plugins/
       <service>/
         SKILL.md            # Shared skill definition, used by Claude Code and Codex
         <reference>.md      # Supporting reference docs (recipes, format guides)
+    LICENSE                 # Required for ported plugins: this repo's MIT license
+    NOTICE                  # Required for ported plugins: per-file upstream attribution
+    README.md               # Required for ported plugins: human-facing overview with Credits section
 tests/
   test-helpers.sh           # Shared test utilities (run_claude, assertions, auth checks)
   unit/                     # Skill recognition and capability tests
