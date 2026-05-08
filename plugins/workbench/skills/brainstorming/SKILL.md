@@ -107,3 +107,30 @@ Once the user has approved the design, your terminal action is to recommend `wor
 - Explore alternatives.
 - Incremental validation.
 - Be flexible: go back and clarify when something does not make sense.
+
+## Output Format
+
+Default for this artifact: **html**.
+
+Override resolution order, highest precedence first:
+
+1. Per-invocation override in the user prompt. Recognize phrases like `"a markdown brainstorm summary"`, `"in HTML"`, `"as a markdown summary"`, and equivalents.
+2. `.workbench/config.md` `## Output formats` entry for `Brainstorm summaries:`. Schema documented in `plugins/workbench/skills/autopilot/references/config-schema.md`.
+3. Per-skill hard-coded default (html).
+
+Path: `.workbench/brainstorms/YYYY-MM-DD-<topic>-brainstorm.<ext>` by default, where `<ext>` resolves from format. Override path via `.workbench/config.md` `## Output paths` `Brainstorm summaries:`.
+
+When emitting HTML, follow `references/brainstorm-summary-template.html` in this skill's directory. Read the template lazily.
+
+## Summary File Behavior
+
+After the user approves the design and before recommending `workbench:writing-spec`, write a brainstorm summary file to the resolved path. The summary captures:
+
+- Q and A timeline of clarifying questions and user answers.
+- Agreed design (sections approved during the conversation).
+- Parking-lot items (deferred topics).
+- Handoff link to the next step (writing-spec).
+
+Announce the file path in the conversation when emitting (for example: "Brainstorm summary written to `.workbench/brainstorms/2026-05-08-html-artifacts-brainstorm.html`") so the user is not surprised. The recommendation of `workbench:writing-spec` then follows in the same final message.
+
+For other HTML artifact types not covered by a workbench or research skill, see `workbench:crafting-html`.
