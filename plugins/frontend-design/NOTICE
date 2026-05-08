@@ -14,3 +14,25 @@ Apache License 2.0: http://www.apache.org/licenses/LICENSE-2.0
 
 Adaptations are licensed under MIT (see LICENSE) where they qualify as
 original work; preserved upstream content remains under Apache 2.0.
+
+---
+
+This plugin contains content derived from emilkowalski/skill
+(https://github.com/emilkowalski/skill, commit ecf66bb at time of port),
+authored by Emil Kowalski:
+
+  - skills/emil-design-eng/SKILL.md (verbatim body except em-dashes
+      (U+2014) and en-dashes (U+2013) replaced with project-lint-compliant
+      punctuation; no semantic content changed)
+
+The upstream repository declares no license at time of port (GitHub API
+reports license: null, no LICENSE file in the repo). Content is
+included under the upstream author's public publishing intent (the
+repo is distributed via `npx skills add emilkowalski/skill` for AI
+agent use, per its README at https://emilkowal.ski/skill). All rights
+to the original text remain with Emil Kowalski. If the upstream license
+posture changes, this NOTICE should be updated and the file may need to
+be removed or relicensed accordingly.
+
+Adaptations to the emil-design-eng skill (the punctuation substitution)
+are mechanical and add no original authorship.
