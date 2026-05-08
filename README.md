@@ -30,6 +30,7 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `test-driven-development` | workbench | Enforce test-first RED-GREEN-REFACTOR implementation discipline |
 | `dispatching-parallel-agents` | workbench | Split independent tasks across concurrent agents |
 | `subagent-driven-development` | workbench | Execute implementation plans with fresh agents and review gates |
+| `systematic-debugging` | workbench | Enforce root-cause investigation before proposing bug fixes |
 | `tmux` | terminal | Control interactive terminal programs through isolated tmux sessions |
 | `creating-skills` | agent-system-management | Scaffold, iterate, pressure-test, and tune skills across the full lifecycle |
 
@@ -99,6 +100,7 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 - `/pgoell-claude-tools:test-driven-development`: Enforce test-first RED-GREEN-REFACTOR implementation discipline.
 - `/pgoell-claude-tools:dispatching-parallel-agents`: Split independent tasks across concurrent agents.
 - `/pgoell-claude-tools:subagent-driven-development`: Execute implementation plans with fresh agents and review gates.
+- `/pgoell-claude-tools:systematic-debugging`: Enforce root-cause investigation before proposing bug fixes; bundles techniques for backward stack tracing, defense in depth, and condition-based waiting.
 
 Autopilot profiles are documented in `plugins/workbench/skills/autopilot/references/profile-schema.md`.
 

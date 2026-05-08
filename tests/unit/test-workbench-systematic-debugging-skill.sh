@@ -34,11 +34,11 @@ if grep -RnP "[\x{2013}\x{2014}]" "$SKILL_DIR" >/dev/null 2>&1; then
 fi
 pass "no em/en-dashes in ported files"
 
-# 5-6. Bundled references + TS example exist and are non-empty.
+# 5-6. Bundled references + TS example exist and are non-empty (upstream flat layout).
 for ref in root-cause-tracing.md defense-in-depth.md condition-based-waiting.md; do
-  [ -s "$SKILL_DIR/references/$ref" ] || fail "references/$ref missing or empty"
+  [ -s "$SKILL_DIR/$ref" ] || fail "$ref missing or empty"
 done
-[ -s "$SKILL_DIR/references/condition-based-waiting-example.ts" ] || fail "condition-based-waiting-example.ts missing or empty"
+[ -s "$SKILL_DIR/condition-based-waiting-example.ts" ] || fail "condition-based-waiting-example.ts missing or empty"
 pass "all bundled references present"
 
 # 7. find-polluter.sh exists, non-empty, executable.
@@ -79,11 +79,9 @@ CDX_VER="$(jq -r '.version' "$ROOT/plugins/workbench/.codex-plugin/plugin.json")
 [ "$CDX_VER" = "0.10.0" ] || fail "codex-plugin version is $CDX_VER, expected 0.10.0"
 pass "plugin manifests at 0.10.0"
 
-# 14. Marketplace entries at 0.10.0.
+# 14. Claude marketplace entry at 0.10.0 (codex marketplace does not carry a per-plugin version field).
 CC_MP_VER="$(jq -r '.plugins[] | select(.name=="workbench") | .version' "$ROOT/.claude-plugin/marketplace.json")"
-CDX_MP_VER="$(jq -r '.plugins[] | select(.name=="workbench") | .version' "$ROOT/.agents/plugins/marketplace.json")"
 [ "$CC_MP_VER" = "0.10.0" ] || fail "claude marketplace workbench version is $CC_MP_VER, expected 0.10.0"
-[ "$CDX_MP_VER" = "0.10.0" ] || fail "codex marketplace workbench version is $CDX_MP_VER, expected 0.10.0"
-pass "marketplaces at 0.10.0"
+pass "claude marketplace at 0.10.0"
 
 echo "OK"
