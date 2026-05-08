@@ -9,3 +9,4 @@ Boilerplate for new skills in any plugin marketplace. Pick the file matching the
 - `marketplace-entries.md`: Claude Code and Codex marketplace entries.
 - `index-doc-rows.md`: top-level plugin-index doc rows (skills-table row, per-plugin section, current-plugins table row).
 - `tests.md`: unit test scaffold, skill-triggering prompt template, integration test scaffold.
+- `bootstrap.md`: minimal frontmatter validator and skill-triggering runner for repos with no test infrastructure (used when Probes 4 and 5 came up empty).
