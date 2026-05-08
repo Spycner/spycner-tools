@@ -43,9 +43,21 @@ run_container() {
     local engine="$1"
     local host_shell="${HOST_SHELL:-${SHELL:-/bin/bash}}"
     local copy_dotfiles="${COPY_DOTFILES:-1}"
+    # Rootless podman remaps container UIDs into a subordinate range by
+    # default, which makes the bind-mounted host home (mode 0750) unreadable
+    # to the container's dev user. --userns=keep-id keeps host UID == container
+    # UID so the dev user inside is the same person who owns the host files.
+    # Docker has no default user namespace remapping, so passing --user is
+    # enough there.
+    local userns_args=()
+    if [ "$engine" = "podman" ]; then
+        userns_args=(--userns=keep-id)
+    else
+        userns_args=(--user "$(id -u):$(id -g)")
+    fi
     "$engine" run -d \
         --name "$CONTAINER_NAME" \
-        --user "$(id -u):$(id -g)" \
+        "${userns_args[@]}" \
         -v "$HOME/.claude:/home/dev/.claude" \
         -v "$HOME/.codex:/home/dev/.codex" \
         -v "$PWD:/workspace" \
