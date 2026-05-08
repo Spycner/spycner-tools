@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# containers/dev/run-dev
+set -euo pipefail
+
+detect_engine() {
+    if [ -n "${CONTAINER_ENGINE:-}" ]; then
+        if command -v "$CONTAINER_ENGINE" >/dev/null 2>&1; then
+            echo "$CONTAINER_ENGINE"
+            return 0
+        fi
+        echo "CONTAINER_ENGINE=$CONTAINER_ENGINE not found on PATH" >&2
+        return 1
+    fi
+    if command -v podman >/dev/null 2>&1; then echo podman; return 0; fi
+    if command -v docker >/dev/null 2>&1; then echo docker; return 0; fi
+    echo "neither podman nor docker found on PATH" >&2
+    return 1
+}
+
+cmd="${1:-start}"
+shift || true
+
+case "$cmd" in
+    engine) detect_engine ;;
+    *) echo "unknown subcommand: $cmd" >&2; exit 2 ;;
+esac
