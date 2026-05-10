@@ -1,0 +1,12 @@
+/*
+ * Example design system: typography overrides.
+ *
+ * Demonstrates the typography.css surface. Optional file; templates fall back to
+ * starter typography when this file is absent from a design system.
+ */
+
+:root {
+  --serif: "Source Serif Pro", ui-serif, Georgia, serif;
+  --sans:  "Inter", system-ui, -apple-system, sans-serif;
+  --mono:  "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}

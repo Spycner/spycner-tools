@@ -1,0 +1,71 @@
+/*
+ * Starter color palette for a workbench design system.
+ *
+ * Copy this file into your design system's directory as colors.css and edit values
+ * to taste. Variable names are template-coupled: a template only consults variables
+ * it declares in its own :root, so unused entries are no-ops.
+ *
+ * Provenance of values: lifted verbatim from the workbench HTML-producing templates
+ * at workbench plugin version 0.12.0 (writing-spec, writing-plans, brainstorming,
+ * systematic-debugging) and research:research at 2.1.1.
+ */
+
+:root {
+  /* Shared palette (brainstorming, systematic-debugging, research) */
+  --ivory:       #FAF9F5;
+  --slate:       #141413;
+  --clay:        #D97757;
+  --oat:         #E3DACC;
+  --olive:       #788C5D;
+  --rust:        #B04A3F;
+  --amber:       #C9892D;
+  --white:       #FFFFFF;
+  --gray-100:    #F0EEE6;
+  --gray-150:    #F0EEE6;
+  --gray-300:    #D1CFC5;
+  --gray-500:    #87867F;
+  --gray-700:    #3D3D3A;
+
+  /* writing-spec template */
+  --bg:          #fbfaf6;
+  --bg-soft:     #f1efe7;
+  --bg-code:     #ecebe1;
+  --bg-row-alt:  #f6f4ec;
+  --bg-row-hover:#e8e6d8;
+  --ink:         #1f1d1a;
+  --ink-soft:    #4a4744;
+  --ink-mute:    #84817a;
+  --rule:        #d8d4c4;
+  --accent:      #5b6f4d;
+  --accent-soft: #b9c2a8;
+  --warn:        #b86b3a;
+
+  /* writing-plans template additions */
+  --surface:     #ffffff;
+  --muted:       #6b6b66;
+  --rule-strong: #cdcabe;
+  --good:        #1f7a3d;
+  --good-soft:   #e6f4ec;
+  --bad:         #b13a2a;
+  --bad-soft:    #fbe8e3;
+  --warn-soft:   #f6efd8;
+  --code-bg:     #1d1f23;
+  --code-ink:    #e9e7df;
+
+  /* Typography (shared) */
+  --serif: ui-serif, Georgia, "Times New Roman", serif;
+  --sans:  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono:  ui-monospace, "SF Mono", Menlo, Monaco, "Cascadia Mono", Consolas, monospace;
+
+  /* Layout primitives */
+  --measure:     70ch;
+  --radius-sm:   6px;
+  --radius:      12px;
+  --radius-lg:   18px;
+  --radius-panel:12px;
+  --radius-row:  8px;
+  --r-sm:        6px;
+  --r-md:        10px;
+  --r-lg:        14px;
+  --border:      1.5px solid var(--gray-300);
+}

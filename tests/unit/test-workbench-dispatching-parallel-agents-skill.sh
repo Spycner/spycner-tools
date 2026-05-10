@@ -57,17 +57,17 @@ fi
 
 CCM="$REPO_ROOT/plugins/workbench/.claude-plugin/plugin.json"
 CXM="$REPO_ROOT/plugins/workbench/.codex-plugin/plugin.json"
-if jq -e '.version == "0.11.0"' "$CCM" >/dev/null && jq -e '.version == "0.11.0"' "$CXM" >/dev/null; then
-    echo "[PASS] plugin manifests at 0.11.0"
+if jq -e '.version == "0.12.0"' "$CCM" >/dev/null && jq -e '.version == "0.12.0"' "$CXM" >/dev/null; then
+    echo "[PASS] plugin manifests at 0.12.0"
 else
-    echo "[FAIL] plugin manifests not at 0.11.0"; exit 1
+    echo "[FAIL] plugin manifests not at 0.12.0"; exit 1
 fi
 
 MP="$REPO_ROOT/.claude-plugin/marketplace.json"
-if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.11.0"' "$MP" >/dev/null; then
-    echo "[PASS] Claude marketplace workbench at 0.11.0"
+if jq -e '.plugins[] | select(.name == "workbench") | .version == "0.12.0"' "$MP" >/dev/null; then
+    echo "[PASS] Claude marketplace workbench at 0.12.0"
 else
-    echo "[FAIL] Claude marketplace workbench not at 0.11.0"; exit 1
+    echo "[FAIL] Claude marketplace workbench not at 0.12.0"; exit 1
 fi
 
 echo "=== Tests complete ==="

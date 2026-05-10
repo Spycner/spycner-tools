@@ -1,0 +1,50 @@
+/*
+ * Example design system: twilight palette.
+ *
+ * Demonstrates overriding the union of variables declared by the five HTML-producing
+ * templates. Variables left unchanged from starter values can be omitted; this file
+ * shows the full surface for reference.
+ */
+
+:root {
+  /* Shared palette */
+  --ivory:       #1A1F2E;
+  --slate:       #F5F1E8;
+  --clay:        #E07B5C;
+  --oat:         #2A2F3E;
+  --olive:       #8FA876;
+  --rust:        #C04A3F;
+  --amber:       #D9A93D;
+  --white:       #0F1320;
+  --gray-100:    #242938;
+  --gray-150:    #242938;
+  --gray-300:    #3A4054;
+  --gray-500:    #8A8E9F;
+  --gray-700:    #C8CBD8;
+
+  /* writing-spec */
+  --bg:          #1A1F2E;
+  --bg-soft:     #242938;
+  --bg-code:     #0F1320;
+  --bg-row-alt:  #1F2434;
+  --bg-row-hover:#2A2F3E;
+  --ink:         #F5F1E8;
+  --ink-soft:    #C8CBD8;
+  --ink-mute:    #8A8E9F;
+  --rule:        #3A4054;
+  --accent:      #E07B5C;
+  --accent-soft: #6B3D2E;
+  --warn:        #D9A93D;
+
+  /* writing-plans */
+  --surface:     #242938;
+  --muted:       #8A8E9F;
+  --rule-strong: #4A5068;
+  --good:        #6FBF8E;
+  --good-soft:   #1F3A2A;
+  --bad:         #E07B6F;
+  --bad-soft:    #3A1F1A;
+  --warn-soft:   #3A2F1A;
+  --code-bg:     #0F1320;
+  --code-ink:    #E9E7DF;
+}
