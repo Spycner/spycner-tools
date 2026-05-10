@@ -1,0 +1,1 @@
+We have an approved spec for the auth refactor at docs/specs/2026-05-08-auth-design.md. Write me an implementation plan from it.

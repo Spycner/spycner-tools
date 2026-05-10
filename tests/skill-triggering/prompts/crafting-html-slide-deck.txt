@@ -1,0 +1,1 @@
+Build me an HTML slide deck explaining how the OAuth flow works for the leadership review next Tuesday. Single file, openable in Chrome, no external assets.

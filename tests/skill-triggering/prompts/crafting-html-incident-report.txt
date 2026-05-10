@@ -1,0 +1,1 @@
+Write up the database outage from yesterday as a single HTML incident report I can attach to the postmortem ticket. Timeline, root cause, blast radius, action items.

@@ -6,6 +6,22 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/../test-helpers.sh"
 
+SKILL_DIR=plugins/research/skills/research
+echo "Pre-check 1: research template exists and is well-formed..."
+TEMPLATE="$SKILL_DIR/references/research-report-template.html"
+[ -s "$TEMPLATE" ] || { echo "[FAIL] missing template: $TEMPLATE"; exit 1; }
+head -c 32 "$TEMPLATE" | grep -qiE '<!DOCTYPE|<html' || { echo "[FAIL] template malformed: $TEMPLATE"; exit 1; }
+echo "[PASS]"
+
+echo "Pre-check 2: no em-dash or en-dash in references/*.html..."
+for f in "$SKILL_DIR"/references/*.html; do
+    [ -e "$f" ] || continue
+    if grep -qP '[\x{2013}\x{2014}]' "$f"; then
+        echo "[FAIL] em-dash or en-dash in $f"; exit 1
+    fi
+done
+echo "[PASS]"
+
 echo "=== Test: research skill (v4) ==="
 echo ""
 

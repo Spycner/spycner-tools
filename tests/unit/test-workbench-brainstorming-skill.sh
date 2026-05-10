@@ -59,13 +59,24 @@ else
     echo "[PASS] no em or en-dash"
 fi
 
-# Test 7: Plugin manifests at 0.10.0
+for f in "$SKILL_DIR"/references/*.html; do
+    [ -e "$f" ] || continue
+    if grep -qP '[\x{2013}\x{2014}]' "$f"; then
+        echo "[FAIL] em-dash or en-dash in $f"; exit 1
+    fi
+done
+TEMPLATE="$SKILL_DIR/references/brainstorm-summary-template.html"
+[ -s "$TEMPLATE" ] || { echo "[FAIL] missing template: $TEMPLATE"; exit 1; }
+head -c 32 "$TEMPLATE" | grep -qiE '<!DOCTYPE|<html' || { echo "[FAIL] template malformed: $TEMPLATE"; exit 1; }
+echo "[PASS] em-dash + template checks"
+
+# Test 7: Plugin manifests at 0.11.0
 CCM="$REPO_ROOT/plugins/workbench/.claude-plugin/plugin.json"
 CXM="$REPO_ROOT/plugins/workbench/.codex-plugin/plugin.json"
-if jq -e '.version == "0.10.0"' "$CCM" >/dev/null && jq -e '.version == "0.10.0"' "$CXM" >/dev/null; then
-    echo "[PASS] plugin manifests at 0.10.0"
+if jq -e '.version == "0.11.0"' "$CCM" >/dev/null && jq -e '.version == "0.11.0"' "$CXM" >/dev/null; then
+    echo "[PASS] plugin manifests at 0.11.0"
 else
-    echo "[FAIL] plugin manifests not at 0.10.0"; exit 1
+    echo "[FAIL] plugin manifests not at 0.11.0"; exit 1
 fi
 
 echo "=== Tests complete ==="

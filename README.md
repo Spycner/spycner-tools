@@ -31,6 +31,7 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `dispatching-parallel-agents` | workbench | Split independent tasks across concurrent agents |
 | `subagent-driven-development` | workbench | Execute implementation plans with fresh agents and review gates |
 | `systematic-debugging` | workbench | Enforce root-cause investigation before proposing bug fixes |
+| `crafting-html` | workbench | Reference gallery of 21 HTML artifact patterns for uncovered HTML output types |
 | `tmux` | terminal | Control interactive terminal programs through isolated tmux sessions |
 | `creating-skills` | agent-system-management | Scaffold, iterate, pressure-test, and tune skills across the full lifecycle |
 | `frontend-design` | frontend-design | Generate distinctive, production-grade frontend interfaces that avoid generic AI aesthetics |
@@ -59,7 +60,7 @@ Gmail and Calendar skills for Google Workspace, powered by the `gws` CLI.
 Research complex topics and produce sourced reports.
 
 **Skills:**
-- `/pgoell-claude-tools:research`: Plan focused investigations, gather sources, synthesize findings, review conclusions, and write reports.
+- `/pgoell-claude-tools:research`: Plan focused investigations, gather sources, synthesize findings, review conclusions, and write reports. As of 2.1.0 the report defaults to HTML at `reports/<topic-slug>-<YYYY-MM-DD>/report.html` (override per invocation with "give me a markdown research report").
 
 ### writing
 
@@ -103,6 +104,9 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 - `/pgoell-claude-tools:dispatching-parallel-agents`: Split independent tasks across concurrent agents.
 - `/pgoell-claude-tools:subagent-driven-development`: Execute implementation plans with fresh agents and review gates.
 - `/pgoell-claude-tools:systematic-debugging`: Enforce root-cause investigation before proposing bug fixes; bundles techniques for backward stack tracing, defense in depth, and condition-based waiting.
+- `/pgoell-claude-tools:crafting-html`: Reference gallery of 21 HTML artifact patterns vendored from `ThariqS/html-effectiveness`. Activates when producing standalone HTML artifacts that are not specs, plans, brainstorm summaries, debug reports, or research reports (those have their own skills).
+
+`writing-spec`, `writing-plans`, `brainstorming`, and `systematic-debugging` also gained an HTML output mode in 0.11.0 (defaults: specs and plans markdown, brainstorm summaries and debug reports HTML; configurable via `.workbench/config.md`). Schema documented in `plugins/workbench/skills/autopilot/references/config-schema.md`.
 
 Autopilot profiles are documented in `plugins/workbench/skills/autopilot/references/profile-schema.md`.
 

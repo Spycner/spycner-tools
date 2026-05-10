@@ -237,3 +237,20 @@ A verdict of PASS with critical issues is malformed; re-dispatch the reviewer on
 - Each prompt template has placeholders. Researcher: BRIEF, OUTPUT_PATH, RECIPES_PATH, CLUSTER_SLUG, OUTPUT_FILE, TARGETED_GAP. Synthesis: BRIEF, OUTPUT_PATH, ITERATION, REVIEWER_FEEDBACK. Synthesis-reviewer: BRIEF, OUTPUT_PATH, ITERATION, REVIEWER_FEEDBACK (cross-loop only). Writer: BRIEF, OUTPUT_PATH, TEMPLATE_PATH, REVIEWER_FEEDBACK. Writer-reviewer: BRIEF, OUTPUT_PATH, TEMPLATE_PATH, ITERATION.
 - Credentials/secrets never appear in templates or injected values.
 - See `report-template.md` for report structure (use Deep Mode section) and `research-recipes.md` for search patterns.
+
+## Output Format
+
+Default for this artifact: **html**.
+
+Override resolution order, highest precedence first:
+
+1. Per-invocation override in the user prompt. Recognize phrases like `"a markdown research report"`, `"in HTML"`, `"as a markdown report"`, and equivalents.
+2. Per-skill hard-coded default (html).
+
+`research:research` does not consult `.workbench/config.md`. It is in a different plugin and has no project-level config knob. Format and path are determined by per-invocation override or the hard-coded default.
+
+Path: `reports/<topic-slug>-<YYYY-MM-DD>/report.<ext>` by default, where `<ext>` resolves from format.
+
+When emitting HTML, follow `references/research-report-template.html` in this skill's directory. Read the template lazily. Do not introduce U+2014 or U+2013 codepoints in body copy; HTML entity forms are permitted.
+
+For other HTML artifact types not covered by a workbench or research skill, see `workbench:crafting-html`.

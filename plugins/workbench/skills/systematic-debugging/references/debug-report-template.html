@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Debug Report, Stale cache served after deploy</title>
+<style>
+  :root {
+    --ivory: #FAF9F5;
+    --slate: #141413;
+    --clay: #D97757;
+    --oat: #E3DACC;
+    --olive: #788C5D;
+    --rust: #B04A3F;
+    --amber: #C9892D;
+    --gray-100: #F0EEE6;
+    --gray-300: #D1CFC5;
+    --gray-500: #87867F;
+    --gray-700: #3D3D3A;
+    --white: #FFFFFF;
+
+    --serif: ui-serif, Georgia, serif;
+    --sans: system-ui, -apple-system, sans-serif;
+    --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+    --radius-panel: 12px;
+    --radius-row: 8px;
+    --border: 1.5px solid var(--gray-300);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    padding: 40px 16px 96px;
+    background: var(--ivory);
+    color: var(--slate);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (min-width: 720px) {
+    body { padding: 56px 24px 120px; }
+  }
+
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    margin-bottom: 32px;
+  }
+  .bug-id {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--gray-500);
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+    margin: 0 0 18px;
+    line-height: 1.2;
+  }
+  @media (min-width: 720px) {
+    h1 { font-size: 36px; }
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 12px;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 5px 12px;
+    line-height: 1;
+  }
+  .pill .k {
+    font-weight: 400;
+    opacity: 0.75;
+  }
+  .pill.sev-low      { background: var(--olive); color: var(--white); letter-spacing: 0.03em; }
+  .pill.sev-medium   { background: var(--amber); color: var(--white); letter-spacing: 0.03em; }
+  .pill.sev-high     { background: var(--clay);  color: var(--white); letter-spacing: 0.03em; }
+  .pill.sev-critical { background: var(--rust);  color: var(--white); letter-spacing: 0.03em; }
+  .pill.status-open     { background: var(--clay);  color: var(--white); }
+  .pill.status-resolved { background: var(--olive); color: var(--white); }
+  .pill.neutral {
+    background: var(--gray-100);
+    color: var(--gray-700);
+    border: var(--border);
+  }
+  .pill.neutral .v {
+    font-family: var(--mono);
+  }
+
+  /* ---------- Sections ---------- */
+  section {
+    margin-bottom: 48px;
+    scroll-margin-top: 24px;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+  }
+  @media (min-width: 720px) {
+    h2 { font-size: 24px; }
+  }
+  hr.rule {
+    border: none;
+    border-top: 1px solid var(--gray-300);
+    margin: 0 0 22px;
+  }
+  p { margin: 0 0 14px; }
+  code.inline {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--gray-100);
+    padding: 1.5px 5px;
+    border-radius: 4px;
+  }
+
+  /* ---------- Summary panel ---------- */
+  #summary .summary-card {
+    background: var(--slate);
+    color: var(--ivory);
+    border-radius: var(--radius-panel);
+    padding: 22px 26px;
+    margin-bottom: 8px;
+  }
+  #summary .summary-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--oat);
+    margin-bottom: 10px;
+  }
+  #summary .summary-card p {
+    margin: 0 0 10px;
+    font-size: 15.5px;
+    line-height: 1.65;
+  }
+  #summary .summary-card p:last-child { margin-bottom: 0; }
+  #summary .summary-card code {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    background: rgba(250, 249, 245, 0.12);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  /* ---------- Hypothesis tree ---------- */
+  #hypothesis-tree .tree {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  #hypothesis-tree .tree ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 22px;
+    position: relative;
+  }
+  #hypothesis-tree .tree ul::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 0;
+    bottom: 12px;
+    width: 1.5px;
+    background: var(--gray-300);
+  }
+  #hypothesis-tree .tree li {
+    position: relative;
+    padding: 6px 0 6px 18px;
+  }
+  #hypothesis-tree .tree ul > li::before {
+    content: "";
+    position: absolute;
+    left: -15px;
+    top: 18px;
+    width: 14px;
+    height: 1.5px;
+    background: var(--gray-300);
+  }
+  #hypothesis-tree .h-node {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  #hypothesis-tree .h-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-radius: 4px;
+    padding: 2px 7px;
+    line-height: 1.4;
+  }
+  #hypothesis-tree .h-tag.confirmed  { background: var(--olive); color: var(--white); }
+  #hypothesis-tree .h-tag.refuted    { background: var(--gray-100); color: var(--gray-500); border: 1px solid var(--gray-300); }
+  #hypothesis-tree .h-tag.pending    { background: var(--amber); color: var(--white); }
+  #hypothesis-tree .h-text {
+    font-size: 14.5px;
+    color: var(--slate);
+  }
+  #hypothesis-tree .h-text.struck {
+    color: var(--gray-500);
+    text-decoration: line-through;
+    text-decoration-color: var(--gray-300);
+  }
+  #hypothesis-tree .h-note {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    color: var(--gray-500);
+  }
+
+  /* ---------- Timeline ---------- */
+  #timeline .tries {
+    list-style: none;
+    counter-reset: try;
+    margin: 0;
+    padding: 0;
+  }
+  #timeline .tries > li {
+    counter-increment: try;
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  #timeline .tries > li:last-child { border-bottom: none; }
+  #timeline .tries > li::before {
+    content: counter(try, decimal-leading-zero);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--gray-500);
+    text-align: right;
+    padding-right: 10px;
+    border-right: 1.5px solid var(--gray-300);
+    align-self: start;
+    padding-top: 2px;
+  }
+  #timeline .tries .ts {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--gray-700);
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    border-radius: 6px;
+    padding: 2px 8px;
+    margin-bottom: 6px;
+  }
+  #timeline .try-title {
+    font-size: 14.5px;
+    color: var(--slate);
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  #timeline .try-body {
+    font-size: 14px;
+    color: var(--gray-700);
+    margin: 0 0 4px;
+  }
+  #timeline .try-result {
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  #timeline .try-result.ok      { color: var(--olive); }
+  #timeline .try-result.fail    { color: var(--rust); }
+  #timeline .try-result.partial { color: var(--amber); }
+
+  @media (max-width: 520px) {
+    #timeline .tries > li {
+      grid-template-columns: 56px 1fr;
+      gap: 10px;
+    }
+  }
+
+  /* ---------- Code blocks with line numbers ---------- */
+  .code-panel {
+    background: var(--slate);
+    color: var(--gray-100);
+    border-radius: var(--radius-panel);
+    padding: 16px 18px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 8px 0 4px;
+  }
+  .code-panel .path {
+    color: var(--gray-500);
+    font-size: 12px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .code-panel ol.code {
+    list-style: none;
+    counter-reset: line;
+    margin: 0;
+    padding: 0;
+  }
+  .code-panel ol.code > li {
+    counter-increment: line;
+    display: block;
+    white-space: pre;
+    padding-left: 44px;
+    position: relative;
+  }
+  .code-panel ol.code > li::before {
+    content: counter(line);
+    position: absolute;
+    left: 0;
+    width: 32px;
+    text-align: right;
+    color: var(--gray-500);
+    user-select: none;
+  }
+  .code-panel ol.code > li.ctx { color: var(--gray-300); }
+  .code-panel ol.code > li.del { color: #E0897A; }
+  .code-panel ol.code > li.add { color: #A3B88A; }
+
+  /* ---------- Root cause specifics ---------- */
+  #root-cause .rc-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--clay);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--clay);
+  }
+  #root-cause .rc-link:hover {
+    color: var(--rust);
+    border-bottom-color: var(--rust);
+  }
+
+  /* ---------- Fix specifics ---------- */
+  #fix .validation {
+    margin-top: 18px;
+  }
+  #fix .validation h3 {
+    font-family: var(--sans);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray-500);
+    margin: 0 0 10px;
+    font-weight: 600;
+  }
+  #fix .validation pre {
+    margin: 0;
+    background: var(--gray-100);
+    border: var(--border);
+    border-radius: var(--radius-row);
+    padding: 12px 14px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.65;
+    overflow-x: auto;
+    color: var(--gray-700);
+  }
+
+  /* ---------- Followups ---------- */
+  #followups ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: var(--border);
+    border-radius: var(--radius-panel);
+    background: var(--white);
+    overflow: hidden;
+  }
+  #followups li {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 14px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-100);
+    font-size: 14px;
+  }
+  #followups li:last-child { border-bottom: none; }
+  #followups .fu-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-500);
+    align-self: start;
+    padding-top: 2px;
+  }
+  #followups .fu-text { color: var(--slate); }
+  #followups .fu-text code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: var(--gray-100);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+  @media (max-width: 520px) {
+    #followups li { grid-template-columns: 60px 1fr; gap: 10px; }
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--gray-300);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--gray-500);
+  }
+</style>
+</head>
+<body>
+
+  <div class="page">
+
+    <header id="header">
+      <div class="bug-id">BUG-2026-0142</div>
+      <h1>Stale cache served to logged-in users after deploy</h1>
+      <div class="meta-row">
+        <span class="pill sev-high">SEVERITY: HIGH</span>
+        <span class="pill status-resolved">Resolved</span>
+        <span class="pill neutral"><span class="k">Reported</span> <span class="v">2026-05-06</span></span>
+        <span class="pill neutral"><span class="k">Resolved</span> <span class="v">2026-05-08</span></span>
+        <span class="pill neutral"><span class="k">Owner</span> <span class="v">on-call</span></span>
+      </div>
+    </header>
+
+    <section id="summary">
+      <h2>Summary</h2>
+      <hr class="rule">
+      <div class="summary-card">
+        <div class="summary-label">Bug, impact, resolution</div>
+        <p>
+          After the <code>v3.18</code> release, roughly 8 percent of authenticated
+          users saw stale dashboard data for up to 30 minutes. The CDN was serving
+          a public response variant to logged-in clients because the
+          <code>Vary</code> header dropped <code>Cookie</code> on a refactored
+          response builder.
+        </p>
+        <p>
+          Impact: customer-reported confusion, three support tickets, no data
+          corruption. Resolution: restored <code>Vary: Cookie</code> on the
+          dashboard handler and added a contract test that asserts the header on
+          every authenticated route.
+        </p>
+      </div>
+    </section>
+
+    <section id="hypothesis-tree">
+      <h2>Hypothesis tree</h2>
+      <hr class="rule">
+      <p>
+        Initial signal: dashboard widget showed yesterday's totals for a subset
+        of users. Hypotheses explored, in order, with results:
+      </p>
+      <ul class="tree">
+        <li>
+          <span class="h-node">
+            <span class="h-tag refuted">refuted</span>
+            <span class="h-text struck">Database replication lag is serving old reads</span>
+          </span>
+          <span class="h-note">
+            Replica lag metrics flat at &lt; 80 ms across the window. Direct DB
+            queries returned the correct, fresh values.
+          </span>
+          <ul>
+            <li>
+              <span class="h-node">
+                <span class="h-tag refuted">refuted</span>
+                <span class="h-text struck">A specific replica is slow</span>
+              </span>
+              <span class="h-note">
+                Per-replica lag dashboards normal. Affected users were not pinned
+                to a single replica.
+              </span>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span class="h-node">
+            <span class="h-tag confirmed">confirmed</span>
+            <span class="h-text">CDN is serving a cached public response to logged-in users</span>
+          </span>
+          <span class="h-note">
+            Reproduced by curling the dashboard with and without the auth
+            cookie, observing identical bodies and an
+            <code class="inline">age</code> header up to 1800.
+          </span>
+          <ul>
+            <li>
+              <span class="h-node">
+                <span class="h-tag confirmed">confirmed</span>
+                <span class="h-text">The response is missing <code class="inline">Vary: Cookie</code></span>
+              </span>
+              <span class="h-note">
+                Headers from <code class="inline">curl -I</code> show only
+                <code class="inline">Vary: Accept-Encoding</code>. Pre-release
+                responses included <code class="inline">Vary: Accept-Encoding, Cookie</code>.
+              </span>
+            </li>
+            <li>
+              <span class="h-node">
+                <span class="h-tag refuted">refuted</span>
+                <span class="h-text struck">CDN edge config dropped the Vary on Cookie rule</span>
+              </span>
+              <span class="h-note">
+                Edge config diff was empty across the deploy window. Header was
+                missing at the origin, not stripped at the edge.
+              </span>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span class="h-node">
+            <span class="h-tag pending">pending</span>
+            <span class="h-text">Other authenticated routes may be affected too</span>
+          </span>
+          <span class="h-note">
+            Tracked as a followup audit. See <a href="#followups">Followups</a>.
+          </span>
+        </li>
+      </ul>
+    </section>
+
+    <section id="timeline">
+      <h2>Timeline of attempts</h2>
+      <hr class="rule">
+      <ol class="tries">
+        <li>
+          <div>
+            <span class="ts">2026-05-06 10:14</span>
+            <p class="try-title">Reproduce the report locally</p>
+            <p class="try-body">
+              Loaded the dashboard against staging with a fresh session.
+              Observed identical stale body across two browser profiles.
+            </p>
+            <p class="try-result ok">result: reproduced</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span class="ts">2026-05-06 11:02</span>
+            <p class="try-title">Inspect database replication health</p>
+            <p class="try-body">
+              Checked replica lag dashboards and ran the dashboard query
+              directly via <code class="inline">psql</code>. Data was current
+              at the database layer.
+            </p>
+            <p class="try-result fail">result: hypothesis refuted</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span class="ts">2026-05-07 09:30</span>
+            <p class="try-title">Compare response headers before and after the release</p>
+            <p class="try-body">
+              Pulled <code class="inline">curl -I</code> against the v3.17 build
+              from the canary fleet and the v3.18 build in production.
+              Diffed headers and noticed Vary changed.
+            </p>
+            <p class="try-result ok">result: smoking gun, Vary: Cookie missing</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span class="ts">2026-05-08 14:20</span>
+            <p class="try-title">Trace the missing header to the response builder</p>
+            <p class="try-body">
+              <code class="inline">git log -p</code> on
+              <code class="inline">app/http/responses.py</code> showed the
+              dashboard handler switched to a shared builder that defaults
+              <code class="inline">vary</code> to a single value.
+            </p>
+            <p class="try-result ok">result: root cause identified</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="root-cause">
+      <h2>Root cause</h2>
+      <hr class="rule">
+      <p>
+        The v3.18 refactor introduced a shared
+        <code class="inline">build_response()</code> helper. Its
+        <code class="inline">vary</code> parameter accepted a single string and
+        defaulted to <code class="inline">"Accept-Encoding"</code>. The
+        dashboard handler was migrated to this helper but was not updated to
+        pass the additional <code class="inline">Cookie</code> token, so the
+        response shipped with <code class="inline">Vary: Accept-Encoding</code>
+        only. The CDN, doing exactly what that header asks for, treated public
+        and authenticated responses as a single cache key.
+      </p>
+
+      <div class="code-panel">
+        <span class="path">app/http/responses.py</span>
+        <ol class="code">
+          <li class="ctx">def build_response(body, status=200, vary="Accept-Encoding"):</li>
+          <li class="ctx">    headers = {</li>
+          <li class="ctx">        "Content-Type": "application/json",</li>
+          <li class="ctx">        "Vary": vary,</li>
+          <li class="ctx">    }</li>
+          <li class="ctx">    return Response(body, status=status, headers=headers)</li>
+          <li class="ctx"></li>
+          <li class="ctx">def dashboard(request):</li>
+          <li class="ctx">    payload = render_dashboard(request.user)</li>
+          <li class="del">    return build_response(payload)</li>
+        </ol>
+      </div>
+
+      <a class="rc-link" href="#fix">See fix below, app/http/responses.py:9</a>
+    </section>
+
+    <section id="fix">
+      <h2>Fix</h2>
+      <hr class="rule">
+      <p>
+        Two-part change. First, pass the correct
+        <code class="inline">vary</code> value at the dashboard handler. Second,
+        add a contract test so any future authenticated handler that drops
+        <code class="inline">Cookie</code> from <code class="inline">Vary</code>
+        fails CI.
+      </p>
+
+      <div class="code-panel">
+        <span class="path">app/http/responses.py (diff)</span>
+        <ol class="code">
+          <li class="ctx"> def dashboard(request):</li>
+          <li class="ctx">     payload = render_dashboard(request.user)</li>
+          <li class="del">-    return build_response(payload)</li>
+          <li class="add">+    return build_response(payload, vary="Accept-Encoding, Cookie")</li>
+        </ol>
+      </div>
+
+      <div class="code-panel">
+        <span class="path">tests/contract/test_vary_header.py (new)</span>
+        <ol class="code">
+          <li class="add">+def test_authenticated_routes_vary_on_cookie(client, auth_user):</li>
+          <li class="add">+    for route in AUTHENTICATED_ROUTES:</li>
+          <li class="add">+        resp = client.get(route, user=auth_user)</li>
+          <li class="add">+        vary = resp.headers.get("Vary", "")</li>
+          <li class="add">+        assert "Cookie" in vary, f"{route} missing Cookie in Vary: {vary!r}"</li>
+        </ol>
+      </div>
+
+      <div class="validation">
+        <h3>Validation commands</h3>
+        <pre>$ pytest tests/contract/test_vary_header.py -q
+.....                                                                 [100%]
+5 passed in 0.42s
+
+$ curl -sI https://staging.example.com/dashboard \
+    -H "Cookie: session=$SESSION" | grep -i '^vary:'
+Vary: Accept-Encoding, Cookie
+
+$ curl -sI https://staging.example.com/dashboard | grep -i '^vary:'
+Vary: Accept-Encoding, Cookie</pre>
+      </div>
+    </section>
+
+    <section id="followups">
+      <h2>Followups</h2>
+      <hr class="rule">
+      <ul>
+        <li>
+          <span class="fu-tag">audit</span>
+          <span class="fu-text">
+            Audit every authenticated route for correct <code>Vary</code> headers
+            (tracked as <code>BUG-2026-0143</code>).
+          </span>
+        </li>
+        <li>
+          <span class="fu-tag">guard</span>
+          <span class="fu-text">
+            Update <code>build_response()</code> docstring with explicit guidance:
+            authenticated routes must pass <code>vary="Accept-Encoding, Cookie"</code>.
+          </span>
+        </li>
+        <li>
+          <span class="fu-tag">guard</span>
+          <span class="fu-text">
+            Add a CDN-level synthetic check that fetches the dashboard with and
+            without auth, asserting different bodies.
+          </span>
+        </li>
+        <li>
+          <span class="fu-tag">postmortem</span>
+          <span class="fu-text">
+            Schedule a 30-minute review on why the v3.18 canary did not surface
+            this (canary traffic was unauthenticated only).
+          </span>
+        </li>
+      </ul>
+    </section>
+
+    <footer>
+      Template: workbench:systematic-debugging, debug-report-template.html
+    </footer>
+
+  </div>
+</body>
+</html>

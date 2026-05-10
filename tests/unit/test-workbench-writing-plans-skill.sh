@@ -53,6 +53,17 @@ else
     echo "[PASS] no em or en-dash"
 fi
 
+for f in "$SKILL_DIR"/references/*.html; do
+    [ -e "$f" ] || continue
+    if grep -qP '[\x{2013}\x{2014}]' "$f"; then
+        echo "[FAIL] em-dash or en-dash in $f"; exit 1
+    fi
+done
+TEMPLATE="$SKILL_DIR/references/plan-template.html"
+[ -s "$TEMPLATE" ] || { echo "[FAIL] missing template: $TEMPLATE"; exit 1; }
+head -c 32 "$TEMPLATE" | grep -qiE '<!DOCTYPE|<html' || { echo "[FAIL] template malformed: $TEMPLATE"; exit 1; }
+echo "[PASS] em-dash + template checks"
+
 if grep -qF 'writing-plans' "$REPO_ROOT/plugins/workbench/README.md" && grep -qF 'skills/writing-plans/SKILL.md' "$REPO_ROOT/plugins/workbench/NOTICE"; then
     echo "[PASS] README and NOTICE list the skill"
 else

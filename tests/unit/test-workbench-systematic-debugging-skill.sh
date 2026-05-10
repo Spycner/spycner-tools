@@ -34,6 +34,17 @@ if grep -RnP "[\x{2013}\x{2014}]" "$SKILL_DIR" >/dev/null 2>&1; then
 fi
 pass "no em/en-dashes in ported files"
 
+for f in "$SKILL_DIR"/references/*.html; do
+    [ -e "$f" ] || continue
+    if grep -qP '[\x{2013}\x{2014}]' "$f"; then
+        echo "[FAIL] em-dash or en-dash in $f"; exit 1
+    fi
+done
+TEMPLATE="$SKILL_DIR/references/debug-report-template.html"
+[ -s "$TEMPLATE" ] || { echo "[FAIL] missing template: $TEMPLATE"; exit 1; }
+head -c 32 "$TEMPLATE" | grep -qiE '<!DOCTYPE|<html' || { echo "[FAIL] template malformed: $TEMPLATE"; exit 1; }
+echo "[PASS] em-dash + template checks"
+
 # 5-6. Bundled references + TS example exist and are non-empty (upstream flat layout).
 # four-phases.md is workbench-authored: holds the detailed phase walk-through that was factored out of SKILL.md.
 for ref in root-cause-tracing.md defense-in-depth.md condition-based-waiting.md four-phases.md; do
@@ -73,16 +84,16 @@ pass "AGENTS.md mentions skill"
 grep -q "systematic-debugging" "$ROOT/plugins/workbench/NOTICE" || fail "NOTICE does not credit systematic-debugging"
 pass "NOTICE attribution present"
 
-# 13. Plugin manifests at 0.10.0.
+# 13. Plugin manifests at 0.11.0.
 CC_VER="$(jq -r '.version' "$ROOT/plugins/workbench/.claude-plugin/plugin.json")"
 CDX_VER="$(jq -r '.version' "$ROOT/plugins/workbench/.codex-plugin/plugin.json")"
-[ "$CC_VER" = "0.10.0" ] || fail "claude-plugin version is $CC_VER, expected 0.10.0"
-[ "$CDX_VER" = "0.10.0" ] || fail "codex-plugin version is $CDX_VER, expected 0.10.0"
-pass "plugin manifests at 0.10.0"
+[ "$CC_VER" = "0.11.0" ] || fail "claude-plugin version is $CC_VER, expected 0.11.0"
+[ "$CDX_VER" = "0.11.0" ] || fail "codex-plugin version is $CDX_VER, expected 0.11.0"
+pass "plugin manifests at 0.11.0"
 
-# 14. Claude marketplace entry at 0.10.0 (codex marketplace does not carry a per-plugin version field).
+# 14. Claude marketplace entry at 0.11.0 (codex marketplace does not carry a per-plugin version field).
 CC_MP_VER="$(jq -r '.plugins[] | select(.name=="workbench") | .version' "$ROOT/.claude-plugin/marketplace.json")"
-[ "$CC_MP_VER" = "0.10.0" ] || fail "claude marketplace workbench version is $CC_MP_VER, expected 0.10.0"
-pass "claude marketplace at 0.10.0"
+[ "$CC_MP_VER" = "0.11.0" ] || fail "claude marketplace workbench version is $CC_MP_VER, expected 0.11.0"
+pass "claude marketplace at 0.11.0"
 
 echo "OK"

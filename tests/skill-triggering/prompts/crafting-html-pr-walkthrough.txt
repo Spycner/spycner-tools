@@ -1,0 +1,1 @@
+Help me review this PR by creating an HTML artifact that walks through the changes. I'm not familiar with the streaming logic, so focus there. Render the diff with inline annotations and color-code findings by severity.
