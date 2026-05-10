@@ -247,7 +247,7 @@ Override resolution order, highest precedence first:
 1. Per-invocation override in the user prompt. Recognize phrases like `"a markdown research report"`, `"in HTML"`, `"as a markdown report"`, and equivalents.
 2. Per-skill hard-coded default (html).
 
-`research:research` does not consult `.workbench/config.md`. It is in a different plugin and has no project-level config knob. Format and path are determined by per-invocation override or the hard-coded default.
+For format and path, `research:research` does not consult `.workbench/config.md`. It is in a different plugin and has no project-level config knob for those two axes; format and path are determined by per-invocation override or the hard-coded default. (Design system selection is the exception: the cross-reference at the end of this section honors `.workbench/config.md` `## Design system` so a project-wide design-system pin affects research reports too.)
 
 Path: `reports/<topic-slug>-<YYYY-MM-DD>/report.<ext>` by default, where `<ext>` resolves from format.
 
