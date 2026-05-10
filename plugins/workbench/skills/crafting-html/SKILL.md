@@ -44,3 +44,7 @@ This skill differs from `frontend-design`. `frontend-design` builds UI and compo
 ## How to use the references
 
 Read one reference file matching the artifact type before generating. Do not load all 21 references; each is self-contained and roughly 10 to 25 KB. The category map above is the index. The host agent reads `references/<file>.html` on demand, not proactively.
+
+## Output Format
+
+When emitting HTML, also apply the active design system per `workbench:crafting-design-systems`. Resolution order: per-prompt override, then `.workbench/config.md` `## Design system` `Name:`, then no override (template defaults).

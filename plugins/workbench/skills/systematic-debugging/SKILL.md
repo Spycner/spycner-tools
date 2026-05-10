@@ -163,3 +163,5 @@ At the end of the four-phase loop, after the fix is verified, write a debug repo
 Announce the file path in the conversation when emitting (for example: "Debug report written to `.workbench/debug-reports/2026-05-08-cache-stale-debug.html`") before the final summary message.
 
 For other HTML artifact types not covered by a workbench or research skill, see `workbench:crafting-html`.
+
+When emitting HTML, also apply the active design system per `workbench:crafting-design-systems`. Resolution order: per-prompt override, then `.workbench/config.md` `## Design system` `Name:`, then no override (template defaults).

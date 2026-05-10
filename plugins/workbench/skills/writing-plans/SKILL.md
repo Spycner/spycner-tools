@@ -168,3 +168,5 @@ Path resolution order: `.workbench/autopilot.md` `## Documentation paths` `Plans
 When emitting HTML, follow the structural skeleton in `references/plan-template.html` in this skill's directory. Read the template lazily, only when actually producing the artifact. Do not introduce U+2014 or U+2013 codepoints in body copy; HTML entity forms (`&mdash;`, `&#8212;`, `&ndash;`, `&#8211;`) are permitted.
 
 For other HTML artifact types not covered by a workbench or research skill, see `workbench:crafting-html`.
+
+When emitting HTML, also apply the active design system per `workbench:crafting-design-systems`. Resolution order: per-prompt override, then `.workbench/config.md` `## Design system` `Name:`, then no override (template defaults).

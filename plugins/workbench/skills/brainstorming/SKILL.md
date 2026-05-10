@@ -134,3 +134,5 @@ After the user approves the design and before recommending `workbench:writing-sp
 Announce the file path in the conversation when emitting (for example: "Brainstorm summary written to `.workbench/brainstorms/2026-05-08-html-artifacts-brainstorm.html`") so the user is not surprised. The recommendation of `workbench:writing-spec` then follows in the same final message.
 
 For other HTML artifact types not covered by a workbench or research skill, see `workbench:crafting-html`.
+
+When emitting HTML, also apply the active design system per `workbench:crafting-design-systems`. Resolution order: per-prompt override, then `.workbench/config.md` `## Design system` `Name:`, then no override (template defaults).
