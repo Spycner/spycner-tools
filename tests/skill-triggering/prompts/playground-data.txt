@@ -1,0 +1,1 @@
+Build me an interactive SQL query builder I can paste back to Claude when I'm done.

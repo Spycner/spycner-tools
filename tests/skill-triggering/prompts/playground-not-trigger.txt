@@ -1,0 +1,1 @@
+Add a unit test for the auth middleware in src/middleware/auth.ts.
