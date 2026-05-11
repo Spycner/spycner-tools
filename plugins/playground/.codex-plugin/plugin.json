@@ -1,0 +1,41 @@
+{
+  "name": "playground",
+  "version": "0.1.0",
+  "description": "Generate interactive single-file HTML playgrounds with controls, live preview, and copy-out prompt for two-way feedback with the model.",
+  "author": {
+    "name": "Pascal Göllner"
+  },
+  "license": "MIT",
+  "keywords": [
+    "copy-button",
+    "explorer",
+    "feedback",
+    "html",
+    "interactive",
+    "live-preview",
+    "playground",
+    "prompt",
+    "single-file",
+    "visual"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Playground",
+    "shortDescription": "Generate interactive HTML playgrounds with controls, live preview, and copy-out prompt",
+    "longDescription": "Builds self-contained HTML files that pair an interactive control panel, a live visual preview, and a generated prompt the user copies back into Claude. Bundles six templates: design playgrounds, data explorers, concept maps, document critique, diff review, and code maps. Use when the input space is large, visual, or structural and hard to express as plain text.",
+    "developerName": "Pascal Göllner",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use the playground skill to tweak my button component's hover and shadow",
+      "Build me an interactive SQL query builder I can paste back to Claude",
+      "Show me the email-agent architecture as an interactive diagram I can comment on",
+      "Use the playground skill to review my SKILL.md and give me inline suggestions",
+      "Use the playground skill to help me balance the 'Inferno' hero's deck"
+    ],
+    "screenshots": []
+  }
+}
