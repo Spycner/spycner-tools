@@ -20,7 +20,7 @@
       "name": "research",
       "source": "./plugins/research",
       "description": "Research complex topics and produce sourced reports.",
-      "version": "2.1.0"
+      "version": "2.1.1"
     },
     {
       "name": "writing",
@@ -44,7 +44,7 @@
       "name": "workbench",
       "source": "./plugins/workbench",
       "description": "Personal Workbench skills for design and autonomous feature work.",
-      "version": "0.11.0"
+      "version": "0.12.0"
     },
     {
       "name": "terminal",

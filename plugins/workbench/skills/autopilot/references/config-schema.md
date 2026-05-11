@@ -28,6 +28,9 @@ Specs: <directory path>
 Plans: <directory path>
 Brainstorm summaries: <directory path>
 Debug reports: <directory path>
+
+## Design system
+Name: <design-system-name>
 ```
 
 All sections optional. All fields within a section optional.
@@ -42,6 +45,17 @@ All sections optional. All fields within a section optional.
 | Debug reports | html | `.workbench/debug-reports` |
 
 Filenames within the directory follow `YYYY-MM-DD-<topic>-<artifact>.<ext>`, where `<ext>` is `md` or `html` per resolved format.
+
+## Design system resolution
+
+`Name:` resolves the active design system applied to HTML artifacts. The host agent locates the named directory in this order:
+
+1. Project: `.workbench/design-systems/<name>/`
+2. User: `~/.claude/workbench/design-systems/<name>/`
+
+Per-prompt overrides take precedence over this file. Absence of the section means: use the template defaults (no overrides inlined). When the named directory is not found at either scope, the host agent reports the missing path and falls through to "no overrides".
+
+The full design-system contract (directory structure, per-template variable surface, component contract, image inlining recipe) is documented in `workbench:crafting-design-systems`.
 
 ## Resolution order
 

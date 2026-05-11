@@ -1,0 +1,1 @@
+I want to create a brand design system for our workbench HTML output. We have brand colors I want our specs and brainstorm summaries to use.

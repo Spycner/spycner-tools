@@ -44,3 +44,19 @@ This skill differs from `frontend-design`. `frontend-design` builds UI and compo
 ## How to use the references
 
 Read one reference file matching the artifact type before generating. Do not load all 21 references; each is self-contained and roughly 10 to 25 KB. The category map above is the index. The host agent reads `references/<file>.html` on demand, not proactively.
+
+## Output Format
+
+### Applying a design system
+
+Before emitting HTML, check for an active design system and inline its overrides into the artifact's `<style>` block:
+
+1. Resolve the design-system name: per-prompt override (e.g., "render with the `brand-2026` design system"), then `.workbench/config.md` `## Design system` `Name:`, then no override.
+2. Locate the directory: `.workbench/design-systems/<name>/` (project scope), then `~/.claude/workbench/design-systems/<name>/` (user scope). If a name resolves but no directory is found at either scope, report the missing path to the user and emit with template defaults; do not fabricate a substitute.
+3. Inline `colors.css` (and `typography.css` if present) **after** the template's own `:root` declarations, so the design system's values win the cascade.
+4. For any referenced component, paste `components/<n>.html` markup and scoped style into the artifact body.
+5. For any referenced image, base64-encode (`base64 -w 0 <file>`) and inline as `data:image/<type>;base64,<payload>`. SVG is text and can be inlined directly. Use relative paths only when the artifact and the design system co-exist in the same git tree and the artifact will not travel.
+
+`crafting-html` references vary in their CSS variable surface; inspect the chosen reference template's `:root` to know which design-system variables apply.
+
+To create or edit a design system, see `workbench:crafting-design-systems`.
