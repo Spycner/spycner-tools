@@ -30,7 +30,7 @@ You MUST create a task for each of these items and complete them in order:
 `<paths.specs>` resolves in order:
 1. `.workbench/autopilot.md` `Specs:` heading.
 2. Project `CLAUDE.md` or `AGENTS.md` spec-path convention.
-3. `docs/workbench/specs/` (default).
+3. `.workbench/specs/` (default).
 
 If the resolved value is `don't commit`, write the spec to `/tmp/<project-name>-autopilot/YYYY-MM-DD-<topic>-design.md` and skip the commit step. Otherwise write to `<paths.specs>/YYYY-MM-DD-<topic>-design.md`.
 
@@ -90,7 +90,7 @@ Override resolution order, highest precedence first:
 2. `.workbench/config.md` `## Output formats` entry for `Specs:`. Schema documented in `plugins/workbench/skills/autopilot/references/config-schema.md`.
 3. Per-skill hard-coded default (md).
 
-Path resolution order: `.workbench/autopilot.md` `## Documentation paths` `Specs:` first; then `.workbench/config.md` `## Output paths` `Specs:`; then `docs/specs/` default. Path and format resolve independently.
+Path resolution order: `.workbench/autopilot.md` `## Documentation paths` `Specs:` first; then `.workbench/config.md` `## Output paths` `Specs:`; then `.workbench/specs/` default. Path and format resolve independently.
 
 When emitting HTML, follow the structural skeleton in `references/spec-template.html` in this skill's directory. Read the template lazily, only when actually producing the artifact. Do not introduce U+2014 or U+2013 codepoints in body copy; HTML entity forms (`&mdash;`, `&#8212;`, `&ndash;`, `&#8211;`) are permitted.
 
