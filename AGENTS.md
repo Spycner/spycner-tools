@@ -187,12 +187,13 @@ Examples (subdirectory): `references/config-schema.md` (autopilot), `references/
 
 Follow the existing patterns in `tests/`:
 
-**Unit tests** (`tests/unit/test-<service>-skill.sh`):
+**Unit tests** (`tests/unit/test-<plugin>-<service>-skill.sh`, or `tests/unit/test-<service>-skill.sh` for single-skill plugins where `<plugin>` and `<service>` would be the same word):
 - Verify skill loads and is recognized
 - Check it describes its capabilities
 - Verify it mentions the correct tool
 - Check supporting references are mentioned
 - Pattern: `run_claude "<prompt>" | assert_contains "<pattern>"`
+- Note: the version-bump lockstep (Design Decisions) uses the glob `test-<plugin>-*-skill.sh`, which matches both forms. Multi-skill plugins like `workbench` and `frontend-design` use the long form (`test-workbench-autopilot-skill.sh`); single-skill plugins like `playground`, `terminal`, `runtime-bridge` use the short form (`test-playground-skill.sh`).
 
 **Integration tests** (`tests/integration/test-<service>-integration.sh`):
 - Require live auth (skip gracefully if not available)
@@ -218,6 +219,9 @@ When adding only a new skill to an existing plugin, the "Skills at a glance" tab
 
 ```bash
 # Unit tests (no auth required)
+# Multi-skill plugins (workbench, frontend-design, agent-system-management):
+PLUGIN_DIR=plugins/<plugin> bash tests/unit/test-<plugin>-<service>-skill.sh
+# Single-skill plugins (playground, terminal, runtime-bridge, etc.):
 PLUGIN_DIR=plugins/<plugin> bash tests/unit/test-<service>-skill.sh
 bash tests/unit/test-skill-frontmatter-yaml.sh
 
