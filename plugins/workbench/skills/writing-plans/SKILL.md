@@ -19,7 +19,7 @@ Resolve the plan path in this order:
 
 1. `.workbench/autopilot.md` `Plans:` heading.
 2. Project `CLAUDE.md` or `AGENTS.md` plan-path convention.
-3. `docs/workbench/plans/YYYY-MM-DD-<feature-name>.md`.
+3. `.workbench/plans/YYYY-MM-DD-<feature-name>.md`.
 
 If the resolved value is `don't commit`, write the plan to `/tmp/<project-name>-autopilot/YYYY-MM-DD-<feature-name>.md` and skip committing it.
 
@@ -163,7 +163,7 @@ Override resolution order, highest precedence first:
 2. `.workbench/config.md` `## Output formats` entry for `Plans:`. Schema documented in `plugins/workbench/skills/autopilot/references/config-schema.md`.
 3. Per-skill hard-coded default (md).
 
-Path resolution order: `.workbench/autopilot.md` `## Documentation paths` `Plans:` first; then `.workbench/config.md` `## Output paths` `Plans:`; then `docs/plans/` default. Path and format resolve independently.
+Path resolution order: `.workbench/autopilot.md` `## Documentation paths` `Plans:` first; then `.workbench/config.md` `## Output paths` `Plans:`; then `.workbench/plans/` default. Path and format resolve independently.
 
 When emitting HTML, follow the structural skeleton in `references/plan-template.html` in this skill's directory. Read the template lazily, only when actually producing the artifact. Do not introduce U+2014 or U+2013 codepoints in body copy; HTML entity forms (`&mdash;`, `&#8212;`, `&ndash;`, `&#8211;`) are permitted.
 

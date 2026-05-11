@@ -39,8 +39,8 @@ All sections optional. All fields within a section optional.
 
 | Field | Default format | Default path |
 |---|---|---|
-| Specs | md | `docs/specs` |
-| Plans | md | `docs/plans` |
+| Specs | md | `.workbench/specs` |
+| Plans | md | `.workbench/plans` |
 | Brainstorm summaries | html | `.workbench/brainstorms` |
 | Debug reports | html | `.workbench/debug-reports` |
 
