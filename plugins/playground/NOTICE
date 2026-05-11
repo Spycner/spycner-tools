@@ -1,0 +1,44 @@
+playground
+Copyright 2026 Pascal Göllner
+
+This plugin contains content derived from Anthropic's playground plugin
+(https://github.com/anthropics/claude-plugins-official/tree/main/plugins/playground,
+commit aecd4c852f10b466245f18383fa6aad8c0b10d57 at time of port),
+authored by Anthropic, licensed under the Apache License, Version 2.0:
+
+  - skills/playground/SKILL.md (verbatim body except em-dashes (U+2014)
+      and en-dashes (U+2013) substituted with project-lint-compliant
+      punctuation; see substitution rules below)
+  - skills/playground/templates/code-map.md (verbatim body, same
+      em-dash/en-dash substitution applied)
+  - skills/playground/templates/concept-map.md (verbatim body, same
+      em-dash/en-dash substitution applied)
+  - skills/playground/templates/data-explorer.md (verbatim body, same
+      em-dash/en-dash substitution applied)
+  - skills/playground/templates/design-playground.md (verbatim body,
+      same em-dash/en-dash substitution applied)
+  - skills/playground/templates/diff-review.md (verbatim body, same
+      em-dash/en-dash substitution applied)
+  - skills/playground/templates/document-critique.md (verbatim body,
+      same em-dash/en-dash substitution applied)
+  - README.md (paraphrased from the upstream README; em-dashes and
+      en-dashes substituted; section structure adapted for this
+      marketplace, with a Credits section pointing back to upstream)
+  - .claude-plugin/plugin.json (regenerated to include this
+      marketplace's `version`, `license`, and `keywords` fields and to
+      normalize the `author` to this marketplace's maintainer; the
+      upstream `description` text is preserved with em-dashes
+      substituted)
+
+Em-dash and en-dash substitution rules applied at port time:
+
+  - <space>U+2014<space> as a sentence pause becomes ", " (comma + space)
+  - <word>U+2014<description> in labelled bullets and tables becomes
+    ": " (colon + space) so the labelled-list feel is preserved
+  - <digit>U+2013<digit> in numeric ranges (e.g., "0-24px") becomes
+    "-" (hyphen)
+
+Apache License 2.0: http://www.apache.org/licenses/LICENSE-2.0
+
+Adaptations are licensed under MIT (see LICENSE) where they qualify as
+original work; preserved upstream content remains under Apache 2.0.

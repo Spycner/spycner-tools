@@ -37,6 +37,7 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `creating-skills` | agent-system-management | Scaffold, iterate, pressure-test, and tune skills across the full lifecycle |
 | `frontend-design` | frontend-design | Generate distinctive, production-grade frontend interfaces that avoid generic AI aesthetics |
 | `emil-design-eng` | frontend-design | Emil Kowalski's design engineering philosophy: animation timing, component polish, and the invisible details that make UI feel right |
+| `playground` | playground | Generate interactive single-file HTML playgrounds with controls, live preview, and copy-out prompt for two-way feedback with the model |
 
 ## Plugins
 
@@ -127,6 +128,13 @@ Distinctive, production-grade frontend interfaces with deep UI craft and animati
 - `/pgoell-claude-tools:frontend-design`: Build web components, pages, and applications with a clear aesthetic point of view (typography, color, motion, composition).
 - `/pgoell-claude-tools:emil-design-eng`: Review UI craft, choose easing curves and durations, build interaction-rich components, and audit motion. Encodes Emil Kowalski's design engineering philosophy.
 
+### playground
+
+Interactive single-file HTML playgrounds: control panel + live preview + copy-out prompt. Ports Anthropic's `playground` plugin (Apache 2.0, see `plugins/playground/NOTICE` for attribution).
+
+**Skills:**
+- `/pgoell-claude-tools:playground`: Build self-contained HTML playgrounds for design, data, concept maps, document critique, diff review, or code architecture.
+
 ## Installation
 
 ### Claude Code
@@ -142,6 +150,7 @@ Distinctive, production-grade frontend interfaces with deep UI craft and animati
 /plugin install workbench@pgoell-claude-tools
 /plugin install terminal@pgoell-claude-tools
 /plugin install frontend-design@pgoell-claude-tools
+/plugin install playground@pgoell-claude-tools
 ```
 
 ### Codex
@@ -159,7 +168,7 @@ codex
 /plugins
 ```
 
-In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, `terminal`, and `frontend-design`.
+In the picker, install `atlassian`, `google-workspace`, `research`, `writing`, `runtime-bridge`, `agent-system-management`, `workbench`, `terminal`, `frontend-design`, and `playground`.
 
 `codex plugin marketplace add` accepts `owner/repo[@ref]`, an HTTPS or SSH Git URL, or a local marketplace root directory. The marketplace file lives at `.agents/plugins/marketplace.json` and the per-plugin Codex manifests live at `plugins/<plugin>/.codex-plugin/plugin.json`. Both reuse the same `plugins/<plugin>/skills/` directories as Claude Code, single sourced.
 
@@ -217,3 +226,7 @@ Install `tmux` on Linux, macOS, or WSL. Native Windows terminals are not support
 ### frontend-design
 
 No setup required. `frontend-design` triggers automatically when the host agent is asked to build a web component, page, or application; `emil-design-eng` triggers on requests to review UI craft, animation timing, easing/duration choices, or component polish.
+
+### playground
+
+No setup required. The `playground` skill triggers automatically when the host agent is asked to build an interactive playground, explorer, or visual tool for a topic. The skill writes a single self-contained HTML file and opens it in the user's default browser.

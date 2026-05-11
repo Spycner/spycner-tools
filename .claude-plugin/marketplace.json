@@ -57,6 +57,12 @@
       "source": "./plugins/frontend-design",
       "description": "Create distinctive, production-grade frontend interfaces with deep UI craft and animation discipline.",
       "version": "0.2.0"
+    },
+    {
+      "name": "playground",
+      "source": "./plugins/playground",
+      "description": "Generate interactive single-file HTML playgrounds with controls, live preview, and copy-out prompt for two-way feedback with the model.",
+      "version": "0.1.0"
     }
   ]
 }
