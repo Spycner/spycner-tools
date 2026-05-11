@@ -147,6 +147,22 @@
         "displayName": "Frontend Design",
         "shortDescription": "Create distinctive frontends with deep UI craft and animation discipline"
       }
+    },
+    {
+      "name": "playground",
+      "source": {
+        "source": "local",
+        "path": "./plugins/playground"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools",
+      "interface": {
+        "displayName": "Playground",
+        "shortDescription": "Generate interactive HTML playgrounds with controls, live preview, and copy-out prompt"
+      }
     }
   ]
 }
