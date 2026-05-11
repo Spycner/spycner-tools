@@ -27,7 +27,10 @@ plugins/
     skills/
       <service>/
         SKILL.md            # Shared skill definition, used by Claude Code and Codex
-        <reference>.md      # Supporting reference docs (recipes, format guides)
+        <reference>.md      # Flat reference doc (legacy layout, see "Add reference docs")
+        references/         # Subdirectory layout for skills with multiple bundled refs
+          <reference>.md    #   (modern convention; preferred for new skills with >1 ref
+                            #   or any bundled HTML/template files)
     LICENSE                 # Required for ported plugins: this repo's MIT license
     NOTICE                  # Required for ported plugins: per-file upstream attribution
     README.md               # Required for ported plugins: human-facing overview with Credits section
@@ -170,12 +173,15 @@ Key principles:
 
 ### 4. Add reference docs
 
-Create `<service>-<topic>.md` files for complex query syntaxes, format references, or recipe collections. Keep them in the same directory as SKILL.md. Reference them from SKILL.md with `See <filename>`.
+Create reference files for complex query syntaxes, format references, recipe collections, or HTML templates. Reference them from SKILL.md with `See <filename>` or `See references/<filename>`.
 
-Examples:
-- `jql-recipes.md`: JQL query patterns for Jira
-- `gmail-search-recipes.md`: Gmail search operators
-- `calendar-recipes.md`: Calendar operation patterns
+Two layouts coexist; pick by skill shape:
+
+- **Flat layout** (`<service>-<topic>.md` next to `SKILL.md`): legacy convention, used by `gmail`, `calendar`, `jira`, `confluence`, `claude-codex-bridge`, `research`. Acceptable for skills with one or two short reference files.
+- **`references/` subdirectory** (`references/<topic>.md`): modern convention, used by every workbench skill, `agent-system-management/*`, `frontend-design/*`, `crafting-html`, `improving-instructions`. Required when a skill bundles HTML templates, multiple long references, or any non-markdown assets. Prefer this for new skills.
+
+Examples (flat): `jql-recipes.md`, `gmail-search-recipes.md`, `calendar-recipes.md`.
+Examples (subdirectory): `references/config-schema.md` (autopilot), `references/spec-template.html` (writing-spec), `references/quality-criteria.md` (improving-instructions).
 
 ### 5. Write tests
 
