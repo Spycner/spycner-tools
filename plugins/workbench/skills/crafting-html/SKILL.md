@@ -16,6 +16,7 @@ This skill differs from `frontend-design`. `frontend-design` builds UI and compo
 - Brainstorm summaries: use `workbench:brainstorming`.
 - Debug reports: use `workbench:systematic-debugging`.
 - Research reports: use `research:research`.
+- Multi-slide presentations with a deck-stage engine and presenter mode: use `workbench:crafting-presentations`. The `references/09-slide-deck.html` template here is the quick single-file fallback for one-off decks.
 - UI or component code: use `frontend-design`.
 
 ## Five categories of HTML artifacts
