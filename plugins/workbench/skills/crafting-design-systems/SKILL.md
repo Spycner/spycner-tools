@@ -5,7 +5,7 @@ description: Use when the user wants to create or edit a workbench design system
 
 # Crafting Design Systems
 
-Create or edit a design system that themes HTML output from workbench producer skills. Producers (`writing-spec`, `writing-plans`, `brainstorming`, `systematic-debugging`, `crafting-html`, `research:research`) apply the active design system on their own; this skill is for authoring the design system itself.
+Create or edit a design system that themes HTML output from workbench producer skills. Producers (`writing-spec`, `writing-plans`, `brainstorming`, `systematic-debugging`, `crafting-html`, `crafting-presentations`, `research:research`) apply the active design system on their own; this skill is for authoring the design system itself.
 
 ## When to use this skill
 
