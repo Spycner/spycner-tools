@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>05 Stats</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="slides.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  html, body { margin: 0; height: 100vh; background: #000; overflow: hidden; }
+  .frame {
+    position: absolute;
+    width: 1920px; height: 1080px;
+    transform-origin: top left;
+  }
+</style>
+<script>
+  function fit() {
+    const f = document.querySelector('.frame');
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    f.style.transform = 'scale(' + s + ')';
+    // Center the scaled box
+    const sw = 1920 * s, sh = 1080 * s;
+    f.style.left = ((window.innerWidth - sw) / 2) + 'px';
+    f.style.top  = ((window.innerHeight - sh) / 2) + 'px';
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('load', () => { fit(); if (window.lucide) lucide.createIcons(); });
+</script>
+</head>
+<body>
+<div class="frame">
+<section class="s-stats" data-screen-label="05 Stats">
+    <div class="header">
+      <div class="eyebrow">By the numbers</div>
+      <h1>The alliance, at a glance<span class="green-dot">.</span></h1>
+    </div>
+    <div class="grid">
+      <div class="tile accent">
+        <div class="num">200<span class="unit">+</span></div>
+        <div class="label">Joint engagements delivered since 2020</div>
+        <div class="delta">↑ 38% YoY</div>
+      </div>
+      <div class="tile">
+        <div class="num">$40<span class="unit">M</span></div>
+        <div class="label">Average annual savings on enterprise migrations</div>
+        <div class="delta">across 12 reference accounts</div>
+      </div>
+      <div class="tile">
+        <div class="num">6<span class="unit">×</span></div>
+        <div class="label">Faster time-to-insight vs. legacy warehouse stack</div>
+        <div class="delta red">measured at production cutover</div>
+      </div>
+    </div>
+    <div class="footer">
+      <img src="../assets/deloitte-wordmark.svg" alt="Deloitte">
+      <span class="right">05 / 10</span>
+    </div>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="presentation">
+  <g fill="#FF3621">
+    <path d="M 100 120 L 700 40 L 700 200 L 100 280 Z"></path>
+    <path d="M 100 340 L 700 260 L 700 420 L 100 500 Z"></path>
+    <path d="M 100 560 L 700 480 L 700 640 L 100 720 Z"></path>
+  </g>
+</svg>

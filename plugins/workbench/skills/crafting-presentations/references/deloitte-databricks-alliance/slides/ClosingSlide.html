@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>10 Closing</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="slides.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  html, body { margin: 0; height: 100vh; background: #000; overflow: hidden; }
+  .frame {
+    position: absolute;
+    width: 1920px; height: 1080px;
+    transform-origin: top left;
+  }
+</style>
+<script>
+  function fit() {
+    const f = document.querySelector('.frame');
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    f.style.transform = 'scale(' + s + ')';
+    // Center the scaled box
+    const sw = 1920 * s, sh = 1080 * s;
+    f.style.left = ((window.innerWidth - sw) / 2) + 'px';
+    f.style.top  = ((window.innerHeight - sh) / 2) + 'px';
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('load', () => { fit(); if (window.lucide) lucide.createIcons(); });
+</script>
+</head>
+<body>
+<div class="frame">
+<section class="s-close" data-screen-label="10 Closing">
+    <div class="top">
+      <img src="../assets/deloitte-wordmark.svg" alt="Deloitte">
+      <div class="divider"></div>
+      <img src="../assets/databricks-wordmark.svg" alt="Databricks">
+    </div>
+    <div class="big">Let's build<br>what's next<span class="dot">.</span></div>
+    <div class="contact">
+      <div>
+        <div class="k">Alliance lead</div>
+        <div class="v">A. Patel</div>
+      </div>
+      <div>
+        <div class="k">Practice</div>
+        <div class="v">AI & Data Engineering</div>
+      </div>
+      <div>
+        <div class="k">Get in touch</div>
+        <div class="v email">alliance@deloitte.com</div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>
