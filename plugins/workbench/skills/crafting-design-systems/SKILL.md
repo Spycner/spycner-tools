@@ -5,7 +5,7 @@ description: Use when the user wants to create or edit a workbench design system
 
 # Crafting Design Systems
 
-Create or edit a design system that themes HTML output from workbench producer skills. Producers (`writing-spec`, `writing-plans`, `brainstorming`, `systematic-debugging`, `crafting-html`, `research:research`) apply the active design system on their own; this skill is for authoring the design system itself.
+Create or edit a design system that themes HTML output from workbench producer skills. Producers (`writing-spec`, `writing-plans`, `brainstorming`, `systematic-debugging`, `crafting-html`, `crafting-presentations`, `research:research`) apply the active design system on their own; this skill is for authoring the design system itself.
 
 ## When to use this skill
 
@@ -80,8 +80,11 @@ When editing `colors.css`, knowing which variables each producer template declar
 | `writing-plans` | `--bg`, `--surface`, `--ink`, `--muted`, `--rule`, `--rule-strong`, `--accent`, `--accent-soft`, `--good`, `--good-soft`, `--bad`, `--bad-soft`, `--warn`, `--warn-soft`, `--code-bg`, `--code-ink`, `--sans`, `--mono`, `--r-sm`, `--r-md`, `--r-lg` |
 | `systematic-debugging` | `--ivory`, `--slate`, `--clay`, `--oat`, `--olive`, `--rust`, `--amber`, `--gray-100`, `--gray-300`, `--gray-500`, `--gray-700`, `--white`, `--serif`, `--sans`, `--mono`, `--radius-panel`, `--radius-row`, `--border` |
 | `research:research` | `--ivory`, `--slate`, `--clay`, `--oat`, `--olive`, `--gray-150`, `--gray-300`, `--gray-500`, `--gray-700`, `--serif`, `--sans`, `--mono` |
+| `crafting-presentations` (Deloitte/Databricks bundled example) | `--accent`, `--accent-fg`, `--accent-partner`, `--bg`, `--bg-elev`, `--bg-inverse`, `--bg-subtle`, `--border`, `--border-accent`, `--border-inverse`, `--border-strong`, `--databricks-gable`, `--databricks-lava`, `--databricks-navy`, `--databricks-oat`, `--databricks-red`, `--databricks-red-dark`, `--databricks-red-tint`, `--deloitte-black`, `--deloitte-green`, `--deloitte-green-dark`, `--deloitte-green-tint`, `--dur-base`, `--dur-fast`, `--dur-slow`, `--ease-in`, `--ease-in-out`, `--ease-out`, `--fg`, `--fg-inverse`, `--fg-inverse-muted`, `--fg-inverse-subtle`, `--fg-muted`, `--fg-subtle`, `--font-display`, `--font-mono`, `--font-sans`, `--fs-body`, `--fs-body-lg`, `--fs-caption`, `--fs-display`, `--fs-h1`, `--fs-h2`, `--fs-h3`, `--fs-hero`, `--fs-micro`, `--fs-section`, `--fs-subtitle`, `--fs-ui-body`, `--fs-ui-caption`, `--fs-ui-h1`, `--fs-ui-h2`, `--fs-ui-h3`, `--fs-ui-micro`, `--lh-normal`, `--lh-relaxed`, `--lh-snug`, `--lh-tight`, `--r-0`, `--r-lg`, `--r-md`, `--r-pill`, `--r-sm`, `--shadow-0`, `--shadow-1`, `--shadow-2`, `--slide-h`, `--slide-pad-x`, `--slide-pad-y`, `--slide-w`, `--space-0` through `--space-11`, `--status-danger`, `--status-info`, `--status-success`, `--status-warning`, `--tracking-caps`, `--tracking-normal`, `--tracking-tight`, `--tracking-wide`, `--weight-bold`, `--weight-medium`, `--weight-regular`, `--weight-semibold` |
 
 `crafting-html` ships 21 templates with varied styling; inspect the chosen reference before authoring overrides for that producer.
+
+`crafting-presentations` bundles one example deck (Deloitte/Databricks); the variable surface above is its `:root` declarations. A future bundled example may add or rename variables; if that happens, update this row.
 
 ## Bundled
 

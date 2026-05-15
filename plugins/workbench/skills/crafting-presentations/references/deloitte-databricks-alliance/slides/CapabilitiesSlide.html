@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>08 Capabilities</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="slides.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  html, body { margin: 0; height: 100vh; background: #000; overflow: hidden; }
+  .frame {
+    position: absolute;
+    width: 1920px; height: 1080px;
+    transform-origin: top left;
+  }
+</style>
+<script>
+  function fit() {
+    const f = document.querySelector('.frame');
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    f.style.transform = 'scale(' + s + ')';
+    // Center the scaled box
+    const sw = 1920 * s, sh = 1080 * s;
+    f.style.left = ((window.innerWidth - sw) / 2) + 'px';
+    f.style.top  = ((window.innerHeight - sh) / 2) + 'px';
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('load', () => { fit(); if (window.lucide) lucide.createIcons(); });
+</script>
+</head>
+<body>
+<div class="frame">
+<section class="s-cap" data-screen-label="08 Capabilities">
+    <div class="header">
+      <div class="eyebrow">Joint capabilities</div>
+      <h1>What we deliver together<span class="green-dot">.</span></h1>
+    </div>
+    <div class="grid">
+      <div class="col">
+        <div class="icon"><i data-lucide="database"></i></div>
+        <h3>Data foundation</h3>
+        <p>Stand up a governed lakehouse on Unity Catalog with our reference architecture and migration accelerators.</p>
+        <ul>
+          <li>Migration assessment</li>
+          <li>Delta Lake landing zones</li>
+          <li>Governance & lineage</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="icon"><i data-lucide="brain-circuit"></i></div>
+        <h3>Mosaic AI</h3>
+        <p>Production-grade GenAI: RAG over enterprise data, fine-tuning, evaluation, and serving, with guardrails.</p>
+        <ul>
+          <li>Domain RAG patterns</li>
+          <li>Model evaluation harness</li>
+          <li>Cost & latency tuning</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="icon"><i data-lucide="workflow"></i></div>
+        <h3>Industry solutions</h3>
+        <p>Pre-built accelerators for retail demand sensing, banking risk, life-sciences trials, and supply chain.</p>
+        <ul>
+          <li>14 industry packs</li>
+          <li>Reference data models</li>
+          <li>Vertical KPIs out of the box</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer">
+      <img src="../assets/deloitte-wordmark.svg" alt="Deloitte">
+      <span class="right">08 / 10</span>
+    </div>
+  </section>
+</div>
+</body>
+</html>

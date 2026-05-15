@@ -33,6 +33,7 @@ The two runtimes use separate plugin metadata, but the skills are single sourced
 | `systematic-debugging` | workbench | Enforce root-cause investigation before proposing bug fixes |
 | `crafting-html` | workbench | Reference gallery of 21 HTML artifact patterns for uncovered HTML output types |
 | `crafting-design-systems` | workbench | Reusable design system (CSS variables, components, images) that themes the HTML producers |
+| `crafting-presentations` | workbench | Multi-slide HTML decks with deck-stage navigation, slide-type catalog, and a two-window presenter view |
 | `tmux` | terminal | Control interactive terminal programs through isolated tmux sessions |
 | `creating-skills` | agent-system-management | Scaffold, iterate, pressure-test, and tune skills across the full lifecycle |
 | `frontend-design` | frontend-design | Generate distinctive, production-grade frontend interfaces that avoid generic AI aesthetics |
@@ -108,8 +109,9 @@ Workbench skills for design dialogue, skill routing, and profile driven feature 
 - `/pgoell-claude-tools:systematic-debugging`: Enforce root-cause investigation before proposing bug fixes; bundles techniques for backward stack tracing, defense in depth, and condition-based waiting.
 - `/pgoell-claude-tools:crafting-html`: Reference gallery of 21 HTML artifact patterns vendored from `ThariqS/html-effectiveness`. Activates when producing standalone HTML artifacts that are not specs, plans, brainstorm summaries, debug reports, or research reports (those have their own skills).
 - `/pgoell-claude-tools:crafting-design-systems`: Create reusable design systems (CSS variables, components, images) at project (`.workbench/design-systems/<name>/`) or user (`~/.claude/workbench/design-systems/<name>/`) scope. Selected via `.workbench/config.md` `## Design system` `Name:`; HTML producers inline the active design system over their template defaults. Absence of config means template defaults render unchanged.
+- `/pgoell-claude-tools:crafting-presentations`: Multi-slide HTML decks with a deck-stage engine, slide-type catalog (Title, SectionDivider, Agenda, Content, Stat, Capabilities, Comparison, Quote, Timeline, Closing), speaker notes JSON island, and a two-window presenter view that syncs over `BroadcastChannel` for sharing in Teams, Zoom, or Meet. Bundles the Deloitte/Databricks Alliance example deck as the canonical starting point.
 
-`writing-spec`, `writing-plans`, `brainstorming`, and `systematic-debugging` also gained an HTML output mode in 0.11.0 (defaults: specs and plans markdown, brainstorm summaries and debug reports HTML; configurable via `.workbench/config.md`). Schema documented in `plugins/workbench/skills/autopilot/references/config-schema.md`. The optional theming layer for the five HTML producers (and `crafting-html`) is `crafting-design-systems`, added in 0.12.0.
+`writing-spec`, `writing-plans`, `brainstorming`, and `systematic-debugging` also gained an HTML output mode in 0.11.0 (defaults: specs and plans markdown, brainstorm summaries and debug reports HTML; configurable via `.workbench/config.md`). Schema documented in `plugins/workbench/skills/autopilot/references/config-schema.md`. The optional theming layer for the five HTML producers, `crafting-html`, and `crafting-presentations` is `crafting-design-systems`, added in 0.12.0.
 
 Autopilot profiles are documented in `plugins/workbench/skills/autopilot/references/profile-schema.md`.
 

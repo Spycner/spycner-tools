@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>06 Comparison</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="slides.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  html, body { margin: 0; height: 100vh; background: #000; overflow: hidden; }
+  .frame {
+    position: absolute;
+    width: 1920px; height: 1080px;
+    transform-origin: top left;
+  }
+</style>
+<script>
+  function fit() {
+    const f = document.querySelector('.frame');
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    f.style.transform = 'scale(' + s + ')';
+    // Center the scaled box
+    const sw = 1920 * s, sh = 1080 * s;
+    f.style.left = ((window.innerWidth - sw) / 2) + 'px';
+    f.style.top  = ((window.innerHeight - sh) / 2) + 'px';
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('load', () => { fit(); if (window.lucide) lucide.createIcons(); });
+</script>
+</head>
+<body>
+<div class="frame">
+<section class="s-compare" data-screen-label="06 Comparison">
+    <div class="header">
+      <div class="eyebrow">Before · After</div>
+      <h1>From three stacks to one<span class="green-dot">.</span></h1>
+    </div>
+    <div class="grid">
+      <div class="col before divider-l" style="padding-right: 60px;">
+        <span class="tag">Legacy</span>
+        <h2>Three engines,<br>three teams</h2>
+        <ul>
+          <li>Warehouse for BI, separate cluster for ML</li>
+          <li>Nightly ETL jobs, 9-hour batch windows</li>
+          <li>Five governance tools, manual reconciliation</li>
+          <li>Six-month procurement per net-new use case</li>
+        </ul>
+      </div>
+      <div class="arrow">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </div>
+      <div class="col after divider-r" style="padding-left: 60px;">
+        <span class="tag" style="color: var(--deloitte-green);">Lakehouse</span>
+        <h2>One platform,<br>one team</h2>
+        <ul>
+          <li>BI, ML, and AI run on the same governed data</li>
+          <li>Streaming + batch on Delta, 47-minute SLA</li>
+          <li>Unity Catalog: single permission model end-to-end</li>
+          <li>New use cases ship in weeks, not quarters</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer">
+      <img src="../assets/deloitte-wordmark.svg" alt="Deloitte">
+      <span class="right">06 / 10</span>
+    </div>
+  </section>
+</div>
+</body>
+</html>

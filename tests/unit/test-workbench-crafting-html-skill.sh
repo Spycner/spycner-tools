@@ -53,9 +53,9 @@ for skill in writing-spec writing-plans brainstorming systematic-debugging resea
 done
 echo "[PASS]"
 
-echo "Test 9: workbench plugin version pinned to 0.13.0..."
-jq -e '.version == "0.13.0"' "$PLUGIN_JSON" > /dev/null \
-  || { echo "[FAIL] workbench plugin.json not at 0.13.0"; exit 1; }
+echo "Test 9: workbench plugin version pinned to 0.14.0..."
+jq -e '.version == "0.14.0"' "$PLUGIN_JSON" > /dev/null \
+  || { echo "[FAIL] workbench plugin.json not at 0.14.0"; exit 1; }
 echo "[PASS]"
 
 echo

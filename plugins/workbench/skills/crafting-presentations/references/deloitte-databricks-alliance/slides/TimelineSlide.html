@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>09 Timeline</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="slides.css">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  html, body { margin: 0; height: 100vh; background: #000; overflow: hidden; }
+  .frame {
+    position: absolute;
+    width: 1920px; height: 1080px;
+    transform-origin: top left;
+  }
+</style>
+<script>
+  function fit() {
+    const f = document.querySelector('.frame');
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    f.style.transform = 'scale(' + s + ')';
+    // Center the scaled box
+    const sw = 1920 * s, sh = 1080 * s;
+    f.style.left = ((window.innerWidth - sw) / 2) + 'px';
+    f.style.top  = ((window.innerHeight - sh) / 2) + 'px';
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('load', () => { fit(); if (window.lucide) lucide.createIcons(); });
+</script>
+</head>
+<body>
+<div class="frame">
+<section class="s-time" data-screen-label="09 Timeline">
+    <div class="header">
+      <div class="eyebrow">Delivery playbook</div>
+      <h1>Twelve weeks to production<span class="green-dot">.</span></h1>
+    </div>
+    <div class="track">
+      <div class="line"></div>
+      <div class="line-fill"></div>
+      <div class="nodes">
+        <div class="node done">
+          <div class="dot"></div>
+          <div class="when">Weeks 1-2</div>
+          <div class="what">Discovery</div>
+          <div class="desc">Workload inventory, business-case sizing, target-state architecture.</div>
+        </div>
+        <div class="node done">
+          <div class="dot"></div>
+          <div class="when">Weeks 3-5</div>
+          <div class="what">Foundation</div>
+          <div class="desc">Workspace, Unity Catalog, network, identity, and CI/CD wired up.</div>
+        </div>
+        <div class="node current">
+          <div class="dot"></div>
+          <div class="when">Weeks 6-10</div>
+          <div class="what">Migration</div>
+          <div class="desc">Three priority workloads ported with parity testing and rollback.</div>
+        </div>
+        <div class="node">
+          <div class="dot"></div>
+          <div class="when">Weeks 11-12</div>
+          <div class="what">Cutover</div>
+          <div class="desc">Run-state handoff to the client team. Hypercare for 30 days.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <img src="../assets/deloitte-wordmark.svg" alt="Deloitte">
+      <span class="right">09 / 10</span>
+    </div>
+  </section>
+</div>
+</body>
+</html>
