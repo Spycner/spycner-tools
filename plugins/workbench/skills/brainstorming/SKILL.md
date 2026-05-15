@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "Use before creative work to clarify intent, requirements, and design through sequential question and answer."
+description: "Use before creative work to grill the user toward a shared design concept through exhaustive sequential question and answer."
 ---
 
 # Brainstorming Ideas Into Designs
@@ -23,10 +23,33 @@ You MUST create a task for each of these items and complete them in order:
 
 1. **Explore project context**: dispatch a cost-efficient subagent to survey files, docs, and recent commits; use its summary as starting context.
 2. **Offer visualizing-options** (if the topic will involve visual questions): mention `workbench:visualizing-options` in its own message; the user opts in.
-3. **Ask clarifying questions**: one at a time, understand purpose, constraints, and success criteria.
+3. **Grill exhaustively until a shared design concept emerges**: walk the design tree depth-first, resolving each branch's dependencies before moving to the next.
 4. **Propose 2-3 approaches**: with trade-offs and your recommendation.
 5. **Present design**: in sections scaled to their complexity, get user approval after each section.
 6. **Recommend `workbench:writing-spec`** as the terminal step. That skill writes the spec doc, runs self-review, and gates on user approval.
+
+## Grilling toward a shared design concept
+
+Two minds building together share an invisible theory of the system: the design concept (Brooks, *The Design of Design*). The conversation surfaces it, questions strip away ambiguity, and the artifact at the end is a record of the conversation, not its purpose.
+
+**Walk the design tree depth-first.**
+
+Treat the design as a tree. The root is "what are we building, and why." Branches resolve to dependent decisions: which approach, which boundaries, which interfaces, which failure modes. Leaves are the decisions themselves. Pick one branch, follow every dependency to a decision, only then return to the next branch. Do not breadth-first a checklist of section headings.
+
+**Take an adversarial posture.**
+
+Probe for unstated assumptions, latent constraints, and edge cases the user has not considered. When the user gives a short answer, ask the obvious next question even when the answer feels implied. Treat the user as the source of truth about what they want and treat yourself as the source of skeptical pressure on whether they have said it clearly.
+
+**Stop only when both are true:**
+
+1. You cannot think of a question whose answer would change the design.
+2. The user can re-state the design concept back to you in their own words.
+
+Do not stop at "I have enough to write a spec." A numeric question minimum is not the rule; depth and convergence are.
+
+**Scale to scope.**
+
+The Anti-Pattern carve-out still applies. A one-line config change might converge in three questions. A new subsystem will not. Trust the design tree to tell you when there is more to ask. In autonomous runs where the user is not present (for example inside `workbench:autopilot`), substitute the second stop-rule clause with "the self-answered Q&A converges on a `## Decision` block whose design concept covers every branch you walked."
 
 ## Process Flow
 
@@ -35,7 +58,7 @@ digraph brainstorming {
     "Explore project context" [shape=box];
     "Visual questions ahead?" [shape=diamond];
     "Mention workbench:visualizing-options\n(own message)" [shape=box];
-    "Ask clarifying questions" [shape=box];
+    "Grill exhaustively (design-tree DFS)" [shape=box];
     "Propose 2-3 approaches" [shape=box];
     "Present design sections" [shape=box];
     "User approves design?" [shape=diamond];
@@ -43,9 +66,9 @@ digraph brainstorming {
 
     "Explore project context" -> "Visual questions ahead?";
     "Visual questions ahead?" -> "Mention workbench:visualizing-options\n(own message)" [label="yes"];
-    "Visual questions ahead?" -> "Ask clarifying questions" [label="no"];
-    "Mention workbench:visualizing-options\n(own message)" -> "Ask clarifying questions";
-    "Ask clarifying questions" -> "Propose 2-3 approaches";
+    "Visual questions ahead?" -> "Grill exhaustively (design-tree DFS)" [label="no"];
+    "Mention workbench:visualizing-options\n(own message)" -> "Grill exhaustively (design-tree DFS)";
+    "Grill exhaustively (design-tree DFS)" -> "Propose 2-3 approaches";
     "Propose 2-3 approaches" -> "Present design sections";
     "Present design sections" -> "User approves design?";
     "User approves design?" -> "Present design sections" [label="no, revise"];
@@ -64,7 +87,7 @@ digraph brainstorming {
 - Prefer multiple choice questions when possible.
 - One question per message.
 - Focus on understanding: purpose, constraints, success criteria.
-- Really grill the user until full understanding for you and the user is achieved.
+- See **Grilling toward a shared design concept** above for the depth-first design-tree protocol; the rules in this list are the mechanical rhythm.
 
 **Exploring approaches:**
 
@@ -99,10 +122,13 @@ The offer message should contain ONLY the pointer; do not combine it with clarif
 
 Once the user has approved the design, your terminal action is to recommend `workbench:writing-spec`. Do NOT invoke any implementation skill, do NOT write the spec yourself, and do NOT proceed to planning. The spec writing skill takes over from there, runs its self-review, and gates on user approval before handing off to `workbench:writing-plans`.
 
+The conversation itself is the handoff payload; the summary file is a record, not the interface between skills.
+
 ## Key Principles
 
 - One question at a time.
 - Multiple choice preferred.
+- Depth-first grilling: walk the design tree, do not breadth-first a checklist.
 - YAGNI ruthlessly.
 - Explore alternatives.
 - Incremental validation.
@@ -124,7 +150,7 @@ When emitting HTML, follow `references/brainstorm-summary-template.html` in this
 
 ## Summary File Behavior
 
-After the user approves the design and before recommending `workbench:writing-spec`, write a brainstorm summary file to the resolved path. The summary captures:
+Once the user has approved the design, record the conversation by writing a brainstorm summary file to the resolved path. The file is a record kept after agreement, not the purpose of the skill. The summary captures:
 
 - Q and A timeline of clarifying questions and user answers.
 - Agreed design (sections approved during the conversation).

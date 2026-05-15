@@ -60,7 +60,7 @@ containers/
 | `writing` | 1.6.1 | `writing`, `pyramid`, `tech-doc` |
 | `runtime-bridge` | 0.1.0 | `claude-codex-bridge` |
 | `agent-system-management` | 0.4.2 | `improving-instructions`, `capturing-session-learnings`, `creating-skills` |
-| `workbench` | 0.14.0 | `brainstorming`, `writing-spec`, `writing-plans`, `visualizing-options`, `using-workbench`, `terse-mode`, `autopilot`, `verification-before-completion`, `test-driven-development`, `dispatching-parallel-agents`, `subagent-driven-development`, `systematic-debugging`, `crafting-html`, `crafting-design-systems`, `crafting-presentations` |
+| `workbench` | 0.15.0 | `brainstorming`, `writing-spec`, `writing-plans`, `visualizing-options`, `using-workbench`, `terse-mode`, `autopilot`, `verification-before-completion`, `test-driven-development`, `dispatching-parallel-agents`, `subagent-driven-development`, `systematic-debugging`, `crafting-html`, `crafting-design-systems`, `crafting-presentations` |
 | `terminal` | 0.1.0 | `tmux` |
 | `frontend-design` | 0.2.0 | `frontend-design` (ported from Anthropic, Apache 2.0 upstream), `emil-design-eng` (ported from emilkowalski/skill, no upstream license declared) |
 | `playground` | 0.1.0 | `playground` (ported from Anthropic, Apache 2.0 upstream) |
