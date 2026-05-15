@@ -21,7 +21,7 @@ else
 fi
 
 # Test 2: Slim body markers present
-for marker in 'HARD-GATE' 'Anti-Pattern' 'workbench:writing-spec' 'workbench:visualizing-options'; do
+for marker in 'HARD-GATE' 'Anti-Pattern' 'workbench:writing-spec' 'workbench:visualizing-options' 'Grilling toward a shared design concept' 'design tree' 'design concept'; do
     if grep -qF "$marker" "$SKILL_MD"; then
         echo "[PASS] body mentions $marker"
     else
@@ -70,13 +70,13 @@ TEMPLATE="$SKILL_DIR/references/brainstorm-summary-template.html"
 head -c 32 "$TEMPLATE" | grep -qiE '<!DOCTYPE|<html' || { echo "[FAIL] template malformed: $TEMPLATE"; exit 1; }
 echo "[PASS] em-dash + template checks"
 
-# Test 7: Plugin manifests at 0.14.0
+# Test 7: Plugin manifests at 0.15.0
 CCM="$REPO_ROOT/plugins/workbench/.claude-plugin/plugin.json"
 CXM="$REPO_ROOT/plugins/workbench/.codex-plugin/plugin.json"
-if jq -e '.version == "0.14.0"' "$CCM" >/dev/null && jq -e '.version == "0.14.0"' "$CXM" >/dev/null; then
-    echo "[PASS] plugin manifests at 0.14.0"
+if jq -e '.version == "0.15.0"' "$CCM" >/dev/null && jq -e '.version == "0.15.0"' "$CXM" >/dev/null; then
+    echo "[PASS] plugin manifests at 0.15.0"
 else
-    echo "[FAIL] plugin manifests not at 0.14.0"; exit 1
+    echo "[FAIL] plugin manifests not at 0.15.0"; exit 1
 fi
 
 echo "=== Tests complete ==="
